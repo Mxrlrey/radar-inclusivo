@@ -1,0 +1,378 @@
+/* =========================================
+   LAYOUT.CSS — ESTRUTURA FIXA (NAVBAR + SIDEBAR + MAIN CONTENT)
+   ========================================= */
+
+/* ===== 1. NAVBAR (BARRA SUPERIOR) ===== */
+.navbar-custom {
+    background-color: var(--bg-surface);
+    height: var(--topbar-height);
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-current-width);
+    right: 0;
+    z-index: 1030;
+    padding: 0 var(--spacing-6);
+    border-bottom: var(--border-width) solid var(--border-color);
+    box-shadow: var(--shadow-none);
+    transition: left 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo {
+    height: 36px;
+    width: auto;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    text-decoration: none;
+    margin-right: var(--spacing-4);
+}
+.navbar-brand:hover {
+    color: var(--color-primary);
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    margin-left: auto;
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    padding: var(--spacing-2) var(--spacing-3);
+    font-weight: var(--font-weight-medium);
+    transition: color 0.15s;
+}
+.nav-link:hover {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+.nav-link.active {
+    color: var(--color-primary);
+}
+
+.navbar-avatar {
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--border-color);
+    object-fit: cover;
+}
+
+.navbar-toggler {
+    display: none;
+    background: transparent;
+    border: var(--border-width) solid var(--border-color);
+    padding: var(--spacing-2) var(--spacing-3);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    line-height: 1;
+}
+.navbar-toggler:hover {
+    background-color: var(--bg-surface-secondary);
+}
+
+/* Dropdown na navbar */
+.navbar-custom .dropdown-menu {
+    background-color: var(--bg-surface);
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: var(--shadow-none);
+    padding: var(--spacing-1) 0;
+    margin-top: var(--spacing-2);
+}
+.navbar-custom .dropdown-item {
+    color: var(--text-secondary);
+    padding: var(--spacing-2) var(--spacing-5);
+    font-size: var(--font-size-sm);
+}
+.navbar-custom .dropdown-item:hover {
+    background-color: var(--bg-soft-primary);
+    color: var(--color-primary);
+}
+
+/* Badge de notificações */
+.navbar-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: var(--color-danger);
+    color: var(--text-on-primary);
+    font-size: 0.65rem;
+    font-weight: var(--font-weight-bold);
+    padding: 0.2rem 0.35rem;
+    line-height: 1;
+}
+
+/* ===== 2. SIDEBAR (MENU LATERAL) ===== */
+.sidebar {
+    background-color: var(--bg-sidebar);
+    color: var(--text-sidebar);
+    width: var(--sidebar-current-width);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1040;
+    transition: width 0.2s ease;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: var(--shadow-none);
+    border-right: var(--border-width) solid var(--border-color);
+}
+
+/* Scrollbar da sidebar */
+.sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+}
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+/* Cabeçalho da sidebar */
+.sidebar-header {
+    height: var(--topbar-height);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: 0 var(--spacing-5);
+    background-color: var(--bg-sidebar);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    border-bottom: var(--border-width) solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-logo {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+}
+
+.sidebar-title {
+    font-weight: var(--font-weight-bold);
+    font-size: 1.25rem;
+    color: var(--text-sidebar);
+    letter-spacing: 0.02em;
+}
+
+/* Menu */
+.sidebar-menu {
+    list-style: none;
+    padding: var(--spacing-4) 0;
+    margin: 0;
+}
+.sidebar-menu li {
+    position: relative;
+}
+
+.sidebar-menu a {
+    color: var(--text-sidebar);
+    text-decoration: none;
+    padding: var(--spacing-3) var(--spacing-5);
+    display: flex;
+    align-items: center;
+    border-left: 3px solid transparent;
+    transition: background-color 0.15s, border-color 0.15s;
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-medium);
+}
+
+/* Item ativo */
+.sidebar-menu a.active {
+    background-color: rgba(75, 106, 139, 0.15);
+    border-left-color: var(--color-primary);
+    color: var(--text-sidebar-hover);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Hover */
+.sidebar-menu a:not(.active):hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-left-color: var(--color-primary-light);
+    color: var(--text-sidebar-hover);
+}
+
+/* Ícones */
+.sidebar-menu .icon {
+    width: 1.5rem;
+    margin-right: var(--spacing-3);
+    text-align: center;
+    font-size: 1.1rem;
+    color: #b0bed0;
+}
+
+/* Texto do item */
+.sidebar-menu .text {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Badge */
+.sidebar-menu .badge {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-sidebar);
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+    font-weight: var(--font-weight-semibold);
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+/* Separadores */
+.menu-divider {
+    padding: var(--spacing-4) var(--spacing-5) var(--spacing-2);
+    margin-top: var(--spacing-3);
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-top: var(--border-width) solid rgba(255, 255, 255, 0.08);
+}
+
+/* Rodapé da sidebar */
+.sidebar-footer {
+    position: sticky;
+    bottom: 0;
+    background-color: var(--bg-sidebar);
+    padding: var(--spacing-4) var(--spacing-5);
+    text-align: center;
+    border-top: var(--border-width) solid rgba(255, 255, 255, 0.08);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+/* ===== ESTADO COLAPSADO ===== */
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+.sidebar.collapsed .text,
+.sidebar.collapsed .menu-divider span,
+.sidebar.collapsed .sidebar-title,
+.sidebar.collapsed .badge {
+    display: none;
+}
+
+.sidebar.collapsed .sidebar-menu a {
+    justify-content: center;
+    padding: var(--spacing-3) 0;
+    border-left: none;
+}
+
+.sidebar.collapsed .sidebar-menu .icon {
+    margin-right: 0;
+    font-size: 1.25rem;
+}
+
+.sidebar.collapsed .sidebar-header {
+    justify-content: center;
+    padding: 0;
+}
+
+.sidebar.collapsed .menu-divider {
+    padding: var(--spacing-2) 0;
+    text-align: center;
+}
+
+/* Ajusta conteúdo adjacente quando colapsado */
+.sidebar.collapsed + .main-content {
+    margin-left: var(--sidebar-collapsed-width);
+}
+.sidebar.collapsed ~ .navbar-custom {
+    left: var(--sidebar-collapsed-width);
+}
+
+/* Compatibilidade com body.sidebar-collapsed (JS atual) */
+body.sidebar-collapsed .sidebar:not(.hover-open) .text,
+body.sidebar-collapsed .sidebar:not(.hover-open) .menu-divider span,
+body.sidebar-collapsed .sidebar:not(.hover-open) .sidebar-title,
+body.sidebar-collapsed .sidebar:not(.hover-open) .badge {
+    display: none;
+}
+body.sidebar-collapsed .sidebar:not(.hover-open) .sidebar-menu a {
+    justify-content: center;
+    padding: var(--spacing-3) 0;
+    border-left: none;
+}
+body.sidebar-collapsed .sidebar:not(.hover-open) .sidebar-menu .icon {
+    margin-right: 0;
+}
+body.sidebar-collapsed .sidebar:not(.hover-open) .sidebar-header {
+    justify-content: center;
+}
+
+/* Bloqueia clique durante animação */
+.sidebar.animating {
+    pointer-events: none;
+}
+
+/* Hover temporário para expandir quando colapsada */
+.sidebar.hover-open {
+    width: var(--sidebar-width) !important;
+    transition: width 0.2s ease;
+}
+
+/* ===== 3. MAIN CONTENT (ÁREA PRINCIPAL) ===== */
+.main-content {
+    margin-left: var(--sidebar-current-width);
+    padding-top: calc(var(--topbar-height) + var(--spacing-6));
+    padding-left: var(--spacing-8);
+    padding-right: var(--spacing-8);
+    padding-bottom: var(--spacing-12);
+    min-height: 100vh;
+    background-color: var(--bg-body);
+    transition: margin-left 0.2s ease;
+}
+
+/* ===== 4. RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+    .navbar-custom {
+        left: 0;
+        padding: 0 var(--spacing-4);
+    }
+
+    .navbar-toggler {
+        display: block;
+    }
+
+    .navbar-nav:not(.mobile-visible) {
+        display: none;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        width: 280px;
+        transition: transform 0.2s ease;
+    }
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding-top: calc(var(--topbar-height) + var(--spacing-4));
+        padding-left: var(--spacing-4);
+        padding-right: var(--spacing-4);
+    }
+}
+
+@media (min-width: 769px) {
+    .navbar-toggler {
+        display: none;
+    }
+}

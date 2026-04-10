@@ -1,0 +1,147 @@
+/* =========================================
+   NOTIFICATION.CSS — BOTÃO E DROPDOWN DE NOTIFICAÇÕES
+   ========================================= */
+
+/* Botão de notificações (ícone de sino) */
+.btn-notif-circle {
+    background-color: transparent !important;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s;
+    border: var(--border-width) solid transparent;
+    padding: 0;
+}
+
+/* Ícone */
+.btn-notif-circle i {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+}
+
+/* Hover */
+.btn-notif-circle:hover {
+    background-color: var(--bg-surface-secondary) !important;
+    border-color: var(--border-color);
+    transform: none;
+}
+
+/* Remove a setinha padrão do dropdown */
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+/* Dropdown de notificações */
+.notification-dropdown {
+    width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: var(--bg-surface);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-none);
+    padding: 0;
+}
+
+/* Cabeçalho do dropdown */
+.notification-header {
+    padding: var(--spacing-3) var(--spacing-4);
+    border-bottom: var(--border-width) solid var(--border-color);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: var(--font-size-sm);
+}
+
+/* Item de notificação */
+.notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3) var(--spacing-4);
+    border-bottom: var(--border-width) solid var(--border-color-light);
+    transition: background-color 0.15s;
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+.notification-item:hover {
+    background-color: var(--bg-soft-primary);
+}
+
+.notification-item.unread {
+    background-color: var(--bg-soft-info);
+}
+
+/* Ícone da notificação */
+.notification-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-surface-secondary);
+    color: var(--color-primary);
+    font-size: 1rem;
+}
+
+/* Conteúdo textual */
+.notification-content {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-1);
+}
+
+.notification-text {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-1);
+}
+
+.notification-time {
+    font-size: 0.7rem;
+    color: var(--text-light);
+}
+
+/* Rodapé (ver todas) */
+.notification-footer {
+    padding: var(--spacing-3) var(--spacing-4);
+    text-align: center;
+    border-top: var(--border-width) solid var(--border-color-light);
+}
+
+.notification-footer a {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+}
+
+.notification-footer a:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+/* Badge de contador */
+.notification-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: var(--color-danger);
+    color: var(--text-on-primary);
+    font-size: 0.65rem;
+    font-weight: var(--font-weight-bold);
+    padding: 0.15rem 0.35rem;
+    line-height: 1;
+    min-width: 16px;
+    text-align: center;
+}

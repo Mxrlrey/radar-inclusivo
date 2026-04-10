@@ -1,0 +1,237 @@
+/* =========================================
+   VARIABLES.CSS — DESIGN TOKENS GLOBAIS
+   ========================================= */
+
+/* ===== TEMA CLARO (PADRÃO) ===== */
+:root {
+    /* --- CORES PRIMÁRIAS --- */
+    --color-primary: #4b6a8b;
+    --color-primary-dark: #3d5a78;
+    --color-primary-light: #7a98b5;
+    --color-primary-rgb: 75, 106, 139;
+
+    /* --- CORES DE ESTADO --- */
+    --color-success: #5c8a6b;
+    --color-success-rgb: 92, 138, 107;
+    --color-warning: #c49b4a;
+    --color-warning-rgb: 196, 155, 74;
+    --color-danger: #b85c5c;
+    --color-danger-rgb: 184, 92, 92;
+    --color-info: #5a8c9e;
+    --color-info-rgb: 90, 140, 158;
+
+    /* --- FUNDOS --- */
+    --bg-body: #f5f7fa;
+    --bg-surface: #ffffff;
+    --bg-surface-secondary: #f8fafc;
+    --bg-sidebar: #2c3a47;
+    --bg-input: #ffffff;
+
+    /* --- FUNDOS SUAVES (para badges, cards leves, etc.) --- */
+    --bg-soft-primary: #eef2f6;
+    --bg-soft-success: #ecf3ed;
+    --bg-soft-warning: #fbf4e8;
+    --bg-soft-danger: #f9ebeb;
+    --bg-soft-info: #eaf2f6;
+
+    /* --- TEXTOS --- */
+    --text-primary: #2c3a47;
+    --text-secondary: #4a5a6a;
+    --text-muted: #6b7a8a;
+    --text-light: #98a6b5;
+    --text-on-primary: #ffffff;
+    --text-sidebar: #e0e6ed;
+    --text-sidebar-hover: #ffffff;
+
+    /* --- BORDAS --- */
+    --border-color: #e2e8f0;
+    --border-color-light: #edf2f7;
+    --border-width: 1px;
+    --border-radius: 0;
+    --border-radius-sm: 0;
+    --border-radius-lg: 0;
+
+    /* --- SOMBRAS (todas removidas por padrão) --- */
+    --shadow-none: none;
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+
+    /* --- TIPOGRAFIA --- */
+    --font-family-base: 'Noto Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-family-heading: 'Source Sans 3', 'Source Sans Pro', var(--font-family-base);
+    --font-size-base: 0.9rem;
+    --font-size-sm: 0.8rem;
+    --font-size-lg: 1rem;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --line-height-base: 1.5;
+
+    /* --- ESPAÇAMENTOS --- */
+    --spacing-0: 0;
+    --spacing-1: 0.25rem;
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --spacing-5: 1.25rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-10: 2.5rem;
+    --spacing-12: 3rem;
+
+    /* --- DIMENSÕES ESTRUTURAIS --- */
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 70px;
+    --topbar-height: 60px;
+    --footer-height: 50px;
+
+    /* --- COMPONENTES: INPUTS --- */
+    --input-height: 38px;
+    --input-padding-y: 0.45rem;
+    --input-padding-x: 0.9rem;
+    --input-bg: #ffffff;
+    --input-border: #cfd9e2;
+    --input-focus-border: #7a8b9f;
+    --input-placeholder: var(--text-muted);
+
+    /* --- COMPONENTES: BOTÕES --- */
+    --btn-padding-y: 0.45rem;
+    --btn-padding-x: 1rem;
+    --btn-font-weight: var(--font-weight-medium);
+    --btn-border-width: 1px;
+
+    /* --- COMPONENTES: TABELAS --- */
+    --table-header-bg: #f1f4f8;
+    --table-striped-bg: #fafbfc;
+    --table-hover-bg: #f4f6f9;
+    --table-cell-padding-y: 0.6rem;
+    --table-cell-padding-x: 1rem;
+
+    /* --- COMPONENTES: CARDS --- */
+    --card-bg: #ffffff;
+    --card-header-bg: #f8fafc;
+    --card-border: var(--border-color);
+    --card-padding: 1.25rem;
+
+    /* --- SCROLLBAR --- */
+    --scrollbar-thumb: #c1c9d2;
+    --scrollbar-thumb-hover: #a0aab5;
+
+    /* --- OVERLAY / MODAL --- */
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+
+    /* --- VARIÁVEIS LEGADAS (COMPATIBILIDADE) --- */
+    --primary-color: var(--color-primary);
+    --primary-color-medium: var(--color-primary-dark);
+    --primary-color-light: var(--color-primary-light);
+    --primary-color-dark: var(--color-primary-dark);
+    --sidebar-bg: var(--bg-sidebar);
+    --sidebar-text: var(--text-sidebar);
+    --sidebar-hover: rgba(255, 255, 255, 0.1);
+    --body-bg: var(--bg-body);
+    --main-bg: var(--bg-body);
+    --breadcrumb-active: var(--text-muted);
+    --bg-soft-info: var(--bg-soft-info);
+    --font-family-base: var(--font-family-base);
+    --font-family-heading: var(--font-family-heading);
+    --navbar-height: var(--topbar-height);
+}
+
+/* ===== TEMA ESCURO (EXEMPLO – ATIVE COM .theme-dark NO BODY) ===== */
+body.theme-dark {
+    /* --- CORES PRIMÁRIAS (ajustadas para fundo escuro) --- */
+    --color-primary: #6a8eae;
+    --color-primary-dark: #4b6a8b;
+    --color-primary-light: #8aaac7;
+    --color-primary-rgb: 106, 142, 174;
+
+    /* --- CORES DE ESTADO --- */
+    --color-success: #6b9a7a;
+    --color-warning: #d4ad5a;
+    --color-danger: #c46b6b;
+    --color-info: #699cae;
+
+    /* --- FUNDOS --- */
+    --bg-body: #1a1e24;
+    --bg-surface: #252a32;
+    --bg-surface-secondary: #2e353e;
+    --bg-sidebar: #1a1e24;
+    --bg-input: #2e353e;
+
+    /* --- FUNDOS SUAVES --- */
+    --bg-soft-primary: #2a3a4a;
+    --bg-soft-success: #2a3f32;
+    --bg-soft-warning: #3f3826;
+    --bg-soft-danger: #3f2a2a;
+    --bg-soft-info: #2a3a42;
+
+    /* --- TEXTOS --- */
+    --text-primary: #e2e8f0;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-light: #64748b;
+    --text-on-primary: #ffffff;
+    --text-sidebar: #cbd5e1;
+    --text-sidebar-hover: #ffffff;
+
+    /* --- BORDAS --- */
+    --border-color: #3a424c;
+    --border-color-light: #2e353e;
+
+    /* --- SOMBRAS (ainda removidas) --- */
+    --shadow-none: none;
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+
+    /* --- COMPONENTES: INPUTS --- */
+    --input-bg: #2e353e;
+    --input-border: #3a424c;
+    --input-focus-border: #5a6a7a;
+
+    /* --- COMPONENTES: TABELAS --- */
+    --table-header-bg: #2e353e;
+    --table-striped-bg: #2a2f36;
+    --table-hover-bg: #323a44;
+
+    /* --- COMPONENTES: CARDS --- */
+    --card-bg: #252a32;
+    --card-header-bg: #2e353e;
+
+    /* --- SCROLLBAR --- */
+    --scrollbar-thumb: #4a5562;
+    --scrollbar-thumb-hover: #5a6a7a;
+}
+
+/* ===== VARIÁVEIS BOOTSTRAP (SOBRESCRITAS) ===== */
+:root {
+    --bs-primary: var(--color-primary);
+    --bs-primary-rgb: var(--color-primary-rgb);
+    --bs-success: var(--color-success);
+    --bs-success-rgb: var(--color-success-rgb);
+    --bs-warning: var(--color-warning);
+    --bs-warning-rgb: var(--color-warning-rgb);
+    --bs-danger: var(--color-danger);
+    --bs-danger-rgb: var(--color-danger-rgb);
+    --bs-info: var(--color-info);
+    --bs-info-rgb: var(--color-info-rgb);
+    --bs-body-bg: var(--bg-body);
+    --bs-body-color: var(--text-secondary);
+    --bs-border-radius: var(--border-radius);
+    --bs-border-radius-sm: var(--border-radius-sm);
+    --bs-border-radius-lg: var(--border-radius-lg);
+    --bs-box-shadow: var(--shadow-none);
+    --bs-box-shadow-sm: var(--shadow-sm);
+    --bs-box-shadow-lg: var(--shadow-lg);
+}
+
+/* ===== VALORES DINÂMICOS (CONTROLADOS VIA CLASSES NO BODY) ===== */
+body {
+    --sidebar-current-width: var(--sidebar-width);
+}
+
+body.sidebar-collapsed {
+    --sidebar-current-width: var(--sidebar-collapsed-width);
+}

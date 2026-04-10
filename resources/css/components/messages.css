@@ -1,0 +1,158 @@
+/* =========================================
+   MESSAGES.CSS — NOTIFICAÇÕES TOAST ESTILO ERP
+   ========================================= */
+
+/* Container principal */
+#toast-container {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    padding-top: calc(var(--topbar-height) + var(--spacing-5)) !important;
+    padding-right: var(--spacing-5) !important;
+    z-index: 999999 !important;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+/* Estrutura do toast */
+.toast-custom {
+    min-width: 22rem;
+    max-width: 28rem;
+    min-height: 6rem;
+    border-radius: var(--border-radius);
+    border-left: 4px solid;
+    box-shadow: var(--shadow-none);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    pointer-events: auto;
+    opacity: 0;
+    overflow: hidden;
+    position: relative;
+    background-color: var(--bg-surface);
+    border: var(--border-width) solid var(--border-color);
+    border-left-width: 4px;
+}
+
+/* Variações de cor */
+.toast-custom.success {
+    border-left-color: var(--color-success);
+    color: var(--text-primary);
+}
+
+.toast-custom.danger {
+    border-left-color: var(--color-danger);
+    color: var(--text-primary);
+}
+
+.toast-custom.info {
+    border-left-color: var(--color-info);
+    color: var(--text-primary);
+}
+
+/* Conteúdo interno */
+.toast-content {
+    padding: var(--spacing-5) var(--spacing-6);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    flex-grow: 1;
+}
+
+.toast-body-text {
+    flex-grow: 1;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-base);
+    color: var(--text-primary);
+}
+
+/* Botão fechar */
+.btn-close-toast {
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 var(--spacing-1);
+    opacity: 0.6;
+    transition: opacity 0.15s, transform 0.15s;
+}
+
+.btn-close-toast:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    color: var(--text-primary);
+}
+
+/* Barra de progresso (timer) */
+.toast-progress {
+    height: 4px;
+    background-color: var(--bg-surface-secondary);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+.toast-progress::before {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    animation: progress 4s linear forwards;
+}
+
+/* Cores da barra de progresso */
+.toast-custom.success .toast-progress::before {
+    background-color: var(--color-success) !important;
+}
+.toast-custom.danger .toast-progress::before {
+    background-color: var(--color-danger) !important;
+}
+.toast-custom.info .toast-progress::before {
+    background-color: var(--color-info) !important;
+}
+
+/* Animações */
+@keyframes slideIn {
+    from {
+        transform: translateX(110%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(110%);
+        opacity: 0;
+    }
+}
+
+@keyframes progress {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0%;
+    }
+}
+
+.animate-slide-in {
+    opacity: 1 !important;
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+.animate-slide-out {
+    animation: slideOut 0.3s ease-in forwards;
+}

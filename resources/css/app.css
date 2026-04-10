@@ -1,0 +1,29 @@
+/* =========================
+   APP.CSS — ENTRY GLOBAL
+   ========================= */
+
+/* ===== PALETA E VARIÁVEIS GLOBAIS ===== */
+@import "./variables.css";
+
+/* ===== BASE E ESTRUTURA ===== */
+@import "./base.css";
+@import "./layout.css";
+
+/* ===== COMPONENTES ===== */
+@import "./components/cards.css";
+@import "./components/breadcrumbs.css";
+@import "./components/alerts-buttons.css";
+@import "./components/buttons.css";
+@import "./components/tables.css";
+@import "./components/forms.css";
+@import "./components/messages.css";
+@import "./components/photos.css";
+@import "./components/show.css";
+@import "./components/collapsible-section.css";
+@import "./pages/errors.css";
+@import "./auth/login.css";
+@import "./components/filter-search.css";
+@import "./components/photo-upload.css";
+@import "./components/logs.css";
+@import "./components/notification.css";
+@import "./components/modal.css";

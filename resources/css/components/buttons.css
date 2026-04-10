@@ -1,0 +1,190 @@
+/* =========================================
+   BUTTONS.CSS — BOTÕES ESTILO ERP
+   ========================================= */
+
+/* Base do botão */
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+
+    height: 2.5rem;
+    padding: 0 var(--spacing-5);
+
+    font-size: var(--font-size-base);
+    font-weight: var(--btn-font-weight);
+    line-height: 1;
+    border-radius: var(--border-radius);
+    border: var(--btn-border-width) solid transparent;
+
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+
+    user-select: none;
+    white-space: nowrap;
+    box-shadow: var(--shadow-none);
+}
+
+.btn-action i {
+    display: flex;
+    align-items: center;
+    line-height: 0;
+}
+
+/* ===== VARIAÇÕES SÓLIDAS ===== */
+.btn-action.new {
+    background-color: var(--color-success);
+    color: var(--text-on-primary);
+}
+.btn-action.new:hover {
+    background-color: #4a6e56;
+}
+
+.btn-action.primary {
+    background-color: var(--color-primary);
+    color: var(--text-on-primary);
+}
+.btn-action.primary:hover {
+    background-color: var(--color-primary-dark);
+}
+
+.btn-action.info {
+    background-color: var(--color-info);
+    color: var(--text-on-primary);
+}
+.btn-action.info:hover {
+    background-color: #48707e;
+}
+
+.btn-action.dark {
+    background-color: var(--text-primary);
+    color: var(--text-on-primary);
+}
+.btn-action.dark:hover {
+    background-color: #1a252e;
+}
+
+.btn-action.warning {
+    background-color: var(--color-warning);
+    color: #000;
+}
+.btn-action.warning:hover {
+    background-color: #a67e2e;
+}
+
+.btn-action.danger {
+    background-color: var(--color-danger);
+    color: var(--text-on-primary);
+}
+.btn-action.danger:hover {
+    background-color: #9a4646;
+}
+
+.btn-action.secondary {
+    background-color: var(--bg-surface-secondary);
+    color: var(--text-secondary);
+    border-color: var(--border-color);
+}
+.btn-action.secondary:hover {
+    background-color: var(--border-color);
+}
+
+.btn-action.success {
+    background-color: var(--color-success);
+    color: var(--text-on-primary);
+}
+.btn-action.success:hover {
+    background-color: #4a6e56;
+}
+
+/* ===== OUTLINE ===== */
+.btn-action.outline {
+    background-color: transparent;
+}
+
+.btn-action.primary-outline {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+.btn-action.primary-outline:hover {
+    background-color: var(--color-primary);
+    color: var(--text-on-primary);
+}
+
+.btn-action.info-outline {
+    color: var(--color-info);
+    border-color: var(--color-info);
+}
+.btn-action.info-outline:hover {
+    background-color: var(--color-info);
+    color: var(--text-on-primary);
+}
+
+.btn-action.warning-outline {
+    color: var(--color-warning);
+    border-color: var(--color-warning);
+}
+.btn-action.warning-outline:hover {
+    background-color: var(--color-warning);
+    color: #000;
+}
+
+.btn-action.danger-outline {
+    color: var(--color-danger);
+    border-color: var(--color-danger);
+}
+.btn-action.danger-outline:hover {
+    background-color: var(--color-danger);
+    color: var(--text-on-primary);
+}
+
+.btn-action.dark-outline {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+}
+.btn-action.dark-outline:hover {
+    background-color: var(--text-primary);
+    color: var(--text-on-primary);
+}
+
+.btn-action.secondary-outline {
+    background-color: transparent;
+    color: var(--text-secondary);
+    border-color: var(--border-color);
+}
+.btn-action.secondary-outline:hover {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* ===== ESTADOS ===== */
+.btn-action.active {
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+
+.btn-action.disabled,
+.btn-action:disabled {
+    background-color: var(--text-muted);
+    color: var(--text-on-primary);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ===== TAMANHOS ===== */
+.btn-action.sm {
+    height: 2rem;
+    font-size: var(--font-size-sm);
+    padding: 0 var(--spacing-4);
+}
+
+.btn-action.lg {
+    height: 3rem;
+    font-size: var(--font-size-lg);
+    padding: 0 var(--spacing-6);
+}
+
+.btn-action.submit {
+    font-weight: var(--font-weight-semibold);
+}

@@ -1,0 +1,90 @@
+/* =========================================
+   DASHBOARD.CSS — PAINEL DE CONTROLE ESTILO ERP
+   ========================================= */
+
+/* Container dos gráficos */
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    margin-top: var(--spacing-3);
+}
+
+/* Cards do dashboard (herdam de .card-custom já definido em cards.css) */
+.card-custom {
+    transition: none;
+    cursor: default;
+}
+
+.card-custom:hover {
+    transform: none;
+    box-shadow: var(--shadow-none);
+}
+
+/* Títulos do dashboard */
+.text-title {
+    color: var(--text-primary) !important;
+    font-family: var(--font-family-heading) !important;
+    font-weight: var(--font-weight-bold) !important;
+}
+
+/* Cores de borda para KPIs */
+.border-primary {
+    border-color: var(--color-primary) !important;
+}
+.border-info {
+    border-color: var(--color-info) !important;
+}
+.border-success {
+    border-color: var(--color-success) !important;
+}
+.border-warning {
+    border-color: var(--color-warning) !important;
+}
+.border-danger {
+    border-color: var(--color-danger) !important;
+}
+
+/* Cores de texto utilitárias */
+.text-success {
+    color: var(--color-success) !important;
+}
+.text-warning {
+    color: var(--color-warning) !important;
+}
+.text-danger {
+    color: var(--color-danger) !important;
+}
+.text-info {
+    color: var(--color-info) !important;
+}
+
+/* Fundo primário customizado */
+.bg-primary-custom {
+    background-color: var(--color-primary) !important;
+}
+
+/* Ícones circulares nos cards (exceção justificada) */
+.rounded-circle {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--bg-soft-primary);
+    color: var(--color-primary);
+}
+
+/* Ícones menores */
+.rounded-3 {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    border-radius: var(--border-radius);
+    background-color: var(--bg-soft-primary);
+    color: var(--color-primary);
+}

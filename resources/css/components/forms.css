@@ -1,0 +1,370 @@
+/* =========================================
+   FORMS.CSS — FORMULÁRIOS, SEÇÕES E COMPONENTES RELACIONADOS
+   ========================================= */
+
+/* ===== DIVISOR DE SEÇÃO ===== */
+.form-section-divider {
+    justify-content: center;
+    background-color: var(--color-primary);
+    color: var(--text-on-primary);
+    padding: var(--spacing-3) 0;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 3.5rem;
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: var(--shadow-none);
+}
+
+.section-title {
+    font-size: 1.2rem;
+    letter-spacing: 0.03em;
+    display: inline-block;
+    color: var(--text-on-primary);
+}
+
+/* ===== ESPAÇAMENTO INTERNO DOS CAMPOS ===== */
+form .col-md-6,
+form .col-md-12,
+form .col-12:not(.mb-4) {
+    padding-left: var(--spacing-6);
+    padding-right: var(--spacing-6);
+}
+
+/* ===== CHECKBOX CUSTOMIZADO ===== */
+.custom-checkbox {
+    flex-shrink: 0;
+    margin: 0 !important;
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
+    border: var(--border-width) solid var(--color-primary) !important;
+    border-radius: var(--border-radius);
+}
+
+.custom-checkbox:checked {
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+}
+
+.custom-checkbox:focus {
+    box-shadow: none !important;
+    border-color: var(--color-primary-dark) !important;
+}
+
+.custom-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding-left: 0;
+    margin-bottom: var(--spacing-2);
+}
+
+.custom-checkbox-wrapper .form-check-label {
+    cursor: pointer;
+    line-height: 1.2;
+    padding-top: 2px;
+    color: var(--text-secondary);
+}
+
+.custom-checkbox-wrapper .form-check-input {
+    margin-left: 0;
+    float: none;
+}
+
+/* ===== CAIXA DE EXIBIÇÃO (DISPLAY) ===== */
+.custom-display-box {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 3rem;
+    padding: var(--spacing-2) var(--spacing-3);
+    background-color: var(--bg-surface-secondary);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+}
+
+.custom-display-box-textarea {
+    display: block;
+    width: 100%;
+    min-height: 3.5rem;
+    height: auto;
+    padding: var(--spacing-3) var(--spacing-4);
+    background-color: var(--bg-surface-secondary);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    line-height: var(--line-height-base);
+    word-wrap: break-word;
+}
+
+.custom-display-box-textarea p {
+    margin-bottom: var(--spacing-4);
+}
+.custom-display-box-textarea p:last-child {
+    margin-bottom: 0;
+}
+
+/* ===== LINHA DO TEMPO (HISTÓRICO) ===== */
+.history-timeline {
+    box-shadow: var(--shadow-none);
+    border: var(--border-width) solid var(--border-color);
+    background-color: var(--bg-surface);
+    padding: var(--spacing-4);
+}
+
+.history-timeline .border-end {
+    border-color: var(--border-color) !important;
+}
+
+.history-timeline p.italic {
+    font-style: italic;
+    color: var(--text-muted);
+    border-left: 2px solid var(--color-primary);
+    padding-left: var(--spacing-3);
+    margin-top: var(--spacing-2);
+}
+
+.history-timeline label {
+    margin-bottom: var(--spacing-2) !important;
+    display: block;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.history-description-text {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: var(--line-height-base);
+    background-color: var(--bg-surface-secondary);
+    padding: var(--spacing-3) var(--spacing-4);
+    border-left: 3px solid var(--color-primary);
+    margin-bottom: 0;
+    border-radius: var(--border-radius);
+}
+
+.history-description-text p:first-child,
+.history-description-text ul:first-child,
+.history-description-text ol:first-child {
+    margin-top: 0;
+}
+.history-description-text p:last-child,
+.history-description-text ul:last-child,
+.history-description-text ol:last-child {
+    margin-bottom: 0;
+}
+.history-description-text ul,
+.history-description-text ol {
+    margin-bottom: 0;
+    padding-left: var(--spacing-5);
+}
+.history-description-text li {
+    margin-bottom: var(--spacing-1);
+}
+.history-description-text li:last-child {
+    margin-bottom: 0;
+}
+
+/* ===== MAPA (LEAFLET) ===== */
+.leaflet-map-container {
+    padding-left: var(--spacing-6);
+    padding-right: var(--spacing-6);
+    padding-top: var(--spacing-4);
+}
+
+.map-wrapper {
+    width: 100%;
+    background: var(--bg-surface-secondary);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+#map {
+    width: 100%;
+    z-index: 1;
+}
+
+.map-legend-container {
+    margin-top: var(--spacing-4);
+    padding: var(--spacing-4);
+    background-color: var(--bg-surface);
+    border: var(--border-width) solid var(--border-color);
+    border-left-width: 4px;
+    border-left-color: var(--color-primary);
+    box-shadow: var(--shadow-none);
+    border-radius: var(--border-radius);
+}
+
+.map-legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-2);
+}
+.map-legend-item:last-child {
+    margin-bottom: 0;
+}
+
+.map-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.dot-sede { background-color: #eb2f06; }
+.dot-existente { background-color: #7f8c8d; }
+.dot-novo { background-color: #1e90ff; }
+
+.map-legend-text {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.leaflet-tooltip.bg-danger { background-color: #eb2f06 !important; border: none !important; color: #fff !important; font-weight: bold; }
+.leaflet-tooltip.bg-primary { background-color: #1e90ff !important; border: none !important; color: #fff !important; font-weight: bold; }
+.leaflet-tooltip.bg-secondary { background-color: #7f8c8d !important; border: none !important; color: #fff !important; }
+
+.map-accessible-label {
+    padding-left: var(--spacing-6);
+    padding-right: var(--spacing-6);
+}
+
+/* ===== FOTOS DE INSPEÇÃO ===== */
+.inspection-photo-link img {
+    transition: transform 0.15s, border-color 0.15s;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+.inspection-photo-link img:hover {
+    transform: scale(1.05);
+    border-color: var(--color-primary) !important;
+    box-shadow: var(--shadow-none);
+    z-index: 10;
+    position: relative;
+}
+
+.inspection-link {
+    transition: transform 0.15s;
+}
+.inspection-link:hover .card {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-none);
+    cursor: pointer;
+    border-color: var(--color-primary);
+}
+
+/* ===== ANIMAÇÃO DE SEÇÃO ===== */
+.section-animate-in {
+    display: block !important;
+    animation: slideDownFade 0.3s ease-out forwards;
+}
+
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== SELECT2 CUSTOMIZADO ===== */
+.select2-container--bootstrap-5 .select2-selection {
+    min-height: var(--input-height) !important;
+    background-color: var(--input-bg) !important;
+    border: var(--border-width) solid var(--input-border) !important;
+    border-radius: var(--border-radius) !important;
+    display: flex !important;
+    align-items: center !important;
+    color: var(--text-primary) !important;
+    box-shadow: var(--shadow-none) !important;
+}
+
+.select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+    font-weight: var(--font-weight-medium);
+    padding-left: 0.25rem !important;
+    color: var(--text-primary) !important;
+}
+
+.select2-container--bootstrap-5.select2-container--focus .select2-selection {
+    border-color: var(--input-focus-border) !important;
+    box-shadow: var(--shadow-none) !important;
+}
+
+.select2-dropdown {
+    border-color: var(--border-color) !important;
+    border-radius: var(--border-radius) !important;
+    overflow: hidden;
+    box-shadow: var(--shadow-none) !important;
+    background-color: var(--bg-surface) !important;
+}
+
+.select2-container--bootstrap-5 .select2-search__field:focus {
+    border-color: var(--input-focus-border) !important;
+    box-shadow: var(--shadow-none) !important;
+    outline: none !important;
+}
+
+.select2-container--bootstrap-5 .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--color-primary) !important;
+    color: var(--text-on-primary) !important;
+}
+
+.select2-container--bootstrap-5 .select2-selection--single .select2-selection__arrow {
+    height: var(--input-height) !important;
+}
+
+/* ===== CKEDITOR CUSTOMIZADO ===== */
+.ck-editor__editable {
+    border: var(--border-width) solid var(--input-border) !important;
+    border-radius: var(--border-radius) !important;
+    background-color: var(--input-bg) !important;
+    box-shadow: var(--shadow-none) !important;
+}
+
+.ck-editor__editable_inline {
+    min-height: 200px;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.ck.ck-editor__main > .ck-editor__editable:focus {
+    border-color: var(--input-focus-border) !important;
+    box-shadow: var(--shadow-none) !important;
+    outline: none !important;
+}
+
+/* ===== INPUT CUSTOMIZADO ===== */
+.custom-input {
+    border-color: var(--input-border) !important;
+    transition: border-color 0.15s;
+    border-radius: var(--border-radius) !important;
+    box-shadow: var(--shadow-none) !important;
+}
+
+.custom-input:focus {
+    border-color: var(--input-focus-border) !important;
+    box-shadow: var(--shadow-none) !important;
+    outline: none;
+}
+
+/* ===== FUNDOS UTILITÁRIOS ===== */
+.bg-purple {
+    background-color: var(--color-primary) !important;
+}
+
+/* ===== ESPAÇAMENTO INTERNO DE COLUNAS ANINHADAS ===== */
+form .row .row [class*="col-"] {
+    padding-left: var(--spacing-2);
+    padding-right: var(--spacing-2);
+}

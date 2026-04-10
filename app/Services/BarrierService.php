@@ -1,0 +1,141 @@
+<?php
+
+namespace App\Services;
+
+use App\Enums\BarrierStatus;
+use App\Enums\InspectionType;
+use App\Models\Barrier;
+use Illuminate\Support\Facades\{Auth, DB};
+
+class BarrierService
+{
+    public function __construct(
+        protected InspectionService $inspectionService
+    ) {}
+
+    public function store(array $data): Barrier
+    {
+        return DB::transaction(
+            fn() => $this->persist(new Barrier(), $data)
+        );
+    }
+
+    public function update(Barrier $barrier, array $data): Barrier
+    {
+        return DB::transaction(
+            fn() => $this->persist($barrier, $data)
+        );
+    }
+
+    public function delete(Barrier $barrier): void
+    {
+        DB::transaction(fn() => $barrier->delete());
+    }
+
+    protected function persist(Barrier $barrier, array $data): Barrier
+    {
+        $data = $this->sanitizeReporterData($data);
+        $data = $this->prepareData($barrier, $data);
+
+        $barrier->fill($data)->save();
+
+        $this->syncRelations($barrier, $data);
+        $this->handleInspectionLog($barrier, $data);
+
+        return $barrier->fresh([
+            'category',
+            'location',
+            'deficiencies'
+        ]);
+    }
+
+    protected function prepareData(Barrier $barrier, array $data): array
+    {
+        if (!$barrier->exists && Auth::check()) {
+            $data['registered_by_user_id'] = Auth::id();
+        }
+
+        if (!empty($data['no_location'])) {
+            $data['location_id'] = null;
+        }
+
+        return $data;
+    }
+
+    protected function sanitizeReporterData(array $data): array
+    {
+        // Estado padrão (limpo)
+        $cleanFields = [
+            'affected_student_id' => null,
+            'affected_professional_id' => null,
+            'affected_person_name' => null,
+            'affected_person_role' => null,
+            'is_anonymous' => false,
+            'not_applicable' => false,
+        ];
+
+        // REGRA 1: Prioridade Anônima (Limpa absolutamente tudo)
+        if (!empty($data['is_anonymous'])) {
+            return array_merge($data, $cleanFields, ['is_anonymous' => true]);
+        }
+
+        // REGRA 2: Relato Geral (Limpa os IDs do sistema, mantém o texto livre)
+        if (!empty($data['not_applicable'])) {
+            return array_merge($data, $cleanFields, [
+                'not_applicable' => true,
+                'affected_person_name' => $data['affected_person_name'] ?? null,
+                'affected_person_role' => $data['affected_person_role'] ?? null,
+            ]);
+        }
+
+        // REGRA 3: Identificado (Limpa os textos livres, mantém os IDs)
+        return array_merge($data, [
+            'is_anonymous' => false,
+            'not_applicable' => false,
+            'affected_person_name' => null,
+            'affected_person_role' => null,
+            'affected_student_id' => $data['affected_student_id'] ?? null,
+            'affected_professional_id' => $data['affected_professional_id'] ?? null,
+        ]);
+    }
+
+    protected function syncRelations(Barrier $barrier, array $data): void
+    {
+        if (isset($data['deficiencies'])) {
+            $barrier->deficiencies()->sync($data['deficiencies']);
+        }
+    }
+
+    protected function handleInspectionLog(Barrier $barrier, array $data): void
+    {
+        $isUpdate = $barrier->wasRecentlyCreated === false;
+        $oldStatus = $isUpdate ? $barrier->latestStatus()?->value : null;
+        $newStatus = $data['status'] ?? $oldStatus ?? BarrierStatus::IDENTIFIED->value;
+
+        $statusChanged = $isUpdate && $newStatus !== $oldStatus;
+        $hasInteraction = filled($data['inspection_description'] ?? null) || !empty($data['images']);
+
+        /* Gerenciamos o timestamp de resolução para facilitar relatórios de
+           tempo médio de resposta (SLA) sem depender de logs de auditoria. */
+        if (in_array($newStatus, [BarrierStatus::RESOLVED->value, BarrierStatus::NOT_APPLICABLE->value])) {
+            $barrier->update(['resolved_at' => $barrier->resolved_at ?? now()]);
+        } else {
+            $barrier->update(['resolved_at' => null]);
+        }
+
+        /* Evitamos a criação de logs de inspeção vazios durante updates
+           que alteram apenas dados cadastrais da barreira. */
+        if ($isUpdate && !$statusChanged && !$hasInteraction) {
+            return;
+        }
+
+        $this->inspectionService->createForModel($barrier, [
+            'state' => null,
+            'status' => $newStatus,
+            'inspection_date' => $data['inspection_date'] ?? now(),
+            'type' => $data['inspection_type'] ?? ($isUpdate ? InspectionType::PERIODIC->value : InspectionType::INITIAL->value),
+            'description' => $data['inspection_description'] ?? ($isUpdate ? null : 'Registro inicial da barreira.'),
+            'images' => $data['images'] ?? [],
+        ]);
+    }
+}

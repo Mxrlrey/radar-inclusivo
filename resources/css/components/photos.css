@@ -1,0 +1,83 @@
+/* =========================================
+   PHOTOS.CSS — AVATARES E IMAGENS DE PERFIL
+   ========================================= */
+
+/* Avatar em tabelas (índice) */
+.avatar-table {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    margin-right: var(--spacing-3);
+    background-color: var(--bg-surface);
+}
+
+/* Avatar grande em página de detalhes (show) */
+.avatar-show {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow-none);
+    background-color: var(--bg-surface);
+}
+
+/* Preview no formulário de edição */
+.photo-preview-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: var(--spacing-4);
+}
+
+.img-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--border-radius);
+    object-fit: cover;
+    border: 2px dashed var(--border-color);
+    background-color: var(--bg-surface-secondary);
+}
+
+/* Alinhamento de nome com foto (em listas) */
+.name-with-photo {
+    display: flex;
+    align-items: center;
+}
+
+/* Avatar pequeno na navbar */
+.nav-profile-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+    margin-right: var(--spacing-2);
+    background-color: var(--bg-surface);
+}
+
+/* Dropdown do usuário na navbar */
+.nav-user-dropdown {
+    border: none !important;
+    background-color: transparent !important;
+    color: var(--text-primary) !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: color 0.15s;
+    padding: var(--spacing-2) var(--spacing-3);
+}
+
+.nav-user-dropdown:hover {
+    color: var(--color-primary) !important;
+    background-color: transparent !important;
+}
+
+/* Alinhamento da seta do dropdown com a foto */
+.dropdown-toggle::after {
+    vertical-align: middle;
+    margin-left: var(--spacing-2);
+    border-top-color: currentColor;
+    opacity: 0.7;
+}

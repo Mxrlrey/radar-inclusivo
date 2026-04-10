@@ -1,0 +1,39 @@
+/* =========================================
+   TAGS.CSS — ETIQUETAS E CHIPS
+   ========================================= */
+
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    padding: var(--spacing-1);
+}
+
+/* Tag individual */
+.tag-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-base);
+    margin: 0;
+    transition: none;
+    cursor: default;
+    border: var(--border-width) solid var(--border-color);
+    background-color: var(--bg-surface-secondary);
+    color: var(--text-secondary);
+}
+
+.tag-item:hover {
+    transform: none;
+}
+
+/* Variação com fundo suave roxo (mantida para compatibilidade) */
+.bg-purple-light {
+    border: var(--border-width) solid var(--border-color);
+    background-color: var(--bg-soft-primary);
+    color: var(--color-primary);
+}

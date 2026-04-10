@@ -1,0 +1,189 @@
+<?php
+
+namespace App\Services;
+
+use App\Enums\WaitlistStatus;
+use App\Exceptions\BusinessRuleException;
+use App\Models\Loan;
+use App\Models\Waitlist;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\DB;
+
+class WaitlistService
+{
+    public function store(array $data): Waitlist
+    {
+        return DB::transaction(function () use ($data) {
+            /* Resolvemos o nome vindo do request (alias) para a classe real da Model.
+               Se o MorphMap tiver 'assistive_technology', ele retornará o namespace completo.
+            */
+            $modelClass = Relation::getMorphedModel($data['waitlistable_type'])
+                ?? $data['waitlistable_type'];
+
+            /* Utilizamos o $modelClass resolvido para o lockForUpdate */
+            $item = $modelClass::lockForUpdate()->findOrFail($data['waitlistable_id']);
+
+            /* Garantimos que o waitlistable_type seja o alias (ex: 'assistive_technology')
+               para salvar corretamente no banco de acordo com o Morph Map.
+            */
+            $data['waitlistable_type'] = $item->getMorphClass();
+
+            $this->validateNewWaitlist($item, $data);
+
+            return Waitlist::create([
+                'waitlistable_id' => $item->id,
+                'waitlistable_type' => $data['waitlistable_type'],
+                'student_id' => $data['student_id'] ?? null,
+                'professional_id' => $data['professional_id'] ?? null,
+                'user_id' => $data['user_id'],
+                'requested_at' => now(),
+                'status' => WaitlistStatus::WAITING->value,
+                'observation' => $data['observation'] ?? null,
+            ]);
+        });
+    }
+
+    public function update(Waitlist $waitlist, array $data): Waitlist
+    {
+        $this->validateStatusModification($waitlist, $data);
+
+        $waitlist->update($this->filterUpdatableFields($data));
+
+        return $waitlist->fresh();
+    }
+
+    public function delete(Waitlist $waitlist): void
+    {
+        $this->validateDeletion($waitlist);
+        $waitlist->delete();
+    }
+
+    public function cancel(Waitlist $waitlist): Waitlist
+    {
+        $currentStatus = WaitlistStatus::tryFrom($waitlist->status);
+
+        if ($currentStatus !== WaitlistStatus::WAITING) {
+            throw new BusinessRuleException('Apenas solicitações em espera podem ser canceladas.');
+        }
+
+        $waitlist->update(['status' => WaitlistStatus::CANCELLED->value]);
+
+        return $waitlist->fresh();
+    }
+
+    public function notifyNext($item): ?Waitlist
+    {
+        /* Aqui o $item->getMorphClass() já retornará o alias correto
+           porque o objeto $item já é uma instância da Model.
+        */
+        $next = Waitlist::where('waitlistable_id', $item->id)
+            ->where('waitlistable_type', $item->getMorphClass())
+            ->where('status', WaitlistStatus::WAITING->value)
+            ->oldest('requested_at')
+            ->first();
+
+        if (!$next) return null;
+
+        $next->update(['status' => WaitlistStatus::NOTIFIED->value]);
+
+        return $next->fresh();
+    }
+
+    private function validateNewWaitlist($item, array $data): void
+    {
+        /* Centralizamos as validações de integridade de beneficiário e disponibilidade. */
+        $this->validateBeneficiary($data);
+        $this->ensureNoStockAvailable($item);
+        $this->ensureNoDuplicateEntry($item, $data);
+    }
+
+    private function validateBeneficiary(array $data): void
+    {
+        $student = $data['student_id'] ?? null;
+        $professional = $data['professional_id'] ?? null;
+
+        /* Regra de Negócio: O registro na lista de espera deve estar obrigatoriamente
+           vinculado a um único beneficiário para evitar ambiguidades no atendimento. */
+        if (empty($student) && empty($professional)) {
+            throw new BusinessRuleException('É necessário informar um aluno ou um profissional.');
+        }
+
+        if (!empty($student) && !empty($professional)) {
+            throw new BusinessRuleException('Não é permitido informar aluno e profissional ao mesmo tempo.');
+        }
+    }
+
+    private function ensureNoStockAvailable($item): void
+    {
+        $status = $item->status;
+
+        /* A fila de espera só é permitida se o recurso estiver de fato indisponível.
+           Isso força o fluxo de empréstimo direto enquanto houver unidades em estoque. */
+        if (!$status->blocksLoan() && $item->quantity_available > 0) {
+            throw new BusinessRuleException('Este recurso ainda possui unidades disponíveis e pode ser emprestado, portanto não é possível criar uma fila de espera.');
+        }
+    }
+
+    private function ensureNoDuplicateEntry($item, array $data): void
+    {
+        $student = $data['student_id'] ?? null;
+        $professional = $data['professional_id'] ?? null;
+
+        $existsQuery = Waitlist::where('waitlistable_id', $item->id)
+            ->where('waitlistable_type', $item->getMorphClass())
+            ->whereIn('status', [
+                WaitlistStatus::WAITING->value,
+                WaitlistStatus::NOTIFIED->value
+            ]);
+
+        if ($student) $existsQuery->where('student_id', $student);
+        else $existsQuery->where('professional_id', $professional);
+
+        if ($existsQuery->exists()) {
+            throw new BusinessRuleException('Este beneficiário já possui uma solicitação ativa para este recurso.');
+        }
+
+        $loanQuery = Loan::where('loanable_id', $item->id)
+            ->where('loanable_type', $item->getMorphClass())
+            ->whereNull('return_date');
+
+        if ($student) $loanQuery->where('student_id', $student);
+        else $loanQuery->where('professional_id', $professional);
+
+        if ($loanQuery->exists()) {
+            throw new BusinessRuleException('Este beneficiário já possui um empréstimo ativo deste recurso.');
+        }
+    }
+
+    private function validateStatusModification(Waitlist $waitlist, array $data): void
+    {
+        if (!isset($data['status'])) return;
+
+        $currentStatus = WaitlistStatus::tryFrom($waitlist->status);
+
+        $updatableKeys = array_keys($data);
+        $onlyObservation = count($updatableKeys) === 1 && in_array('observation', $updatableKeys);
+
+        /* Travamos estados finalizados para garantir a imutabilidade do histórico
+           de atendimento, permitindo apenas correções textuais em observações. */
+        if (!$onlyObservation && in_array($currentStatus, [WaitlistStatus::FULFILLED, WaitlistStatus::CANCELLED], true)) {
+            throw new BusinessRuleException('Solicitação já finalizada não pode ser alterada, exceto observações.');
+        }
+    }
+
+    private function validateDeletion(Waitlist $waitlist): void
+    {
+        $currentStatus = WaitlistStatus::tryFrom($waitlist->status);
+
+        if ($currentStatus === WaitlistStatus::FULFILLED) {
+            throw new BusinessRuleException('Solicitações já atendidas não podem ser removidas.');
+        }
+    }
+
+    private function filterUpdatableFields(array $data): array
+    {
+        return collect($data)
+            ->only(['status', 'observation'])
+            ->toArray();
+    }
+}

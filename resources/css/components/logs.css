@@ -1,0 +1,246 @@
+/* =========================================
+   LOGS.CSS — LINHA DO TEMPO DE AUDITORIA (ESTILO ERP)
+   ========================================= */
+
+/* Variantes de cor para marcadores e badges */
+.log-marker-success { background-color: var(--color-success); }
+.log-marker-danger { background-color: var(--color-danger); }
+.log-marker-secondary { background-color: var(--text-muted); }
+.log-marker-primary { background-color: var(--color-primary); }
+
+.log-badge-success { background-color: var(--color-success); color: var(--text-on-primary); }
+.log-badge-danger { background-color: var(--color-danger); color: var(--text-on-primary); }
+.log-badge-secondary { background-color: var(--text-muted); color: var(--text-on-primary); }
+.log-badge-primary { background-color: var(--color-primary); color: var(--text-on-primary); }
+
+/* Ajuste no avatar (remove rounded-circle global, mas mantém círculo via border-radius) */
+.avatar-title {
+    border-radius: 50% !important; /* exceção funcional */
+}
+
+/* Wrapper da linha do tempo */
+.log-timeline-wrapper {
+    padding: var(--spacing-5) var(--spacing-6);
+    background-color: var(--bg-surface);
+    border: var(--border-width) solid var(--border-color);
+}
+
+/* Container da timeline */
+.log-timeline {
+    position: relative;
+    padding-left: 58px;
+}
+
+/* Linha vertical central */
+.log-timeline::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--border-color);
+}
+
+/* Item individual */
+.log-item {
+    display: flex;
+    gap: var(--spacing-4);
+    position: relative;
+    margin-bottom: var(--spacing-5);
+}
+
+/* Coluna do marcador */
+.log-marker-column {
+    width: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+/* Marcador (ícone) */
+.log-marker {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* exceção funcional */
+    color: var(--text-on-primary);
+    background-color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg-surface);
+}
+
+/* Conector vertical entre itens */
+.log-connector {
+    flex: 1;
+    width: 2px;
+    background-color: var(--border-color);
+    margin-top: 6px;
+}
+.log-item:last-child .log-connector {
+    display: none;
+}
+
+/* Card de conteúdo do log */
+.log-card {
+    flex: 1;
+    background-color: var(--bg-surface);
+    border: var(--border-width) solid var(--border-color);
+    padding: var(--spacing-4) var(--spacing-5);
+    transition: none;
+}
+.log-card:hover {
+    transform: none;
+    border-color: var(--border-color);
+    background-color: var(--bg-surface);
+    box-shadow: var(--shadow-none);
+}
+
+/* Badge da ação (ex.: "CRIADO", "ATUALIZADO") */
+.log-action-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    padding: var(--spacing-1) var(--spacing-3);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-on-primary);
+    background-color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* Área de detalhes (mudanças) */
+.log-details-area {
+    margin-top: var(--spacing-3);
+}
+
+/* Autor e timestamp */
+.log-author {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    border-top: var(--border-width) solid var(--border-color);
+    padding-top: var(--spacing-3);
+    margin-top: var(--spacing-3);
+}
+
+/* Avatar pequeno (iniciais) */
+.avatar-xs .avatar-title {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-soft-primary);
+    color: var(--color-primary);
+    border: var(--border-width) solid var(--border-color);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    border-radius: 50%; /* exceção */
+}
+
+/* Lista de mudanças */
+.log-change-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+/* Item de mudança individual */
+.change-item {
+    background-color: var(--bg-surface-secondary);
+    border: var(--border-width) solid var(--border-color);
+    padding: var(--spacing-3) var(--spacing-4);
+}
+
+/* Nome do campo */
+.field-name {
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-2);
+}
+
+/* Diff de valores */
+.values-diff {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    flex-wrap: wrap;
+    word-break: break-word;
+}
+
+.old-value,
+.new-value {
+    display: inline-block;
+    padding: var(--spacing-1) var(--spacing-3);
+    font-size: var(--font-size-sm);
+    border: var(--border-width) solid var(--border-color);
+}
+
+.old-value {
+    background-color: var(--bg-soft-danger);
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+    text-decoration: line-through;
+}
+
+.new-value {
+    background-color: var(--bg-soft-success);
+    border-color: var(--color-success);
+    color: var(--color-success);
+    font-weight: var(--font-weight-medium);
+}
+
+.diff-arrow {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* Notas de auditoria */
+.audit-note {
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    border: var(--border-width) solid var(--border-color);
+}
+
+.audit-note-info {
+    background-color: var(--bg-soft-info);
+    color: var(--color-info);
+    border-color: var(--color-info);
+}
+
+.audit-note-danger {
+    background-color: var(--bg-soft-danger);
+    color: var(--color-danger);
+    border-color: var(--color-danger);
+}
+
+/* Estado vazio */
+.empty-history {
+    background-color: var(--bg-surface-secondary);
+    border: var(--border-width) dashed var(--border-color);
+    padding: var(--spacing-6);
+    text-align: center;
+}
+
+.empty-history-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--spacing-4);
+    border-radius: 50%;
+    background-color: var(--bg-soft-primary);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+}

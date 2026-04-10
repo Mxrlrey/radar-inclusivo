@@ -1,0 +1,84 @@
+/* =========================================
+   MODAL.CSS — MODAL ESTILO ERP
+   ========================================= */
+
+/* Backdrop com sobreposição neutra */
+.modal-backdrop.show {
+    opacity: 0.5;
+    background-color: var(--overlay-bg);
+}
+
+/* Dialog centralizado */
+.modal-dialog {
+    margin: var(--spacing-6) auto;
+    display: flex;
+    align-items: center;
+}
+
+/* Conteúdo do modal */
+.modal-content {
+    border: var(--border-width) solid var(--border-color) !important;
+    border-radius: var(--border-radius) !important;
+    box-shadow: var(--shadow-none) !important;
+    overflow: hidden !important;
+    background-color: var(--bg-surface);
+}
+
+/* Cabeçalho */
+.modal-header {
+    background-color: var(--bg-surface-secondary) !important;
+    color: var(--text-primary) !important;
+    border-bottom: var(--border-width) solid var(--border-color) !important;
+    padding: var(--spacing-5) var(--spacing-6) !important;
+    align-items: center;
+}
+
+.modal-header .modal-title {
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* Botão fechar */
+.modal-header .btn-close {
+    filter: none;
+    opacity: 0.6;
+    transition: opacity 0.15s;
+    background-size: 0.8em;
+    margin: 0;
+}
+.modal-header .btn-close:hover {
+    opacity: 1;
+}
+
+/* Corpo */
+.modal-body {
+    padding: var(--spacing-6) !important;
+    font-family: var(--font-family-base);
+    color: var(--text-secondary);
+}
+
+/* Rodapé */
+.modal-footer {
+    border-top: var(--border-width) solid var(--border-color) !important;
+    padding: var(--spacing-5) var(--spacing-6) !important;
+    justify-content: flex-end;
+    gap: var(--spacing-3);
+    background-color: var(--bg-surface-secondary) !important;
+}
+
+/* Responsivo */
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: var(--spacing-2);
+        min-height: calc(100% - var(--spacing-4));
+    }
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: var(--spacing-4) !important;
+    }
+}

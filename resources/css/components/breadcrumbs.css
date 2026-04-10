@@ -1,0 +1,49 @@
+/* =========================================
+   BREADCRUMBS.CSS — NAVEGAÇÃO ESTRUTURAL
+   ========================================= */
+
+.breadcrumb-custom {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: var(--spacing-6);
+    font-size: var(--font-size-sm);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center; /* garante alinhamento vertical */
+    list-style: none;
+}
+
+.breadcrumb-custom .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    line-height: 1; /* remove espaçamento extra */
+}
+
+.breadcrumb-custom .breadcrumb-item a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+}
+
+.breadcrumb-custom .breadcrumb-item a:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+.breadcrumb-custom .breadcrumb-item.active {
+    color: var(--text-muted);
+    font-weight: var(--font-weight-normal);
+    pointer-events: none;
+}
+
+/* Separador customizado "›" */
+.breadcrumb-custom .breadcrumb-item + .breadcrumb-item::before {
+    content: "›";
+    color: var(--text-muted);
+    padding: 0 var(--spacing-2);
+    font-size: 1.2rem;   /* ligeiramente maior para alinhar com texto */
+    line-height: 1;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -2px;     /* ajuste fino para centralizar */
+}

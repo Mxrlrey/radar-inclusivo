@@ -1,0 +1,159 @@
+/* =========================================
+   TABLES.CSS — TABELAS ESTILO ERP
+   ========================================= */
+
+/* Container da tabela (substitui o antigo .custom-table-card) */
+.table-container {
+    background-color: var(--card-bg);
+    border: var(--border-width) solid var(--card-border);
+    margin-bottom: var(--spacing-6);
+    overflow-x: auto;
+    box-shadow: var(--shadow-none);
+}
+
+/* Tabela base */
+.table {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    border-collapse: collapse;
+}
+
+/* Cabeçalho da tabela */
+.table thead th {
+    background-color: var(--table-header-bg);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: var(--font-size-sm);
+    padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
+    border-bottom: 2px solid var(--border-color);
+    border-top: none;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* Células do corpo */
+.table tbody td {
+    padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
+    vertical-align: middle;
+    border-bottom: var(--border-width) solid var(--border-color-light);
+    color: var(--text-secondary);
+}
+
+/* Remove borda da última linha */
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Zebrado */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--table-striped-bg);
+}
+
+/* Hover */
+.table-hover tbody tr:hover {
+    background-color: var(--table-hover-bg);
+}
+
+/* Células de ação (última coluna centralizada) */
+.table td:last-child,
+.table th:last-child {
+    text-align: center;
+}
+
+/* Badges e status dentro da tabela */
+.table .badge {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    padding: var(--spacing-1) var(--spacing-2);
+    text-transform: uppercase;
+}
+
+/* ===== PAGINAÇÃO CUSTOMIZADA ===== */
+.custom-pagination-container {
+    margin-top: var(--spacing-6);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.custom-pagination-container .pagination {
+    display: flex;
+    gap: var(--spacing-2);
+    margin-bottom: 0;
+}
+
+.custom-pagination-container .page-item .page-link {
+    background-color: var(--bg-surface);
+    border: var(--border-width) solid var(--border-color);
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
+    padding: var(--spacing-2) var(--spacing-3);
+    min-width: 2.5rem;
+    text-align: center;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+    box-shadow: var(--shadow-none);
+}
+
+.custom-pagination-container .page-item.active .page-link {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--text-on-primary);
+}
+
+.custom-pagination-container .page-item .page-link:hover {
+    background-color: var(--bg-soft-primary);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.custom-pagination-container .page-item.disabled .page-link {
+    color: var(--text-muted);
+    background-color: var(--bg-surface-secondary);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Setas (anterior/próximo) */
+.custom-pagination-container .page-item:first-child .page-link,
+.custom-pagination-container .page-item:last-child .page-link {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+/* Esconde texto "Showing..." automático (Laravel) */
+.custom-pagination-container p {
+    display: none;
+}
+
+/* ===== UTILITÁRIOS PARA TABELAS ===== */
+.table-actions {
+    display: flex;
+    gap: var(--spacing-2);
+    justify-content: center;
+}
+
+.table-action-btn {
+    color: var(--text-muted);
+    padding: var(--spacing-1) var(--spacing-2);
+    transition: color 0.15s;
+}
+.table-action-btn:hover {
+    color: var(--color-primary);
+}
+
+/* Célula com destaque (ex.: valor monetário) */
+.table td.text-highlight {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .table-container {
+        border-left: none;
+        border-right: none;
+    }
+}

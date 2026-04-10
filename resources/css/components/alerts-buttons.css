@@ -1,0 +1,38 @@
+/* =========================================
+   ALERTS-BUTTONS.CSS — ALERTAS E BOTÕES COMPLEMENTARES
+   ========================================= */
+
+/* Alertas */
+.alert-custom {
+    border-radius: var(--border-radius);
+    border: var(--border-width) solid var(--border-color);
+    border-left-width: 4px;
+    border-left-color: var(--color-primary);
+    background-color: var(--bg-surface);
+    color: var(--text-secondary);
+    padding: var(--spacing-4);
+    margin-bottom: var(--spacing-5);
+    box-shadow: var(--shadow-none);
+}
+
+/* Botão primário customizado (compatibilidade) */
+.btn-primary-custom {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    padding: var(--btn-padding-y) var(--btn-padding-x);
+    border-radius: var(--border-radius);
+    color: var(--text-on-primary);
+    font-weight: var(--btn-font-weight);
+    border-width: var(--btn-border-width);
+    transition: background-color 0.15s;
+    box-shadow: var(--shadow-none);
+}
+.btn-primary-custom:hover {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    transform: none;
+}
+
+/* Utilitários de cor (mantidos) */
+.text-primary-custom { color: var(--color-primary) !important; }
+.bg-primary-custom { background-color: var(--color-primary) !important; }

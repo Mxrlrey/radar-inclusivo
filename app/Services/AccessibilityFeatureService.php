@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\AccessibilityFeature;
+use Illuminate\Support\Facades\DB;
+
+class AccessibilityFeatureService
+{
+    public function store(array $data): AccessibilityFeature
+    {
+        return DB::transaction(function () use ($data) {
+            return AccessibilityFeature::create($data);
+        });
+    }
+
+    public function update(AccessibilityFeature $feature, array $data): AccessibilityFeature
+    {
+        return DB::transaction(function () use ($feature, $data) {
+            $feature->update($data);
+            return $feature->fresh();
+        });
+    }
+
+    public function delete(AccessibilityFeature $feature): void
+    {
+        DB::transaction(function () use ($feature) {
+            $feature->delete();
+        });
+    }
+}

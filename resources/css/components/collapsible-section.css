@@ -1,0 +1,86 @@
+/* =========================================
+   COLLAPSIBLE-SECTION.CSS — SEÇÕES EXPANSÍVEIS
+   ========================================= */
+
+/* Container da seção colapsável */
+.ctx-section {
+    padding: var(--spacing-4);
+    background-color: var(--bg-surface);
+    border: var(--border-width) solid var(--border-color);
+    margin-bottom: var(--spacing-6);
+    box-shadow: var(--shadow-none);
+}
+
+/* Cabeçalho da seção */
+.ctx-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Título da seção */
+.ctx-section-title h5 {
+    margin: 0 0 0 var(--spacing-4);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 1rem;
+}
+
+/* Botão de toggle */
+.ctx-toggle {
+    margin-left: var(--spacing-4);
+    border: var(--border-width) solid var(--border-color);
+    background-color: var(--bg-surface-secondary);
+    padding: var(--spacing-2) var(--spacing-3);
+    transition: background-color 0.15s, border-color 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ctx-toggle:hover {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+/* Ícone chevron */
+.ctx-chevron {
+    color: var(--color-primary);
+    transition: transform 0.2s ease, color 0.15s;
+    font-size: 0.9rem;
+}
+
+.ctx-toggle:hover .ctx-chevron {
+    color: var(--text-on-primary);
+}
+
+/* Rotação quando expandido */
+.ctx-toggle[aria-expanded="true"] .ctx-chevron {
+    transform: rotate(180deg);
+}
+
+/* Estados do corpo */
+.ctx-collapsed {
+    display: none;
+}
+
+.ctx-expanded {
+    display: block;
+    animation: ctxFadeIn 0.15s ease;
+    padding-top: var(--spacing-4);
+    margin-top: var(--spacing-4);
+    border-top: var(--border-width) solid var(--border-color);
+}
+
+@keyframes ctxFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
