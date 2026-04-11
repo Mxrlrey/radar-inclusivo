@@ -2,10 +2,11 @@
 
 $__newAttributes = [];
 $__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames(([
-    'variant' => 'primary',
-    'size' => 'md',
-    'label' => null,
-    'disabled' => false,
+    'title',
+    'value',
+    'icon' => 'bi-people',
+    'color' => 'primary',
+    'href' => null,
 ]));
 
 foreach ($attributes->all() as $__key => $__value) {
@@ -22,10 +23,11 @@ unset($__propNames);
 unset($__newAttributes);
 
 foreach (array_filter(([
-    'variant' => 'primary',
-    'size' => 'md',
-    'label' => null,
-    'disabled' => false,
+    'title',
+    'value',
+    'icon' => 'bi-people',
+    'color' => 'primary',
+    'href' => null,
 ]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
     $$__key = $$__key ?? $__value;
 }
@@ -39,24 +41,22 @@ foreach ($attributes->all() as $__key => $__value) {
 unset($__defined_vars, $__key, $__value); ?>
 
 <?php
-    $sizeClass = match ($size) {
-        'sm' => 'sm',
-        'lg' => 'lg',
-        default => '',
-    };
-    $classes = "btn-action {$variant} {$sizeClass} d-inline-flex align-items-center justify-content-center";
+    $tag = $href ? 'a' : 'div';
+    $extraAttributes = [];
+    if ($href) $extraAttributes['href'] = $href;
 ?>
 
-<button
-    type="submit"
-    <?php echo e($attributes->merge([
-        'class' => $classes,
-        'aria-label' => $label ?? 'Enviar formulário',
-        'disabled' => $disabled,
-    ])); ?>
+<<?php echo e($tag); ?>
+
+    <?php echo e($attributes->merge(array_merge(['class' => 'stat-widget'], $extraAttributes))); ?>
 
 >
-    <?php echo e($slot); ?>
-
-</button>
-<?php /**PATH /var/www/resources/views/components/buttons/submit-button.blade.php ENDPATH**/ ?>
+<div class="stat-widget-content">
+    <span class="stat-widget-value"><?php echo e($value); ?></span>
+    <span class="stat-widget-title"><?php echo e($title); ?></span>
+</div>
+<div class="stat-widget-icon text-<?php echo e($color); ?>">
+    <i class="<?php echo e($icon); ?>"></i>
+</div>
+</<?php echo e($tag); ?>>
+<?php /**PATH /var/www/resources/views/components/stat-widget.blade.php ENDPATH**/ ?>

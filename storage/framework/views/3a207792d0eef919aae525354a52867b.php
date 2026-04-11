@@ -50,10 +50,6 @@
 
         <?php if(auth()->guard()->check()): ?>
             <?php if(auth()->user()->is_admin): ?>
-
-                <li class="menu-divider">Configurações do Sistema</li>
-
-                
                 <li>
                     <a href="<?php echo e(route('deficiencies.index')); ?>"
                        class="<?php echo e(request()->routeIs('deficiencies.*') ? 'active' : ''); ?>">

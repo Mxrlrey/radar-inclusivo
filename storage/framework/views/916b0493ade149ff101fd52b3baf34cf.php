@@ -6,213 +6,231 @@
             <div>
                 <h2 class="text-title mb-1">Dashboard</h2>
                 <p class="text-muted mb-0">
-                    Bem-vindo(a) ao sistema GNAI,
+                    Bem-vindo(a) ao sistema Radar Inclsuivo,
                     <strong><?php echo e(auth()->user()->person->name ?? auth()->user()->email); ?></strong>.
                 </p>
             </div>
             <div class="d-none d-md-block">
-            <span class="badge bg-white text-primary-custom p-2 px-3 shadow-sm" style="border-radius: 10px;">
-                <i class="bi bi-calendar3"></i> <?php echo e(now()->format('d/m/Y')); ?>
+                <span class="badge bg-surface text-primary p-2 px-3 border">
+                    <i class="fa fa-calendar"></i> <?php echo e(now()->format('d/m/Y')); ?>
 
-            </span>
+                </span>
             </div>
         </div>
 
-        <div class="row g-4 mb-4">
-            <div class="col-6 col-md-3">
-                <a href="<?php echo e(route('students.index')); ?>"
-                   class="text-decoration-none h-100">
-                    <div class="card card-custom border-0 shadow-sm h-100">
-                        <div class="card-body p-3">
-                            <div class="d-flex align-items-center mb-2">
-                                <div class="bg-primary-custom text-white rounded-3 p-2 me-3">
-                                    <i class="bi bi-people"></i></div>
-                                <h6 class="text-muted small mb-0 fw-bold">Alunos</h6>
-                            </div>
-                            <h3 class="text-title mb-0"><?php echo e($totalStudents ?? 0); ?></h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-6 col-md-3">
-                <a href="<?php echo e(route('professionals.index')); ?>"
-                   class="text-decoration-none h-100">
-                    <div class="card card-custom border-0 shadow-sm h-100">
-                        <div class="card-body p-3">
-                            <div class="d-flex align-items-center mb-2">
-                                <div class="rounded-3 p-2 me-3 text-white" style="background-color: #6c63ff;">
-                                    <i class="bi bi-person-badge-fill"></i></div>
-                                <h6 class="text-muted small mb-0 fw-bold">Equipe</h6>
-                            </div>
-                            <h3 class="text-title mb-0"><?php echo e($totalProfessionals ?? 0); ?></h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-        <div class="row g-4">
-            <div class="col-lg-8">
-                <div class="card card-custom border-0 shadow-sm p-4 h-100">
-                    <h5 class="text-title mb-4">Distribuição: Pessoas no Sistema</h5>
-                    <div style="height: 350px;">
-                        <canvas id="barChartPeople"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="card card-custom border-0 shadow-sm p-4 h-100">
-                    <h5 class="text-title mb-4 text-center">Status dos PEIs</h5>
-                    <div style="height: 250px;">
-                        <canvas id="pieChartPei"></canvas>
-                    </div>
-                    <div class="mt-4 pt-3 border-top">
-                        <div class="d-flex justify-content-between mb-2 small">
-                            <span class="text-muted"><i
-                                        class="bi bi-circle-fill me-1 text-success"></i> Finalizados</span>
-                            <span class="fw-bold"><?php echo e($totalPeisFinished ?? 0); ?></span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2 small">
-                            <span class="text-muted"><i class="bi bi-circle-fill me-1 text-warning"></i> Não Finalizados</span>
-                            <span class="fw-bold"><?php echo e($totalPeisNotFinished ?? 0); ?></span>
-                        </div>
-                        <div class="d-flex justify-content-between small">
-                            <span class="text-muted"><i
-                                        class="bi bi-circle-fill me-1 text-primary"></i> Total Geral</span>
-                            <span class="fw-bold"><?php echo e($totalPeis ?? 0); ?></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
+        <div class="kpi-grid mb-4">
+            <?php if (isset($component)) { $__componentOriginalb45570a04b4397e9a75619dfa25dae50 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalb45570a04b4397e9a75619dfa25dae50 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.stat-widget','data' => ['title' => 'Alunos','value' => $totalStudents ?? 0,'icon' => 'ion-android-contact','color' => 'primary','href' => route('students.index')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('stat-widget'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['title' => 'Alunos','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($totalStudents ?? 0),'icon' => 'ion-android-contact','color' => 'primary','href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('students.index'))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $attributes = $__attributesOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $component = $__componentOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__componentOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginalb45570a04b4397e9a75619dfa25dae50 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalb45570a04b4397e9a75619dfa25dae50 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.stat-widget','data' => ['title' => 'Equipe','value' => $totalProfessionals ?? 0,'icon' => 'ion-android-social','color' => 'info','href' => route('professionals.index')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('stat-widget'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['title' => 'Equipe','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($totalProfessionals ?? 0),'icon' => 'ion-android-social','color' => 'info','href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('professionals.index'))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $attributes = $__attributesOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $component = $__componentOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__componentOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginalb45570a04b4397e9a75619dfa25dae50 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalb45570a04b4397e9a75619dfa25dae50 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.stat-widget','data' => ['title' => 'Empréstimos','value' => $totalLoans ?? 0,'icon' => 'ion-arrow-swap','color' => 'success','href' => route('loans.index')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('stat-widget'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['title' => 'Empréstimos','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($totalLoans ?? 0),'icon' => 'ion-arrow-swap','color' => 'success','href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('loans.index'))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $attributes = $__attributesOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $component = $__componentOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__componentOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginalb45570a04b4397e9a75619dfa25dae50 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalb45570a04b4397e9a75619dfa25dae50 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.stat-widget','data' => ['title' => 'Fila de Espera','value' => $totalWaiting ?? 0,'icon' => 'ion-android-timer','color' => 'warning','href' => route('waitlists.index')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('stat-widget'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['title' => 'Fila de Espera','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($totalWaiting ?? 0),'icon' => 'ion-android-timer','color' => 'warning','href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('waitlists.index'))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $attributes = $__attributesOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $component = $__componentOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__componentOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
         </div>
 
-        <div class="row g-4 mt-2 mb-4">
-            <div class="col-6 col-md-4">
-                <a href="<?php echo e(route('assistive-technologies.index')); ?>"
-                   class="text-decoration-none h-100">
-                    <div class="card card-custom border-0 shadow-sm h-100">
-                        <div class="card-body p-3">
-                            <div class="d-flex align-items-center mb-2">
-                                <div class="bg-primary-custom text-white rounded-3 p-2 me-3">
-                                    <i class="bi bi-cpu"></i>
-                                </div>
-                                <h6 class="text-muted small mb-0 fw-bold">Tecnologias Assistivas</h6>
-                            </div>
-                            <h3 class="text-title mb-0"><?php echo e($totalAt ?? 0); ?></h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-6 col-md-4">
-                <a href="<?php echo e(route('accessible-educational-materials.index')); ?>"
-                   class="text-decoration-none h-100">
-                    <div class="card card-custom border-0 shadow-sm h-100">
-                        <div class="card-body p-3">
-                            <div class="d-flex align-items-center mb-2">
-                                <div class="bg-info rounded-3 p-2 me-3 text-white">
-                                    <i class="bi bi-book"></i>
-                                </div>
-                                <h6 class="text-muted small mb-0 fw-bold">Materiais Pedagógicos Acessíveis</h6>
-                            </div>
-                            <h3 class="text-title mb-0"><?php echo e($totalAem ?? 0); ?></h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-12 col-md-4">
-                <div class="card card-custom border-0 shadow-sm h-100 position-relative">
-                    <div class="card-body p-3 d-flex flex-column justify-content-between">
-                        <div>
-                            <a href="<?php echo e(route('loans.index')); ?>" class="text-decoration-none">
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="bg-success rounded-3 p-2 me-3 text-white">
-                                        <i class="bi bi-arrow-left-right"></i>
-                                    </div>
-                                    <h6 class="text-muted small mb-0 fw-bold">Empréstimos</h6>
-                                </div>
-                                <h3 class="text-title mb-0"><?php echo e($totalLoans ?? 0); ?></h3>
-                            </a>
-                        </div>
-
-                        <div class="mt-3">
-                            <a href="<?php echo e(route('waitlists.index')); ?>"
-                               class="d-flex align-items-center justify-content-between p-2 rounded-3 text-decoration-none shadow-none border"
-                               style="background-color: rgba(0, 207, 232, 0.05); border-color: rgba(0, 207, 232, 0.3) !important;">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-hourglass-split text-info me-2"></i>
-                                    <span class="small fw-bold text-muted">Fila de Espera: Aguardando/Notificados</span>
-                                </div>
-                                <span class="badge bg-info text-white rounded-pill"><?php echo e($totalWaiting ?? 0); ?></span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
+        <div class="kpi-grid kpi-grid--3 mb-4">
+            <?php if (isset($component)) { $__componentOriginalb45570a04b4397e9a75619dfa25dae50 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalb45570a04b4397e9a75619dfa25dae50 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.stat-widget','data' => ['title' => 'Tecnologias Assistivas','value' => $totalAt ?? 0,'icon' => 'fa fa-microchip','color' => 'primary','href' => route('assistive-technologies.index')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('stat-widget'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['title' => 'Tecnologias Assistivas','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($totalAt ?? 0),'icon' => 'fa fa-microchip','color' => 'primary','href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('assistive-technologies.index'))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $attributes = $__attributesOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $component = $__componentOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__componentOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginalb45570a04b4397e9a75619dfa25dae50 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalb45570a04b4397e9a75619dfa25dae50 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.stat-widget','data' => ['title' => 'Materiais Acessíveis','value' => $totalAem ?? 0,'icon' => 'ion-android-book','color' => 'info','href' => route('accessible-educational-materials.index')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('stat-widget'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['title' => 'Materiais Acessíveis','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($totalAem ?? 0),'icon' => 'ion-android-book','color' => 'info','href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('accessible-educational-materials.index'))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $attributes = $__attributesOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $component = $__componentOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__componentOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginalb45570a04b4397e9a75619dfa25dae50 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalb45570a04b4397e9a75619dfa25dae50 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.stat-widget','data' => ['title' => 'Barreiras','value' => $totalBarriers ?? 0,'icon' => 'fa fa-ban','color' => 'danger','href' => route('barriers.index')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('stat-widget'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['title' => 'Barreiras','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($totalBarriers ?? 0),'icon' => 'fa fa-ban','color' => 'danger','href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('barriers.index'))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $attributes = $__attributesOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__attributesOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalb45570a04b4397e9a75619dfa25dae50)): ?>
+<?php $component = $__componentOriginalb45570a04b4397e9a75619dfa25dae50; ?>
+<?php unset($__componentOriginalb45570a04b4397e9a75619dfa25dae50); ?>
+<?php endif; ?>
         </div>
 
-        <div class="row g-4 mt-1">
+        
+        <div class="kpi-grid kpi-grid--chart mt-1">
+
             
-            <div class="col-lg-4">
-                <div class="card card-custom border-0 shadow-sm p-4 h-100">
-                    <h5 class="text-title mb-4 text-center">Status das Barreiras</h5>
-                    <div style="height: 250px;">
-                        <canvas id="doughnutChartBarriers"></canvas>
-                    </div>
-                    <div class="mt-4 pt-3 border-top text-center">
-                        <span class="text-muted small">Total Identificado: <strong><?php echo e($totalBarriers ?? 0); ?></strong></span>
-                    </div>
+            <div class="kpi-chart-small card card-custom border-0 shadow-sm p-4">
+                <h5 class="text-title mb-4 text-center">Status das Barreiras</h5>
+                <div style="height: 250px;">
+                    <canvas id="doughnutChartBarriers"></canvas>
                 </div>
-            </div>
-
-            
-            <div class="col-lg-8">
-                <div class="card card-custom border-0 shadow-sm h-100 d-flex flex-column">
-
-                    
-                    <div style="position: relative; flex-grow: 1; min-height: 400px;">
-                        <div id="mapDashboard" style="height: 100%; border-radius: 15px 15px 0 0;"></div>
-
-                        
-                        <div id="map-blocked-overlay" class="d-none"
-                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; border-radius: 15px 15px 0 0; cursor: not-allowed;">
-                    <span class="bg-white p-3 rounded shadow-sm border text-center">
-                        <i class="fas fa-lock text-danger mb-2 d-block"></i>
-                        <span id="blocked-message" class="fw-bold text-muted">
-                            Mapa não se aplica aos filtros selecionados.
-                        </span>
+                <div class="mt-4 pt-3 border-top text-center">
+                    <span class="text-muted small">
+                        Total Identificado: <strong><?php echo e($totalBarriers ?? 0); ?></strong>
                     </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="bg-light p-3 border-top d-flex flex-wrap justify-content-center gap-3"
-                         style="border-radius: 0 0 15px 15px;">
-                        <span class="small fw-bold text-muted w-100 text-center mb-1">VISUALIZAR NO MAPA:</span>
-
-                        <div class="form-check form-switch">
-                            <input class="form-check-input filter-switch" type="checkbox" id="switch_all" value="all"
-                                   checked style="cursor: pointer;">
-                            <label class="form-check-label small fw-bold" for="switch_all" style="cursor: pointer;">Todas</label>
-                        </div>
-
-                        <?php $__currentLoopData = App\Enums\BarrierStatus::cases(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $status): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input filter-switch status-specific" type="checkbox"
-                                       id="switch_<?php echo e($status->value); ?>"
-                                       value="<?php echo e($status->value); ?>" checked style="cursor: pointer;">
-                                <label class="form-check-label small text-<?php echo e($status->color()); ?> fw-bold"
-                                       for="switch_<?php echo e($status->value); ?>" style="cursor: pointer;">
-                                    <?php echo e($status->label()); ?>
-
-                                </label>
-                            </div>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </div>
                 </div>
             </div>
+
+            
+            <div class="kpi-chart-large card card-custom border-0 shadow-sm d-flex flex-column">
+
+                
+                <div style="position: relative; flex-grow: 1; min-height: 400px;">
+                    <div id="mapDashboard" style="height: 100%; border-radius: 15px 15px 0 0;"></div>
+
+                    
+                    <div id="map-blocked-overlay" class="d-none"
+                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                                background: rgba(255,255,255,0.8); z-index: 1000;
+                                display: flex; align-items: center; justify-content: center;
+                                border-radius: 15px 15px 0 0; cursor: not-allowed;">
+                        <span class="bg-white p-3 rounded shadow-sm border text-center">
+                            <i class="fas fa-lock text-danger mb-2 d-block"></i>
+                            <span id="blocked-message" class="fw-bold text-muted">
+                                Mapa não se aplica aos filtros selecionados.
+                            </span>
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="bg-light p-3 border-top d-flex flex-wrap justify-content-center gap-3"
+                     style="border-radius: 0 0 15px 15px;">
+                    <span class="small fw-bold text-muted w-100 text-center mb-1">VISUALIZAR NO MAPA:</span>
+
+                    <div class="toggle-switch">
+                        <input class="toggle-input filter-switch" type="checkbox"
+                               id="switch_all" value="all" checked>
+                        <label class="toggle-label" for="switch_all">Todas</label>
+                    </div>
+
+                    <?php $__currentLoopData = App\Enums\BarrierStatus::cases(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $status): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="toggle-switch">
+                            <input class="toggle-input filter-switch status-specific"
+                                   type="checkbox"
+                                   id="switch_<?php echo e($status->value); ?>"
+                                   value="<?php echo e($status->value); ?>" checked>
+                            <label class="toggle-label toggle-label--<?php echo e($status->color()); ?>"
+                                   for="switch_<?php echo e($status->value); ?>">
+                                <?php echo e($status->label()); ?>
+
+                            </label>
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </div>
+            </div>
+
         </div>
     </div>
 <?php $__env->stopSection(); ?>
@@ -226,17 +244,14 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // Dados injetados com segurança para o Dashboard.js
         window.dashboardData = {
             students: <?php echo e($totalStudents ?? 0); ?>,
             professionals: <?php echo e($totalProfessionals ?? 0); ?>,
             peiTotal: <?php echo e($totalPeis ?? 0); ?>,
             peiFinished: <?php echo e($totalPeisFinished ?? 0); ?>,
             peiNotFinished: <?php echo e($totalPeisNotFinished ?? 0); ?>,
-            // Dados Radar
             barrierStatuses: <?php echo json_encode($barrierStatusCounts ?? [], 15, 512) ?>,
             mapBarriers: <?php echo json_encode($mapBarriers ?? [], 15, 512) ?>,
-
             colors: {
                 primary: '#4D44B5',
                 secondary: '#6c63ff',
