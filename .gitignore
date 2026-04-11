@@ -1,26 +1,61 @@
+# Logs
 *.log
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Ambiente
 .env
 .env.*
 .env.backup
 .env.production
-.phpactor.json
-.phpunit.result.cache
+
+# IDEs
 /.fleet
 /.idea
 /.nova
-/.phpunit.cache
 /.vscode
 /.zed
+
+# PHP / Ferramentas
+.phpactor.json
+.phpunit.result.cache
+/.phpunit.cache
 /auth.json
+
+# Dependências
 /node_modules
+/vendor
+
+# Build frontend
 /public/build
 /public/hot
+
+# Storage (IMPORTANTE)
+/storage/*
+!/storage/app
+!/storage/app/public
+!/storage/framework
+!/storage/framework/cache
+!/storage/framework/sessions
+!/storage/framework/views
+!/storage/logs
+
+# Cache bootstrap
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+
+# Storage público
 /public/storage
+
+# Arquivos específicos
 /storage/*.key
 /storage/pail
-/vendor
+
+# Homestead
 Homestead.json
 Homestead.yaml
-Thumbs.db
+
+# Testes / cobertura
 coverage/
