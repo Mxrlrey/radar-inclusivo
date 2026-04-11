@@ -2,7 +2,7 @@
 
 <div {{ $attributes->merge(['class' => $column . ' mb-4 px-4']) }}>
     {{-- Título visual do campo --}}
-    <span class="d-block fw-bold text-primary small mb-1 text-uppercase" aria-hidden="true">
+    <span class="d-block fw-bold text-primary small mb-1" aria-hidden="true">
         {{ $label }}
     </span>
 

@@ -14,7 +14,7 @@
             @method($method)
         @endif
 
-        <div class="row g-0">
+        <div>
             {{ $slot }}
         </div>
     </form>

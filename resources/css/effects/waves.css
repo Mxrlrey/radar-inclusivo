@@ -1,0 +1,26 @@
+.waves-effect {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.waves-effect .waves-ripple {
+    position: absolute;
+    border-radius: 50% !important;
+    background: rgba(0, 0, 0, 0.15);
+    transform: scale(0);
+    pointer-events: none;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+    opacity: 0;
+    width: 20px;
+    height: 20px;
+    margin-left: -10px;
+    margin-top: -10px;
+    box-shadow: none !important;
+}
+
+.waves-effect.waves-light .waves-ripple {
+    background: rgba(255, 255, 255, 0.4);
+}

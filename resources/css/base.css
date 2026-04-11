@@ -115,7 +115,6 @@ a:focus, a:active { outline: 0; }
     justify-content: space-between;
     padding: var(--spacing-4) 0;
     margin-bottom: var(--spacing-6);
-    border-bottom: var(--border-width) solid var(--border-color);
 }
 
 .page-header-title h1 {
@@ -197,6 +196,10 @@ a:focus, a:active { outline: 0; }
         gap: var(--spacing-4);
         padding: var(--spacing-4);
     }
+}
+
+.badge.text-primary {
+    color: var(--text-primary) !important;
 }
 
 /* 11. Remove bordas arredondadas e sombras globalmente */

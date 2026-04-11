@@ -2,18 +2,22 @@
     'href' => null,
     'variant' => 'primary',
     'size' => 'md',
-    'label' => null,
+    'icon' => null,
     'type' => 'button'
 ])
 
 @php
-    // Mapeia o tamanho para a classe correta (sm, lg, ou vazio para md)
     $sizeClass = match ($size) {
         'sm' => 'sm',
         'lg' => 'lg',
+        'xs' => 'xs',
         default => '',
     };
-    $classes = "btn-action {$variant} {$sizeClass}";
+
+    $hasIcon = !empty($icon);
+    $hasText = trim($slot) !== '';
+
+    $classes = "btn-action {$variant} {$sizeClass} waves-effect";
     $tag = $href ? 'a' : 'button';
 @endphp
 
@@ -21,8 +25,17 @@
     {{ $href ? "href=$href role=button" : "type=$type" }}
     {{ $attributes->merge([
         'class' => $classes,
-        'aria-label' => $label ?? strip_tags($slot)
     ]) }}
 >
+@if($hasIcon)
+    @if($hasText)
+        <span class="btn-label">{{ $icon }}</span>
+    @else
+        {{ $icon }}
+    @endif
+@endif
+
+@if($hasText)
     {{ $slot }}
+@endif
 </{{ $tag }}>

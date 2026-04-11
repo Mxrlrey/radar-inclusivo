@@ -9,9 +9,10 @@
     $sizeClass = match ($size) {
         'sm' => 'sm',
         'lg' => 'lg',
+        'xs' => 'xs',
         default => '',
     };
-    $classes = "btn-action {$variant} {$sizeClass} d-inline-flex align-items-center justify-content-center";
+    $classes = "btn-action {$variant} {$sizeClass} waves-effect";
 @endphp
 
 <button

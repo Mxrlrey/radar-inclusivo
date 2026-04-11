@@ -19,14 +19,14 @@
         </div>
 
         <div>
-            <x-buttons.link-button :href="route('inclusive-radar.barriers.show', $barrier)" variant="secondary">
+            <x-buttons.link-button :href="route('barriers.show', $barrier)" variant="secondary">
                 <i class="fas fa-times"></i> Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('inclusive-radar.barriers.update', $barrier->id) }}" method="POST" enctype="multipart/form-data">
+        <x-forms.form-card action="{{ route('barriers.update', $barrier->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -249,7 +249,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4 mt-4 bg-white">
-                <x-buttons.link-button :href="route('inclusive-radar.barriers.show', $barrier)" variant="secondary">
+                <x-buttons.link-button :href="route('barriers.show', $barrier)" variant="secondary">
                     <i class="fas fa-times"></i> Cancelar
                 </x-buttons.link-button>
 
@@ -273,5 +273,5 @@
             window.barrierData = @json($barrier);
         </script>
     @endpush
-    @vite('resources/js/pages/inclusive-radar/barriers.js')
+    @vite('resources/js/pages/barriers.js')
 @endsection

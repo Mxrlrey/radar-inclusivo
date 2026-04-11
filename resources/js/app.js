@@ -6,6 +6,7 @@ import './utils/cpf.js';
 import './utils/phone.js';
 import './partials/sidebar.js';
 import './components/collapsible-section';
+import './effects/waves.js';
 
 // App principal - Sidebar e Navbar
 class App {
@@ -23,35 +24,61 @@ class App {
     // Inicializar sidebar
     initSidebar() {
         this.sidebar = document.querySelector('.sidebar');
-        this.navbarToggler = document.querySelector('.navbar-toggler');
+        this.sidebarToggle = document.querySelector('#sidebarToggle');
 
-        if (this.navbarToggler) {
-            this.navbarToggler.addEventListener('click', () => this.toggleSidebar());
+        if (this.sidebarToggle) {
+            this.sidebarToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggleSidebar();
+            });
         }
 
         // Fechar sidebar ao clicar fora (em mobile)
         document.addEventListener('click', (e) => {
             if (window.innerWidth < 769 &&
-                this.sidebar.classList.contains('show') &&
+                this.sidebar && this.sidebar.classList.contains('show') &&
                 !this.sidebar.contains(e.target) &&
-                !this.navbarToggler.contains(e.target)) {
+                this.sidebarToggle && !this.sidebarToggle.contains(e.target)) {
                 this.sidebar.classList.remove('show');
+                this.removeOverlay();
             }
         });
     }
 
     // Alternar sidebar (mobile)
+    // No método toggleSidebar():
     toggleSidebar() {
+        if (!this.sidebar) return;
+
         this.sidebar.classList.toggle('show');
 
-        // Adicionar overlay em mobile
         if (window.innerWidth < 769) {
             if (this.sidebar.classList.contains('show')) {
+                // Garante que a sidebar apareça expandida no mobile
+                this.sidebar.classList.remove('collapsed');
+                document.body.classList.remove('sidebar-collapsed');
                 this.addOverlay();
             } else {
                 this.removeOverlay();
             }
         }
+    }
+
+
+    init() {
+        this.initSidebar();
+        this.initActiveMenu();
+        this.initBootstrapDropdowns();
+    }
+
+    initBootstrapDropdowns() {
+        const dropdownElements = document.querySelectorAll('[data-bs-toggle="dropdown"]');
+        dropdownElements.forEach(el => {
+            // Evita duplicação se já foi inicializado
+            if (!bootstrap.Dropdown.getInstance(el)) {
+                new bootstrap.Dropdown(el);
+            }
+        });
     }
 
     // Adicionar overlay em mobile

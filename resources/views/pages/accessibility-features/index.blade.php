@@ -6,24 +6,23 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Recursos de Acessibilidade' => route('inclusive-radar.accessibility-features.index')
+            'Recursos de Acessibilidade' => route('accessibility-features.index')
         ]" />
     </div>
 
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
-        <x-table.page-header
-            title="Recursos de Acessibilidade"
-            subtitle="Gerencie as categorias de recursos de acessibilidade disponíveis."
-        >
-            <x-buttons.link-button
-                :href="route('inclusive-radar.accessibility-features.create')"
-                variant="new"
-                title="Adicionar Recursos de Acessibilidade"
-            >
-                <i class="fas fa-plus"></i>
+    <div class="page-header">
+        <div class="page-header-title">
+            <h1>Recursos de Acessibilidade</h1>
+            <p class="text-muted">Gerencie as categorias de recursos de acessibilidade disponíveis.</p>
+        </div>
+        <div class="page-header-actions">
+            <x-buttons.link-button :href="route('accessibility-features.create')" variant="info">
+                <span class="btn-label"><i class="fa fa-plus"></i></span> Cadastrar
             </x-buttons.link-button>
-        </x-table.page-header>
+        </div>
+    </div>
 
+    <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
                 data-dynamic-filter
@@ -40,7 +39,7 @@
         </div>
 
         <div id="features-table" class="p-3">
-            @include('pages.inclusive-radar.accessibility-features.partials.table')
+            @include('pages.accessibility-features.partials.table')
         </div>
     </div>
 

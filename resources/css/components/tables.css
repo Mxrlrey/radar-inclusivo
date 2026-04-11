@@ -1,8 +1,8 @@
 /* =========================================
-   TABLES.CSS — TABELAS ESTILO ERP
+   TABLES.CSS — TABELAS ESTILO ERP (LEGADO)
    ========================================= */
 
-/* Container da tabela (substitui o antigo .custom-table-card) */
+/* Container da tabela */
 .table-container {
     background-color: var(--card-bg);
     border: var(--border-width) solid var(--card-border);
@@ -48,13 +48,13 @@
     border-bottom: none;
 }
 
-/* Zebrado */
-.table-striped tbody tr:nth-of-type(odd) {
+/* Zebrado - formato legado (Bootstrap 3) */
+.table-striped > tbody > tr:nth-of-type(odd) > td {
     background-color: var(--table-striped-bg);
 }
 
-/* Hover */
-.table-hover tbody tr:hover {
+/* Hover - formato legado */
+.table-hover > tbody > tr:hover > td {
     background-color: var(--table-hover-bg);
 }
 
@@ -64,13 +64,25 @@
     text-align: center;
 }
 
-/* Badges e status dentro da tabela */
+/* Badges dentro da tabela (estilo "label" do legado) */
 .table .badge {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    padding: var(--spacing-1) var(--spacing-2);
+    font-weight: 600;
+    padding: 3px 5px;
+    font-size: 12px;
     text-transform: uppercase;
+    display: inline-block;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
 }
+
+/* Cores de badge específicas */
+.badge.bg-success { background-color: var(--color-success); color: #fff; }
+.badge.bg-warning { background-color: var(--color-warning); color: #fff; }
+.badge.bg-danger  { background-color: var(--color-danger); color: #fff; }
+.badge.bg-info    { background-color: var(--color-info); color: #fff; }
+.badge.bg-secondary { background-color: var(--text-muted); color: #fff; }
 
 /* ===== PAGINAÇÃO CUSTOMIZADA ===== */
 .custom-pagination-container {

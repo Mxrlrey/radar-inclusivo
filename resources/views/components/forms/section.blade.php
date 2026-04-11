@@ -1,9 +1,8 @@
-@props(['title'])
+@props(['title', 'description' => null])
 
-<div {{ $attributes->merge(['class' => 'col-12 mb-4']) }} role="region">
-    <div class="form-section-divider">
-        <h3 class="ms-4 fw-bold mb-0 section-title">
-            {{ $title }}
-        </h3>
-    </div>
+<div {{ $attributes->merge(['class' => 'form-section']) }}>
+    <h4 class="form-section-title">{{ $title }}</h4>
+    @if($description)
+        <p class="form-section-description">{{ $description }}</p>
+    @endif
 </div>

@@ -6,13 +6,14 @@
 .btn-notif-circle {
     background-color: transparent !important;
     width: 40px;
-    height: 40px;
-    border-radius: var(--border-radius);
+    min-width: 40px;
+    height: 100%;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.15s;
-    border: var(--border-width) solid transparent;
+    border: none;
     padding: 0;
 }
 
@@ -20,12 +21,14 @@
 .btn-notif-circle i {
     color: var(--text-secondary);
     font-size: 1.2rem;
+    width: 1.2rem;
+    text-align: center;
+    display: block;
 }
 
 /* Hover */
 .btn-notif-circle:hover {
     background-color: var(--bg-surface-secondary) !important;
-    border-color: var(--border-color);
     transform: none;
 }
 
@@ -73,10 +76,6 @@
     background-color: var(--bg-soft-primary);
 }
 
-.notification-item.unread {
-    background-color: var(--bg-soft-info);
-}
-
 /* Ícone da notificação */
 .notification-icon {
     width: 32px;
@@ -84,7 +83,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--bg-surface-secondary);
+    background-color: rgba(var(--color-primary-rgb), 0.15);
     color: var(--color-primary);
     font-size: 1rem;
 }
@@ -112,6 +111,11 @@
     color: var(--text-light);
 }
 
+/* Ícone vazio */
+.notif-empty-icon {
+    font-size: 1.5rem;
+}
+
 /* Rodapé (ver todas) */
 .notification-footer {
     padding: var(--spacing-3) var(--spacing-4);
@@ -120,7 +124,7 @@
 }
 
 .notification-footer a {
-    color: var(--color-primary);
+    color: var(--text-primary);
     font-weight: var(--font-weight-medium);
     text-decoration: none;
     font-size: var(--font-size-sm);
@@ -134,7 +138,8 @@
 /* Badge de contador */
 .notification-badge {
     position: absolute;
-    top: 2px;
+    top: 40%;
+    transform: translateY(-100%);
     right: 2px;
     background-color: var(--color-danger);
     color: var(--text-on-primary);
@@ -144,4 +149,31 @@
     line-height: 1;
     min-width: 16px;
     text-align: center;
+}
+
+/* Desktop e tablet: alinha à direita normalmente */
+.notification-dropdown {
+    left: auto !important;
+    right: 0 !important;
+    transform: none !important;
+    margin-top: 3.8rem !important;
+}
+
+/* Tablet portrait (iPad em pé, etc.) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .notification-dropdown {
+        right: 0 !important;
+        transform: none !important;
+    }
+}
+
+/* Mobile: centraliza abaixo do ícone */
+@media (max-width: 768px) {
+    .notification-dropdown {
+        right: auto !important;
+        left: 23% !important;
+        transform: translateX(-50%) !important;
+        margin-top: 3.8rem !important;
+        width: 290px;
+    }
 }

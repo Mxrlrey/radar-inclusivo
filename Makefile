@@ -86,7 +86,7 @@ migrate:
 	$(COMPOSE) exec app php artisan migrate
 
 seed:
-	$(COMPOSE) exec app php artisan db:seed
+	$(COMPOSE) exec app php artisan migrate:fresh --seed
 
 npm-build:
 	$(COMPOSE) exec node npm run build

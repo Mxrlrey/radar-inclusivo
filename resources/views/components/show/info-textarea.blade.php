@@ -6,7 +6,7 @@
 ])
 
 <div {{ $attributes->merge(['class' => $column . ' mb-4 px-4']) }}>
-    <label class="d-block fw-bold text-primary small mb-2 text-uppercase">
+    <label class="d-block fw-bold text-primary small mb-2">
         {{ $label }}
     </label>
 

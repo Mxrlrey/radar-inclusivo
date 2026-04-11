@@ -50,10 +50,6 @@
 
         @auth
             @if(auth()->user()->is_admin)
-
-                <li class="menu-divider">Configurações do Sistema</li>
-
-                {{-- ===== AEE ===== --}}
                 <li>
                     <a href="{{ route('deficiencies.index') }}"
                        class="{{ request()->routeIs('deficiencies.*') ? 'active' : '' }}">

@@ -88,3 +88,179 @@
     background-color: var(--bg-soft-primary);
     color: var(--color-primary);
 }
+
+/* ===== WIDGET ESTATÍSTICO (ESTILO LEGADO) – COM RESPONSIVIDADE ===== */
+.stat-widget {
+    position: relative;
+    display: block;
+    background-color: var(--card-bg);
+    border: var(--border-width) solid var(--card-border);
+    padding: var(--spacing-5) var(--spacing-4) var(--spacing-5) var(--spacing-6);
+    margin-bottom: var(--spacing-5);
+    color: var(--text-primary);
+    text-decoration: none;
+    overflow: hidden;
+    transition: none;
+}
+
+.stat-widget:hover {
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.stat-widget-content {
+    position: relative;
+    z-index: 2;
+    /* Reserva espaço para o ícone à direita */
+    margin-right: 100px;
+}
+
+.stat-widget-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-1);
+    word-break: break-word;
+}
+
+.stat-widget-title {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-weight: var(--font-weight-medium);
+    word-break: break-word;
+}
+
+.stat-widget-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    font-size: 3rem;
+    background: var(--stat-icon-bg);
+    z-index: 1;
+    border-left: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Variações de cor para o ícone */
+.stat-widget-icon.text-primary { color: var(--color-primary) !important; }
+.stat-widget-icon.text-success { color: var(--color-success) !important; }
+.stat-widget-icon.text-info    { color: var(--color-info) !important; }
+.stat-widget-icon.text-warning { color: var(--color-warning) !important; }
+.stat-widget-icon.text-danger  { color: var(--color-danger) !important; }
+
+.stat-widget-icon.bg-primary-subtle { background: rgba(54, 71, 96, 0.08) !important; }
+.stat-widget-icon.bg-success-subtle { background: rgba(129, 200, 104, 0.08) !important; }
+.stat-widget-icon.bg-info-subtle    { background: rgba(27, 132, 231, 0.08) !important; }
+.stat-widget-icon.bg-warning-subtle { background: rgba(255, 189, 74, 0.08) !important; }
+.stat-widget-icon.bg-danger-subtle  { background: rgba(240, 80, 80, 0.08) !important; }
+
+/* ===== KPI GRID — RESPONSIVIDADE DINÂMICA ===== */
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-4);
+}
+
+/* Variante com 3 colunas (segunda fileira) */
+.kpi-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Gráfico + Mapa */
+.kpi-grid--chart {
+    grid-template-columns: 1fr 2fr;
+    align-items: stretch;
+}
+.kpi-chart-small { height: 100%; }
+.kpi-chart-large { height: 100%; }
+
+/* ── Tablet landscape: 1025px – 1280px ─ 4 → 2 colunas ── */
+@media (max-width: 1280px) and (min-width: 769px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .kpi-grid--3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .kpi-grid--chart {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ── Tablet portrait / iPad: 769px – 1024px ─ 2 colunas ── */
+@media (max-width: 1024px) and (min-width: 577px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .kpi-grid--3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    /* No tablet, mapa vai abaixo do gráfico */
+    .kpi-grid--chart {
+        grid-template-columns: 1fr;
+    }
+    .kpi-chart-small {
+        min-height: 320px;
+    }
+    .kpi-chart-large {
+        min-height: 400px;
+    }
+}
+
+/* ── Mobile grande: 577px – 768px ─ 2 colunas compactas ── */
+@media (max-width: 768px) and (min-width: 577px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--spacing-3);
+    }
+    .kpi-grid--3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* ── Mobile pequeno: < 576px ─ 1 coluna ── */
+@media (max-width: 576px) {
+    .kpi-grid,
+    .kpi-grid--3 {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-3);
+    }
+    .kpi-grid--chart {
+        grid-template-columns: 1fr;
+    }
+    .stat-widget-content {
+        margin-right: 60px;
+    }
+    .stat-widget-value {
+        font-size: 1.25rem;
+    }
+    .stat-widget-title {
+        font-size: 0.65rem;
+    }
+    .stat-widget-icon {
+        width: 60px;
+        font-size: 2rem;
+    }
+}
+
+/* ── TV / Wide: ≥ 1600px ─ garante que os cards não esticam demais ── */
+@media (min-width: 1600px) {
+    .stat-widget-value {
+        font-size: 2.25rem;
+    }
+    .stat-widget-icon {
+        width: 110px;
+        font-size: 3.25rem;
+    }
+}

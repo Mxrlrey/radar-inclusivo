@@ -1,37 +1,96 @@
-/* =========================================
-   FORMS.CSS — FORMULÁRIOS, SEÇÕES E COMPONENTES RELACIONADOS
-   ========================================= */
+/* ===== SEÇÃO DE FORMULÁRIO (TÍTULO APENAS) ===== */
+.form-section {
+    margin-top: var(--spacing-4);
+    margin-bottom: var(--spacing-8);
+}
 
-/* ===== DIVISOR DE SEÇÃO ===== */
-.form-section-divider {
-    justify-content: center;
-    background-color: var(--color-primary);
-    color: var(--text-on-primary);
-    padding: var(--spacing-3) 0;
-    border-radius: var(--border-radius);
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 3.5rem;
-    font-weight: var(--font-weight-semibold);
+.form-section-title {
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
     text-transform: uppercase;
     letter-spacing: 0.03em;
-    box-shadow: var(--shadow-none);
+    padding-left: var(--spacing-5);
 }
 
-.section-title {
-    font-size: 1.2rem;
+.form-section-description {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    padding-left: var(--spacing-5);
+}
+
+.form-separator {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: calc(-1 * var(--spacing-5));
+    margin-right: calc(-1 * var(--spacing-5));
+}
+
+.form-separator hr {
+    margin: 0;
+    border: 0;
+    border-top: 1px solid #ced4da;
+    opacity: 1;
+    height: 0;
+    box-sizing: content-box;
+}
+
+/* Remove o fundo amarelo/cinza do autofill em todos os navegadores */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+    box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+    -webkit-text-fill-color: #565656 !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Tema escuro: usa a variável correta */
+body.theme-dark input:-webkit-autofill,
+body.theme-dark input:-webkit-autofill:hover,
+body.theme-dark input:-webkit-autofill:focus,
+body.theme-dark input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+    -webkit-text-fill-color: var(--text-secondary) !important;
+}
+
+/* ===== LABELS ===== */
+.form-label {
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-secondary) !important;
     letter-spacing: 0.03em;
-    display: inline-block;
-    color: var(--text-on-primary);
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-2);
 }
 
-/* ===== ESPAÇAMENTO INTERNO DOS CAMPOS ===== */
-form .col-md-6,
-form .col-md-12,
-form .col-12:not(.mb-4) {
-    padding-left: var(--spacing-6);
-    padding-right: var(--spacing-6);
+/* ===== INPUTS E SELECTS ===== */
+.form-control,
+.form-select,
+.custom-input {
+    background-color: var(--input-bg);
+    border: var(--border-width) solid var(--input-border);
+    border-radius: var(--border-radius);
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    padding: var(--input-padding-y) var(--input-padding-x);
+    height: var(--input-height);
+    box-shadow: var(--shadow-none);
+    transition: border-color 0.15s;
+}
+
+.form-control:focus,
+.form-select:focus,
+.custom-input:focus {
+    border-color: var(--input-focus-border);
+    box-shadow: var(--shadow-none);
+    outline: 0;
+}
+
+/* Placeholder */
+::placeholder {
+    color: var(--input-placeholder);
+    opacity: 1;
 }
 
 /* ===== CHECKBOX CUSTOMIZADO ===== */
@@ -68,6 +127,9 @@ form .col-12:not(.mb-4) {
     line-height: 1.2;
     padding-top: 2px;
     color: var(--text-secondary);
+    font-weight: var(--font-weight-normal);
+    text-transform: none;
+    letter-spacing: normal;
 }
 
 .custom-checkbox-wrapper .form-check-input {
@@ -107,6 +169,14 @@ form .col-12:not(.mb-4) {
 }
 .custom-display-box-textarea p:last-child {
     margin-bottom: 0;
+}
+
+/* ===== ESPAÇAMENTO INTERNO DOS CAMPOS ===== */
+form .col-md-6,
+form .col-md-12,
+form .col-12:not(.mb-4) {
+    padding-left: var(--spacing-6);
+    padding-right: var(--spacing-6);
 }
 
 /* ===== LINHA DO TEMPO (HISTÓRICO) ===== */
@@ -344,27 +414,153 @@ form .col-12:not(.mb-4) {
     outline: none !important;
 }
 
-/* ===== INPUT CUSTOMIZADO ===== */
-.custom-input {
-    border-color: var(--input-border) !important;
-    transition: border-color 0.15s;
-    border-radius: var(--border-radius) !important;
-    box-shadow: var(--shadow-none) !important;
-}
-
-.custom-input:focus {
-    border-color: var(--input-focus-border) !important;
-    box-shadow: var(--shadow-none) !important;
-    outline: none;
-}
-
-/* ===== FUNDOS UTILITÁRIOS ===== */
-.bg-purple {
-    background-color: var(--color-primary) !important;
-}
-
 /* ===== ESPAÇAMENTO INTERNO DE COLUNAS ANINHADAS ===== */
 form .row .row [class*="col-"] {
     padding-left: var(--spacing-2);
     padding-right: var(--spacing-2);
+}
+
+.btn-action.switch-sim,
+.btn-action.switch-nao {
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    color: #4c5667;
+    box-shadow: none;
+    min-width: 3rem;
+    transition: none;
+}
+.btn-action.switch-sim:hover,
+.btn-action.switch-nao:hover {
+    background-color: #f9f9f9;
+    color: #4c5667;
+}
+
+.btn-action.switch-sim.active {
+    background-color: #81c868 !important;
+    border-color: #81c868 !important;
+    color: #ffffff !important;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5) !important; /* mais escura */
+}
+
+.btn-action.switch-nao.active {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: #ffffff !important;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5) !important; /* mais escura */
+}
+
+.btn-group .btn-action.switch-sim {
+    border-right: none;
+}
+.btn-group .btn-action.switch-nao {
+    border-left: none;
+}
+
+/* ===== REMOÇÃO DE CORES INDESEJADAS ===== */
+.text-purple-dark,
+.text-purple-light {
+    color: var(--text-primary) !important;
+}
+
+/* ===== SOBRESCREVE FOCO DO BOOTSTRAP (TEMA CLARO E ESCURO) ===== */
+.form-control:focus,
+.form-select:focus,
+.custom-input:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+select:focus,
+textarea:focus {
+    color: var(--text-secondary) !important;
+    background-color: var(--input-bg) !important;
+    border-color: var(--input-focus-border) !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+}
+
+/* ===== SOBRESCREVE AUTOFILL (TEMA CLARO E ESCURO) ===== */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+    box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+    -webkit-text-fill-color: var(--text-secondary) !important;
+    background-color: var(--input-bg) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ===== TOGGLE SWITCH HORIZONTAL — TEMA DASHBOARD ===== */
+.toggle-switch {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.toggle-input {
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    width: 32px;
+    height: 16px;
+    background-color: #e0e0e0;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+}
+
+.toggle-input::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggle-input:checked::before {
+    left: 18px;
+}
+
+.toggle-input:checked {
+    background-color: var(--color-primary);
+}
+
+.toggle-input.success:checked { background-color: var(--color-success); }
+.toggle-input.warning:checked { background-color: var(--color-warning); }
+.toggle-input.danger:checked  { background-color: var(--color-danger); }
+.toggle-input.info:checked    { background-color: var(--color-info); }
+
+.toggle-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #9e9e9e;
+    transition: color 0.3s;
+    user-select: none;
+}
+
+.toggle-label--success { color: var(--color-success); opacity: 0.6; }
+.toggle-label--warning { color: var(--color-warning); opacity: 0.6; }
+.toggle-label--danger  { color: var(--color-danger);  opacity: 0.6; }
+.toggle-label--info    { color: var(--color-info);    opacity: 0.6; }
+
+.toggle-input:checked + .toggle-label {
+    opacity: 1;
 }

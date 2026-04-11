@@ -1,6 +1,7 @@
 <x-table.table
     :headers="['Nome', 'Status', 'Ações']"
     :records="$features"
+    class="table-striped"
 >
     @forelse($features as $feature)
         <tr>
@@ -9,32 +10,35 @@
             </x-table.td>
 
             <x-table.td>
-                <span class="text-{{ $feature->is_active ? 'success' : 'secondary' }} fw-bold text-uppercase" style="font-size: 0.85rem;">
+                <span class="badge bg-{{ $feature->is_active ? 'success' : 'secondary' }}">
                     {{ $feature->is_active ? 'Ativo' : 'Inativo' }}
                 </span>
             </x-table.td>
 
             <x-table.td>
                 <x-table.actions>
-
                     <x-buttons.link-button
-                        :href="route('inclusive-radar.accessibility-features.show', $feature)"
+                        :href="route('accessibility-features.show', $feature)"
                         variant="info"
+                        size="xs"
+                        title="Visualizar Recursos de Acessibilidade"
                     >
-                        <i class="fas fa-eye"></i> Ver
+                        <i class="fa fa-eye"></i>
                     </x-buttons.link-button>
 
-                    <form action="{{ route('inclusive-radar.accessibility-features.destroy', $feature) }}"
+                    <form action="{{ route('accessibility-features.destroy', $feature) }}"
                           method="POST"
-                          class="d-inline">
+                          class="d-inline"
+                          title="Remover Recursos de Acessibilidade"
+                    >
                         @csrf
                         @method('DELETE')
-
                         <x-buttons.submit-button
                             variant="danger"
+                            size="xs"
                             onclick="return confirm('Deseja realmente remover este recurso?')"
                         >
-                            <i class="fas fa-trash-alt"></i> Excluir
+                            <i class="fa fa-eraser"></i>
                         </x-buttons.submit-button>
                     </form>
                 </x-table.actions>

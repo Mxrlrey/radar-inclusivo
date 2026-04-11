@@ -1,83 +1,72 @@
 /* =========================================
-   PHOTOS.CSS — AVATARES E IMAGENS DE PERFIL
+   PHOTOS.CSS
    ========================================= */
 
-/* Avatar em tabelas (índice) */
-.avatar-table {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--border-color);
-    margin-right: var(--spacing-3);
-    background-color: var(--bg-surface);
-}
-
-/* Avatar grande em página de detalhes (show) */
-.avatar-show {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--border-color);
-    box-shadow: var(--shadow-none);
-    background-color: var(--bg-surface);
-}
-
-/* Preview no formulário de edição */
-.photo-preview-container {
-    position: relative;
-    display: inline-block;
-    margin-bottom: var(--spacing-4);
-}
-
-.img-preview {
-    width: 100px;
-    height: 100px;
-    border-radius: var(--border-radius);
-    object-fit: cover;
-    border: 2px dashed var(--border-color);
-    background-color: var(--bg-surface-secondary);
-}
-
-/* Alinhamento de nome com foto (em listas) */
-.name-with-photo {
+/* Menu do usuário na navbar */
+.nav-user-dropdown {
     display: flex;
     align-items: center;
+    background: transparent;
+    border: none;
+    padding: 0 var(--spacing-4);
+    height: 100%;
+    color: var(--text-primary);
+    transition: background-color 0.15s;
+    border-radius: 0;
 }
 
-/* Avatar pequeno na navbar */
+.nav-user-dropdown .ion-android-user-menu {
+    font-size: 28px;
+    color: var(--text-primary);
+    line-height: 1;
+    vertical-align: middle;
+    margin-left: var(--spacing-1);
+}
+
+.nav-user-dropdown:hover,
+.nav-user-dropdown:focus,
+.nav-user-dropdown.show {
+    background-color: var(--bg-surface-secondary);
+    color: var(--text-primary);
+}
+
+.user-info-text {
+    text-align: right;
+    line-height: 1.2;
+}
+
+.user-name {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    display: block;
+    color: var(--text-primary);
+}
+
+.user-role {
+    font-size: 0.7rem;
+    display: block;
+    color: var(--text-muted);
+}
+
 .nav-profile-img {
     width: 32px;
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid var(--border-color);
-    margin-right: var(--spacing-2);
-    background-color: var(--bg-surface);
+    margin-left: var(--spacing-2);
 }
 
-/* Dropdown do usuário na navbar */
-.nav-user-dropdown {
-    border: none !important;
-    background-color: transparent !important;
-    color: var(--text-primary) !important;
+/* Ícones dentro dos itens do dropdown do usuário */
+.navbar-custom .dropdown-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    transition: color 0.15s;
-    padding: var(--spacing-2) var(--spacing-3);
+    gap: 0.5rem;
 }
 
-.nav-user-dropdown:hover {
-    color: var(--color-primary) !important;
-    background-color: transparent !important;
-}
-
-/* Alinhamento da seta do dropdown com a foto */
-.dropdown-toggle::after {
-    vertical-align: middle;
-    margin-left: var(--spacing-2);
-    border-top-color: currentColor;
-    opacity: 0.7;
+.navbar-custom .dropdown-item i {
+    font-size: 1rem;
+    width: 1rem;
+    text-align: center;
+    flex-shrink: 0;
 }

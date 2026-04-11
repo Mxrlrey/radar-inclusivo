@@ -13,17 +13,17 @@ class DatabaseSeeder extends Seeder
             BarrierCategorySeeder::class,
             AccessibilityFeatureSeeder::class,
             AccessibleEducationalMaterialSeeder::class,
-            PSPUSeeder::class,
-            StudentSeeder::class,
-            ProfessionalSeeder::class,
+//            PSPUSeeder::class,
+//            StudentSeeder::class,
+//            ProfessionalSeeder::class,
             AdminSeeder::class,
             PermissionSeeder::class,
             InstitutionSeeder::class,
             LocationSeeder::class,
             AssistiveTechnologySeeder::class,
-            BarrierSeeder::class,
+//            BarrierSeeder::class,
             InstitutionalEventSeeder::class,
-            DemoLoanWaitlistSeeder::class,
+//            DemoLoanWaitlistSeeder::class,
         ]);
     }
 }

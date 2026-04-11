@@ -6,73 +6,65 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Recursos de Acessibilidade' => route('inclusive-radar.accessibility-features.index'),
+            'Recursos de Acessibilidade' => route('accessibility-features.index'),
             $feature->name => null
         ]" />
     </div>
 
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <h2 class="text-title">Detalhes do Recurso de Acessibilidade</h2>
+    <div class="page-header">
+        <div class="page-header-title">
+            <h1>Detalhes do Recurso de Acessibilidade</h1>
             <p class="text-muted">
                 Visualize as informações cadastrais e status do recurso: <strong>{{ $feature->name }}</strong>
             </p>
         </div>
-
-        <div class="d-flex gap-2">
-            <x-buttons.link-button :href="route('inclusive-radar.accessibility-features.edit', $feature)" variant="warning">
-                <i class="fas fa-edit"></i> Editar
+        <div class="page-header-actions">
+            <x-buttons.link-button :href="route('accessibility-features.edit', $feature)" variant="warning">
+                <i class="fa fa-pencil"></i> Editar
             </x-buttons.link-button>
-
-            <x-buttons.link-button :href="route('inclusive-radar.accessibility-features.index')" variant="secondary">
-                <i class="fas fa-arrow-left"></i> Voltar
+            <x-buttons.link-button :href="route('accessibility-features.index')" variant="secondary">
+                <i class="fa fa-arrow-left"></i> Voltar
             </x-buttons.link-button>
         </div>
     </div>
 
-    <div class="mt-3">
-        <div class="custom-table-card bg-white shadow-sm">
+    <div class="card-custom">
+        <x-forms.section title="Identificação do Recurso" />
 
-            <x-forms.section title="Identificação do Recurso" />
+        <div class="row g-3">
+            <x-show.info-item label="Nome do Recurso" column="col-md-12" isBox="true">
+                <strong>{{ $feature->name }}</strong>
+            </x-show.info-item>
 
-            <div class="row g-3">
-                <x-show.info-item label="Nome do Recurso" column="col-md-12" isBox="true">
-                    <strong>{{ $feature->name }}</strong>
-                </x-show.info-item>
-
-                <x-show.info-textarea label="Descrição Detalhada" column="col-md-12" :value="$feature->description ?: '---'" :rich="true"/>
-            </div>
-
-            <x-forms.section title="Configurações de Status" />
-
-            <div class="row g-3">
-                <x-show.info-item label="Recurso Ativo" column="col-md-12" isBox="true">
-                    {{ $feature->is_active ? 'Sim' : 'Não' }}
-                </x-show.info-item>
-            </div>
-
-            <div class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light no-print mt-4">
-                <div class="text-muted small">
-                    <i class="fas fa-id-card me-1" aria-hidden="true"></i> ID no Sistema: #{{ $feature->id }}
-                </div>
-
-                <div class="d-flex gap-3">
-                    <form action="{{ route('inclusive-radar.accessibility-features.destroy', $feature) }}"
-                          method="POST"
-                          onsubmit="return confirm('Deseja excluir permanentemente?')">
-                        @csrf
-                        @method('DELETE')
-
-                        <x-buttons.submit-button variant="danger">
-                            <i class="fas fa-trash-alt"></i> Excluir
-                        </x-buttons.submit-button>
-                    </form>
-
-                    <x-buttons.link-button :href="route('inclusive-radar.accessibility-features.index')" variant="secondary">
-                        <i class="fas fa-arrow-left"></i> Voltar
-                    </x-buttons.link-button>
-                </div>
-            </div>
+            <x-show.info-textarea label="Descrição Detalhada" column="col-md-12" :value="$feature->description ?: '---'" :rich="true"/>
         </div>
+
+        <x-forms.section title="Configurações de Status" />
+
+        <div class="row g-3">
+            <x-show.info-item label="Recurso Ativo" column="col-md-12" isBox="true">
+                {{ $feature->is_active ? 'Sim' : 'Não' }}
+            </x-show.info-item>
+        </div>
+
+        <x-forms.form-footer>
+            <x-slot:leftContent>
+                <i class="fa fa-id-card me-1" aria-hidden="true"></i> ID no Sistema: #{{ $feature->id }}
+            </x-slot:leftContent>
+
+            <form action="{{ route('accessibility-features.destroy', $feature) }}"
+                  method="POST"
+                  onsubmit="return confirm('Deseja excluir permanentemente?')">
+                @csrf
+                @method('DELETE')
+                <x-buttons.submit-button variant="danger">
+                    <i class="fa fa-eraser"></i> Excluir
+                </x-buttons.submit-button>
+            </form>
+
+            <x-buttons.link-button :href="route('accessibility-features.index')" variant="secondary">
+                <i class="fa fa-arrow-left"></i> Voltar
+            </x-buttons.link-button>
+        </x-forms.form-footer>
     </div>
 @endsection
