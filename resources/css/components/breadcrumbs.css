@@ -1,32 +1,28 @@
-/* =========================================
-   BREADCRUMBS.CSS — NAVEGAÇÃO ESTRUTURAL
-   ========================================= */
-
 .breadcrumb-custom {
     background-color: transparent;
-    padding: 0;
-    margin-bottom: var(--spacing-6);
+    padding: 10px 0 0 0;
+    margin-bottom: 30px !important;
     font-size: var(--font-size-sm);
     display: flex;
     flex-wrap: wrap;
-    align-items: center; /* garante alinhamento vertical */
+    align-items: center;
     list-style: none;
 }
 
 .breadcrumb-custom .breadcrumb-item {
     display: flex;
     align-items: center;
-    line-height: 1; /* remove espaçamento extra */
+    line-height: 1;
 }
 
 .breadcrumb-custom .breadcrumb-item a {
-    color: var(--color-primary);
+    color: var(--breadcrumb-link);
     text-decoration: none;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-normal);
 }
 
 .breadcrumb-custom .breadcrumb-item a:hover {
-    color: var(--color-primary-dark);
+    color: var(--breadcrumb-link-hover);
     text-decoration: underline;
 }
 
@@ -36,14 +32,11 @@
     pointer-events: none;
 }
 
-/* Separador customizado "›" */
+/* Separador "/" igual ao legado */
 .breadcrumb-custom .breadcrumb-item + .breadcrumb-item::before {
-    content: "›";
-    color: var(--text-muted);
-    padding: 0 var(--spacing-2);
-    font-size: 1.2rem;   /* ligeiramente maior para alinhar com texto */
+    content: "/\00a0";
+    color: #cccccc;
+    padding: 0 5px;
+    font-size: var(--font-size-sm);
     line-height: 1;
-    display: inline-block;
-    vertical-align: middle;
-    margin-top: -2px;     /* ajuste fino para centralizar */
 }

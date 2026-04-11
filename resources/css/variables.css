@@ -4,72 +4,71 @@
 
 /* ===== TEMA CLARO (PADRÃO) ===== */
 :root {
-    /* --- CORES PRIMÁRIAS (exatamente como no legado Dewi/Ubold) --- */
-    --color-primary: #4c5667;                /* cor principal do legado */
+
+    /* --- CORES PRIMÁRIAS --- */
+    --color-primary: #4c5667;
     --color-primary-dark: #2a374a;
     --color-primary-light: #6c7a8e;
     --color-primary-rgb: 54, 71, 96;
 
-    /* --- CORES DE ESTADO (exatamente como no legado) --- */
+    /* --- CORES DE ESTADO --- */
     --color-success: #81c868;
     --color-success-rgb: 129, 200, 104;
     --color-warning: #ffbd4a;
     --color-warning-rgb: 255, 189, 74;
     --color-danger: #f05050;
     --color-danger-rgb: 240, 80, 80;
-    --color-info: #1b84e7 ;
+    --color-info: #1b84e7;
     --color-info-rgb: 52, 211, 235;
 
-    /* --- FUNDOS (exatamente como no legado) --- */
-    --bg-body: #f3f3f4;                     /* fundo geral da página */
-    --bg-surface: #ffffff;                  /* cards, tabelas */
-    --bg-surface-secondary: #f4f8fb;        /* cabeçalhos de tabela, áreas secundárias */
-    --bg-sidebar: #2c3a47;                  /* mantido, mas pode ajustar se quiser */
+    /* --- FUNDOS --- */
+    --bg-body: #f3f3f4;
+    --bg-surface: #ffffff;
+    --bg-surface-secondary: #f4f8fb;
+    --bg-sidebar: #2c3a47;
     --bg-input: #ffffff;
 
-    /* --- FUNDOS SUAVES (para badges, cards leves, etc.) --- */
+    /* --- FUNDOS SUAVES --- */
     --bg-soft-primary: #eef2f6;
     --bg-soft-success: #e8f5e9;
     --bg-soft-warning: #fff8e1;
     --bg-soft-danger: #fdecea;
     --bg-soft-info: #e0f7fa;
 
-    /* --- TEXTOS (exatamente como no legado) --- */
-    --text-primary: #505458;                /* títulos */
-    --text-secondary: #797979;              /* texto padrão */
-    --text-muted: #98a6ad;                  /* textos secundários */
-    --text-light: #98a6b5;                  /* textos bem claros */
-    --text-on-primary: #ffffff;             /* texto sobre fundo primary */
-    --text-sidebar: #e0e6ed;                /* texto da sidebar */
+    /* --- TEXTOS --- */
+    --text-primary: #505458;
+    --text-secondary: #797979;
+    --text-muted: #98a6ad;
+    --text-light: #98a6b5;
+    --text-on-primary: #ffffff;
+    --text-sidebar: #e0e6ed;
     --text-sidebar-hover: #ffffff;
-    --sidebar-active-bg: rgba(255, 255, 255, 0.08);
 
-
-    /* --- BORDAS (exatamente como no legado) --- */
-    --border-color: #ebeff2;                /* cor de borda padrão do legado */
+    /* --- BORDAS --- */
+    --border-color: #ebeff2;
     --border-color-light: #f3f3f4;
     --border-width: 1px;
-    --border-radius: 0;                     /* bordas retas */
+    --border-radius: 0;
     --border-radius-sm: 0;
     --border-radius-lg: 0;
 
-    /* --- SOMBRAS (todas removidas por padrão) --- */
+    /* --- SOMBRAS (removidas globalmente) --- */
     --shadow-none: none;
     --shadow-sm: none;
     --shadow-md: none;
     --shadow-lg: none;
 
-    /* --- TIPOGRAFIA (fontes do legado) --- */
+    /* --- TIPOGRAFIA --- */
     --font-family-base: 'Noto Sans', 'Roboto', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     --font-family-heading: 'Source Sans Pro', 'Raleway', var(--font-family-base);
-    --font-size-base: 14px;                 /* exatamente 14px como no legado */
+    --font-size-base: 14px;
     --font-size-sm: 12px;
     --font-size-lg: 16px;
     --font-weight-normal: 400;
     --font-weight-medium: 500;
-    --font-weight-semibold: 600;            /* títulos em semibold (600 no legado) */
+    --font-weight-semibold: 600;
     --font-weight-bold: 700;
-    --line-height-base: 1.42857143;         /* igual Bootstrap 3 */
+    --line-height-base: 1.42857143;
 
     /* --- ESPAÇAMENTOS --- */
     --spacing-0: 0;
@@ -86,152 +85,11 @@
     /* --- DIMENSÕES ESTRUTURAIS --- */
     --sidebar-width: 260px;
     --sidebar-collapsed-width: 70px;
-    --topbar-height: 60px;
-    --footer-height: 50px;
-
-    /* --- COMPONENTES: INPUTS (exatamente como no legado) --- */
-    --input-height: 38px;
-    --input-padding-y: 7px;
-    --input-padding-x: 12px;
-    --input-bg: #ffffff;
-    --input-border: #c5c5c5;
-    --input-focus-border: #aaaaaa;
-    --input-placeholder: var(--text-muted);
-
-    /* --- COMPONENTES: BOTÕES --- */
-    --btn-padding-y: 0.45rem;
-    --btn-padding-x: 1rem;
-    --btn-font-weight: var(--font-weight-medium);
-    --btn-border-width: 1px;
-
-    /* --- COMPONENTES: TABELAS (exatamente como no legado) --- */
-    --table-header-bg: #f4f8fb;
-    --table-striped-bg: #fafbfc;
-    --table-hover-bg: #f4f8fb;
-    --table-cell-padding-y: 8px;
-    --table-cell-padding-x: 12px;
-
-    /* --- COMPONENTES: CARDS (exatamente como no legado) --- */
-    --card-bg: #ffffff;
-    --card-header-bg: #f4f8fb;
-    --card-border: #dddddd;
-    --card-padding: 20px;
-    --stat-icon-bg: rgba(244, 248, 251, 0.6);
-
-    /* --- SCROLLBAR --- */
-    --scrollbar-thumb: #c1c9d2;
-    --scrollbar-thumb-hover: #a0aab5;
-
-    /* --- OVERLAY / MODAL --- */
-    --overlay-bg: rgba(0, 0, 0, 0.5);
-
-    /* --- VARIÁVEIS LEGADAS (COMPATIBILIDADE) --- */
-    --primary-color: var(--color-primary);
-    --primary-color-medium: var(--color-primary-dark);
-    --primary-color-light: var(--color-primary-light);
-    --primary-color-dark: var(--color-primary-dark);
-    --sidebar-bg: var(--bg-sidebar);
-    --sidebar-text: var(--text-sidebar);
-    --sidebar-hover: rgba(255, 255, 255, 0.1);
-    --body-bg: var(--bg-body);
-    --main-bg: var(--bg-body);
-    --breadcrumb-active: var(--text-muted);
-    --bg-soft-info: var(--bg-soft-info);
-    --navbar-height: var(--topbar-height);
-}
-
-/* =========================================
-   VARIABLES.CSS — DESIGN TOKENS GLOBAIS
-   ========================================= */
-
-/* ===== TEMA CLARO (PADRÃO) ===== */
-:root {
-    /* --- CORES PRIMÁRIAS (exatamente como no legado Dewi/Ubold) --- */
-    --color-primary: #4c5667;                /* cor principal do legado */
-    --color-primary-dark: #2a374a;
-    --color-primary-light: #6c7a8e;
-    --color-primary-rgb: 54, 71, 96;
-
-    /* --- CORES DE ESTADO (exatamente como no legado) --- */
-    --color-success: #81c868;
-    --color-success-rgb: 129, 200, 104;
-    --color-warning: #ffbd4a;
-    --color-warning-rgb: 255, 189, 74;
-    --color-danger: #f05050;
-    --color-danger-rgb: 240, 80, 80;
-    --color-info: #1b84e7 ;
-    --color-info-rgb: 52, 211, 235;
-
-    /* --- FUNDOS (exatamente como no legado) --- */
-    --bg-body: #f3f3f4;                     /* fundo geral da página */
-    --bg-surface: #ffffff;                  /* cards, tabelas */
-    --bg-surface-secondary: #f4f8fb;        /* cabeçalhos de tabela, áreas secundárias */
-    --bg-sidebar: #2c3a47;                  /* mantido, mas pode ajustar se quiser */
-    --bg-input: #ffffff;
-
-    /* --- FUNDOS SUAVES (para badges, cards leves, etc.) --- */
-    --bg-soft-primary: #eef2f6;
-    --bg-soft-success: #e8f5e9;
-    --bg-soft-warning: #fff8e1;
-    --bg-soft-danger: #fdecea;
-    --bg-soft-info: #e0f7fa;
-
-    /* --- TEXTOS (exatamente como no legado) --- */
-    --text-primary: #505458;                /* títulos */
-    --text-secondary: #797979;              /* texto padrão */
-    --text-muted: #98a6ad;                  /* textos secundários */
-    --text-light: #98a6b5;                  /* textos bem claros */
-    --text-on-primary: #ffffff;             /* texto sobre fundo primary */
-    --text-sidebar: #e0e6ed;                /* texto da sidebar */
-    --text-sidebar-hover: #ffffff;
     --sidebar-active-bg: rgba(255, 255, 255, 0.08);
-
-
-    /* --- BORDAS (exatamente como no legado) --- */
-    --border-color: #ebeff2;                /* cor de borda padrão do legado */
-    --border-color-light: #f3f3f4;
-    --border-width: 1px;
-    --border-radius: 0;                     /* bordas retas */
-    --border-radius-sm: 0;
-    --border-radius-lg: 0;
-
-    /* --- SOMBRAS (todas removidas por padrão) --- */
-    --shadow-none: none;
-    --shadow-sm: none;
-    --shadow-md: none;
-    --shadow-lg: none;
-
-    /* --- TIPOGRAFIA (fontes do legado) --- */
-    --font-family-base: 'Noto Sans', 'Roboto', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-    --font-family-heading: 'Source Sans Pro', 'Raleway', var(--font-family-base);
-    --font-size-base: 14px;                 /* exatamente 14px como no legado */
-    --font-size-sm: 12px;
-    --font-size-lg: 16px;
-    --font-weight-normal: 400;
-    --font-weight-medium: 500;
-    --font-weight-semibold: 600;            /* títulos em semibold (600 no legado) */
-    --font-weight-bold: 700;
-    --line-height-base: 1.42857143;         /* igual Bootstrap 3 */
-
-    /* --- ESPAÇAMENTOS --- */
-    --spacing-0: 0;
-    --spacing-1: 0.25rem;
-    --spacing-2: 0.5rem;
-    --spacing-3: 0.75rem;
-    --spacing-4: 1rem;
-    --spacing-5: 1.25rem;
-    --spacing-6: 1.5rem;
-    --spacing-8: 2rem;
-    --spacing-10: 2.5rem;
-    --spacing-12: 3rem;
-
-    /* --- DIMENSÕES ESTRUTURAIS --- */
-    --sidebar-width: 260px;
-    --sidebar-collapsed-width: 70px;
     --topbar-height: 60px;
     --footer-height: 50px;
 
-    /* --- COMPONENTES: INPUTS (exatamente como no legado) --- */
+    /* --- COMPONENTES: INPUTS --- */
     --input-height: 38px;
     --input-padding-y: 7px;
     --input-padding-x: 12px;
@@ -246,19 +104,36 @@
     --btn-font-weight: var(--font-weight-medium);
     --btn-border-width: 1px;
 
-    /* --- COMPONENTES: TABELAS (exatamente como no legado) --- */
+    /* --- COMPONENTES: TABELAS --- */
     --table-header-bg: #f4f8fb;
     --table-striped-bg: #fafbfc;
     --table-hover-bg: #f4f8fb;
     --table-cell-padding-y: 8px;
     --table-cell-padding-x: 12px;
 
-    /* --- COMPONENTES: CARDS (exatamente como no legado) --- */
+    /* --- COMPONENTES: CARDS --- */
     --card-bg: #ffffff;
     --card-header-bg: #f4f8fb;
     --card-border: #dddddd;
     --card-padding: 20px;
     --stat-icon-bg: rgba(244, 248, 251, 0.6);
+
+    /* --- COMPONENTES: FORM SECTION --- */
+    --form-section-font-size: 16px;
+    --form-section-letter-spacing: 0.04em;
+    --form-section-line-height: 16px;
+    --form-section-description-font-size: 13px;
+    --form-section-description-margin-bottom: 30px;
+
+    /* --- COMPONENTES: PAGE HEADER --- */
+    --page-title-font-size: 20px;
+    --page-title-font-weight: var(--font-weight-semibold);
+    --page-title-margin-top: 7px;
+
+    /* --- COMPONENTES: BREADCRUMB --- */
+    --breadcrumb-link: #337ab7;
+    --breadcrumb-link-hover: #23527c;
+    --breadcrumb-active: var(--text-muted);
 
     /* --- SCROLLBAR --- */
     --scrollbar-thumb: #c1c9d2;
@@ -267,7 +142,7 @@
     /* --- OVERLAY / MODAL --- */
     --overlay-bg: rgba(0, 0, 0, 0.5);
 
-    /* --- VARIÁVEIS LEGADAS (COMPATIBILIDADE) --- */
+    /* --- ALIASES LEGADOS (compatibilidade com código antigo) --- */
     --primary-color: var(--color-primary);
     --primary-color-medium: var(--color-primary-dark);
     --primary-color-light: var(--color-primary-light);
@@ -277,13 +152,12 @@
     --sidebar-hover: rgba(255, 255, 255, 0.1);
     --body-bg: var(--bg-body);
     --main-bg: var(--bg-body);
-    --breadcrumb-active: var(--text-muted);
-    --bg-soft-info: var(--bg-soft-info);
     --navbar-height: var(--topbar-height);
 }
 
+/* ===== TEMA ESCURO ===== */
 body.theme-dark {
-    --color-primary: #6c757d;                /* cinza médio, neutro */
+    --color-primary: #6c757d;
     --color-primary-dark: #545b62;
     --color-primary-light: #8a929a;
     --color-primary-rgb: 108, 117, 125;
@@ -293,10 +167,9 @@ body.theme-dark {
     --color-danger: #c46b6b;
     --color-info: #5a8c9e;
 
-    /* FUNDOS NEUTROS (CINZA) */
-    --bg-body: #1e1e1e;                     /* fundo da página - quase preto */
-    --bg-surface: #2a2a2a;                  /* cards e tabelas */
-    --bg-surface-secondary: #333333;        /* cabeçalhos e áreas secundárias */
+    --bg-body: #1e1e1e;
+    --bg-surface: #2a2a2a;
+    --bg-surface-secondary: #333333;
     --bg-sidebar: #1a1c1e;
     --bg-input: #2a2a2a;
 
@@ -306,7 +179,6 @@ body.theme-dark {
     --bg-soft-danger: #3a2a2a;
     --bg-soft-info: #2a353a;
 
-    /* TEXTOS CLAROS */
     --text-primary: #f0f0f0;
     --text-secondary: #cccccc;
     --text-muted: #999999;
@@ -332,9 +204,12 @@ body.theme-dark {
 
     --scrollbar-thumb: #555555;
     --scrollbar-thumb-hover: #777777;
+
+    --breadcrumb-link: #ffffff;
+    --breadcrumb-link-hover: #cccccc;
 }
 
-/* ===== VARIÁVEIS BOOTSTRAP (SOBRESCRITAS) ===== */
+/* ===== VARIÁVEIS BOOTSTRAP (sobrescritas para seguir o tema) ===== */
 :root {
     --bs-primary: var(--color-primary);
     --bs-primary-rgb: var(--color-primary-rgb);
@@ -356,39 +231,7 @@ body.theme-dark {
     --bs-box-shadow-lg: var(--shadow-lg);
 }
 
-/* ===== VALORES DINÂMICOS (CONTROLADOS VIA CLASSES NO BODY) ===== */
-body {
-    --sidebar-current-width: var(--sidebar-width);
-}
-
-body.sidebar-collapsed {
-    --sidebar-current-width: var(--sidebar-collapsed-width);
-}
-
-
-/* ===== VARIÁVEIS BOOTSTRAP (SOBRESCRITAS) ===== */
-:root {
-    --bs-primary: var(--color-primary);
-    --bs-primary-rgb: var(--color-primary-rgb);
-    --bs-success: var(--color-success);
-    --bs-success-rgb: var(--color-success-rgb);
-    --bs-warning: var(--color-warning);
-    --bs-warning-rgb: var(--color-warning-rgb);
-    --bs-danger: var(--color-danger);
-    --bs-danger-rgb: var(--color-danger-rgb);
-    --bs-info: var(--color-info);
-    --bs-info-rgb: var(--color-info-rgb);
-    --bs-body-bg: var(--bg-body);
-    --bs-body-color: var(--text-secondary);
-    --bs-border-radius: var(--border-radius);
-    --bs-border-radius-sm: var(--border-radius-sm);
-    --bs-border-radius-lg: var(--border-radius-lg);
-    --bs-box-shadow: var(--shadow-none);
-    --bs-box-shadow-sm: var(--shadow-sm);
-    --bs-box-shadow-lg: var(--shadow-lg);
-}
-
-/* ===== VALORES DINÂMICOS (CONTROLADOS VIA CLASSES NO BODY) ===== */
+/* ===== LARGURA DINÂMICA DA SIDEBAR ===== */
 body {
     --sidebar-current-width: var(--sidebar-width);
 }

@@ -5,33 +5,52 @@
     'placeholder' => '',
     'rows' => 3,
     'required' => false,
-    'rich' => true
+    'rich' => true,
+    'horizontal' => false,
 ])
 
-<div {{ $attributes->merge(['class' => 'mb-3']) }}>
-    @if($label)
-        <label for="{{ $name }}" class="form-label fw-bold text-primary">
-            {{ $label }}
-            @if($required)
-                <span class="text-danger">*</span>
-            @endif
-        </label>
-    @endif
-
-    <textarea
-        name="{{ $name }}"
-        id="{{ $name }}"
-        rows="{{ $rows }}"
-        placeholder="{{ $placeholder }}"
-        {{-- Só aplica required no HTML se NÃO for rich editor --}}
-        {{ ($required && !$rich) ? 'required' : '' }}
-        aria-label="{{ $label }}"
-        class="form-control custom-input {{ $errors->has($name) ? 'is-invalid' : '' }} {{ $rich ? 'rich-editor' : '' }}"
-    >{{ old($name, $value) }}</textarea>
-
-    @error($name)
-    <div class="invalid-feedback">
-        {{ $message }}
+@if($horizontal)
+    <div class="form-group-horizontal mb-3">
+        @if($label)
+            <label for="{{ $name }}" class="control-label">
+                {{ $label }}
+                @if($required)<span class="text-danger">*</span>@endif
+            </label>
+        @endif
+        <div class="field-wrapper">
+            <textarea
+                name="{{ $name }}"
+                id="{{ $name }}"
+                rows="{{ $rows }}"
+                placeholder="{{ $placeholder }}"
+                {{ ($required && !$rich) ? 'required' : '' }}
+                aria-label="{{ $label }}"
+                class="form-control custom-input {{ $errors->has($name) ? 'is-invalid' : '' }} {{ $rich ? 'rich-editor' : '' }}"
+            >{{ old($name, $value) }}</textarea>
+            @error($name)
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
-    @enderror
-</div>
+@else
+    <div {{ $attributes->merge(['class' => 'mb-3']) }}>
+        @if($label)
+            <label for="{{ $name }}" class="form-label fw-bold text-primary">
+                {{ $label }}
+                @if($required)<span class="text-danger">*</span>@endif
+            </label>
+        @endif
+        <textarea
+            name="{{ $name }}"
+            id="{{ $name }}"
+            rows="{{ $rows }}"
+            placeholder="{{ $placeholder }}"
+            {{ ($required && !$rich) ? 'required' : '' }}
+            aria-label="{{ $label }}"
+            class="form-control custom-input {{ $errors->has($name) ? 'is-invalid' : '' }} {{ $rich ? 'rich-editor' : '' }}"
+        >{{ old($name, $value) }}</textarea>
+        @error($name)
+        <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+@endif

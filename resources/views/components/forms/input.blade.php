@@ -4,7 +4,8 @@
     'type' => 'text',
     'value' => '',
     'placeholder' => '',
-    'required' => false
+    'required' => false,
+    'horizontal' => false,
 ])
 
 @php
@@ -13,31 +14,50 @@
     $inputAttributes = $attributes->except(['class']);
 @endphp
 
-<div class="{{ $wrapperClasses }}">
-    @if($label)
-        <label for="{{ $cleanId }}" class="form-label fw-bold text-primary">
-            {{ $label }}
-            @if($required)
-                <span class="text-danger">*</span>
-            @endif
-        </label>
-    @endif
-
-    <input
-        type="{{ $type }}"
-        name="{{ $name }}"
-        id="{{ $cleanId }}"
-        value="{{ old($name, $value) }}"
-        placeholder="{{ $placeholder }}"
-        aria-label="{{ $label }}"
-        @if($required) required aria-required="true" @endif
-        autocomplete="off"
-        {{ $inputAttributes->merge(['class' => 'form-control custom-input' . ($errors->has($name) ? ' is-invalid' : '')]) }}
-    >
-
-    @error($name)
-    <div class="invalid-feedback">
-        {{ $message }}
+@if($horizontal)
+    <div class="form-group-horizontal {{ $wrapperClasses }}">
+        @if($label)
+            <label for="{{ $cleanId }}" class="control-label">
+                {{ $label }}
+                @if($required)<span class="text-danger">*</span>@endif
+            </label>
+        @endif
+        <div class="field-wrapper">
+            <input
+                type="{{ $type }}"
+                name="{{ $name }}"
+                id="{{ $cleanId }}"
+                value="{{ old($name, $value) }}"
+                placeholder="{{ $placeholder }}"
+                @if($required) required aria-required="true" @endif
+                autocomplete="off"
+                {{ $inputAttributes->merge(['class' => 'form-control custom-input' . ($errors->has($name) ? ' is-invalid' : '')]) }}
+            >
+            @error($name)
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
-    @enderror
-</div>
+@else
+    <div class="{{ $wrapperClasses }}">
+        @if($label)
+            <label for="{{ $cleanId }}" class="form-label fw-bold text-primary">
+                {{ $label }}
+                @if($required)<span class="text-danger">*</span>@endif
+            </label>
+        @endif
+        <input
+            type="{{ $type }}"
+            name="{{ $name }}"
+            id="{{ $cleanId }}"
+            value="{{ old($name, $value) }}"
+            placeholder="{{ $placeholder }}"
+            @if($required) required aria-required="true" @endif
+            autocomplete="off"
+            {{ $inputAttributes->merge(['class' => 'form-control custom-input' . ($errors->has($name) ? ' is-invalid' : '')]) }}
+        >
+        @error($name)
+        <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+@endif

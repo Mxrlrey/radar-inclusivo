@@ -1,22 +1,27 @@
 /* ===== SEÇÃO DE FORMULÁRIO (TÍTULO APENAS) ===== */
 .form-section {
     margin-top: var(--spacing-4);
-    margin-bottom: var(--spacing-8);
+    margin-bottom: 0;
 }
 
 .form-section-title {
-    font-size: 1.1rem;
-    font-weight: var(--font-weight-bold);
+    font-size: var(--form-section-font-size);
+    font-weight: var(--font-weight-semibold);
     color: var(--text-primary);
     text-transform: uppercase;
-    letter-spacing: 0.03em;
-    padding-left: var(--spacing-5);
+    letter-spacing: var(--form-section-letter-spacing);
+    line-height: var(--form-section-line-height);
+    margin-top: 0;
+    margin-bottom: 8px;
+    padding-left: var(--spacing-6);
 }
 
 .form-section-description {
     color: var(--text-muted);
-    font-size: var(--font-size-sm);
-    padding-left: var(--spacing-5);
+    font-size: var(--form-section-description-font-size);
+    line-height: var(--line-height-base);
+    margin-bottom: var(--form-section-description-margin-bottom);
+    padding-left: var(--spacing-6);
 }
 
 .form-separator {
@@ -563,4 +568,67 @@ input:-webkit-autofill:active {
 
 .toggle-input:checked + .toggle-label {
     opacity: 1;
+}
+
+/* ===== FORMULÁRIO HORIZONTAL (LEGADO) ===== */
+.form-horizontal .form-group-horizontal {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding-left: var(--spacing-6);
+    padding-right: var(--spacing-6);
+}
+
+.form-horizontal .form-group-horizontal .control-label {
+    width: 20%;
+    min-width: 160px;
+    padding-top: 7px;
+    padding-right: 15px;
+    text-align: right;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+}
+
+.form-horizontal .form-group-horizontal .control-label .text-danger {
+    margin-left: 2px;
+}
+
+.form-horizontal .form-group-horizontal .field-wrapper {
+    flex: 1;
+    max-width: 58%;
+    padding-right: var(--spacing-4);
+}
+
+.form-horizontal .form-group-horizontal .invalid-feedback {
+    display: block;
+}
+
+/* Alinhamento do checkbox no modo horizontal */
+.form-horizontal .form-group-horizontal .custom-checkbox-wrapper {
+    padding-top: 6px;
+}
+
+/* Responsivo: em mobile vira vertical */
+@media (max-width: 767px) {
+    .form-horizontal .form-group-horizontal {
+        flex-direction: column;
+        padding-left: var(--spacing-4);
+        padding-right: var(--spacing-4);
+    }
+
+    .form-horizontal .form-group-horizontal .control-label {
+        width: 100%;
+        min-width: unset;
+        text-align: left;
+        padding-top: 0;
+        margin-bottom: var(--spacing-2);
+    }
+
+    .form-horizontal .form-group-horizontal .field-wrapper {
+        max-width: 100%;
+        padding-right: 0;
+    }
 }

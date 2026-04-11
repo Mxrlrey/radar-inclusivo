@@ -111,18 +111,30 @@ a:focus, a:active { outline: 0; }
 /* 7. Page Header (substitui o antigo .table-header e page-header.css) */
 .page-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    padding: var(--spacing-4) 0;
     margin-bottom: var(--spacing-6);
 }
 
+.page-header-title {
+    flex: 1;
+}
+
 .page-header-title h1 {
-    font-size: 1.5rem;
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--page-title-font-size);
+    font-weight: var(--page-title-font-weight);
     color: var(--text-primary);
-    margin: 0;
-    line-height: 1.2;
+    font-family: var(--font-family-heading);
+    margin-top: var(--page-title-margin-top);
+    margin-bottom: 0;
+    line-height: 1.3;
+}
+
+.page-header-title p {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-1);
+    margin-bottom: 0;
 }
 
 .page-header-title .breadcrumb {
@@ -137,9 +149,11 @@ a:focus, a:active { outline: 0; }
 .breadcrumb-item.active { color: var(--text-primary); font-weight: var(--font-weight-medium); }
 
 .page-header-actions {
+    margin-top: var(--spacing-3);
     display: flex;
     align-items: center;
     gap: var(--spacing-3);
+    flex-shrink: 0;
 }
 
 /* Versão alternativa para cabeçalhos de seção (ex.: em cima de tabelas) */
@@ -183,12 +197,12 @@ a:focus, a:active { outline: 0; }
 @media (max-width: 768px) {
     .page-header {
         flex-direction: column;
-        align-items: flex-start;
-        gap: var(--spacing-4);
+        gap: var(--spacing-3);
     }
     .page-header-actions {
         width: 100%;
         flex-wrap: wrap;
+        margin-top: 0;
     }
     .section-header {
         flex-direction: column;
