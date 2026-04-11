@@ -486,7 +486,7 @@ body.sidebar-collapsed .sidebar:not(.hover-open) .sidebar-header {
     }
 
     .navbar-brand {
-        max-width: 220px;
+        max-width: 380px;
     }
 
     .sidebar {

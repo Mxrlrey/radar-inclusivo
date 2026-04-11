@@ -12,7 +12,7 @@
                 id="dropdownNotif"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
-                aria-label="<?php echo e($unreadCount > 0 ? 'Ver ' . $unreadCount . ' notificações não lidas' : 'Nenhuma notificação nova'); ?>">
+                title="<?php echo e($unreadCount > 0 ? 'Ver ' . $unreadCount . ' notificações não lidas' : 'Nenhuma notificação nova'); ?>">
             <i class="fa fa-bell" aria-hidden="true"></i>
             <?php if($unreadCount > 0): ?>
                 <span id="notif-count" class="notification-badge">

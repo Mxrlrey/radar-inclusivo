@@ -4,7 +4,7 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
             id="userMenuButton"
-            aria-label="Menu do usuário: <?php echo e(Auth::user()->name); ?>">
+            title="Menu do usuário: <?php echo e(Auth::user()->name); ?>">
 
         <div class="user-info-text me-2 d-none d-md-block">
             <span class="user-name">

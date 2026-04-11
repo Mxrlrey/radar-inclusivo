@@ -5,7 +5,7 @@
             <button id="sidebarToggle"
                     class="btn-theme-toggle waves-effect"
                     type="button"
-                    aria-label="Abrir ou fechar menu lateral">
+                    title="Abrir ou fechar menu lateral">
                 <i class="ion-navicon" aria-hidden="true"></i>
             </button>
 
@@ -21,7 +21,7 @@
 
                 <a class="navbar-brand d-none d-md-flex align-items-center text-primary fw-bold"
                    href="{{ route('institutions.index') }}"
-                   aria-label="Gerenciar Instituição: {{ $institution?->name ?? 'GNAI' }}">
+                   title="Gerenciar Instituição: {{ $institution?->name ?? 'GNAI' }}">
                     {{ $institution?->name ?? 'GNAI' }}
                 </a>
             </div>
@@ -35,14 +35,14 @@
             <button id="themeToggle"
                     class="btn-theme-toggle waves-effect"
                     type="button"
-                    aria-label="Alternar modo escuro">
+                    title="Alternar modo escuro">
                 <i class="fa fa-moon-o" id="themeIcon" aria-hidden="true"></i>
             </button>
 
             <button id="fullscreenToggle"
                     class="btn-theme-toggle waves-effect"
                     type="button"
-                    aria-label="Alternar tela cheia">
+                    title="Alternar tela cheia">
                 <i class="ion-arrow-expand" id="fullscreenIcon" aria-hidden="true"></i>
             </button>
 
