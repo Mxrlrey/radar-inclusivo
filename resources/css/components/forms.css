@@ -425,35 +425,42 @@ form .row .row [class*="col-"] {
     padding-right: var(--spacing-2);
 }
 
+/* 1. Ajuste na base para permitir a animação */
 .btn-action.switch-sim,
 .btn-action.switch-nao {
     background-color: #ffffff;
     border: 1px solid #ced4da;
     color: #4c5667;
     box-shadow: none;
-    min-width: 3rem;
-    transition: none;
-}
-.btn-action.switch-sim:hover,
-.btn-action.switch-nao:hover {
-    background-color: #f9f9f9;
-    color: #4c5667;
+    min-width: 3.5rem; /* Aumentei um pouco para não cortar o texto ao encolher */
+    transition: all 0.2s ease-in-out; /* Mudei de 'none' para animar o tamanho */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* 2. Efeito de encolhimento quando estiver ativo */
+.btn-action.active {
+    transform: scale(0.92); /* Encolhe 8% do tamanho original */
+    z-index: 2; /* Garante que ele não seja "engolido" pela borda do vizinho */
+}
+
+/* 3. Ajustes de cores que você já tinha (mantendo a lógica) */
 .btn-action.switch-sim.active {
     background-color: #81c868 !important;
     border-color: #81c868 !important;
     color: #ffffff !important;
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5) !important; /* mais escura */
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3) !important;
 }
 
 .btn-action.switch-nao.active {
     background-color: #dc3545 !important;
     border-color: #dc3545 !important;
     color: #ffffff !important;
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5) !important; /* mais escura */
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3) !important;
 }
 
+/* 4. Mantendo a união dos botões no grupo */
 .btn-group .btn-action.switch-sim {
     border-right: none;
 }
@@ -461,11 +468,11 @@ form .row .row [class*="col-"] {
     border-left: none;
 }
 
-/* ===== REMOÇÃO DE CORES INDESEJADAS ===== */
-.text-purple-dark,
-.text-purple-light {
-    color: var(--text-primary) !important;
-}
+/*!* ===== REMOÇÃO DE CORES INDESEJADAS ===== *!*/
+/*.text-purple-dark,*/
+/*.text-purple-light {*/
+/*    color: var(--text-primary) !important;*/
+/*}*/
 
 /* ===== SOBRESCREVE FOCO DO BOOTSTRAP (TEMA CLARO E ESCURO) ===== */
 .form-control:focus,
@@ -580,7 +587,7 @@ input:-webkit-autofill:active {
 }
 
 .form-horizontal .form-group-horizontal .control-label {
-    width: 20%;
+    width: 18%;
     min-width: 160px;
     padding-top: 7px;
     padding-right: 15px;

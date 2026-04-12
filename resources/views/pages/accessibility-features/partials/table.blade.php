@@ -1,5 +1,9 @@
 <x-table.table
-    :headers="['Nome', 'Status', 'Ações']"
+    :headers="[
+        ['label' => 'Nome'],
+        ['label' => 'Status', 'class' => 'col-hide-md'],
+        ['label' => 'Ações'],
+    ]"
     :records="$features"
     class="table-striped"
 >
@@ -9,8 +13,8 @@
                 {{ $feature->name }}
             </x-table.td>
 
-            <x-table.td>
-                <span class="badge bg-{{ $feature->is_active ? 'success' : 'secondary' }}">
+            <x-table.td class="align-middle text-nowrap col-hide-md">
+                <span class="badge bg-{{ $feature->is_active ? 'success' : 'danger' }}">
                     {{ $feature->is_active ? 'Ativo' : 'Inativo' }}
                 </span>
             </x-table.td>

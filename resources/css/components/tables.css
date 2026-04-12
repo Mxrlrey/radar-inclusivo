@@ -1,37 +1,33 @@
 /* =========================================
-   TABLES.CSS — TABELAS ESTILO ERP (LEGADO)
+   TABLES.CSS — TABELAS ESTILO LEGADO (UBOLD)
    ========================================= */
 
-/* Container da tabela */
 .table-container {
     background-color: var(--card-bg);
-    border: var(--border-width) solid var(--card-border);
-    margin-bottom: var(--spacing-6);
-    overflow-x: auto;
-    box-shadow: var(--shadow-none);
+    border: none;
+    box-shadow: none;
 }
 
 /* Tabela base */
 .table {
     width: 100%;
-    margin-bottom: 0;
+    margin-bottom: 10px;
     color: var(--text-secondary);
     font-size: var(--font-size-base);
     border-collapse: collapse;
 }
 
-/* Cabeçalho da tabela */
+/* Cabeçalho */
 .table thead th {
     background-color: var(--table-header-bg);
-    color: var(--text-primary);
+    color: var(--table-header-color);
     font-weight: var(--font-weight-semibold);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
+    letter-spacing: normal;
     padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
+    border-top: 1px solid var(--border-color);
     border-bottom: 2px solid var(--border-color);
-    border-top: none;
-    vertical-align: middle;
+    vertical-align: bottom;
     white-space: nowrap;
 }
 
@@ -39,37 +35,38 @@
 .table tbody td {
     padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
     vertical-align: middle;
-    border-bottom: var(--border-width) solid var(--border-color-light);
+    border-top: 1px solid var(--border-color);
     color: var(--text-secondary);
+    background-color: var(--bg-surface);
 }
 
-/* Remove borda da última linha */
-.table tbody tr:last-child td {
-    border-bottom: none;
+/* Remove hover — igual ao legado */
+.table-hover tbody tr:hover td {
+    background-color: var(--bg-surface) !important;
 }
 
-/* Zebrado - formato legado (Bootstrap 3) */
-.table-striped > tbody > tr:nth-of-type(odd) > td {
-    background-color: var(--table-striped-bg);
-}
-
-/* Hover - formato legado */
-.table-hover > tbody > tr:hover > td {
-    background-color: var(--table-hover-bg);
-}
-
-/* Células de ação (última coluna centralizada) */
+/* Última coluna centralizada (ações) */
 .table td:last-child,
 .table th:last-child {
     text-align: center;
 }
 
-/* Badges dentro da tabela (estilo "label" do legado) */
+/* Primeira coluna alinhada à esquerda */
+.table td:first-child,
+.table th:first-child {
+    text-align: left;
+}
+
+/* Linha destacada (ex: agendado, atrasado) */
+.table tbody tr.row-highlight td {
+    background-color: #fef9f0;
+}
+
+/* ===== BADGES ===== */
 .table .badge {
     font-weight: 600;
-    padding: 3px 5px;
+    padding: 3px 6px;
     font-size: 12px;
-    text-transform: uppercase;
     display: inline-block;
     line-height: 1;
     text-align: center;
@@ -77,23 +74,44 @@
     vertical-align: baseline;
 }
 
-/* Cores de badge específicas */
-.badge.bg-success { background-color: var(--color-success); color: #fff; }
-.badge.bg-warning { background-color: var(--color-warning); color: #fff; }
-.badge.bg-danger  { background-color: var(--color-danger); color: #fff; }
-.badge.bg-info    { background-color: var(--color-info); color: #fff; }
-.badge.bg-secondary { background-color: var(--text-muted); color: #fff; }
+.badge.bg-success   { background-color: var(--color-success)  !important; color: #fff !important; }
+.badge.bg-warning   { background-color: var(--color-warning)  !important; color: #fff !important; }
+.badge.bg-danger    { background-color: var(--color-danger)   !important; color: #fff !important; }
+.badge.bg-info      { background-color: var(--color-info)     !important; color: #fff !important; }
+.badge.bg-secondary { background-color: var(--text-muted)     !important; color: #fff !important; }
+.badge.bg-primary   { background-color: var(--color-primary)  !important; color: #fff !important; }
 
-/* ===== PAGINAÇÃO CUSTOMIZADA ===== */
-.custom-pagination-container {
-    margin-top: var(--spacing-6);
+/* ===== AÇÕES ===== */
+.table-actions {
     display: flex;
-    justify-content: flex-end;
+    gap: var(--spacing-2);
+    justify-content: center;
+    align-items: center;
+}
+
+.table-action-btn {
+    color: var(--text-muted);
+    padding: var(--spacing-1) var(--spacing-2);
+    transition: color 0.15s;
+}
+.table-action-btn:hover {
+    color: var(--color-primary);
+}
+
+/* ===== PAGINAÇÃO ===== */
+.custom-pagination-container {
+    margin-top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-3) var(--spacing-4);
+    border-top: var(--border-width) solid var(--border-color);
+    background-color: var(--bg-surface);
 }
 
 .custom-pagination-container .pagination {
     display: flex;
-    gap: var(--spacing-2);
+    gap: var(--spacing-1);
     margin-bottom: 0;
 }
 
@@ -101,12 +119,11 @@
     background-color: var(--bg-surface);
     border: var(--border-width) solid var(--border-color);
     color: var(--text-secondary);
-    font-weight: var(--font-weight-medium);
-    padding: var(--spacing-2) var(--spacing-3);
-    min-width: 2.5rem;
+
+    min-width: 2.25rem;
     text-align: center;
     transition: background-color 0.15s, border-color 0.15s, color 0.15s;
-    box-shadow: var(--shadow-none);
+    box-shadow: none;
 }
 
 .custom-pagination-container .page-item.active .page-link {
@@ -128,44 +145,54 @@
     opacity: 0.7;
 }
 
-/* Setas (anterior/próximo) */
-.custom-pagination-container .page-item:first-child .page-link,
-.custom-pagination-container .page-item:last-child .page-link {
-    font-size: 1.2rem;
-    line-height: 1;
-}
-
-/* Esconde texto "Showing..." automático (Laravel) */
 .custom-pagination-container p {
     display: none;
 }
 
-/* ===== UTILITÁRIOS PARA TABELAS ===== */
-.table-actions {
-    display: flex;
-    gap: var(--spacing-2);
-    justify-content: center;
+/* ===== RESPONSIVIDADE ===== */
+
+/* Scroll horizontal padrão */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
-.table-action-btn {
-    color: var(--text-muted);
-    padding: var(--spacing-1) var(--spacing-2);
-    transition: color 0.15s;
-}
-.table-action-btn:hover {
-    color: var(--color-primary);
-}
-
-/* Célula com destaque (ex.: valor monetário) */
-.table td.text-highlight {
-    color: var(--text-primary);
-    font-weight: var(--font-weight-semibold);
+/*
+ * Quando a tabela começa a comprimir em telas menores,
+ * colunas intermediárias somem progressivamente.
+ * Primeira e última coluna sempre visíveis.
+ */
+@media (max-width: 1200px) {
+    .table .col-hide-xl {
+        display: none;
+    }
 }
 
-/* Responsividade */
+@media (max-width: 992px) {
+    .table .col-hide-lg {
+        display: none;
+    }
+}
+
 @media (max-width: 768px) {
+    .table .col-hide-md {
+        display: none;
+    }
+
     .table-container {
         border-left: none;
         border-right: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .table .col-hide-sm {
+        display: none;
+    }
+
+    .table thead th,
+    .table tbody td {
+        font-size: var(--font-size-sm);
+        padding: 0.5rem 0.5rem;
     }
 }

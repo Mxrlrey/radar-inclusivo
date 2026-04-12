@@ -1,26 +1,18 @@
 @props([
     'label',
     'value' => null,
-    'column' => 'col-md-12',
-    'rich' => true
+    'column' => null,
+    'rich' => true,
 ])
 
-<div {{ $attributes->merge(['class' => $column . ' mb-4 px-4']) }}>
-    <label class="d-block fw-bold text-primary small mb-2">
-        {{ $label }}
-    </label>
-
-    <div class="custom-display-box-textarea">
-        @php
-            $content = $slot->isNotEmpty() ? $slot : ($value ?? '---');
-        @endphp
-
-        <div class="textarea-content-wrapper">
-            @if($rich)
-                {!! $content !!}
-            @else
-                {!! nl2br(e($content)) !!}
-            @endif
-        </div>
+<div class="show-field {{ $column }}">
+    <span class="show-label">{{ $label }}</span>
+    <div class="show-value">
+        @php $content = $slot->isNotEmpty() ? $slot : ($value ?? '---'); @endphp
+        @if($rich)
+            {!! $content !!}
+        @else
+            {!! nl2br(e($content)) !!}
+        @endif
     </div>
 </div>

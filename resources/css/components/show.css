@@ -1,37 +1,104 @@
 /* =========================================
-   TAGS.CSS — ETIQUETAS E CHIPS
+   SHOW.CSS — VISUALIZAÇÃO DE REGISTRO (LEGADO)
    ========================================= */
 
+/* Container principal */
+.show-container {
+    background-color: var(--bg-surface);
+    padding: var(--spacing-4) 0;
+}
+
+/* Título do registro (ex: "teste 1" no topo) */
+.show-record-title {
+    font-size: var(--page-title-font-size);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    font-family: var(--font-family-heading);
+    padding: var(--spacing-3) var(--spacing-6);
+    margin: 0;
+    border-bottom: var(--border-width) solid var(--border-color);
+    margin-bottom: var(--spacing-4);
+}
+
+/* Linha de campo horizontal */
+.show-field {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--spacing-2) var(--spacing-6);
+    margin-bottom: 0;
+}
+
+/* Label à direita  */
+.show-field .show-label {
+    width: 18%;
+    min-width: 160px;
+    padding-right: 15px;
+    text-align: right;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    flex-shrink: 0;
+    padding-top: 2px;
+}
+
+/* Valor à esquerda */
+.show-field .show-value {
+    flex: 1;
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+    max-width: 58%;
+}
+
+/* Separador entre seções */
+.show-divider {
+    border: 0;
+    border-top: var(--border-width) solid var(--border-color);
+    margin: var(--spacing-3) 0;
+}
+
+/* Responsivo */
+@media (max-width: 767px) {
+    .show-field {
+        flex-direction: column;
+        padding: var(--spacing-2) var(--spacing-4);
+    }
+
+    .show-field .show-label {
+        width: 100%;
+        min-width: unset;
+        text-align: left;
+        padding-right: 0;
+        margin-bottom: var(--spacing-1);
+    }
+
+    .show-field .show-value {
+        max-width: 100%;
+    }
+}
+
+/* ===== TAGS (mantidas) ===== */
 .tag-container {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-2);
-    padding: var(--spacing-1);
+    padding: var(--spacing-1) 0;
 }
 
-/* Tag individual */
 .tag-item {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: var(--spacing-1) var(--spacing-3);
-    border-radius: var(--border-radius);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-base);
-    margin: 0;
-    transition: none;
-    cursor: default;
     border: var(--border-width) solid var(--border-color);
     background-color: var(--bg-surface-secondary);
     color: var(--text-secondary);
+    cursor: default;
 }
 
-.tag-item:hover {
-    transform: none;
-}
-
-/* Variação com fundo suave roxo (mantida para compatibilidade) */
 .bg-purple-light {
     border: var(--border-width) solid var(--border-color);
     background-color: var(--bg-soft-primary);

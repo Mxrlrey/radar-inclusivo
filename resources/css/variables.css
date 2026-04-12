@@ -16,10 +16,10 @@
     --color-success-rgb: 129, 200, 104;
     --color-warning: #ffbd4a;
     --color-warning-rgb: 255, 189, 74;
-    --color-danger: #f05050;
-    --color-danger-rgb: 240, 80, 80;
+    --color-danger: #dc3545;
+    --color-danger-rgb: 220, 53, 69;
     --color-info: #1b84e7;
-    --color-info-rgb: 52, 211, 235;
+    --color-info-rgb: 27, 132, 231;
 
     /* --- FUNDOS --- */
     --bg-body: #f3f3f4;
@@ -37,7 +37,7 @@
 
     /* --- TEXTOS --- */
     --text-primary: #505458;
-    --text-secondary: #797979;
+    --text-secondary: #666666;
     --text-muted: #98a6ad;
     --text-light: #98a6b5;
     --text-on-primary: #ffffff;
@@ -45,7 +45,7 @@
     --text-sidebar-hover: #ffffff;
 
     /* --- BORDAS --- */
-    --border-color: #ebeff2;
+    --border-color: #d8dde1;;
     --border-color-light: #f3f3f4;
     --border-width: 1px;
     --border-radius: 0;
@@ -105,11 +105,12 @@
     --btn-border-width: 1px;
 
     /* --- COMPONENTES: TABELAS --- */
-    --table-header-bg: #f4f8fb;
+    --table-header-bg: #dee2e6;
+    --table-header-color: #666666;
     --table-striped-bg: #fafbfc;
     --table-hover-bg: #f4f8fb;
-    --table-cell-padding-y: 8px;
-    --table-cell-padding-x: 12px;
+    --table-cell-padding-y: 0.75rem;
+    --table-cell-padding-x: 0.75rem;
 
     /* --- COMPONENTES: CARDS --- */
     --card-bg: #ffffff;

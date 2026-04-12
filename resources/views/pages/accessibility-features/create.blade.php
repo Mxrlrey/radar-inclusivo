@@ -11,10 +11,9 @@
             'Cadastrar' => null
         ]" />
             <h1>Novo Recurso de Acessibilidade</h1>
-            <p class="text-muted">Defina uma nova categoria de acessibilidade.</p>
         </div>
         <div class="page-header-actions">
-            <x-buttons.link-button :href="route('accessibility-features.index')" variant="primary">
+            <x-buttons.link-button :href="route('accessibility-features.index')" variant="secondary">
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
@@ -56,11 +55,13 @@
         />
 
         <x-forms.form-footer>
-            <x-buttons.link-button href="{{ route('accessibility-features.index') }}" variant="secondary">
-                <i class="fa fa-times"></i> Cancelar
+            <x-buttons.link-button :href="route('accessibility-features.index')" variant="secondary">
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
             </x-buttons.link-button>
 
             <x-buttons.submit-button variant="new">
+                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
                 Cadastrar
             </x-buttons.submit-button>
         </x-forms.form-footer>

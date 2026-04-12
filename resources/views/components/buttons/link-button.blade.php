@@ -17,7 +17,8 @@
     $hasIcon = !empty($icon);
     $hasText = trim($slot) !== '';
 
-    $classes = "btn-action {$variant} {$sizeClass} waves-effect";
+    $isLight = in_array($variant, ['primary','danger','success','new','info','dark','warning']);
+    $classes = "btn-action {$variant} {$sizeClass} waves-effect" . ($isLight ? ' waves-light' : '');
     $tag = $href ? 'a' : 'button';
 @endphp
 

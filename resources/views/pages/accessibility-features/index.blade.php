@@ -3,17 +3,14 @@
 @section('title', 'Recursos de Acessibilidade')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Recursos de Acessibilidade' => route('accessibility-features.index')
-        ]" />
-    </div>
-
     <div class="page-header">
         <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Recursos de Acessibilidade' => null
+            ]" />
             <h1>Recursos de Acessibilidade</h1>
-            <p class="text-muted">Gerencie as categorias de recursos de acessibilidade disponíveis.</p>
+            <p class="text-muted mb-0">Gerencie as categorias de recursos de acessibilidade disponíveis.</p>
         </div>
         <div class="page-header-actions">
             <x-buttons.link-button :href="route('accessibility-features.create')" variant="info">

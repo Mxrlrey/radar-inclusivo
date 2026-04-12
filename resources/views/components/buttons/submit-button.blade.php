@@ -3,6 +3,7 @@
     'size' => 'md',
     'label' => null,
     'disabled' => false,
+    'icon' => null,
 ])
 
 @php
@@ -12,7 +13,11 @@
         'xs' => 'xs',
         default => '',
     };
-    $classes = "btn-action {$variant} {$sizeClass} waves-effect";
+
+    $hasIcon = !empty($icon);
+    $hasText = trim($slot) !== '';
+    $isLight = in_array($variant, ['primary','danger','success','new','info','dark','warning']);
+    $classes = "btn-action {$variant} {$sizeClass} waves-effect" . ($isLight ? ' waves-light' : '');
 @endphp
 
 <button
@@ -23,5 +28,15 @@
         'disabled' => $disabled,
     ]) }}
 >
-    {{ $slot }}
+    @if($hasIcon)
+        @if($hasText)
+            <span class="btn-label">{{ $icon }}</span>
+        @else
+            {{ $icon }}
+        @endif
+    @endif
+
+    @if($hasText)
+        {{ $slot }}
+    @endif
 </button>

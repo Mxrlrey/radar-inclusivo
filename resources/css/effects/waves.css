@@ -4,23 +4,43 @@
     overflow: hidden;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+    vertical-align: middle;
+    z-index: 1;
+    will-change: opacity, transform;
+    transition: all 0.3s ease-out;
 }
 
 .waves-effect .waves-ripple {
     position: absolute;
     border-radius: 50% !important;
-    background: rgba(0, 0, 0, 0.15);
-    transform: scale(0);
-    pointer-events: none;
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-    opacity: 0;
     width: 20px;
     height: 20px;
-    margin-left: -10px;
     margin-top: -10px;
+    margin-left: -10px;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.2);
+    transition: transform 0.7s ease-out, opacity 0.7s ease-out;
+    transform: scale(0);
+    pointer-events: none;
     box-shadow: none !important;
 }
 
+/* Ripple branco — para botões coloridos (primary, danger, success, etc.) */
 .waves-effect.waves-light .waves-ripple {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.45);
+}
+
+.waves-effect.waves-red    .waves-ripple { background: rgba(244, 67,  54,  0.7); }
+.waves-effect.waves-yellow .waves-ripple { background: rgba(255, 235, 59,  0.7); }
+.waves-effect.waves-orange .waves-ripple { background: rgba(255, 152, 0,   0.7); }
+.waves-effect.waves-purple .waves-ripple { background: rgba(156, 39,  176, 0.7); }
+.waves-effect.waves-green  .waves-ripple { background: rgba(76,  175, 80,  0.7); }
+.waves-effect.waves-teal   .waves-ripple { background: rgba(0,   150, 136, 0.7); }
+
+.waves-notransition {
+    transition: none !important;
+}
+
+.waves-block {
+    display: block;
 }
