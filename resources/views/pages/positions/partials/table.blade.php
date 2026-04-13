@@ -1,53 +1,94 @@
-<x-table.table :headers="['Cargo', 'Ativo', 'Ações']">
+@php $modalId = fn($item) => "modal-delete-position-" . $item->id; @endphp
+
+<x-table.table
+    :headers="[
+        ['label' => 'Cargo'],
+        ['label' => 'Status', 'class' => 'col-hide-md'],
+        ['label' => 'Ações']
+    ]"
+    :records="$positions"
+    aria-label="Tabela de Cargos"
+    class="table-striped"
+>
     @forelse($positions as $item)
-            <tr>
-                <x-table.td><strong>{{ $item->name }}</strong></x-table.td>
+        <tr>
+            <x-table.td scope="row">
+                <strong class="text-primary">{{ $item->name }}</strong>
 
-                <x-table.td>
-                    @if($item->is_active)
-                        <span class="text-success font-weight-bold">SIM
-                    @else
-                        <span class="text-danger font-weight-bold">NÃO</span>
-                    @endif
-                </x-table.td>
+                @if($item->description)
+                    <small class="d-block text-muted">
+                        {{ Str::limit(strip_tags($item->description), 60) }}
+                    </small>
+                @endif
+            </x-table.td>
 
-                <x-table.td>
-                    <x-table.actions>
+            <x-table.td class="align-middle col-hide-md">
+                <span class="badge bg-{{ $item->is_active ? 'success' : 'danger' }}">
+                    {{ $item->is_active ? 'Ativo' : 'Inativo' }}
+                </span>
+            </x-table.td>
 
-                        <x-buttons.link-button
-                            :href="route('positions.show', $item)"
-                            variant="info"
-                        >
-                            <i class="fas fa-eye"></i>ver
-                        </x-buttons.link-button>
+            <x-table.td>
+                <x-table.actions>
+                    <x-buttons.link-button
+                        :href="route('positions.show', $item)"
+                        variant="info"
+                        size="xs"
+                        title="Visualizar {{ $item->name }}"
+                    >
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </x-buttons.link-button>
 
-                        <form action="{{ route('positions.deactivate', $item) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('PATCH')
-                            <x-buttons.submit-button variant="success">
-                               <i class="fas fa-check"></i> Ativar/Desativar
-                            </x-buttons.submit-button>
-                        </form>
-
-                        <form action="{{ route('positions.destroy', $item) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <x-buttons.submit-button
-                                variant="danger"
-                                onclick="return confirm('Deseja excluir este cargo?')"
-                            >
-                                <i class="fas fa-trash"></i>Excluir
-                            </x-buttons.submit-button>
-                        </form>
-                    </x-table.actions>
-                </x-table.td>
-            </tr>
+                    <x-buttons.submit-button
+                        variant="danger"
+                        size="xs"
+                        type="button"
+                        onclick="new bootstrap.Modal(document.getElementById('{{ $modalId($item) }}')).show();"
+                        title="Excluir {{ $item->name }}"
+                    >
+                        <i class="fa fa-eraser" aria-hidden="true"></i>
+                    </x-buttons.submit-button>
+                </x-table.actions>
+            </x-table.td>
+        </tr>
     @empty
         <tr>
-            <td colspan="3" class="text-center text-muted py-5">
-                <i class="fas fa-folder-open d-block mb-2" style="font-size: 2.5rem;"></i>
+            <td colspan="3" class="text-center text-muted py-4" role="status">
                 Nenhum cargo encontrado.
             </td>
         </tr>
     @endforelse
-    </x-table.table>
+</x-table.table>
+
+@foreach($positions as $item)
+    <x-modal.modal
+        :id="$modalId($item)"
+        title="Confirmar Exclusão"
+        size="sm"
+    >
+        <div class="p-3">
+            <p class="mb-2 text-danger fw-bold">Esta ação não pode ser desfeita.</p>
+            <p class="mb-0 text-muted">
+                Deseja realmente excluir o cargo <strong>{{ $item->name }}</strong>?
+            </p>
+        </div>
+
+        <x-slot:footer>
+            <x-buttons.link-button
+                href="javascript:void(0)"
+                variant="secondary"
+                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+            >
+                Cancelar
+            </x-buttons.link-button>
+
+            <form action="{{ route('positions.destroy', $item) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <x-buttons.submit-button variant="danger">
+                    Excluir
+                </x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
+@endforeach

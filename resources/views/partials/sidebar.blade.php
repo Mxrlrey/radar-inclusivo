@@ -5,7 +5,6 @@
     </div>
 
     <ul class="sidebar-menu">
-
         <li>
             <a href="{{ route('dashboard') }}"
                class="{{ request()->is('auth/dashboard') ? 'active' : '' }}">
@@ -22,16 +21,6 @@
             </a>
         </li>
 
-        @can('report.reports.index')
-            <li>
-                <a href="{{ route('reports.index') }}"
-                   class="{{ request()->routeIs('reports.*') ? 'active' : '' }}">
-                    <span class="icon"><i class="ion-stats-bars"></i></span>
-                    <span class="text">Relatórios</span>
-                </a>
-            </li>
-        @endcan
-
         <li>
             <a href="{{ route('notifications.index') }}"
                class="{{ request()->routeIs('notifications.*') ? 'active' : '' }}">
@@ -40,69 +29,8 @@
             </a>
         </li>
 
-        <li>
-            <a href="{{ route('backups.index') }}"
-               class="{{ request()->routeIs('backups.*') ? 'active' : '' }}">
-                <span class="icon"><i class="ion-ios7-cloud-download"></i></span>
-                <span class="text">Backups</span>
-            </a>
-        </li>
-
-        @auth
-            @if(auth()->user()->is_admin)
-                <li>
-                    <a href="{{ route('deficiencies.index') }}"
-                       class="{{ request()->routeIs('deficiencies.*') ? 'active' : '' }}">
-                        <span class="icon"><i class="ion-medkit"></i></span>
-                        <span class="text">Deficiências</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('positions.index') }}"
-                       class="{{ request()->routeIs('positions.*') ? 'active' : '' }}">
-                        <span class="icon"><i class="ion-briefcase"></i></span>
-                        <span class="text">Cargos</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('accessibility-features.index') }}"
-                       class="{{ request()->routeIs('accessibility-features.*') ? 'active' : '' }}">
-                        <span class="icon"><i class="ion-ios7-person"></i></span>
-                        <span class="text">Recursos de Acessibilidade</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('barrier-categories.index') }}"
-                       class="{{ request()->routeIs('barrier-categories.*') ? 'active' : '' }}">
-                        <span class="icon"><i class="ion-grid"></i></span>
-                        <span class="text">Categorias de Barreiras</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('institutions.index') }}"
-                       class="{{ request()->routeIs('institutions.*') ? 'active' : '' }}">
-                        <span class="icon"><i class="ion-university"></i></span>
-                        <span class="text">Instituições</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('locations.index') }}"
-                       class="{{ request()->routeIs('locations.*') ? 'active' : '' }}">
-                        <span class="icon"><i class="ion-location"></i></span>
-                        <span class="text">Localizações</span>
-                    </a>
-                </li>
-
-            @endif
-        @endauth
-
         @can('student.view')
-            <li class="nav-item">
+            <li>
                 <a href="{{ route('students.index') }}"
                    class="{{ request()->routeIs('students.*') ? 'active' : '' }}">
                     <span class="icon"><i class="ion-android-contact"></i></span>
@@ -181,8 +109,76 @@
             </li>
         @endcan
 
-        <br>
-        <br>
-        <br>
+        @auth
+            @if(auth()->user()->is_admin)
+
+                <li>
+                    <a href="{{ route('deficiencies.index') }}"
+                       class="{{ request()->routeIs('deficiencies.*') ? 'active' : '' }}">
+                        <span class="icon"><i class="ion-medkit"></i></span>
+                        <span class="text">Deficiências</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('accessibility-features.index') }}"
+                       class="{{ request()->routeIs('accessibility-features.*') ? 'active' : '' }}">
+                        <span class="icon"><i class="ion-man"></i></span>
+                        <span class="text">Recursos de Acessibilidade</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('barrier-categories.index') }}"
+                       class="{{ request()->routeIs('barrier-categories.*') ? 'active' : '' }}">
+                        <span class="icon"><i class="ion-grid"></i></span>
+                        <span class="text">Categorias de Barreiras</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('positions.index') }}"
+                       class="{{ request()->routeIs('positions.*') ? 'active' : '' }}">
+                        <span class="icon"><i class="ion-briefcase"></i></span>
+                        <span class="text">Cargos</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('institutions.index') }}"
+                       class="{{ request()->routeIs('institutions.*') ? 'active' : '' }}">
+                        <span class="icon"><i class="ion-university"></i></span>
+                        <span class="text">Instituições</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('locations.index') }}"
+                       class="{{ request()->routeIs('locations.*') ? 'active' : '' }}">
+                        <span class="icon"><i class="ion-location"></i></span>
+                        <span class="text">Localizações</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('backups.index') }}"
+                       class="{{ request()->routeIs('backups.*') ? 'active' : '' }}">
+                        <span class="icon"><i class="ion-ios7-cloud-download"></i></span>
+                        <span class="text">Backups</span>
+                    </a>
+                </li>
+            @endif
+        @endauth
+
+        @can('report.reports.index')
+            <li>
+                <a href="{{ route('reports.index') }}"
+                   class="{{ request()->routeIs('reports.*') ? 'active' : '' }}">
+                    <span class="icon"><i class="ion-stats-bars"></i></span>
+                    <span class="text">Relatórios</span>
+                </a>
+            </li>
+        @endcan
+        <br><br><br>
     </ul>
 </aside>

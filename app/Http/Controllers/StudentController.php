@@ -23,6 +23,7 @@ class StudentController extends Controller
         $students = Student::with('person')
             ->name($request->name)
             ->registration($request->registration)
+            ->email($request->email)
             ->active($request->is_active)
             ->latest()
             ->paginate(15)
@@ -54,15 +55,11 @@ class StudentController extends Controller
 
     public function show(Student $student): View
     {
-        $student->load(['person', 'deficiencies']);
-
         return view('pages.students.show', compact('student'));
     }
 
     public function edit(Student $student): View
     {
-        $student->load(['person', 'deficiencies']);
-
         return view(
             'pages.students.edit',
             $this->formData() + ['student' => $student]
@@ -71,7 +68,10 @@ class StudentController extends Controller
 
     public function update(StudentRequest $request, Student $student): RedirectResponse
     {
-        $this->service->update($student, $request->validated());
+        $this->service->update($student, array_merge(
+            $request->validated(),
+            $request->only('photo', 'remove_photo')
+        ));
 
         return redirect()
             ->route('students.show', $student)
@@ -93,7 +93,6 @@ class StudentController extends Controller
     private function formData(): array
     {
         return [
-            'deficiencies'  => Deficiency::orderBy('name')->get(),
             'genders' => Gender::options(),
         ];
     }

@@ -74,6 +74,16 @@
     vertical-align: baseline;
 }
 
+/* ===== AVATAR NA TABELA ===== */
+.avatar-table {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50% !important;
+    border: var(--border-width) solid var(--border-color);
+    flex-shrink: 0;
+}
+
 .badge.bg-success   { background-color: var(--color-success)  !important; color: #fff !important; }
 .badge.bg-warning   { background-color: var(--color-warning)  !important; color: #fff !important; }
 .badge.bg-danger    { background-color: var(--color-danger)   !important; color: #fff !important; }

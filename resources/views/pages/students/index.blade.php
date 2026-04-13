@@ -3,54 +3,72 @@
 @section('title', 'Alunos')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Alunos' => null
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Alunos' => null
+            ]" />
+            <h1>Alunos</h1>
+            <p class="text-muted mb-0">
+                Gerencie os estudantes e seus documentos de apoio especializado.
+            </p>
+        </div>
 
-    {{-- CARD UNIFICADO --}}
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
-        {{-- HEADER --}}
-        <x-table.page-header
-            title="Alunos"
-            subtitle="Gerencie os estudantes e seus documentos de apoio especializado."
-        >
-            {{-- Botão de ação --}}
+        <div class="page-header-actions">
             <x-buttons.link-button
                 :href="route('students.create')"
-                variant="new"
-                title="Adicionar alunos"
+                variant="info"
+                aria-label="Cadastrar novo aluno"
             >
-                <i class="fas fa-plus"></i>
+                <span class="btn-label">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </span>
+                Cadastrar
             </x-buttons.link-button>
-        </x-table.page-header>
+        </div>
+    </div>
 
+    <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-dynamic-filter
+                data-url="{{ route('students.index') }}"
                 data-target="#students-table"
                 :fields="[
                     [
                         'name' => 'name',
-                        'placeholder' => 'Nome do aluno...'
+                        'placeholder' => 'Filtrar por nome...',
+                        'label' => 'Nome do aluno'
                     ],
                     [
                         'name' => 'email',
-                        'placeholder' => 'Email...'
+                        'placeholder' => 'Filtrar por e-mail...',
+                        'label' => 'E-mail'
                     ],
                     [
                         'name' => 'registration',
-                        'placeholder' => 'Matrícula...'
+                        'placeholder' => 'Filtrar por matrícula...',
+                        'label' => 'Matrícula'
                     ],
+                    [
+                        'name' => 'is_active',
+                        'type' => 'select',
+                        'placeholder' => 'Status',
+                        'options' => [
+                            '' => 'Status (Todos)',
+                            '1' => 'Ativo',
+                            '0' => 'Inativo'
+                        ]
+                    ]
                 ]"
             />
         </div>
-        <div id="students-table" class="p-3">
+
+        <div id="students-table" class="p-3" role="region" aria-label="Listagem de alunos">
             @include('pages.students.partials.table')
         </div>
     </div>
+
     @push('scripts')
         @vite('resources/js/components/dynamicFilters.js')
     @endpush

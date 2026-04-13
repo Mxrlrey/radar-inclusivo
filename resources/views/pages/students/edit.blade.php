@@ -1,148 +1,171 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('title', "Editar - {$student->person->name}")
 
 @section('content')
 
-    <div class="mb-5">
-        <x-breadcrumb :items="[
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
             'Home' => route('dashboard'),
             'Alunos' => route('students.index'),
+            $student->person->name => route('students.show', $student),
             'Editar' => null
         ]" />
-    </div>
 
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <h2 class="text-title">Editar {{$student->person->name}}</h2>
-            <p class="text-muted">Atualize as informações cadastrais e acadêmicas do estudante.</p>
+            <h1>Editar Aluno</h1>
+            <p class="text-muted mb-0">
+                Atualize as informações cadastrais e acadêmicas do estudante.
+            </p>
         </div>
-        <x-buttons.link-button href="{{ route('students.show', $student) }}" variant="secondary">
-            <i class="fas fa-times"></i>Cancelar
-        </x-buttons.link-button>
+
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('students.show', $student)"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
+            </x-buttons.link-button>
+        </div>
     </div>
 
-    <div class="mt-3">
-        <x-forms.form-card action="{{ route('students.update', $student) }}" method="POST" enctype="multipart/form-data">
-            @method('PUT')
+    <x-forms.form-card
+        action="{{ route('students.update', $student) }}"
+        method="POST"
+        enctype="multipart/form-data"
+        class="form-horizontal"
+    >
+        @csrf
+        @method('PUT')
 
-            <x-forms.section title="Dados Pessoais" />
+        <x-forms.section
+            title="Dados Pessoais"
+            description="Atualize as informações básicas do aluno."
+        />
 
-            <x-forms.photo-upload
-                name="photo"
-                label="Foto do Aluno"
-                :current="$student->person->photo_url"
-            />
+        <x-forms.photo-upload
+            name="photo"
+            label="Foto do Aluno"
+            :current="$student->person->photo_url"
+        />
 
+        <x-forms.input
+            name="name"
+            label="Nome Completo"
+            required
+            :horizontal="true"
+            :value="old('name', $student->person->name)"
+        />
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="name"
-                    label="Nome Completo "
-                    required
-                    :value="old('name', $student->person->name)"
-                />
-            </div>
+        <x-forms.input
+            name="document"
+            label="Documento (CPF)"
+            class="cpf-mask"
+            maxlength="14"
+            required
+            :horizontal="true"
+            :value="old('document', $student->person->document)"
+        />
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="document"
-                    label="Documento "
-                    class="cpf-mask"
-                    maxlength="14"
-                    placeholder="000.000.000-00"
-                    required
-                    :value="old('document', $student->person->document)"
-                />
-            </div>
+        <x-forms.input
+            name="registration"
+            label="Matrícula"
+            required
+            :horizontal="true"
+            :value="old('registration', $student->registration)"
+        />
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="birth_date"
-                    label="Data de Nascimento "
-                    type="date"
-                    required
-                    :value="old('birth_date', optional($student->person->birth_date)->format('Y-m-d'))"
-                />
-            </div>
+        <x-forms.input
+            name="email"
+            label="E-mail"
+            type="email"
+            required
+            :horizontal="true"
+            :value="old('email', $student->person->email)"
+        />
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="gender"
-                    label="Gênero"
-                    :options="[
-                        'not_specified' => 'Não informado',
-                        'male' => 'Masculino',
-                        'female' => 'Feminino',
-                        'other' => 'Outro'
-                    ]"
-                    :value="old('gender', $student->person->gender)"
-                    :selected="old('gender', $student->person->gender)"
-                />
-            </div>
+        <x-forms.input
+            name="birth_date"
+            label="Data de Nascimento"
+            type="date"
+            required
+            :horizontal="true"
+            :value="old('birth_date', optional($student->person->birth_date)->format('Y-m-d'))"
+        />
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="email"
-                    label="E-mail "
-                    type="email"
-                    required
-                    :value="old('email', $student->person->email)"
-                />
-            </div>
+        <x-forms.select
+            name="gender"
+            label="Gênero"
+            :horizontal="true"
+            required
+            :options="[
+            'not_specified' => 'Não informado',
+            'male' => 'Masculino',
+            'female' => 'Feminino',
+            'other' => 'Outro'
+        ]"
+            :selected="old('gender', $student->person->gender?->value ?? $student->person->gender)"
+        />
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="phone"
-                    label="Telefone"
-                    class="phone-mask"
-                    maxlength="15"
-                    placeholder="(00) 00000-0000"
-                    :value="old('phone', $student->person->phone)"
-                />
-            </div>
+        <x-forms.input
+            name="phone"
+            label="Telefone"
+            class="phone-mask"
+            maxlength="15"
+            :horizontal="true"
+            :value="old('phone', $student->person->phone)"
+        />
 
-            <div class="col-md-12">
-                <x-forms.textarea
-                    name="address"
-                    label="Endereço"
-                    rows="2"
-                    :value="old('address', $student->person->address)"
-                />
-            </div>
+        <x-forms.textarea
+            name="address"
+            label="Endereço"
+            rows="3"
+            :horizontal="true"
+            :value="old('address', $student->person->address)"
+        />
 
-            <x-forms.section title="Dados Acadêmicos" />
+        <x-forms.separator />
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="registration"
-                    label="Matrícula "
-                    required
-                    :value="old('registration', $student->registration)"
-                />
-            </div>
+        <x-forms.section
+            title="Gestão e Público"
+        />
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="entry_date"
-                    label="Data de Ingresso "
-                    type="date"
-                    required
-                    :value="old('entry_date', $student->entry_date)"
-                />
-            </div>
+        <x-forms.input
+            name="entry_date"
+            label="Data de Ingresso"
+            type="date"
+            required
+            :horizontal="true"
+            :value="old('entry_date', $student->entry_date?->format('Y-m-d'))"
+        />
 
-            <div class="col-12 d-flex justify-content-end gap-3 border-t pt-4 px-4 pb-4">
-                <x-buttons.link-button href="{{ route('students.show', $student) }}" variant="secondary">
-                    <i class="fas fa-times"></i>Cancelar
-                </x-buttons.link-button>
+        <x-forms.switch
+            name="is_active"
+            label="Aluno Ativo"
+            :horizontal="true"
+            :checked="old('is_active', $student->is_active)"
+        />
 
-                <x-buttons.submit-button type="submit" class="btn-action new submit">
-                    <i class="fas fa-save"></i> Salvar
-                </x-buttons.submit-button>
-            </div>
+        <x-forms.form-footer>
+            <x-buttons.link-button
+                :href="route('students.show', $student)"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
+            </x-buttons.link-button>
 
-        </x-forms.form-card>
-    </div>
+            <x-buttons.submit-button variant="new">
+                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                Salvar
+            </x-buttons.submit-button>
+        </x-forms.form-footer>
+
+    </x-forms.form-card>
+
 @endsection
+
 @push('scripts')
     @vite(['resources/js/components/photos.js'])
 @endpush

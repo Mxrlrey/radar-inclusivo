@@ -55,11 +55,9 @@ class Person extends Model
         ];
     }
 
-    public function getPhotoUrlAttribute(): string
+    public function getPhotoUrlAttribute(): ?string
     {
-        return $this->photo
-            ? asset('storage/' . $this->photo)
-            : asset('images/default-user.jpg');
+        return $this->photo ? asset('storage/' . $this->photo) : null;
     }
 
     /**
@@ -85,5 +83,17 @@ class Person extends Model
     public function scopeEmail(Builder $query, ?string $term): Builder
     {
         return $term ? $query->where('email', 'like', "%{$term}%") : $query;
+    }
+
+    public function getDocumentFormattedAttribute(): string
+    {
+        $doc = preg_replace('/\D/', '', $this->document);
+
+        // CPF (11 dígitos)
+        if (strlen($doc) === 11) {
+            return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $doc);
+        }
+
+        return $this->document;
     }
 }

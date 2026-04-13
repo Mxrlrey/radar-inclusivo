@@ -18,7 +18,7 @@
 
             <!-- Estado vazio -->
             <div class="photo-upload__empty {{ $current ? 'd-none' : '' }}" data-empty>
-                <i class="bi bi-camera"></i>
+                <i class="fa fa-camera"></i>
                 <span>ADICIONAR<br>FOTO</span>
             </div>
 
@@ -34,7 +34,7 @@
         <button type="button"
                 class="photo-upload__remove {{ $current ? '' : 'd-none' }}"
                 data-remove>
-            <i class="bi bi-trash"></i>
+            <i class="fa fa-eraser"></i>
         </button>
 
     </div>
@@ -48,7 +48,7 @@
     <input type="hidden" name="remove_photo" value="0" data-remove-flag>
 
     <div class="photo-upload__help">
-        <small>Clique no círculo para selecionar</small>
+        <small>Clique para selecionar</small>
         <small>JPG, PNG. Máx 2MB.</small>
     </div>
     <div class="photo-upload__divider"></div>

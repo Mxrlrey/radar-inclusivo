@@ -12,21 +12,14 @@ class StudentService
     public function store(array $data): Student
     {
         return DB::transaction(function () use ($data) {
-            // 1. Tratamento da Foto
-            if (isset($data['photo'])) {
-                $data['photo'] = $data['photo']->store('photos/students', 'public');
-            }
 
-            // 2. Criar a Pessoa (Os dados já vêm sanitizados do Request)
-            $person = Person::create($data);
+            $person = Person::create(
+                $this->makePersonData($data)
+            );
 
-            // 3. Criar o Aluno vinculado
-            $student = Student::create(array_merge($data, [
-                'person_id' => $person->id,
-            ]));
-
-            // 4. Sincronizar Deficiências
-            $this->syncDeficiencies($student, $data);
+            $student = Student::create(
+                $this->makeStudentData($data, $person)
+            );
 
             return $student;
         });
@@ -37,20 +30,11 @@ class StudentService
         return DB::transaction(function () use ($student, $data) {
             $person = $student->person;
 
-            // Gerenciamento de Foto (Upload/Remoção)
-            if (!empty($data['remove_photo']) || isset($data['photo'])) {
-                if ($person->photo) {
-                    Storage::disk('public')->delete($person->photo);
-                }
-                $data['photo'] = isset($data['photo'])
-                    ? $data['photo']->store('photos/students', 'public')
-                    : null;
-            }
+            $personData = $this->makePersonData($data, $person);
+            $studentData = $this->makeStudentData($data, $person, $student);
 
-            $person->update($data);
-            $student->update($data);
-
-            $this->syncDeficiencies($student, $data);
+            $person->update($personData);
+            $student->update($studentData);
 
             return $student;
         });
@@ -70,13 +54,46 @@ class StudentService
         });
     }
 
-    /**
-     * Sincroniza a relação Many-to-Many com Deficiências
-     */
-    private function syncDeficiencies(Student $student, array $data): void
+
+    private function makePersonData(array $data, ?Person $person = null): array
     {
-        if (isset($data['deficiencies'])) {
-            $student->deficiencies()->sync($data['deficiencies']);
+        $personData = [
+            'name' => $data['name'] ?? $person?->name,
+            'email' => $data['email'] ?? $person?->email,
+            'document' => $data['document'] ?? $person?->document,
+            'birth_date' => $data['birth_date'] ?? $person?->birth_date,
+            'gender' => $data['gender'] ?? $person?->gender,
+            'phone' => $data['phone'] ?? $person?->phone,
+            'address' => $data['address'] ?? $person?->address,
+        ];
+
+        // upload de foto
+        if (!empty($data['photo'])) {
+            if ($person?->photo) {
+                Storage::disk('public')->delete($person->photo);
+            }
+
+            $personData['photo'] = $data['photo']->store('photos/students', 'public');
         }
+
+        if (!empty($data['remove_photo'])) {
+            if ($person?->photo) {
+                Storage::disk('public')->delete($person->photo);
+            }
+
+            $personData['photo'] = null;
+        }
+
+        return $personData;
+    }
+
+    private function makeStudentData(array $data, Person $person, ?Student $student = null): array
+    {
+        return [
+            'person_id' => $person->id,
+            'registration' => $data['registration'] ?? $student?->registration,
+            'entry_date' => $data['entry_date'] ?? $student?->entry_date,
+            'is_active' => $data['is_active'] ?? $student?->is_active ?? true,
+        ];
     }
 }

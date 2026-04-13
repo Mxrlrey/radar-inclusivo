@@ -1,100 +1,121 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('title', 'Cargo: ' . $position->name)
 
 @section('content')
-     <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Cargos' => route('positions.index'),
-            $position->name => null
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Cargos' => route('positions.index'),
+                $position->name => null
+            ]" />
 
-    {{-- Cabeçalho da Página --}}
-    <div class="d-flex justify-content-between align-items-center mb-4 no-print">
-        <div>
-            <h2 class="text-title">Detalhes do Cargo</h2>
-            <p class="text-muted">
-                Gerenciamento de funções e atribuições do suporte especializado.
+            <h1>Detalhes do Cargo</h1>
+            <p class="text-muted mb-0">
+                Visualize informações cadastrais, atribuições e permissões vinculadas a este cargo.
             </p>
         </div>
-        <div class="d-flex gap-2">
-            <x-buttons.link-button :href="route('positions.edit', $position->id)" variant="warning">
-                <i class="fas fa-edit"></i> Editar
+
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('positions.edit', $position)"
+                variant="info">
+                <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
             </x-buttons.link-button>
 
-            <x-buttons.link-button :href="route('positions.index')" variant="secondary">
-               <i class="fas fa-arrow-left"></i> Voltar
+            <x-buttons.link-button
+                :href="route('positions.index')"
+                variant="secondary">
+                <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
         </div>
     </div>
 
-    <div class="custom-table-card bg-white shadow-sm">
-        <div class="row g-0">
+    <div class="card-custom overflow-hidden show-container">
+        <x-forms.section
+            title="{{ $position->name }}"
+            description="Informações básicas e identificação do cargo no sistema."
+        />
 
-            {{-- SEÇÃO: IDENTIFICAÇÃO --}}
-            <x-forms.section title="Informações do Cargo" />
+        <x-show.info-item label="Nome do Cargo / Função" :value="$position->name" />
 
-            <x-show.info-item label="Nome do Cargo / Função" column="col-md-8" isBox="true">
-                <strong class="text-purple-dark">{{ $position->name }}</strong>
-            </x-show.info-item>
+        <x-show.info-item label="Status no Sistema">
+            <span class="badge bg-{{ $position->is_active ? 'success' : 'danger' }}">
+                {{ $position->is_active ? 'Ativo' : 'Inativo' }}
+            </span>
+        </x-show.info-item>
 
-            <x-show.info-item label="Status de Disponibilidade" column="col-md-4" isBox="true">
-                @if($position->is_active)
-                    <span class="text-success fw-bold">
-                        <i class="fas fa-check-circle me-1"></i> ATIVO
-                    </span>
-                @else
-                    <span class="text-muted fw-bold">
-                        <i class="fas fa-ban me-1"></i> DESATIVADO
-                    </span>
-                @endif
-            </x-show.info-item>
+        <x-show.info-item label="Descrição da Função">
+            {!! $position->description ?: 'Nenhuma descrição detalhada foi fornecida para este cargo.' !!}
+        </x-show.info-item>
 
-            {{-- SEÇÃO: DESCRIÇÃO --}}
-            <x-forms.section title="Atribuições e Descrição" />
-
-            <x-show.info-textarea label="Descrição da Função" column="col-md-12" isBox="true">
-                {{ $position->description ?? 'Nenhuma descrição detalhada foi fornecida para este cargo.' }}
-            </x-show.info-textarea>
-
-            {{-- SEÇÃO: PERMISSÕES --}}
-            <x-forms.section title="Permissões Vinculadas ao Cargo" />
-
-            <div class="row g-3 mb-4">
-                <x-show.info-item label="Permissões Vinculadas" column="col-md-12" isBox="true">
-                    @if($position->permissions->isNotEmpty())
-                        <div class="tag-container">
-                            @foreach($position->permissions as $permission)
-                                <x-show.tag color="light">
-                                    {{ $permission->name }}
-                                </x-show.tag>
-                            @endforeach
-                        </div>
-                    @else
-                        ---
-                    @endif
-                </x-show.info-item>
-            </div>
-
-            {{-- RODAPÉ --}}
-            <div class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light no-print">
-                <div class="text-muted small">
-                    <i class="fas fa-briefcase me-1"></i> ID do Cargo: #{{ $position->id }} |
-                    Criado em: {{ \Carbon\Carbon::parse($position->created_at)->format('d/m/Y') }}
+        <x-show.info-item label="Lista de Permissões">
+            @if($position->permissions->isNotEmpty())
+                <div class="tag-container">
+                    @foreach($position->permissions as $permission)
+                        <x-show.tag color="light">{{ $permission->name }}</x-show.tag>
+                    @endforeach
                 </div>
+            @else
+                <span class="text-muted">Nenhuma permissão específica vinculada.</span>
+            @endif
+        </x-show.info-item>
 
-                <div class="d-flex gap-3">
-                    <form action="{{ route('positions.destroy', $position->id) }}"
-                          method="POST"
-                          onsubmit="return confirm('Excluir este cargo? Isso pode afetar profissionais vinculados.')">
-                        @csrf
-                        @method('DELETE')
-                        <x-buttons.submit-button variant="danger">
-                            <i class="fas fa-trash-alt"></i> Excluir
-                        </x-buttons.submit-button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        @php
+            $modalId = "modal-delete-position-" . $position->id;
+        @endphp
+
+        <x-show.footer>
+            <x-buttons.link-button
+                :href="route('positions.index')"
+                variant="secondary"
+            >
+                <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                Voltar
+            </x-buttons.link-button>
+
+            <x-buttons.submit-button
+                variant="danger"
+                type="button"
+                onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+            >
+                <span class="btn-label"><i class="fa fa-eraser"></i></span>
+                Excluir
+            </x-buttons.submit-button>
+        </x-show.footer>
     </div>
+
+    <x-modal.modal
+        :id="$modalId"
+        title="Confirmar Exclusão"
+        size="sm"
+    >
+        <div class="p-3">
+            <p class="mb-2 text-danger fw-bold">
+                Esta ação não pode ser desfeita.
+            </p>
+            <p class="mb-0 text-muted">
+                Deseja realmente excluir o cargo <strong>{{ $position->name }}</strong>?
+            </p>
+        </div>
+
+        <x-slot:footer>
+            <x-buttons.link-button
+                href="javascript:void(0)"
+                variant="secondary"
+                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+            >
+                Cancelar
+            </x-buttons.link-button>
+
+            <form action="{{ route('positions.destroy', $position) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <x-buttons.submit-button variant="danger">
+                    Excluir
+                </x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
 @endsection

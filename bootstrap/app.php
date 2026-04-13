@@ -69,4 +69,14 @@ return Application::configure(basePath: dirname(__DIR__))
                 : redirect()->back()->with('error', $msg);
         });
 
+        $exceptions->render(function (Throwable $e, Request $request) {
+            logger()->error($e);
+
+            $msg = 'Ocorreu um erro inesperado.';
+
+            return $request->expectsJson()
+                ? response()->json(['message' => $msg], 500)
+                : redirect()->back()->with('error', $msg);
+        });
+
     })->create();

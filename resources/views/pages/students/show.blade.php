@@ -1,72 +1,184 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('title', $student->person->name)
 
 @section('content')
-<div class="mb-5">
-    <x-breadcrumb :items="[
-        'Home' => route('dashboard'),
-        'Alunos' => route('students.index'),
-        $student->person->name => null
-    ]" />
-</div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Alunos' => route('students.index'),
+                $student->person->name => null
+            ]" />
 
-{{-- Cabeçalho da Página --}}
-<div class="d-flex justify-content-between align-items-center mb-4 no-print">
-    <div>
-        <h2 class="text-title">Prontuário do Aluno</h2>
-        <p class="text-muted">Visualize o ecossistema completo e histórico detalhado do aluno.</p>
-    </div>
-    <div class="d-flex gap-2">
-        {{-- Permissão para EDITAR o cadastro do aluno --}}
-        @can('student.update')
-            <x-buttons.link-button :href="route('students.edit', $student)" variant="warning">
-                <i class="fas fa-edit"></i> Editar Cadastro
+            <h1>Detalhes do Aluno</h1>
+            <p class="text-muted mb-0">
+                Visualize informações cadastrais, acadêmicas e o status do estudante no sistema.
+            </p>
+        </div>
+
+        <div class="page-header-actions">
+            @can('student.update')
+                <x-buttons.link-button
+                    :href="route('students.edit', $student)"
+                    variant="info"
+                >
+                    <span class="btn-label"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                    Editar
+                </x-buttons.link-button>
+            @endcan
+
+            <x-buttons.link-button
+                :href="route('students.index')"
+                variant="secondary"
+            >
+                <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
+                Voltar
             </x-buttons.link-button>
-        @endcan
-
-        <x-buttons.link-button :href="route('students.index')" variant="secondary">
-            <i class="fas fa-arrow-left"></i> Voltar
-        </x-buttons.link-button>
+        </div>
     </div>
-</div>
 
-<div class="custom-table-card bg-white shadow-sm">
-    <div class="row g-0">
+    <div class="card-custom overflow-hidden show-container">
+        <x-forms.section
+            title="{{ $student->person->name }}"
+            description="Visualize as informações de {{ $student->person->name }}"
+        />
 
-        {{-- SEÇÃO: IDENTIFICAÇÃO --}}
-        <x-forms.section title="Identificação do Aluno" />
+        <div class="d-flex flex-column align-items-center py-3 text-center">
 
-        <div class="col-12 d-flex justify-content-center py-4 bg-light mb-4 border-bottom">
-            <div class="text-center position-relative">
-                <img src="{{ $student->person->photo_url }}" class="avatar-show-lg">
-                <div class="mt-2">
-                    @if($student->status === 'active')
-                        <span class="badge bg-success">ATIVO</span>
-                    @else
-                        <span class="badge bg-danger">{{ strtoupper($student->status) }}</span>
-                    @endif
-                </div>
-                <h4 class="mt-2 text-title mb-0">{{ $student->person->name }}</h4>
-                <p class="text-muted small">Matrícula: {{ $student->registration }}</p>
+            <div class="avatar-show-lg mx-auto">
+                @if($student->person->photo)
+                    <img
+                        src="{{ $student->person->photo_url }}"
+                        alt="Foto de {{ $student->person->name }}"
+                    >
+                @else
+                    <i class="ion-android-contact mt-5"></i>
+                @endif
             </div>
         </div>
 
-        {{-- RODAPÉ DE AÇÕES --}}
-        <div class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light no-print">
-            <div class="text-muted small">
-                <i class="fas fa-id-badge me-1"></i> Aluno ID: #{{ $student->id }} | Sistema GNAI 2026
-            </div>
+        <x-forms.separator />
 
-            <div class="d-flex gap-3">
-                @can('student.delete')
-                    <form action="{{ route('students.destroy', $student) }}" method="POST" onsubmit="return confirm('Excluir este aluno?')">
-                        @csrf @method('DELETE')
-                        <x-buttons.submit-button variant="danger">
-                            <i class="fas fa-trash-alt"></i> Excluir
-                        </x-buttons.submit-button>
-                    </form>
-                @endcan
-            </div>
-        </div>
+        <x-forms.section title="Dados Pessoais" />
+
+        <x-show.info-item label="Nome Completo">
+            {{ $student->person->name }}
+        </x-show.info-item>
+
+        <x-show.info-item label="CPF / Documento">
+            {{ $student->person->document_formatted ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Matrícula">
+            {{ $student->registration }}
+        </x-show.info-item>
+
+        <x-show.info-item label="E-mail">
+            {{ $student->person->email ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Data de Nascimento">
+            {{ $student->person->birth_date?->format('d/m/Y') ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Gênero">
+            {{ $student->person->gender?->label() ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Telefone">
+            {{ $student->person->phone ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Endereço">
+            {!! $student->person->address ?: '---' !!}
+        </x-show.info-item>
+
+        <x-forms.separator />
+
+        <x-forms.section title="Informações do Registro" />
+
+        <x-show.info-item label="Data de Ingresso">
+            {{ $student->entry_date?->format('d/m/Y') ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="ID">
+            #{{ $student->id }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Status no Sistema">
+            <span class="badge bg-{{ $student->is_active ? 'success' : 'danger' }}">
+                {{ $student->is_active ? 'Ativo' : 'Inativo' }}
+            </span>
+        </x-show.info-item>
+
+        <x-show.info-item label="Cadastrado em">
+            {{ $student->created_at?->format('d/m/Y H:i') ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Atualizado em">
+            {{ $student->updated_at?->format('d/m/Y H:i') ?? '---' }}
+        </x-show.info-item>
+
+        @php
+            $modalId = "modal-delete-student-{$student->id}";
+        @endphp
+
+        <x-show.footer>
+            <x-buttons.link-button
+                :href="route('students.index')"
+                variant="secondary"
+            >
+                <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
+                Voltar
+            </x-buttons.link-button>
+
+            @can('student.delete')
+                <x-buttons.submit-button
+                    variant="danger"
+                    type="button"
+                    onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                >
+                    <span class="btn-label"><i class="fa fa-eraser" aria-hidden="true"></i></span>
+                    Excluir
+                </x-buttons.submit-button>
+            @endcan
+        </x-show.footer>
     </div>
-</div>
+
+    <x-modal.modal
+        :id="$modalId"
+        title="Confirmar Exclusão"
+        size="sm"
+    >
+        <div class="p-3">
+            <p class="mb-2 text-danger fw-bold">
+                Esta ação não pode ser desfeita.
+            </p>
+
+            <p class="mb-0 text-muted">
+                Deseja realmente excluir o aluno
+                <strong>{{ $student->person->name }}</strong>?
+            </p>
+        </div>
+
+        <x-slot:footer>
+            <x-buttons.link-button
+                href="javascript:void(0)"
+                variant="secondary"
+                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+            >
+                Cancelar
+            </x-buttons.link-button>
+
+            <form action="{{ route('students.destroy', $student) }}" method="POST">
+                @csrf
+                @method('DELETE')
+
+                <x-buttons.submit-button variant="danger">
+                    Excluir
+                </x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
 @endsection

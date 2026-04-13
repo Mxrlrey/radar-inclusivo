@@ -66,16 +66,6 @@ class Student extends Model
         return $this->belongsTo(Person::class);
     }
 
-    public function deficiencies(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            Deficiency::class,
-            'students_deficiencies',
-            'student_id',
-            'deficiency_id'
-        )->withTimestamps();
-    }
-
     public function scopeName(Builder $query, ?string $term): Builder
     {
         return $term ? $query->whereHas('person', fn($q) => $q->where('name', 'like', "%{$term}%")) : $query;
@@ -92,5 +82,14 @@ class Student extends Model
             $query->where('is_active', $isActive == '1');
         }
         return $query;
+    }
+
+    public function scopeEmail(Builder $query, ?string $term): Builder
+    {
+        return $term
+            ? $query->whereHas('person', function ($q) use ($term) {
+                $q->where('email', 'like', "%{$term}%");
+            })
+            : $query;
     }
 }

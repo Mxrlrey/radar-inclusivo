@@ -207,7 +207,7 @@
 
             <x-buttons.submit-button variant="new">
                 <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
-                Salvar Alterações
+                Salvar
             </x-buttons.submit-button>
         </x-forms.form-footer>
     </x-forms.form-card>

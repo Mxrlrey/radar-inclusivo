@@ -1,145 +1,144 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('title', "Editar - $position->name")
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Cargos' => route('positions.index'),
-            $position->name => route('positions.show', $position),
-            'Editar' => null
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Cargos' => route('positions.index'),
+                $position->name => route('positions.show', $position),
+                'Editar' => null
+            ]" />
 
-    <div class="d-flex justify-content-between mb-3">
-        <div>
-            <h2 class="text-title">Editar Cargo</h2>
-            <p class="text-muted">Alterando informações do cargo: <strong>{{ $position->name }}</strong></p>
+            <h1>Editar Cargo</h1>
+            <p class="text-muted mb-0">
+                Altere as atribuições e gerencie as permissões do cargo <strong>{{ $position->name }}</strong>.
+            </p>
         </div>
-        <x-buttons.link-button href="{{ route('positions.show', $position) }}" variant="secondary">
-            <i class="fas fa-times"></i>Cancelar
-        </x-buttons.link-button>
+
+        <div class="page-header-actions">
+            <x-buttons.link-button :href="route('positions.show', $position)" variant="secondary">
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
+            </x-buttons.link-button>
+        </div>
     </div>
 
-    <div class="mt-3">
-        <x-forms.form-card action="{{ route('positions.update', $position) }}" method="POST">
-            @method('PUT')
+    <x-forms.form-card
+        action="{{ route('positions.update', $position) }}"
+        method="POST"
+        class="form-horizontal"
+    >
+        @csrf
+        @method('PUT')
 
-            <x-forms.section title="Atualizar Dados" />
+        <x-forms.section
+            title="Identificação do Cargo"
+            description="Atualize os dados básicos e o status do cargo."
+        />
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="name"
-                    label="Nome do Cargo "
-                    required
-                    :value="old('name', $position->name)"
-                />
-            </div>
+        <x-forms.input
+            name="name"
+            label="Nome do Cargo"
+            required
+            :horizontal="true"
+            :value="old('name', $position->name)"
+        />
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="is_active"
-                    label="Status "
-                    required
-                    :options="['1' => 'Ativo', '0' => 'Inativo']"
-                    :value="old('is_active', $position->is_active)"
-                    :selected="old('is_active', $position->is_active)"
-                />
-            </div>
+        <x-forms.switch
+            name="is_active"
+            label="Cargo Ativo"
+            :horizontal="true"
+            :checked="old('is_active', $position->is_active)"
+        />
 
-            <div class="col-md-12">
-                <x-forms.textarea
-                    name="description"
-                    label="Descrição"
-                    rows="3"
-                    :value="old('description', $position->description)"
-                />
-            </div>
+        <x-forms.textarea
+            name="description"
+            label="Descrição / Atribuições"
+            :horizontal="true"
+            rows="4"
+            :value="old('description', $position->description)"
+        />
 
-            <x-forms.section title="Informações do Cargo" />
+        <x-forms.separator />
 
-            <div class="col-12 ">
-                @foreach($permissions as $group => $groupPermissions)
-                    <div class="border-bottom">
-                        {{-- Cabeçalho do Grupo --}}
-                        <div class="d-flex justify-content-between align-items-center px-4 py-3"
-                            style="background-color: #e1e5f1;">
-                            <h6 class="mb-0 fw-bold text-purple-dark text-capitalize">
-                                {{ ucfirst(str_replace('-', ' ', $group)) }}
-                            </h6>
-                            <x-forms.checkbox
-                                name="check_all_{{ $group }}"
-                                id="check-all-{{ $group }}"
-                                label="Selecionar Todas"
-                                class="check-all"
-                                data-group="{{ $group }}"
-                            />
-                        </div>
-                        {{-- Corpo das permissões --}}
-                        <div class="px-4 py-3">
-                            <div class="row">
-                                @foreach($groupPermissions as $permission)
-                                    <div class="col-md-3 mb-2">
+        <x-forms.section
+            title="Segurança e Acessos"
+            description="Selecione as permissões vinculadas a esta função."
+        />
 
-                                        <x-forms.checkbox
-                                            name="permissions[]"
-                                            :value="$permission->id"
-                                            :id="'permission-'.$permission->id"
-                                            class="permission-checkbox"
-                                            data-group="{{ $group }}"
-                                            :checked="in_array(
-                                                $permission->id,
-                                                old('permissions',
-                                                    isset($position)
-                                                        ? $position->permissions->pluck('id')->toArray()
-                                                        : []
-                                                )
-                                            )"
-                                            :label="$permission->name"
-                                        />
-                                    </div>
-                                @endforeach
+        <div class="form-group-horizontal mb-4">
+            <label class="control-label">Permissões</label>
+            <div class="field-wrapper">
+                <div class="mb-3 p-3 bg-surface-secondary border d-flex align-items-center justify-content-between">
+                    <span class="text-muted small fw-bold text-uppercase">Controle de Acesso Global</span>
+                    <x-forms.checkbox
+                        name="check_all_global"
+                        id="check-all-global"
+                        label="Selecionar Todas as Permissões"
+                        class="check-all-master"
+                    />
+                </div>
+
+                <div class="permissions-container border">
+                    @foreach($permissions as $group => $groupPermissions)
+                        <div class="permission-group-block border-bottom">
+                            <div class="px-3 py-2 bg-light border-bottom">
+                                <h6 class="mb-0 fw-bold text-uppercase small text-primary" style="letter-spacing: 1px;">
+                                    {{ ucfirst(str_replace('-', ' ', $group)) }}
+                                </h6>
+                            </div>
+
+                            <div class="p-3">
+                                <div class="row g-2">
+                                    @foreach($groupPermissions as $permission)
+                                        <div class="col-md-4 col-lg-3">
+                                            <x-forms.checkbox
+                                                name="permissions[]"
+                                                :value="$permission->id"
+                                                :id="'permission-'.$permission->id"
+                                                class="permission-checkbox"
+                                                :checked="in_array($permission->id, old('permissions', $position->permissions->pluck('id')->toArray()))"
+                                                :label="$permission->name"
+                                            />
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
-            <div class="col-12 d-flex justify-content-end gap-3 border-t pt-4 px-4 pb-4">
-                <x-buttons.link-button href="{{ route('positions.show', $position) }}" variant="secondary">
-                    <i class="fas fa-times"></i>Cancelar
-                </x-buttons.link-button>
+        </div>
 
-                <x-buttons.submit-button type="submit" class="btn-action new submit">
-                    <i class="fas fa-save"></i> Salvar
-                </x-buttons.submit-button>
-            </div>
-        </x-forms.form-card>
+        <x-forms.form-footer>
+            <x-buttons.link-button :href="route('positions.show', $position)" variant="secondary">
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
+            </x-buttons.link-button>
+
+            <x-buttons.submit-button variant="new">
+                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                Salvar
+            </x-buttons.submit-button>
+        </x-forms.form-footer>
+    </x-forms.form-card>
+
     @push('scripts')
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.addEventListener('change', function (e) {
-            // Se clicou em um checkbox
-            if (e.target.type === 'checkbox') {
-                let wrapper = e.target.closest('.custom-checkbox-wrapper');
-                if (!wrapper) return;
-                // Se for um "Selecionar Todas"
-                if (wrapper.classList.contains('check-all')) {
-                    let group = wrapper.dataset.group;
-                    let checked = e.target.checked;
-                    if (!group) return;
-                    document.querySelectorAll(
-                        '.permission-checkbox[data-group="'+group+'"] input'
-                    ).forEach(function (checkbox) {
-                        checkbox.checked = checked;
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const masterCheckbox = document.getElementById('check-all-global');
+                if (masterCheckbox) {
+                    masterCheckbox.addEventListener('change', function () {
+                        const isChecked = this.checked;
+                        document.querySelectorAll('.permission-checkbox input[type="checkbox"]').forEach(cb => {
+                            cb.checked = isChecked;
+                        });
                     });
                 }
-
-            }
-
-        });
-
-    });
-    </script>
+            });
+        </script>
     @endpush
-
-
 @endsection

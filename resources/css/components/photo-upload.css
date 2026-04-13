@@ -17,7 +17,7 @@
     margin: 0 auto;
 }
 
-/* Preview circular (avatar) – mantém border-radius 50% por razão funcional */
+/* Preview circular (avatar) */
 .photo-upload__preview {
     width: 100%;
     height: 100%;
@@ -70,7 +70,6 @@
     align-items: center;
     justify-content: center;
     font-size: 0.85rem;
-    box-shadow: var(--shadow-none);
     cursor: pointer;
     transition: background-color 0.15s;
 }
@@ -92,12 +91,35 @@
     margin: var(--spacing-6) 0 var(--spacing-4) 0;
 }
 
-/* Avatar grande para exibição */
+/* =========================================
+   AVATAR (SHOW / DETALHES)
+   ========================================= */
+
 .avatar-show-lg {
-    width: 11rem;
-    height: 11rem;
-    border-radius: 50%;
-    object-fit: cover;
+    width: 15rem;
+    height: 15rem;
+
+    border-radius: 50% !important;
     border: 2px solid var(--border-color);
     background-color: var(--bg-surface);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    position: relative;
+}
+
+/* Imagem dentro do avatar */
+.avatar-show-lg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Ícone fallback (Ionicons) */
+.avatar-show-lg i {
+    font-size: 12rem;
+    color: var(--text-muted);
 }
