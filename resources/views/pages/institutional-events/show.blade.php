@@ -7,7 +7,7 @@
         <nav aria-label="Breadcrumb">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Agenda Institucional' => route('inclusive-radar.institutional-events.index'),
+                'Agenda Institucional' => route('institutional-events.index'),
                 $event->title => null
             ]" />
         </nav>
@@ -21,7 +21,7 @@
 
         <div role="group" aria-label="Ações principais">
             <x-buttons.link-button
-                :href="route('inclusive-radar.institutional-events.edit', $event)"
+                :href="route('institutional-events.edit', $event)"
                 variant="warning"
                 label="Editar informações deste registro"
             >
@@ -29,7 +29,7 @@
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                href="{{ route('inclusive-radar.institutional-events.index') }}"
+                href="{{ route('institutional-events.index') }}"
                 variant="secondary"
                 label="Voltar para a lista da agenda institucional"
             >
@@ -95,11 +95,11 @@
             <footer class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light-subtle">
                 <div class="text-muted small">
                     <i class="fas fa-id-card me-1" aria-hidden="true"></i> ID no Sistema: #{{ $event->id }}
-                    <x-buttons.pdf-button :href="route('inclusive-radar.institutional-events.pdf', $event)" class="ms-1" />
+                    <x-buttons.pdf-button :href="route('institutional-events.pdf', $event)" class="ms-1" />
                 </div>
 
                 <div class="d-flex gap-2" role="group" aria-label="Ações de gestão do registro">
-                    <form action="{{ route('inclusive-radar.institutional-events.destroy', $event) }}" method="POST" onsubmit="return confirm('Deseja excluir permanentemente este registro?')">
+                    <form action="{{ route('institutional-events.destroy', $event) }}" method="POST" onsubmit="return confirm('Deseja excluir permanentemente este registro?')">
                         @csrf @method('DELETE')
                         <x-buttons.submit-button variant="danger" label="Excluir este registro">
                             <i class="fas fa-trash-alt" aria-hidden="true"></i> Excluir
@@ -107,7 +107,7 @@
                     </form>
 
                     <x-buttons.link-button
-                        href="{{ route('inclusive-radar.institutional-events.index') }}"
+                        href="{{ route('institutional-events.index') }}"
                         variant="secondary"
                         label="Voltar para a lista"
                     >

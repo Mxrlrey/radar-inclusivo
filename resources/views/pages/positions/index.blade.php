@@ -18,7 +18,7 @@
             subtitle="Gerenciamento de funções para o suporte especializado."
         >
             <x-buttons.link-button
-                :href="route('specialized-educational-support.positions.create')"
+                :href="route('positions.create')"
                 variant="new"
                 title="Adicionar cargo"
             >
@@ -55,7 +55,7 @@
 
         {{-- TABELA --}}
         <div id="positions-table" class="p-3">
-            @include('pages.specialized-educational-support.positions.partials.table')
+            @include('pages.positions.partials.table')
         </div>
     </div>
 

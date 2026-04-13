@@ -24,7 +24,7 @@
                 <span class="text-muted small text-uppercase fw-bold">
                     Registros
                 </span>
-                <span class="badge bg-purple fs-6">
+                <span class="badge text-bg-secondary">
                     {{ $logs->total() }}
                 </span>
             </div>
@@ -35,10 +35,13 @@
                 href="{{ route('assistive-technologies.show', $assistiveTechnology) }}"
                 variant="secondary"
             >
-                <i class="fas fa-arrow-left"></i> Voltar
+                <span class="btn-label">
+                    <i class="fa fa-arrow-left"></i>
+                </span>
+                Voltar
             </x-buttons.link-button>
         </div>
     </div>
     <x-logs.container :logs="$logs" />
-
+    @vite('resources/js/effects/timeline-animation.js')
 @endsection

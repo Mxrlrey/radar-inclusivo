@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Fila de Espera' => route('inclusive-radar.waitlists.index'),
+            'Fila de Espera' => route('waitlists.index'),
         ]" />
     </div>
 
@@ -16,7 +16,7 @@
             subtitle="Gerencie solicitações de recursos que estão indisponíveis para empréstimo."
         >
             <x-buttons.link-button
-                :href="route('inclusive-radar.waitlists.create')"
+                :href="route('waitlists.create')"
                 variant="new"
                 title="Adicionar Fila de Espera"
             >
@@ -43,7 +43,7 @@
         </div>
 
         <div id="waitlists-table" class="p-3">
-            @include('pages.inclusive-radar.waitlists.partials.table')
+            @include('pages.waitlists.partials.table')
         </div>
     </div>
 

@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Empréstimos' => route('inclusive-radar.loans.index'),
+            'Empréstimos' => route('loans.index'),
             $loan->id => null
         ]" />
     </div>
@@ -18,11 +18,11 @@
         </div>
 
         <div class="d-flex gap-2">
-            <x-buttons.link-button :href="route('inclusive-radar.loans.edit', $loan)" variant="warning">
+            <x-buttons.link-button :href="route('loans.edit', $loan)" variant="warning">
                 <i class="fas fa-edit"></i> Editar
             </x-buttons.link-button>
 
-            <x-buttons.link-button :href="route('inclusive-radar.loans.index')" variant="secondary">
+            <x-buttons.link-button :href="route('loans.index')" variant="secondary">
                 <i class="fas fa-arrow-left"></i> Voltar
             </x-buttons.link-button>
         </div>
@@ -99,7 +99,7 @@
             <div class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light no-print">
                 <div class="text-muted small d-flex align-items-center">
                     <i class="fas fa-fingerprint me-1"></i> ID: #{{ $loan->id }}
-                    <x-buttons.pdf-button :href="route('inclusive-radar.loans.pdf', $loan)" class="ms-3" />
+                    <x-buttons.pdf-button :href="route('loans.pdf', $loan)" class="ms-3" />
                 </div>
 
                 <div class="d-flex gap-2">
@@ -109,7 +109,7 @@
                         </x-buttons.submit-button>
                     @endif
 
-                    <form action="{{ route('inclusive-radar.loans.destroy', $loan) }}" method="POST" class="d-inline">
+                    <form action="{{ route('loans.destroy', $loan) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <x-buttons.submit-button variant="danger" onclick="return confirm('Excluir este empréstimo permanentemente?')">
@@ -122,7 +122,7 @@
     </div>
 
     <x-modal id="returnLoanModal" title="Confirmar Devolução">
-        <form action="{{ route('inclusive-radar.loans.return', $loan) }}" method="POST" id="returnLoanForm">
+        <form action="{{ route('loans.return', $loan) }}" method="POST" id="returnLoanForm">
             @csrf
             @method('PATCH')
             <div class="py-2">

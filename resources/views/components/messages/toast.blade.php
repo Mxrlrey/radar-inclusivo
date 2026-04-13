@@ -2,22 +2,20 @@
     <div id="toast-container">
         @php
             $type = 'info';
-            $icon = 'fa-info-circle';
+            $icon = 'fa-info';
             $message = '';
 
             if (session('success')) {
                 $type = 'success';
-                $icon = 'fa-check-circle';
+                $icon = 'fa-check';
                 $message = session('success');
             } elseif (session('error')) {
                 $type = 'danger';
-                $icon = 'fa-exclamation-circle';
+                $icon = 'fa-warning';
                 $message = session('error');
             } elseif ($errors->any()) {
-                // Captura erros do Request Validation
                 $type = 'danger';
-                $icon = 'fa-exclamation-triangle';
-                // Pega apenas o primeiro erro para não quebrar o layout do toast
+                $icon = 'fa-exclamation';
                 $message = $errors->first();
             } elseif (session('info')) {
                 $message = session('info');
@@ -26,7 +24,7 @@
 
         <div class="toast-custom {{ $type }}" id="toast-element">
             <div class="toast-content">
-                <i class="fas {{ $icon }} fa-lg"></i>
+                <i class="fa {{ $icon }}"></i>
                 <div class="toast-body-text">
                     {{ $message }}
                 </div>

@@ -2,33 +2,27 @@
 
 @section('content')
 
-    {{-- Breadcrumb --}}
     <div class="mb-4">
         <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Notificações' => null
-        ]" />
+        'Home' => route('dashboard'),
+        'Notificações' => null
+    ]" />
     </div>
 
-    {{-- Cabeçalho --}}
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="text-title">Notificações</h2>
-            <p class="text-muted">
-                Histórico completo das suas notificações do sistema.
-            </p>
+    <div class="page-header">
+        <div class="page-header-title">
+            <h1>Notificações</h1>
+            <p>Histórico completo das suas notificações do sistema.</p>
         </div>
 
         <form action="{{ route('notifications.readAll') }}" method="POST">
             @csrf
             <x-buttons.submit-button variant="primary">
-                <i class="fas fa-check"></i>
+                <i class="fa fa-check"></i>
                 Marcar todas como lidas
             </x-buttons.submit-button>
         </form>
     </div>
-
-    {{-- Lista de notificações --}}
 
     @forelse($notifications as $notification)
 
@@ -37,38 +31,53 @@
             $isUnread = is_null($notification->read_at);
         @endphp
 
-        <div class="card card-custom {{ $isUnread ? 'border-start border-4 border-primary-custom' : '' }}">
-            <div class="card-body d-flex justify-content-between align-items-start">
+        <div class="card-custom notification-card mb-3 {{ $isUnread ? 'notification-unread' : '' }}">
 
-                <div>
-                    <div class="fw-bold text-primary-custom">
+            <div class="d-flex align-items-start w-100">
+
+                <div class="notification-icon">
+                    <i class="fa fa-bell"></i>
+                </div>
+
+                <div class="notification-content ms-3">
+
+                    <div class="notification-title">
                         {{ $data['title'] ?? 'Notificação' }}
                     </div>
 
-                    <div class="text-muted mt-1">
+                    <div class="notification-text">
                         {{ $data['message'] ?? '' }}
                     </div>
 
-                    <div class="small text-muted mt-2">
-                        <i class="far fa-clock me-1"></i>
-                        {{ $notification->created_at->diffForHumans() }}
+                    <div class="notification-time">
+                        <i class="fa fa-clock-o"></i>
+                        {{ $notification->created_at->locale('pt_BR')->diffForHumans() }}
                     </div>
+
                 </div>
 
-                <div class="d-flex flex-column gap-2 align-items-end">
+                <div class="d-flex flex-column gap-2 align-items-end ms-auto">
 
                     @if(isset($data['url']))
-                        <x-buttons.link-button href="{!! $data['url'] !!}" variant="success">
-                            <i class="fas fa-arrow-right"></i> Abrir
+                        <x-buttons.link-button
+                            href="{{ $data['url'] }}"
+                            variant="success"
+                            size="xs"
+                        >
+                            Abrir
                         </x-buttons.link-button>
                     @endif
 
                     @if($isUnread)
                         <form action="{{ route('notifications.read', $notification->id) }}" method="POST">
                             @csrf
-                            <x-buttons.submit-button type="submit" class="btn-action new submit px-5">
-                                <i class="fas fa-check"></i>
-                                Marcar como lida
+
+                            <x-buttons.submit-button
+                                type="submit"
+                                variant="primary"
+                                size="xs"
+                            >
+                                Lido
                             </x-buttons.submit-button>
                         </form>
                     @endif
@@ -77,15 +86,17 @@
         </div>
 
     @empty
-        <div class="text-center py-5 text-muted">
-            <i class="far fa-bell fa-2x mb-3"></i>
-            <div>Nenhuma notificação encontrada</div>
+
+        <div class="card-custom text-center py-5 text-muted">
+            <div class="notif-empty-icon mb-3">
+                <i class="far fa-bell"></i>
+            </div>
+            Nenhuma notificação encontrada
         </div>
+
     @endforelse
 
-    {{-- Paginação --}}
     <div class="mt-4">
         {{ $notifications->links() }}
     </div>
-
 @endsection

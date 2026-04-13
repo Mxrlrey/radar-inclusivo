@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Agenda Institucional' => route('inclusive-radar.institutional-events.index'),
+            'Agenda Institucional' => route('institutional-events.index'),
         ]"/>
     </div>
 
@@ -17,7 +17,7 @@
             subtitle="Gerenciamento de eventos institucionais."
         >
             <x-buttons.link-button
-                :href="route('inclusive-radar.institutional-events.create')"
+                :href="route('institutional-events.create')"
                 variant="new"
                 title="Adicionar Evento"
             >
@@ -41,7 +41,7 @@
         </div>
 
         <div id="events-table" class="p-3">
-            @include('pages.inclusive-radar.institutional-events.partials.table', ['events' => $events])
+            @include('pages.institutional-events.partials.table', ['events' => $events])
         </div>
     </div>
 

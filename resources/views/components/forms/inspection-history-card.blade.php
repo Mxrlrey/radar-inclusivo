@@ -4,101 +4,66 @@
     $isBarrier = str_contains($inspection->inspectable_type, 'barrier');
 @endphp
 
-<div {{ $attributes->merge(['class' => 'card mb-3 overflow-hidden']) }}>
-    <div class="card-header bg-white d-flex justify-content-between align-items-center py-2 border-bottom-0">
-        <span class="badge px-3" style="background-color: var(--color-primary); color: white;">
+<div {{ $attributes->merge(['class' => 'inspection-item']) }}>
+    <div class="inspection-header">
+        <div class="inspection-date-badge">
             {{ $inspection->inspection_date->format('d/m/Y') }}
-        </span>
-        <span class="text-uppercase fw-bold small text-muted" style="letter-spacing: 1px;">
+        </div>
+        <div class="inspection-type-label">
             {{ $inspection->type->label() }}
-        </span>
+        </div>
     </div>
 
-    <div class="card-body pt-0 pb-3">
-        <div class="row g-0">
-            <div class="col-md-7 border-end pe-4">
-                <div class="pt-3">
-                    @if($isBarrier)
-                        <span class="d-block text-muted uppercase fw-bold mb-2" style="font-size: 0.65rem; line-height: 1;">
-                            Status da Barreira
-                        </span>
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="fw-bold text-primary fs-5 {{ $inspection->status?->color()}}">
-                                {{ $inspection->status?->label() ?? 'Identificada' }}
-                            </span>
-                        </div>
-                    @else
-                        <span class="d-block text-muted uppercase fw-bold mb-2" style="font-size: 0.65rem; line-height: 1;">
-                            Estado de Conservação
-                        </span>
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="fw-bold text-primary fs-5">
-                                {{ $inspection->state?->label() ?? '---' }}
-                            </span>
-                        </div>
-                    @endif
+    <div class="inspection-content">
+        <div class="inspection-info">
+            <div class="info-group">
+                <label>
+                    {{ $isBarrier ? 'Status da Barreira' : 'Estado de Conservação' }}
+                </label>
+
+                <div class="info-value {{ $isBarrier ? $inspection->status?->color() : '' }}">
+                    {{ $isBarrier
+                        ? ($inspection->status?->label() ?? 'Identificada')
+                        : ($inspection->state?->label() ?? '---')
+                    }}
                 </div>
+            </div>
 
-                @if($inspection->description)
-                    <div class="mt-3">
-                        <span class="d-block text-muted uppercase fw-bold mb-2" style="font-size: 0.65rem; line-height: 1; text-transform: uppercase;">
-                            Parecer Técnico / Descrição
-                        </span>
+            @if($inspection->description)
+                <div class="info-group mt-3">
+                    <label>Parecer Técnico / Descrição</label>
+                    <div class="history-description-text">
+                        {!! $inspection->description !!}
+                    </div>
+                </div>
+            @endif
+        </div>
 
-                        <div class="history-description-text">
-                            {!! $inspection->description !!}
-                        </div>
+        <div class="inspection-evidences">
+            <label>Evidências Visuais</label>
+            @if($inspection->images && $inspection->images->count() > 0)
+                @if($isBarrier)
+                    <div class="evidence-grid">
+                        @foreach($inspection->images as $img)
+                            <a href="{{ asset('storage/' . $img->path) }}" target="_blank" class="evidence-thumb">
+                                <img src="{{ asset('storage/' . $img->path) }}" alt="Evidência">
+                            </a>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="evidence-list">
+                        @foreach($inspection->images as $img)
+                            <a href="{{ asset('storage/' . $img->path) }}" target="_blank" class="evidence-thumb-small">
+                                <img src="{{ asset('storage/' . $img->path) }}" alt="Evidência">
+                            </a>
+                        @endforeach
                     </div>
                 @endif
-            </div>
-
-            <div class="col-md-5 ps-md-4">
-                <div class="pt-3">
-                    <span class="d-block text-muted uppercase fw-bold mb-2" style="font-size: 0.65rem; line-height: 1;">
-                        Evidências Visuais
-                    </span>
-
-                    @if($inspection->images && $inspection->images->count() > 0)
-                        @if($isBarrier)
-                            <div class="row g-2 pt-1">
-                                @foreach($inspection->images as $img)
-                                    <div class="col-4">
-                                        <div class="position-relative" style="aspect-ratio: 1/1;">
-                                            <a href="{{ asset('storage/' . $img->path) }}" target="_blank">
-                                                <img src="{{ asset('storage/' . $img->path) }}"
-                                                     class="border w-100 h-100"
-                                                     alt="Foto de evidência da vistoria"
-                                                     style="object-fit:cover;"
-                                                >
-                                            </a>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @else
-                            <div class="d-flex flex-wrap gap-2 pt-1">
-                                @foreach($inspection->images as $img)
-                                    <div class="position-relative d-inline-block" style="width:70px; height:70px;">
-                                        <a href="{{ asset('storage/' . $img->path) }}" target="_blank">
-                                            <img src="{{ asset('storage/' . $img->path) }}"
-                                                 class="border"
-                                                 alt="Foto de evidência da vistoria"
-                                                 style="width:100%; height:100%; object-fit:cover;"
-                                            >
-                                        </a>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-                    @else
-                        <div class="text-center py-3 bg-light border mt-1">
-                            <span class="text-muted small" style="font-size:0.7rem;">
-                                Nenhuma foto registrada
-                            </span>
-                        </div>
-                    @endif
+            @else
+                <div class="no-evidence">
+                    <span>Nenhuma foto registrada</span>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 </div>

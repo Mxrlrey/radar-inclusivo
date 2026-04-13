@@ -1,6 +1,6 @@
 <x-table.table :headers="['Cargo', 'Ativo', 'Ações']">
     @forelse($positions as $item)
-            <tr> 
+            <tr>
                 <x-table.td><strong>{{ $item->name }}</strong></x-table.td>
 
                 <x-table.td>
@@ -15,13 +15,13 @@
                     <x-table.actions>
 
                         <x-buttons.link-button
-                            :href="route('specialized-educational-support.positions.show', $item)"
+                            :href="route('positions.show', $item)"
                             variant="info"
                         >
                             <i class="fas fa-eye"></i>ver
                         </x-buttons.link-button>
 
-                        <form action="{{ route('specialized-educational-support.positions.deactivate', $item) }}" method="POST" class="d-inline">
+                        <form action="{{ route('positions.deactivate', $item) }}" method="POST" class="d-inline">
                             @csrf
                             @method('PATCH')
                             <x-buttons.submit-button variant="success">
@@ -29,7 +29,7 @@
                             </x-buttons.submit-button>
                         </form>
 
-                        <form action="{{ route('specialized-educational-support.positions.destroy', $item) }}" method="POST" class="d-inline">
+                        <form action="{{ route('positions.destroy', $item) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <x-buttons.submit-button

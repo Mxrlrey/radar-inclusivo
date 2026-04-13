@@ -9,7 +9,7 @@
 >
     @forelse($features as $feature)
         <tr>
-            <x-table.td>
+            <x-table.td scope="row" class="font-weight-medium">
                 {{ $feature->name }}
             </x-table.td>
 
@@ -25,24 +25,26 @@
                         :href="route('accessibility-features.show', $feature)"
                         variant="info"
                         size="xs"
-                        title="Visualizar Recursos de Acessibilidade"
+                        title="Visualizar {{ $feature->name }}"
+                        aria-label="Visualizar detalhes do recurso {{ $feature->name }}"
                     >
-                        <i class="fa fa-eye"></i>
+                        <i class="fa fa-eye" aria-hidden="true"></i>
                     </x-buttons.link-button>
 
                     <form action="{{ route('accessibility-features.destroy', $feature) }}"
                           method="POST"
                           class="d-inline"
-                          title="Remover Recursos de Acessibilidade"
                     >
                         @csrf
                         @method('DELETE')
                         <x-buttons.submit-button
                             variant="danger"
                             size="xs"
-                            onclick="return confirm('Deseja realmente remover este recurso?')"
+                            title="Remover {{ $feature->name }}"
+                            aria-label="Excluir recurso {{ $feature->name }}"
+                            onclick="return confirm('Deseja realmente remover o recurso {{ $feature->name }}?')"
                         >
-                            <i class="fa fa-eraser"></i>
+                            <i class="fa fa-eraser" aria-hidden="true"></i>
                         </x-buttons.submit-button>
                     </form>
                 </x-table.actions>

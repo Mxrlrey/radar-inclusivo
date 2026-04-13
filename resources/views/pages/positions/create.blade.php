@@ -4,7 +4,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Cargos' => route('specialized-educational-support.positions.index'),
+            'Cargos' => route('positions.index'),
             'Cadastrar' => null
         ]" />
     </div>
@@ -14,33 +14,33 @@
             <h2 class="text-title">Cadastrar Novo Cargo</h2>
             <p class="text-muted">Defina as atribuições e o status do cargo no sistema.</p>
         </div>
-        <x-buttons.link-button href="{{ route('specialized-educational-support.positions.index') }}" variant="secondary">
+        <x-buttons.link-button href="{{ route('positions.index') }}" variant="secondary">
             <i class="fas fa-times"></i>Cancelar
         </x-buttons.link-button>
     </div>
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('specialized-educational-support.positions.store') }}" method="POST">
-            
+        <x-forms.form-card action="{{ route('positions.store') }}" method="POST">
+
             <x-forms.section title="Informações do Cargo" />
 
             <div class="col-md-6">
-                <x-forms.input 
-                    name="name" 
-                    label="Nome do Cargo " 
-                    required 
+                <x-forms.input
+                    name="name"
+                    label="Nome do Cargo "
+                    required
                     placeholder="Ex: Professor AEE, Psicólogo..."
-                    :value="old('name')" 
+                    :value="old('name')"
                 />
             </div>
 
             <div class="col-md-12">
-                <x-forms.textarea 
-                    name="description" 
-                    label="Descrição" 
-                    rows="3" 
+                <x-forms.textarea
+                    name="description"
+                    label="Descrição"
+                    rows="3"
                     placeholder="Breve descrição das responsabilidades..."
-                    :value="old('description')" 
+                    :value="old('description')"
                 />
             </div>
 
@@ -93,7 +93,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-3 border-t pt-4 px-4 pb-4">
-                <x-buttons.link-button href="{{ route('specialized-educational-support.positions.index') }}" variant="secondary">
+                <x-buttons.link-button href="{{ route('positions.index') }}" variant="secondary">
                     <i class="fas fa-times"></i>Cancelar
                 </x-buttons.link-button>
 

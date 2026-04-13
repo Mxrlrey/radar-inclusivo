@@ -2,6 +2,7 @@
 
 @php
     use Illuminate\Database\Eloquent\Relations\Relation;
+    use Illuminate\Support\Str;
 
     $modelClass = Relation::getMorphedModel($log->auditable_type) ?? $log->auditable_type;
 
@@ -18,53 +19,59 @@
             return '—';
         }
 
+        $formatted = null;
+
+        // 1. Tenta usar o seu Formatter customizado (AccessibleEducationalMaterialFormatter)
         if (class_exists($modelClass) && method_exists($modelClass, 'auditFormatter')) {
-            $formatted = (new ($modelClass::auditFormatter()))->format($field, $value);
-            if ($formatted !== null) return $formatted;
+            $formatterClass = $modelClass::auditFormatter();
+            if (class_exists($formatterClass)) {
+                $formatter = new $formatterClass();
+                $formatted = $formatter->format($field, $value);
+            }
         }
 
-        if (is_bool($value)) return $value ? 'Sim' : 'Não';
-        if (is_array($value)) return implode(', ', $value);
+        // 2. Se o formatter não tratou o campo, aplica lógica padrão
+        if ($formatted === null) {
+            if (is_bool($value)) $formatted = $value ? 'Sim' : 'Não';
+            elseif (is_array($value)) $formatted = implode(', ', $value);
+            else $formatted = (string) $value;
+        }
 
-        return (string) $value;
+        // 3. LIMPEZA FINAL (CKEditor e HTML)
+        if (is_string($formatted)) {
+            $formatted = strip_tags($formatted);
+            $formatted = html_entity_decode($formatted);
+            $formatted = Str::limit($formatted, 150);
+        }
+
+        return $formatted;
     };
 @endphp
 
-<div class="log-change-list">
-    @if($log->action === 'updated' && !empty($allFields))
+<div class="table-responsive">
+    <table class="table table-sm table-borderless mb-0">
+        <thead style="background-color: var(--table-header-bg); color: var(--table-header-color);">
+        <tr>
+            <th class="ps-3 py-2" style="width: 30%">Campo</th>
+            <th class="py-2">De</th>
+            <th class="py-2">Para</th>
+        </tr>
+        </thead>
+        <tbody>
         @foreach($allFields as $field)
             @continue(in_array($field, ['updated_at', 'created_at', 'deleted_at']))
-
-            <div class="change-item">
-                <div class="field-name">
+            <tr class="border-bottom">
+                <td class="ps-3 fw-bold text-muted small">
                     {{ $fieldLabels[$field] ?? ucfirst(str_replace('_', ' ', $field)) }}
-                </div>
-
-                <div class="values-diff">
-                    <span class="old-value">
-                        {!! $formatValue($field, $oldValues[$field] ?? null) !!}
-                    </span>
-
-                    <i class="fas fa-long-arrow-alt-right diff-arrow"></i>
-
-                    <span class="new-value">
-                        {!! $formatValue($field, $newValues[$field] ?? null) !!}
-                    </span>
-                </div>
-            </div>
+                </td>
+                <td class="small text-danger">
+                    <strike>{{ $formatValue($field, $oldValues[$field] ?? null) }}</strike>
+                </td>
+                <td class="small text-success fw-bold">
+                    {{ $formatValue($field, $newValues[$field] ?? null) }}
+                </td>
+            </tr>
         @endforeach
-
-    @elseif($log->action === 'created')
-        <div class="audit-note audit-note-info">
-            Registro inicializado com os dados do sistema.
-        </div>
-
-    @elseif($log->action === 'deleted')
-        <div class="audit-note audit-note-danger">
-            Registro removido permanentemente.
-        </div>
-
-    @else
-        <div class="text-muted small">—</div>
-    @endif
+        </tbody>
+    </table>
 </div>

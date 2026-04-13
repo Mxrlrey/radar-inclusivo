@@ -6,8 +6,8 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Instituições' => route('inclusive-radar.institutions.index'),
-            $institution->name => route('inclusive-radar.institutions.show', $institution),
+            'Instituições' => route('institutions.index'),
+            $institution->name => route('institutions.show', $institution),
             'Editar' => null
         ]" />
     </div>
@@ -21,14 +21,14 @@
         </div>
 
         <div>
-            <x-buttons.link-button href="{{ route('inclusive-radar.institutions.show', $institution) }}" variant="secondary">
+            <x-buttons.link-button href="{{ route('institutions.show', $institution) }}" variant="secondary">
                 <i class="fas fa-times"></i> Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('inclusive-radar.institutions.update', $institution) }}" method="POST">
+        <x-forms.form-card action="{{ route('institutions.update', $institution) }}" method="POST">
             @method('PUT')
             <div class="col-lg-5 border-end">
 
@@ -168,7 +168,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4 mt-4">
-                <x-buttons.link-button href="{{ route('inclusive-radar.institutions.show', $institution) }}" variant="secondary">
+                <x-buttons.link-button href="{{ route('institutions.show', $institution) }}" variant="secondary">
                     <i class="fas fa-times"></i> Cancelar
                 </x-buttons.link-button>
 

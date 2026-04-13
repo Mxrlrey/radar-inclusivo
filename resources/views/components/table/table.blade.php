@@ -1,16 +1,17 @@
 @props([
     'headers' => [],
     'tableClass' => 'table table-hover mb-0',
-    'records' => null
+    'records' => null,
+    'label' => 'Listagem'
 ])
 
 <div class="table-container">
     <div class="table-responsive">
-        <table {{ $attributes->merge(['class' => $tableClass . ' w-100']) }}>
+        <table {{ $attributes->merge(['class' => $tableClass . ' w-100']) }} aria-label="{{ $label }}">
             <thead>
             <tr>
                 @foreach($headers as $header)
-                    <x-table.th :class="$header['class'] ?? null">
+                    <x-table.th :class="$header['class'] ?? null" scope="col">
                         {{ $header['label'] ?? $header }}
                     </x-table.th>
                 @endforeach
@@ -23,14 +24,14 @@
     </div>
 
     @if($records instanceof \Illuminate\Pagination\LengthAwarePaginator && $records->hasPages())
-        <div class="px-4 py-3 border-top d-flex justify-content-between align-items-center bg-white custom-pagination-container">
+        <div class="px-4 py-3 border-top d-flex justify-content-between align-items-center bg-white custom-pagination-container" role="status">
             <div class="text-muted small fw-medium">
                 Mostrando <span class="text-primary">{{ $records->firstItem() }}</span>
                 - <span class="text-primary">{{ $records->lastItem() }}</span>
                 de <span class="text-primary">{{ $records->total() }}</span>
             </div>
 
-            <nav>
+            <nav aria-label="Navegação da página">
                 {{ $records->links('pagination::bootstrap-4') }}
             </nav>
         </div>

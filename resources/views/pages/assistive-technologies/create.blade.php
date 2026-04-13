@@ -3,169 +3,167 @@
 @section('title', 'Cadastrar - Tecnologia Assistiva')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Tecnologias Assistivas' => route('assistive-technologies.index'),
-            'Cadastrar' => null
-        ]" />
-    </div>
-
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <header>
-            <h2 class="text-title">Nova Tecnologia Assistiva</h2>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Tecnologias Assistivas' => route('assistive-technologies.index'),
+                'Cadastrar' => null
+            ]" />
+            <h1>Nova Tecnologia Assistiva</h1>
             <p class="text-muted mb-0">
                 Cadastre novos recursos institucionais e realize a vistoria inicial.
             </p>
-        </header>
+        </div>
 
-        <div>
+        <div class="page-header-actions">
             <x-buttons.link-button
                 :href="route('assistive-technologies.index')"
                 variant="secondary"
             >
-                <i class="fas fa-times"></i> Cancelar
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
-    <div class="mt-3">
-        <x-forms.form-card
-            action="{{ route('assistive-technologies.store') }}"
-            method="POST"
-            enctype="multipart/form-data"
-        >
-            @csrf
+    <x-forms.form-card
+        action="{{ route('assistive-technologies.store') }}"
+        method="POST"
+        enctype="multipart/form-data"
+        class="form-horizontal"
+    >
+        @csrf
 
-            <x-forms.section title="Identificação do Recurso" />
+        <x-forms.section
+            title="Identificação do Recurso"
+            description="Informe os dados básicos da tecnologia assistiva."
+        />
 
-            <div class="col-md-12">
-                <x-forms.input
-                    name="name"
-                    label="Tipo da Tecnologia"
-                    required
-                    placeholder="Ex: Cadeira de Rodas Motorizada"
-                    :value="old('name')"
-                />
-            </div>
+        <x-forms.input
+            name="name"
+            label="Tipo da Tecnologia"
+            required
+            :horizontal="true"
+            placeholder="Ex: Cadeira de Rodas Motorizada"
+            :value="old('name')"
+        />
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="is_digital"
-                    label="Natureza do Recurso"
-                    required
-                    :options="[0 => 'Recurso Físico', 1 => 'Recurso Digital']"
-                    :selected="old('is_digital', 0)"
-                />
-            </div>
+        <x-forms.select
+            name="is_digital"
+            label="Natureza do Recurso"
+            required
+            :horizontal="true"
+            :options="[0 => 'Recurso Físico', 1 => 'Recurso Digital']"
+            :selected="old('is_digital', 0)"
+        />
 
-            <div class="col-md-6" id="asset_code_container">
-                <x-forms.input
-                    name="asset_code"
-                    label="Patrimônio / Tombamento"
-                    :value="old('asset_code')"
-                />
-            </div>
+        <x-forms.input
+            name="asset_code"
+            label="Patrimônio / Tombamento"
+            :horizontal="true"
+            :value="old('asset_code')"
+            id="asset_code_container"
+        />
 
-            <div class="col-md-12">
-                <x-forms.textarea
-                    name="notes"
-                    label="Descrição"
-                    rows="3"
-                    :value="old('notes')"
-                />
-            </div>
+        <x-forms.textarea
+            name="notes"
+            label="Descrição"
+            :horizontal="true"
+            rows="3"
+            :value="old('notes')"
+        />
 
-            <x-forms.section title="Vistoria Inicial" />
+        <x-forms.separator />
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="inspection_type"
-                    label="Tipo de Inspeção"
-                    required
-                    :options="$inspectionTypes"
-                    :selected="old('inspection_type', $defaultInspection)"
-                />
-            </div>
+        <x-forms.section
+            title="Vistoria Inicial"
+            description="Registre o estado do item no momento do cadastro."
+        />
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="inspection_date"
-                    label="Data da Inspeção"
-                    type="date"
-                    required
-                    :value="old('inspection_date', date('Y-m-d'))"
-                />
-            </div>
+        <x-forms.select
+            name="inspection_type"
+            label="Tipo de Inspeção"
+            required
+            :horizontal="true"
+            :options="$inspectionTypes"
+            :selected="old('inspection_type', $defaultInspection)"
+        />
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="conservation_state"
-                    label="Estado de Conservação"
-                    required
-                    :options="$conservationStates"
-                    :selected="old('conservation_state')"
-                />
-            </div>
+        <x-forms.input
+            name="inspection_date"
+            label="Data da Inspeção"
+            type="date"
+            required
+            :horizontal="true"
+            :value="old('inspection_date', date('Y-m-d'))"
+        />
 
-            <div class="col-md-6">
-                <x-forms.image-uploader
-                    name="images[]"
-                    label="Fotos de Evidência"
-                />
-            </div>
+        <x-forms.select
+            name="conservation_state"
+            label="Estado de Conservação"
+            required
+            :horizontal="true"
+            :options="$conservationStates"
+            :selected="old('conservation_state')"
+        />
 
-            <div class="col-md-12">
-                <x-forms.textarea
-                    name="inspection_description"
-                    label="Parecer Técnico"
-                    rows="3"
-                    placeholder="Descreva o estado do item ou detalhes da vistoria inicial..."
-                    :value="old('inspection_description')"
-                />
-            </div>
+        <x-forms.image-uploader
+            name="images[]"
+            label="Fotos de Evidência"
+            :horizontal="true"
+        />
 
-            <x-forms.section title="Gestão e Público" />
+        <x-forms.textarea
+            name="inspection_description"
+            label="Parecer Técnico"
+            :horizontal="true"
+            rows="3"
+            :value="old('inspection_description')"
+        />
 
-            <div class="col-md-6 d-flex flex-column gap-3">
-                <x-forms.input
-                    name="quantity"
-                    label="Quantidade Total"
-                    type="number"
-                    min="1"
-                    :value="old('quantity', 1)"
-                />
+        <x-forms.separator />
 
-                <x-forms.checkbox
-                    name="is_loanable"
-                    label="Permitir Empréstimos"
-                    description="Marque se este recurso pode ser emprestado"
-                    :checked="old('is_loanable', true)"
-                />
-            </div>
+        <x-forms.section
+            title="Gestão e Público"
+            description="Configure disponibilidade e público-alvo da tecnologia."
+        />
 
-            <div class="col-md-6 d-flex flex-column gap-3">
-                <x-forms.select
-                    name="status"
-                    label="Status do Recurso"
-                    :options="$resourceStatuses"
-                    :selected="old('status', $defaultStatus)"
-                />
+        <x-forms.input
+            name="quantity"
+            label="Quantidade Total"
+            type="number"
+            :horizontal="true"
+            min="1"
+            :value="old('quantity', 1)"
+        />
 
-                <x-forms.checkbox
-                    name="is_active"
-                    label="Ativar no Sistema"
-                    description="Disponível para visualização e empréstimos"
-                    :checked="old('is_active', true)"
-                />
-            </div>
+        <x-forms.select
+            name="status"
+            label="Status do Recurso"
+            :horizontal="true"
+            :options="$resourceStatuses"
+            :selected="old('status', $defaultStatus)"
+        />
 
-            <div class="col-md-12 mb-4 mt-4">
-                <span class="d-block form-label fw-bold text-purple-dark mb-3">
-                    Público-alvo (Deficiências Atendidas)
-                </span>
+        <x-forms.switch
+            name="is_loanable"
+            label="Permitir Empréstimos"
+            :horizontal="true"
+            :checked="old('is_loanable', true)"
+        />
 
-                <div class="d-flex flex-wrap gap-4 p-3 border rounded bg-light @error('deficiencies') border-danger @enderror">
+        <x-forms.switch
+            name="is_active"
+            label="Ativar no Sistema"
+            :horizontal="true"
+            :checked="old('is_active', true)"
+        />
+
+        <div class="form-group-horizontal mb-3">
+            <label class="control-label">Público-Alvo</label>
+            <div class="field-wrapper">
+                <div class="d-flex flex-wrap gap-3 p-3 border checkbox-group-wrapper @error('deficiencies') border-danger @enderror">
                     @foreach($deficiencies as $def)
                         <x-forms.checkbox
                             name="deficiencies[]"
@@ -181,21 +179,22 @@
                 <small class="text-danger d-block mt-1">{{ $message }}</small>
                 @enderror
             </div>
+        </div>
 
-            <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4">
-                <x-buttons.link-button
-                    :href="route('assistive-technologies.index')"
-                    variant="secondary"
-                >
-                    <i class="fas fa-times"></i> Cancelar
-                </x-buttons.link-button>
+        <x-forms.form-footer>
+            <x-buttons.link-button
+                :href="route('assistive-technologies.index')"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
+            </x-buttons.link-button>
 
-                <x-buttons.submit-button>
-                    <i class="fas fa-save me-1"></i> Cadastrar
-                </x-buttons.submit-button>
-            </div>
-        </x-forms.form-card>
-    </div>
-
+            <x-buttons.submit-button variant="new">
+                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                Cadastrar
+            </x-buttons.submit-button>
+        </x-forms.form-footer>
+    </x-forms.form-card>
     @vite('resources/js/pages/assistive-technologies.js')
 @endsection

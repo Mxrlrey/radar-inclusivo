@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Pontos de Referência' => route('inclusive-radar.locations.index'),
+            'Pontos de Referência' => route('locations.index'),
             $location->name => null
         ]" />
     </div>
@@ -22,14 +22,14 @@
 
         <div>
             <x-buttons.link-button
-                :href="route('inclusive-radar.locations.edit', $location)"
+                :href="route('locations.edit', $location)"
                 variant="warning"
             >
                 <i class="fas fa-edit"></i> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('inclusive-radar.locations.index')"
+                :href="route('locations.index')"
                 variant="secondary"
             >
                 <i class="fas fa-arrow-left"></i> Voltar
@@ -101,7 +101,7 @@
                 </div>
 
                 <div class="d-flex gap-3">
-                    <form action="{{ route('inclusive-radar.locations.destroy', $location) }}" method="POST" class="d-inline">
+                    <form action="{{ route('locations.destroy', $location) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <x-buttons.submit-button
@@ -113,7 +113,7 @@
                     </form>
 
                     <x-buttons.link-button
-                        :href="route('inclusive-radar.locations.index')"
+                        :href="route('locations.index')"
                         variant="secondary"
                     >
                         <i class="fas fa-arrow-left"></i> Voltar

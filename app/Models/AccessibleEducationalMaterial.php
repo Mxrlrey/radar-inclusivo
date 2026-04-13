@@ -56,6 +56,7 @@ class AccessibleEducationalMaterial extends Model implements AuditableContract
             'conservation_state'    => 'Estado de Conservação',
             'status'                => 'Status do Recurso',
             'is_active'             => 'Cadastro Ativo',
+            'is_loanable'           => 'Emprestável',
             'deficiencies'          => 'Público-Alvo',
             'accessibility_features'=> 'Recursos de Acessibilidade',
         ];

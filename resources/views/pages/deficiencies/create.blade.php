@@ -1,65 +1,104 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('title', 'Cadastrar - Deficiência')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Deficiências' => route('specialized-educational-support.deficiencies.index'),
-            'Cadastrar' => null
-        ]" />
-    </div>
-    <div class="d-flex justify-content-between mb-3">
-        <div>
-            <h2 class="text-title">Cadastrar Nova Deficiência</h2>
-            <p class="text-muted">Cadastre as categorias de deficiência para o suporte especializado.</p>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Deficiências' => route('deficiencies.index'),
+                'Cadastrar' => null
+            ]" />
+
+            <h1>Nova Deficiência</h1>
+
+            <p class="text-muted mb-0">
+                Cadastre categorias de deficiência utilizadas no sistema de suporte especializado.
+            </p>
         </div>
-        <x-buttons.link-button href="{{ route('specialized-educational-support.deficiencies.index') }}" variant="secondary">
-            <i class="fas fa-times"></i>Cancelar
-        </x-buttons.link-button>
+
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('deficiencies.index')"
+                variant="secondary"
+            >
+                <x-slot:icon>
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </x-slot:icon>
+                Cancelar
+            </x-buttons.link-button>
+        </div>
     </div>
 
-    <div class="mt-3">
-        <x-forms.form-card action="{{ route('specialized-educational-support.deficiencies.store') }}" method="POST">
-            
-            <x-forms.section title="Identificação" />
+    <x-forms.form-card
+        action="{{ route('deficiencies.store') }}"
+        method="POST"
+        class="form-horizontal"
+    >
+        @csrf
 
-            <div class="col-md-6">
-                <x-forms.input 
-                    name="name" 
-                    label="Nome da Deficiência " 
-                    required 
-                    :value="old('name')" 
-                />
-            </div>
+        <x-forms.section
+            title="Identificação da Deficiência"
+            description="Informe os dados básicos da categoria de deficiência."
+        />
 
-            <div class="col-md-6">
-                <x-forms.input 
-                    name="cid_code" 
-                    label="Código CID" 
-                    placeholder="Ex: F84.0"
-                    :value="old('cid_code')" 
-                />
-            </div>
+        <x-forms.input
+            name="name"
+            label="Nome da Deficiência"
+            required
+            :horizontal="true"
+            :value="old('name')"
+            placeholder="Ex: Deficiência Intelectual"
+        />
 
-            <div class="col-md-12">
-                <x-forms.textarea 
-                    name="description" 
-                    label="Descrição / Detalhes" 
-                    rows="3" 
-                    :value="old('description')" 
-                />
-            </div>
+        <x-forms.input
+            name="cid_code"
+            label="Código CID"
+            :horizontal="true"
+            :value="old('cid_code')"
+            placeholder="Ex: F84.0"
+        />
 
-            <div class="col-12 d-flex justify-content-end gap-3 border-t pt-4 px-4 pb-4">
-                <x-buttons.link-button href="{{ route('specialized-educational-support.deficiencies.index') }}" variant="secondary">
-                     <i class="fas fa-times"></i>Cancelar
-                </x-buttons.link-button>
+        <x-forms.textarea
+            name="description"
+            label="Descrição"
+            :horizontal="true"
+            rows="3"
+            :value="old('description')"
+        />
 
-                <x-buttons.submit-button type="submit" class="btn-action new submit">
-                    <i class="fas fa-save "></i> Salvar
-                </x-buttons.submit-button>
-            </div>
+        <x-forms.separator />
 
-        </x-forms.form-card>
-    </div>
+        <x-forms.section
+            title="Status do Registro"
+            description="Defina se a deficiência estará ativa no sistema."
+        />
+
+        <x-forms.switch
+            name="is_active"
+            label="Ativar no Sistema"
+            :horizontal="true"
+            :checked="old('is_active', true)"
+        />
+
+        <x-forms.form-footer>
+            <x-buttons.link-button
+                :href="route('deficiencies.index')"
+                variant="secondary"
+            >
+                <x-slot:icon>
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </x-slot:icon>
+                Cancelar
+            </x-buttons.link-button>
+
+            <x-buttons.submit-button variant="new">
+                <x-slot:icon>
+                    <i class="fa fa-save" aria-hidden="true"></i>
+                </x-slot:icon>
+                Cadastrar
+            </x-buttons.submit-button>
+        </x-forms.form-footer>
+    </x-forms.form-card>
 @endsection

@@ -1,7 +1,7 @@
 {{-- Tabela com Paginação --}}
 <x-table.table
     :headers="['Nome','Contato', 'Matrícula', 'Status', 'Ingresso', 'Ações']"
-    :records="$students" 
+    :records="$students"
 >
     @forelse($students as $student)
         <tr>
@@ -27,14 +27,14 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('specialized-educational-support.students.show', $student)"
+                        :href="route('students.show', $student)"
                         variant="info"
                         title="Ver ficha do aluno"
                     >
                         <i class="fas fa-eye"></i>Ver
                     </x-buttons.link-button>
 
-                    <form action="{{ route('specialized-educational-support.students.destroy', $student) }}"
+                    <form action="{{ route('students.destroy', $student) }}"
                         method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')

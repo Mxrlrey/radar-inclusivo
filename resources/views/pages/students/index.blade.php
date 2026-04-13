@@ -9,7 +9,7 @@
             'Alunos' => null
         ]" />
     </div>
- 
+
     {{-- CARD UNIFICADO --}}
     <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
         {{-- HEADER --}}
@@ -19,7 +19,7 @@
         >
             {{-- Botão de ação --}}
             <x-buttons.link-button
-                :href="route('specialized-educational-support.students.create')"
+                :href="route('students.create')"
                 variant="new"
                 title="Adicionar alunos"
             >
@@ -44,32 +44,11 @@
                         'name' => 'registration',
                         'placeholder' => 'Matrícula...'
                     ],
-                    [
-                        'name' => 'status',
-                        'type' => 'select',
-                        'options' => [
-                            '' => 'Status (Todos)',
-                            'active' => 'Ativo',
-                            'locked' => 'Trancado',
-                            'completed' => 'Concluído',
-                            'dropped' => 'Evadido',
-                        ]
-                    ],
-                    [
-                        'name' => 'semester',
-                        'type' => 'select',
-                        'options' => ['' => 'Semestre (Todos)'] +
-                            collect($semesters)
-                                ->mapWithKeys(fn($semester) => [
-                                    $semester->id => $semester->label
-                                ])
-                                ->toArray()
-                    ],
                 ]"
             />
         </div>
         <div id="students-table" class="p-3">
-            @include('pages.specialized-educational-support.students.partials.table')
+            @include('pages.students.partials.table')
         </div>
     </div>
     @push('scripts')

@@ -1,19 +1,19 @@
 @props([
     'name',
     'options' => [],
-    'label' => 'Filtrar por semestre'
+    'ariaLabel' => null
 ])
 
 <select
     name="{{ $name }}"
     id="{{ $name }}"
-    class="semester-filter"
+    class="filter-select"
     data-filter-input
-    aria-label="{{ $label }}"
+    aria-label="{{ $ariaLabel }}"
 >
     @foreach($options as $value => $labelOption)
         <option value="{{ $value }}"
-            @selected(request()->query($name) === (string) $value)>
+            @selected(request()->query($name) !== null && request()->query($name) == (string)$value)>
             {{ $labelOption }}
         </option>
     @endforeach

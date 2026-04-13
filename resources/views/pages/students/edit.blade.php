@@ -5,7 +5,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Alunos' => route('specialized-educational-support.students.index'),
+            'Alunos' => route('students.index'),
             'Editar' => null
         ]" />
     </div>
@@ -15,13 +15,13 @@
             <h2 class="text-title">Editar {{$student->person->name}}</h2>
             <p class="text-muted">Atualize as informações cadastrais e acadêmicas do estudante.</p>
         </div>
-        <x-buttons.link-button href="{{ route('specialized-educational-support.students.show', $student) }}" variant="secondary">
+        <x-buttons.link-button href="{{ route('students.show', $student) }}" variant="secondary">
             <i class="fas fa-times"></i>Cancelar
         </x-buttons.link-button>
     </div>
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('specialized-educational-support.students.update', $student) }}" method="POST" enctype="multipart/form-data">
+        <x-forms.form-card action="{{ route('students.update', $student) }}" method="POST" enctype="multipart/form-data">
             @method('PUT')
 
             <x-forms.section title="Dados Pessoais" />
@@ -31,36 +31,36 @@
                 label="Foto do Aluno"
                 :current="$student->person->photo_url"
             />
-            
+
 
             <div class="col-md-6">
-                <x-forms.input 
-                    name="name" 
-                    label="Nome Completo " 
-                    required 
-                    :value="old('name', $student->person->name)" 
+                <x-forms.input
+                    name="name"
+                    label="Nome Completo "
+                    required
+                    :value="old('name', $student->person->name)"
                 />
             </div>
 
             <div class="col-md-6">
-                <x-forms.input 
-                    name="document" 
-                    label="Documento " 
+                <x-forms.input
+                    name="document"
+                    label="Documento "
                     class="cpf-mask"
-                    maxlength="14"  
+                    maxlength="14"
                     placeholder="000.000.000-00"
-                    required 
-                    :value="old('document', $student->person->document)" 
+                    required
+                    :value="old('document', $student->person->document)"
                 />
             </div>
 
             <div class="col-md-6">
-                <x-forms.input 
-                    name="birth_date" 
-                    label="Data de Nascimento " 
-                    type="date" 
-                    required 
-                    :value="old('birth_date', optional($student->person->birth_date)->format('Y-m-d'))" 
+                <x-forms.input
+                    name="birth_date"
+                    label="Data de Nascimento "
+                    type="date"
+                    required
+                    :value="old('birth_date', optional($student->person->birth_date)->format('Y-m-d'))"
                 />
             </div>
 
@@ -80,23 +80,23 @@
             </div>
 
             <div class="col-md-6">
-                <x-forms.input 
-                    name="email" 
-                    label="E-mail " 
-                    type="email" 
-                    required 
-                    :value="old('email', $student->person->email)" 
+                <x-forms.input
+                    name="email"
+                    label="E-mail "
+                    type="email"
+                    required
+                    :value="old('email', $student->person->email)"
                 />
             </div>
 
             <div class="col-md-6">
-                <x-forms.input 
-                    name="phone" 
+                <x-forms.input
+                    name="phone"
                     label="Telefone"
-                    class="phone-mask" 
-                    maxlength="15" 
-                    placeholder="(00) 00000-0000" 
-                    :value="old('phone', $student->person->phone)" 
+                    class="phone-mask"
+                    maxlength="15"
+                    placeholder="(00) 00000-0000"
+                    :value="old('phone', $student->person->phone)"
                 />
             </div>
 
@@ -112,26 +112,26 @@
             <x-forms.section title="Dados Acadêmicos" />
 
             <div class="col-md-6">
-                <x-forms.input 
-                    name="registration" 
-                    label="Matrícula " 
-                    required 
-                    :value="old('registration', $student->registration)" 
+                <x-forms.input
+                    name="registration"
+                    label="Matrícula "
+                    required
+                    :value="old('registration', $student->registration)"
                 />
             </div>
 
             <div class="col-md-6">
-                <x-forms.input 
-                    name="entry_date" 
-                    label="Data de Ingresso " 
-                    type="date" 
-                    required 
-                    :value="old('entry_date', $student->entry_date)" 
+                <x-forms.input
+                    name="entry_date"
+                    label="Data de Ingresso "
+                    type="date"
+                    required
+                    :value="old('entry_date', $student->entry_date)"
                 />
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-3 border-t pt-4 px-4 pb-4">
-                <x-buttons.link-button href="{{ route('specialized-educational-support.students.show', $student) }}" variant="secondary">
+                <x-buttons.link-button href="{{ route('students.show', $student) }}" variant="secondary">
                     <i class="fas fa-times"></i>Cancelar
                 </x-buttons.link-button>
 

@@ -53,54 +53,65 @@
     </div>
 </nav>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    (function() {
+        const initNavbarTools = () => {
+            // 1. Seletores (Usando documentElement para sincronizar com o script do head)
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
 
-        // ===== TEMA =====
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-        const body = document.body;
+            if (!themeToggle || !themeIcon) return;
 
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            body.classList.add('theme-dark');
-            themeIcon.className = 'fa fa-sun-o';
-        } else {
-            body.classList.remove('theme-dark');
-            themeIcon.className = 'fa fa-moon-o';
-        }
-
-        themeToggle.addEventListener('click', function() {
-            if (body.classList.contains('theme-dark')) {
-                body.classList.remove('theme-dark');
-                themeIcon.className = 'fa fa-moon-o';
-                localStorage.setItem('theme', 'light');
-            } else {
-                body.classList.add('theme-dark');
+            // 2. Sincronização Inicial de Ícone
+            // Já que o script do head já aplicou a classe no <html>, só ajustamos o ícone
+            if (html.classList.contains('theme-dark')) {
                 themeIcon.className = 'fa fa-sun-o';
-                localStorage.setItem('theme', 'dark');
             }
-        });
 
-        // ===== FULLSCREEN =====
-        const fullscreenToggle = document.getElementById('fullscreenToggle');
-        const fullscreenIcon = document.getElementById('fullscreenIcon');
+            // 3. Evento de Clique do Tema (Sem conflitos)
+            themeToggle.onclick = function(e) {
+                e.preventDefault();
+                const isDark = html.classList.toggle('theme-dark');
 
-        function updateFullscreenIcon() {
-            if (document.fullscreenElement) {
-                fullscreenIcon.className = 'ion-arrow-shrink';
-            } else {
-                fullscreenIcon.className = 'ion-arrow-expand';
+                // Atualiza Ícone
+                themeIcon.className = isDark ? 'fa fa-sun-o' : 'fa fa-moon-o';
+
+                // Salva Preferência
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+                // Opcional: Se estiver usando Bootstrap 5.3 nativo também
+                html.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+            };
+
+            // 4. Fullscreen (Independente)
+            const fullscreenToggle = document.getElementById('fullscreenToggle');
+            const fullscreenIcon = document.getElementById('fullscreenIcon');
+
+            if (fullscreenToggle && fullscreenIcon) {
+                fullscreenToggle.onclick = function() {
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(err => {
+                            console.warn(`Erro ao tentar modo tela cheia: ${err.message}`);
+                        });
+                    } else {
+                        document.exitFullscreen();
+                    }
+                };
+
+                document.onfullscreenchange = function() {
+                    fullscreenIcon.className = document.fullscreenElement
+                        ? 'ion-arrow-shrink'
+                        : 'ion-arrow-expand';
+                };
             }
+        };
+
+        // Executa imediatamente se o DOM já estiver pronto, senão aguarda.
+        // Isso evita que o CKEditor "travado" impeça o botão de funcionar.
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initNavbarTools);
+        } else {
+            initNavbarTools();
         }
-
-        fullscreenToggle.addEventListener('click', function() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-            } else {
-                document.exitFullscreen();
-            }
-        });
-
-        document.addEventListener('fullscreenchange', updateFullscreenIcon);
-    });
+    })();
 </script>

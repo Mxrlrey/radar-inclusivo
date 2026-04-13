@@ -7,7 +7,7 @@
         <nav aria-label="Breadcrumb">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Agenda Institucional' => route('inclusive-radar.institutional-events.index'),
+                'Agenda Institucional' => route('institutional-events.index'),
                 'Cadastrar' => null
             ]" />
         </nav>
@@ -21,7 +21,7 @@
 
         <div>
             <x-buttons.link-button
-                href="{{ route('inclusive-radar.institutional-events.index') }}"
+                href="{{ route('institutional-events.index') }}"
                 variant="secondary"
                 label="Cancelar cadastro e voltar para a lista de agenda"
             >
@@ -42,7 +42,7 @@
     @endif
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('inclusive-radar.institutional-events.store') }}" method="POST">
+        <x-forms.form-card action="{{ route('institutional-events.store') }}" method="POST">
             @csrf
 
             <x-forms.section title="Informações Principais" />
@@ -150,7 +150,7 @@
 
             <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4 mt-4">
                 <x-buttons.link-button
-                    href="{{ route('inclusive-radar.institutional-events.index') }}"
+                    href="{{ route('institutional-events.index') }}"
                     variant="secondary"
                     label="Cancelar cadastro e voltar"
                 >

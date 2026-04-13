@@ -4,8 +4,8 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Cargos' => route('specialized-educational-support.positions.index'),
-            $position->name => route('specialized-educational-support.positions.show', $position),
+            'Cargos' => route('positions.index'),
+            $position->name => route('positions.show', $position),
             'Editar' => null
         ]" />
     </div>
@@ -15,23 +15,23 @@
             <h2 class="text-title">Editar Cargo</h2>
             <p class="text-muted">Alterando informações do cargo: <strong>{{ $position->name }}</strong></p>
         </div>
-        <x-buttons.link-button href="{{ route('specialized-educational-support.positions.show', $position) }}" variant="secondary">
+        <x-buttons.link-button href="{{ route('positions.show', $position) }}" variant="secondary">
             <i class="fas fa-times"></i>Cancelar
         </x-buttons.link-button>
     </div>
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('specialized-educational-support.positions.update', $position) }}" method="POST">
+        <x-forms.form-card action="{{ route('positions.update', $position) }}" method="POST">
             @method('PUT')
-            
+
             <x-forms.section title="Atualizar Dados" />
 
             <div class="col-md-6">
-                <x-forms.input 
-                    name="name" 
-                    label="Nome do Cargo " 
-                    required 
-                    :value="old('name', $position->name)" 
+                <x-forms.input
+                    name="name"
+                    label="Nome do Cargo "
+                    required
+                    :value="old('name', $position->name)"
                 />
             </div>
 
@@ -47,16 +47,16 @@
             </div>
 
             <div class="col-md-12">
-                <x-forms.textarea 
-                    name="description" 
-                    label="Descrição" 
-                    rows="3" 
-                    :value="old('description', $position->description)" 
+                <x-forms.textarea
+                    name="description"
+                    label="Descrição"
+                    rows="3"
+                    :value="old('description', $position->description)"
                 />
             </div>
 
             <x-forms.section title="Informações do Cargo" />
-            
+
             <div class="col-12 ">
                 @foreach($permissions as $group => $groupPermissions)
                     <div class="border-bottom">
@@ -104,7 +104,7 @@
                 @endforeach
             </div>
             <div class="col-12 d-flex justify-content-end gap-3 border-t pt-4 px-4 pb-4">
-                <x-buttons.link-button href="{{ route('specialized-educational-support.positions.show', $position) }}" variant="secondary">
+                <x-buttons.link-button href="{{ route('positions.show', $position) }}" variant="secondary">
                     <i class="fas fa-times"></i>Cancelar
                 </x-buttons.link-button>
 

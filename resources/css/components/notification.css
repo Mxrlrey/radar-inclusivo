@@ -15,6 +15,9 @@
     transition: background-color 0.15s;
     border: none;
     padding: 0;
+    overflow: hidden;
+    position: relative;
+    z-index: auto;
 }
 
 /* Ícone */
@@ -157,6 +160,54 @@
     right: 0 !important;
     transform: none !important;
     margin-top: 3.8rem !important;
+}
+
+.notification-card {
+    padding: var(--spacing-4);
+    display: flex;
+    align-items: flex-start;
+}
+
+/* destaque de não lida (SEM Bootstrap) */
+.notification-unread {
+    border-left: 4px solid var(--color-primary);
+    background-color: var(--bg-soft-primary);
+}
+
+/* ícone consistente com seu system */
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(var(--color-primary-rgb), 0.15);
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+/* conteúdo */
+.notification-title {
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+}
+
+.notification-text {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-1);
+}
+
+.notification-time {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: var(--spacing-2);
+}
+
+.notification-card .btn-action.xs {
+    min-width: 70px;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Tablet portrait (iPad em pé, etc.) */

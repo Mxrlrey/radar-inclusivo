@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Instituições' => route('inclusive-radar.institutions.index'),
+            'Instituições' => route('institutions.index'),
         ]" />
     </div>
 
@@ -16,7 +16,7 @@
             subtitle="Gerencie os locais centrais onde o radar de acessibilidade opera."
         >
             <x-buttons.link-button
-                :href="route('inclusive-radar.institutions.create')"
+                :href="route('institutions.create')"
                 variant="new"
                 title="Adicionar Instituição"
             >
@@ -41,7 +41,7 @@
         </div>
 
         <div id="institutions-table" class="p-3">
-            @include('pages.inclusive-radar.institutions.partials.table')
+            @include('pages.institutions.partials.table')
         </div>
     </div>
 

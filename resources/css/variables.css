@@ -120,7 +120,7 @@
     --stat-icon-bg: rgba(244, 248, 251, 0.6);
 
     /* --- COMPONENTES: FORM SECTION --- */
-    --form-section-font-size: 16px;
+    --form-section-font-size: 14px;
     --form-section-letter-spacing: 0.04em;
     --form-section-line-height: 16px;
     --form-section-description-font-size: 13px;
@@ -157,8 +157,8 @@
 }
 
 /* ===== TEMA ESCURO ===== */
-body.theme-dark {
-    --color-primary: #6c757d;
+.theme-dark {
+    --color-primary: #82888e;
     --color-primary-dark: #545b62;
     --color-primary-light: #8a929a;
     --color-primary-rgb: 108, 117, 125;
@@ -208,6 +208,58 @@ body.theme-dark {
 
     --breadcrumb-link: #ffffff;
     --breadcrumb-link-hover: #cccccc;
+
+    /* --- CKEditor --- */
+    /* Painéis e Balões (Menus de parágrafo e Pop-up de links) */
+    --ck-color-panel-background: var(--bg-surface) !important;
+    --ck-color-panel-border: var(--border-color) !important;
+    --ck-color-balloon-panel-background: var(--bg-surface) !important;
+    --ck-color-balloon-panel-border: var(--border-color) !important;
+
+    /* Listas Internas (Itens do menu Paragraph/Heading) */
+    --ck-color-list-background: var(--bg-surface) !important;
+    --ck-color-list-button-text: var(--text-primary) !important;
+    --ck-color-list-button-hover-background: var(--color-primary-dark) !important;
+
+    /* Campos de Entrada (Input de URL do link) */
+    --ck-color-input-background: var(--bg-input) !important;
+    --ck-color-input-border: var(--border-color) !important;
+    --ck-color-input-text: var(--text-primary) !important;
+    --ck-color-input-focus-border: var(--color-primary-light) !important;
+
+    /* Comportamento de Botões na Toolbar */
+    --ck-color-button-default-hover-background: var(--color-primary-dark) !important;
+    --ck-color-button-default-active-background: var(--color-primary) !important;
+
+    /* Botões no estado "Ativo" (Ex: quando Negrito está ligado) */
+    --ck-color-button-on-background: var(--color-primary-dark) !important;
+    --ck-color-button-on-color: var(--text-on-primary) !important;
+    --ck-color-button-on-hover-background: var(--color-primary) !important;
+}
+
+/* Necessários para vencer o CSS nativo do CKEditor*/
+
+/* Toolbar (Cabeçalho do Editor) */
+.theme-dark .ck.ck-toolbar {
+    background: var(--bg-surface-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Texto e Ícones da Toolbar */
+.theme-dark .ck.ck-toolbar .ck-button,
+.theme-dark .ck.ck-toolbar .ck-dropdown__button {
+    color: var(--text-primary) !important;
+}
+
+/* Estado de Destaque (Botão Ativado/Clicado) */
+.theme-dark .ck.ck-button.ck-on {
+    background: var(--color-primary-dark) !important;
+    color: #ffffff !important; /* Branco puro para contraste no fundo escuro */
+}
+
+/* Hover no botão que já está ativado */
+.theme-dark .ck.ck-button.ck-on:hover {
+    background: var(--color-primary) !important;
 }
 
 /* ===== VARIÁVEIS BOOTSTRAP (sobrescritas para seguir o tema) ===== */

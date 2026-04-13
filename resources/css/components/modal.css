@@ -1,84 +1,114 @@
 /* =========================================
-   MODAL.CSS — MODAL ESTILO ERP
+   MODAL.CSS — MODAL ESTILO LEGADO (CORRIGIDO)
    ========================================= */
 
-/* Backdrop com sobreposição neutra */
 .modal-backdrop.show {
     opacity: 0.5;
     background-color: var(--overlay-bg);
 }
 
-/* Dialog centralizado */
 .modal-dialog {
-    margin: var(--spacing-6) auto;
-    display: flex;
-    align-items: center;
+    margin: 30px auto;
+    max-width: 600px;
 }
 
-/* Conteúdo do modal */
+.modal-sm {
+    max-width: 300px;
+}
+
+.modal-lg {
+    max-width: 900px;
+}
+
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 10px;
+        max-width: 100%;
+    }
+}
+
 .modal-content {
-    border: var(--border-width) solid var(--border-color) !important;
-    border-radius: var(--border-radius) !important;
-    box-shadow: var(--shadow-none) !important;
-    overflow: hidden !important;
     background-color: var(--bg-surface);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius) !important;
+    box-shadow: var(--shadow-none);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
-/* Cabeçalho */
 .modal-header {
-    background-color: var(--bg-surface-secondary) !important;
-    color: var(--text-primary) !important;
-    border-bottom: var(--border-width) solid var(--border-color) !important;
-    padding: var(--spacing-5) var(--spacing-6) !important;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
-.modal-header .modal-title {
-    font-family: var(--font-family-heading);
+.modal-title {
     font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-lg);
+    font-size: 18px;
     line-height: 1.4;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+    color: var(--text-primary);
 }
 
-/* Botão fechar */
 .modal-header .btn-close {
-    filter: none;
     opacity: 0.6;
     transition: opacity 0.15s;
-    background-size: 0.8em;
-    margin: 0;
 }
 .modal-header .btn-close:hover {
     opacity: 1;
 }
 
-/* Corpo */
 .modal-body {
-    padding: var(--spacing-6) !important;
-    font-family: var(--font-family-base);
+    padding: 0;
     color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 14px;
 }
 
-/* Rodapé */
+.modal-body p {
+    margin-bottom: 8px;
+}
+
+.modal-body p:last-child {
+    margin-bottom: 0;
+}
+
 .modal-footer {
-    border-top: var(--border-width) solid var(--border-color) !important;
-    padding: var(--spacing-5) var(--spacing-6) !important;
+    border-top: var(--border-width) solid var(--border-color);
+    padding-top: 16px;
+    display: flex;
     justify-content: flex-end;
-    gap: var(--spacing-3);
-    background-color: var(--bg-surface-secondary) !important;
+    gap: 8px;
 }
 
-/* Responsivo */
-@media (max-width: 576px) {
-    .modal-dialog {
-        margin: var(--spacing-2);
-        min-height: calc(100% - var(--spacing-4));
-    }
-    .modal-header,
-    .modal-body,
-    .modal-footer {
-        padding: var(--spacing-4) !important;
-    }
+.modal-footer .btn {
+    width: auto !important;
+    display: inline-flex;
+}
+
+.modal-footer .btn + .btn {
+    margin-left: 0;
+}
+
+.modal-body .p-3 {
+    padding: 10px !important;
+}
+
+.modal-body .fw-bold {
+    word-break: break-word;
+}
+
+.modal-full {
+    max-width: 98%;
+}
+
+.modal-blur-backdrop {
+    filter: blur(4px) grayscale(20%);
+    transition: filter 0.3s ease;
+    pointer-events: none;
+    user-select: none;
 }

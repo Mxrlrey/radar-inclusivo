@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             removeBtn.classList.add('d-none');
 
             if (removeFlag) {
-                removeFlag.value = 1; // ← ISSO avisa o backend
+                removeFlag.value = 1;
             }
         });
 

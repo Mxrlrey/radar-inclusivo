@@ -19,6 +19,7 @@ export default defineConfig({
                 'resources/js/components/dynamicFilters.js',
                 'resources/js/pages/file-uploader.js',
                 'resources/js/pages/waitlists.js',
+                'resources/js/effects/timeline-animation.js'
             ],
             refresh: true,
         }),

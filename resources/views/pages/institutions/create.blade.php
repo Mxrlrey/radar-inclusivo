@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Instituições' => route('inclusive-radar.institutions.index'),
+            'Instituições' => route('institutions.index'),
             'Cadastrar' => null
         ]" />
     </div>
@@ -17,14 +17,14 @@
             <p class="text-muted">Defina o ponto central e as informações da sede para o mapa de barreiras.</p>
         </div>
         <div>
-            <x-buttons.link-button href="{{ route('inclusive-radar.institutions.index') }}" variant="secondary">
+            <x-buttons.link-button href="{{ route('institutions.index') }}" variant="secondary">
                 <i class="fas fa-times"></i> Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('inclusive-radar.institutions.store') }}" method="POST">
+        <x-forms.form-card action="{{ route('institutions.store') }}" method="POST">
             <div class="col-lg-5 border-end">
 
                 <x-forms.section title="Informações Gerais" />
@@ -162,7 +162,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4 mt-4">
-                <x-buttons.link-button href="{{ route('inclusive-radar.institutions.index') }}" variant="secondary">
+                <x-buttons.link-button href="{{ route('institutions.index') }}" variant="secondary">
                     <i class="fas fa-times"></i> Cancelar
                 </x-buttons.link-button>
 

@@ -6,8 +6,8 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Barreiras' => route('inclusive-radar.barriers.index'),
-            $barrier->name => route('inclusive-radar.barriers.show', $barrier),
+            'Barreiras' => route('barriers.index'),
+            $barrier->name => route('barriers.show', $barrier),
             'Editar' => null
         ]" />
     </div>

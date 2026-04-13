@@ -4,15 +4,13 @@
 
 /* Menu do usuário na navbar */
 .nav-user-dropdown {
+    overflow: visible !important;
+    padding: 0 !important; /* O padding agora vai pro span interno */
+    border: none;
+    background: transparent;
     display: flex;
     align-items: center;
-    background: transparent;
-    border: none;
-    padding: 0 var(--spacing-4);
-    height: 100%;
-    color: var(--text-primary);
-    transition: background-color 0.15s;
-    border-radius: 0;
+    height: var(--topbar-height);
 }
 
 .nav-user-dropdown .ion-android-user-menu {
@@ -21,13 +19,6 @@
     line-height: 1;
     vertical-align: middle;
     margin-left: var(--spacing-1);
-}
-
-.nav-user-dropdown:hover,
-.nav-user-dropdown:focus,
-.nav-user-dropdown.show {
-    background-color: var(--bg-surface-secondary);
-    color: var(--text-primary);
 }
 
 .user-info-text {

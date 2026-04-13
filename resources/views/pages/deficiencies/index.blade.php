@@ -3,53 +3,64 @@
 @section('title', 'Deficiências')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Deficiências' => null
-        ]" />
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Deficiências' => null
+            ]" />
+            <h1>Deficiências</h1>
+            <p class="text-muted mb-0">
+                Categorias e códigos CID registrados no sistema.
+            </p>
+        </div>
+
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('deficiencies.create')"
+                variant="info"
+                aria-label="Cadastrar nova deficiência"
+            >
+                <span class="btn-label">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </span>
+                Cadastrar
+            </x-buttons.link-button>
+        </div>
     </div>
 
-    {{-- CARD UNIFICADO --}}
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
-        {{-- HEADER --}}
-        <x-table.page-header
-            title="Lista de Deficiências"
-            subtitle="Categorias e códigos CID registrados."
-        >
-            <x-buttons.link-button
-                :href="route('specialized-educational-support.deficiencies.create')"
-                variant="new"
-                title="Adicionar deficiência"
-            >
-                <i class="fas fa-plus"></i>
-            </x-buttons.link-button>
-        </x-table.page-header>
-
-        {{-- FILTROS --}}
+    <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-dynamic-filter
+                data-url="{{ route('deficiencies.index') }}"
                 data-target="#deficiencies-table"
                 :fields="[
-                    ['name' => 'name', 'placeholder' => 'Nome da deficiência...'],
-                    ['name' => 'cid_code', 'placeholder' => 'Código CID...'],
+                    [
+                        'name' => 'name',
+                        'placeholder' => 'Filtrar por nome...',
+                        'label' => 'Nome da deficiência'
+                    ],
+                    [
+                        'name' => 'cid_code',
+                        'placeholder' => 'Filtrar por CID...',
+                        'label' => 'Código CID'
+                    ],
                     [
                         'name' => 'is_active',
                         'type' => 'select',
+                        'placeholder' => 'Status',
                         'options' => [
                             '' => 'Status (Todos)',
-                            1 => 'Ativo',
-                            0 => 'Inativo'
+                            '1' => 'Ativo',
+                            '0' => 'Inativo'
                         ]
                     ]
                 ]"
             />
         </div>
 
-        {{-- TABELA --}}
-        <div id="deficiencies-table" class="p-3">
-            @include('pages.specialized-educational-support.deficiencies.partials.table')
+        <div id="deficiencies-table" class="p-3" role="region" aria-label="Listagem de deficiências">
+            @include('pages.deficiencies.partials.table')
         </div>
     </div>
 

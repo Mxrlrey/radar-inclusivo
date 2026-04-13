@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Instituições' => route('inclusive-radar.institutions.index'),
+            'Instituições' => route('institutions.index'),
             $institution->name => null
         ]" />
     </div>
@@ -21,11 +21,11 @@
         </div>
 
         <div>
-            <x-buttons.link-button :href="route('inclusive-radar.institutions.edit', $institution)" variant="warning">
+            <x-buttons.link-button :href="route('institutions.edit', $institution)" variant="warning">
                 <i class="fas fa-edit"></i> Editar
             </x-buttons.link-button>
 
-            <x-buttons.link-button :href="route('inclusive-radar.institutions.index')" variant="secondary">
+            <x-buttons.link-button :href="route('institutions.index')" variant="secondary">
                 <i class="fas fa-arrow-left"></i> Voltar
             </x-buttons.link-button>
         </div>
@@ -110,7 +110,7 @@
                 </div>
 
                 <div class="d-flex gap-3">
-                    <form action="{{ route('inclusive-radar.institutions.destroy', $institution) }}"
+                    <form action="{{ route('institutions.destroy', $institution) }}"
                           method="POST"
                           onsubmit="return confirm('ATENÇÃO: Esta ação excluirá todos os dados do recurso. Confirmar?')">
                         @csrf
@@ -120,7 +120,7 @@
                         </x-buttons.submit-button>
                     </form>
 
-                    <x-buttons.link-button :href="route('inclusive-radar.institutions.index')" variant="secondary">
+                    <x-buttons.link-button :href="route('institutions.index')" variant="secondary">
                         <i class="fas fa-arrow-left"></i> Voltar
                     </x-buttons.link-button>
                 </div>

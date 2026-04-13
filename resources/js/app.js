@@ -7,8 +7,8 @@ import './utils/phone.js';
 import './partials/sidebar.js';
 import './components/collapsible-section';
 import './effects/waves.js';
+import './effects/modal-blur.js';
 
-// App principal - Sidebar e Navbar
 class App {
     constructor() {
         this.init();
@@ -17,11 +17,10 @@ class App {
     init() {
         this.initSidebar();
         this.initActiveMenu();
-        // this.initMobileBehavior();
         this.initDropdowns();
+        this.initBootstrapDropdowns();
     }
 
-    // Inicializar sidebar
     initSidebar() {
         this.sidebar = document.querySelector('.sidebar');
         this.sidebarToggle = document.querySelector('#sidebarToggle');
@@ -33,9 +32,8 @@ class App {
             });
         }
 
-        // Fechar sidebar ao clicar fora (em mobile)
         document.addEventListener('click', (e) => {
-            if (window.innerWidth < 769 &&
+            if (window.innerWidth <= 1024 &&
                 this.sidebar && this.sidebar.classList.contains('show') &&
                 !this.sidebar.contains(e.target) &&
                 this.sidebarToggle && !this.sidebarToggle.contains(e.target)) {
@@ -45,64 +43,43 @@ class App {
         });
     }
 
-    // Alternar sidebar (mobile)
-    // No método toggleSidebar():
     toggleSidebar() {
         if (!this.sidebar) return;
 
-        this.sidebar.classList.toggle('show');
+        if (window.innerWidth <= 1024) {
+            this.sidebar.classList.toggle('show');
 
-        if (window.innerWidth < 769) {
             if (this.sidebar.classList.contains('show')) {
-                // Garante que a sidebar apareça expandida no mobile
-                this.sidebar.classList.remove('collapsed');
-                document.body.classList.remove('sidebar-collapsed');
                 this.addOverlay();
+                document.body.style.overflow = 'hidden';
             } else {
                 this.removeOverlay();
+                document.body.style.overflow = '';
             }
         }
     }
 
-
-    init() {
-        this.initSidebar();
-        this.initActiveMenu();
-        this.initBootstrapDropdowns();
-    }
-
     initBootstrapDropdowns() {
-        const dropdownElements = document.querySelectorAll('[data-bs-toggle="dropdown"]');
-        dropdownElements.forEach(el => {
-            // Evita duplicação se já foi inicializado
+        document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(el => {
             if (!bootstrap.Dropdown.getInstance(el)) {
                 new bootstrap.Dropdown(el);
             }
         });
     }
 
-    // Adicionar overlay em mobile
     addOverlay() {
         if (!document.querySelector('.sidebar-overlay')) {
             const overlay = document.createElement('div');
             overlay.className = 'sidebar-overlay';
             overlay.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.5);
-                z-index: 999;
-                display: block;
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.5); z-index: 999; display: block;
             `;
             overlay.addEventListener('click', () => this.toggleSidebar());
             document.body.appendChild(overlay);
-            document.body.style.overflow = 'hidden';
         }
     }
 
-    // Remover overlay
     removeOverlay() {
         const overlay = document.querySelector('.sidebar-overlay');
         if (overlay) {
@@ -111,83 +88,38 @@ class App {
         }
     }
 
-    // Marcar item ativo no menu
     initActiveMenu() {
         const currentPath = window.location.pathname;
-        const menuItems = document.querySelectorAll('.sidebar-menu a');
-
-        menuItems.forEach(item => {
+        document.querySelectorAll('.sidebar-menu a').forEach(item => {
             const href = item.getAttribute('href');
             if (href && currentPath.includes(href.replace('/', ''))) {
                 item.classList.add('active');
-
-                // Expandir grupo se existir
                 const parentGroup = item.closest('.menu-group');
-                if (parentGroup) {
-                    parentGroup.classList.add('expanded');
-                }
+                if (parentGroup) parentGroup.classList.add('expanded');
             }
         });
     }
 
-    // // Comportamento mobile
-    // initMobileBehavior() {
-    //     // Fechar sidebar ao clicar em um link em mobile
-    //     if (window.innerWidth < 769) {
-    //         const menuLinks = document.querySelectorAll('.sidebar-menu a');
-    //         menuLinks.forEach(link => {
-    //             link.addEventListener('click', () => {
-    //                 this.sidebar.classList.remove('show');
-    //                 this.removeOverlay();
-    //             });
-    //         });
-    //     }
-    //
-    //     // Ajustar altura do conteúdo
-    //     this.adjustContentHeight();
-    //     window.addEventListener('resize', () => this.adjustContentHeight());
-    // }
-
-    // // Ajustar altura do conteúdo
-    // adjustContentHeight() {
-    //     const navbarHeight = document.querySelector('.navbar-custom').offsetHeight;
-    //     const mainContent = document.querySelector('.main-content');
-    //
-    //     if (mainContent) {
-    //         if (window.innerWidth >= 769) {
-    //             mainContent.style.marginTop = navbarHeight + 'px';
-    //         } else {
-    //             mainContent.style.marginTop = '0';
-    //         }
-    //     }
-    // }
-
-    // Inicializar dropdowns
     initDropdowns() {
-        const dropdowns = document.querySelectorAll('.dropdown-toggle');
-        dropdowns.forEach(dropdown => {
+        document.querySelectorAll('.dropdown-toggle').forEach(dropdown => {
             dropdown.addEventListener('click', function(e) {
                 if (window.innerWidth < 769) {
                     e.preventDefault();
                     const menu = this.nextElementSibling;
-                    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+                    if (menu) menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
                 }
             });
         });
 
-        // Fechar dropdowns ao clicar fora
         document.addEventListener('click', (e) => {
             if (!e.target.matches('.dropdown-toggle')) {
                 document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                    if (window.innerWidth < 769) {
-                        menu.style.display = 'none';
-                    }
+                    if (window.innerWidth < 769) menu.style.display = 'none';
                 });
             }
         });
     }
 
-    // Método para mostrar notificações
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `alert alert-${type} alert-dismissible fade show`;
@@ -195,93 +127,50 @@ class App {
             ${message}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         `;
-
         const container = document.querySelector('.main-content');
         if (container) {
             container.insertBefore(notification, container.firstChild);
-
-            // Auto-remover após 5 segundos
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
-                }
-            }, 5000);
+            setTimeout(() => { if (notification.parentNode) notification.remove(); }, 5000);
         }
     }
 }
 
+// Notificações (deduplicado — mantém só uma versão)
 document.addEventListener('click', function(e) {
-    const el = e.target.closest('.notify-item');
-    if (!el) return;
+    const item = e.target.closest('.notify-item');
+    if (!item) return;
 
     e.preventDefault();
+    const id = item.dataset.id;
+    const url = item.getAttribute('href');
 
-    const id = el.dataset.id;
-    const href = el.getAttribute('href');
-
-    // marcar como lida
     axios.post(`/notifications/${id}/read`)
         .then(() => {
-            // reduzir contador visualmente
             const badge = document.getElementById('notif-count');
             if (badge) {
                 const value = parseInt(badge.textContent) - 1;
                 if (value <= 0) badge.remove();
                 else badge.textContent = value;
             }
-            // redirecionar ao link da notificação
-            if (href && href !== '#') window.location = href;
+            if (url && url !== '#') window.location = url;
         })
-        .catch((err) => {
-            console.error(err);
-            // mesmo se falhar, podemos ir ao link
-            if (href && href !== '#') window.location = href;
+        .catch(() => {
+            if (url && url !== '#') window.location = url;
         });
 });
 
-document.addEventListener('click', function(e) {
-    const item = e.target.closest('.notify-item');
-    if (!item) return;
-
-    e.preventDefault();
-
-    const id = item.dataset.id;
-    const url = item.getAttribute('href');
-
-    axios.post(`/notifications/${id}/read`)
-        .then(() => window.location = url)
-        .catch(() => window.location = url);
-});
-
-// Inicializar app quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', () => {
     window.app = new App();
 
-    // Adicionar ano atual no footer se existir
+    // Expõe toggleSidebar globalmente via instância
+    window.toggleSidebar = () => window.app.toggleSidebar();
+
     const yearElement = document.querySelector('[data-year]');
-    if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
-    }
+    if (yearElement) yearElement.textContent = new Date().getFullYear();
 
-    // Tooltips do Bootstrap
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
+    [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        .map(el => new bootstrap.Tooltip(el));
 
-    // Popovers do Bootstrap
-    const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-    popoverTriggerList.map(function (popoverTriggerEl) {
-        return new bootstrap.Popover(popoverTriggerEl);
-    });
+    [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        .map(el => new bootstrap.Popover(el));
 });
-
-// Funções globais
-function toggleSidebar() {
-    if (window.app) {
-        window.app.toggleSidebar();
-    }
-}
-
-// Exportar para uso global
-window.toggleSidebar = toggleSidebar;

@@ -6,7 +6,7 @@
 
 .form-section-title {
     font-size: var(--form-section-font-size);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-bold);
     color: var(--text-primary);
     text-transform: uppercase;
     letter-spacing: var(--form-section-letter-spacing);
@@ -184,69 +184,6 @@ form .col-12:not(.mb-4) {
     padding-right: var(--spacing-6);
 }
 
-/* ===== LINHA DO TEMPO (HISTÓRICO) ===== */
-.history-timeline {
-    box-shadow: var(--shadow-none);
-    border: var(--border-width) solid var(--border-color);
-    background-color: var(--bg-surface);
-    padding: var(--spacing-4);
-}
-
-.history-timeline .border-end {
-    border-color: var(--border-color) !important;
-}
-
-.history-timeline p.italic {
-    font-style: italic;
-    color: var(--text-muted);
-    border-left: 2px solid var(--color-primary);
-    padding-left: var(--spacing-3);
-    margin-top: var(--spacing-2);
-}
-
-.history-timeline label {
-    margin-bottom: var(--spacing-2) !important;
-    display: block;
-    font-weight: var(--font-weight-semibold);
-    color: var(--text-primary);
-    font-size: var(--font-size-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-}
-
-.history-description-text {
-    font-size: var(--font-size-sm);
-    color: var(--text-secondary);
-    line-height: var(--line-height-base);
-    background-color: var(--bg-surface-secondary);
-    padding: var(--spacing-3) var(--spacing-4);
-    border-left: 3px solid var(--color-primary);
-    margin-bottom: 0;
-    border-radius: var(--border-radius);
-}
-
-.history-description-text p:first-child,
-.history-description-text ul:first-child,
-.history-description-text ol:first-child {
-    margin-top: 0;
-}
-.history-description-text p:last-child,
-.history-description-text ul:last-child,
-.history-description-text ol:last-child {
-    margin-bottom: 0;
-}
-.history-description-text ul,
-.history-description-text ol {
-    margin-bottom: 0;
-    padding-left: var(--spacing-5);
-}
-.history-description-text li {
-    margin-bottom: var(--spacing-1);
-}
-.history-description-text li:last-child {
-    margin-bottom: 0;
-}
-
 /* ===== MAPA (LEAFLET) ===== */
 .leaflet-map-container {
     padding-left: var(--spacing-6);
@@ -310,30 +247,6 @@ form .col-12:not(.mb-4) {
 .map-accessible-label {
     padding-left: var(--spacing-6);
     padding-right: var(--spacing-6);
-}
-
-/* ===== FOTOS DE INSPEÇÃO ===== */
-.inspection-photo-link img {
-    transition: transform 0.15s, border-color 0.15s;
-    border: var(--border-width) solid var(--border-color);
-    border-radius: var(--border-radius);
-}
-.inspection-photo-link img:hover {
-    transform: scale(1.05);
-    border-color: var(--color-primary) !important;
-    box-shadow: var(--shadow-none);
-    z-index: 10;
-    position: relative;
-}
-
-.inspection-link {
-    transition: transform 0.15s;
-}
-.inspection-link:hover .card {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-none);
-    cursor: pointer;
-    border-color: var(--color-primary);
 }
 
 /* ===== ANIMAÇÃO DE SEÇÃO ===== */
@@ -526,7 +439,6 @@ input:-webkit-autofill:active {
     border-radius: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
-    outline: none;
     flex-shrink: 0;
     border: 1px solid transparent;
 }
@@ -618,6 +530,19 @@ input:-webkit-autofill:active {
     padding-top: 6px;
 }
 
+.checkbox-group-wrapper {
+    background-color: var(--bg-body) !important;
+
+    border-color: var(--border-color) !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    border-radius: var(--border-radius);
+}
+
+/* Garante que o erro do Laravel ainda vença a cor da borda */
+.checkbox-group-wrapper.border-danger {
+    border-color: var(--color-danger) !important;
+}
+
 /* Responsivo: em mobile vira vertical */
 @media (max-width: 767px) {
     .form-horizontal .form-group-horizontal {
@@ -637,5 +562,33 @@ input:-webkit-autofill:active {
     .form-horizontal .form-group-horizontal .field-wrapper {
         max-width: 100%;
         padding-right: 0;
+    }
+}
+
+@media (max-width: 991px) {
+    .form-section-title,
+    .form-section-description {
+        padding-left: var(--spacing-4);
+    }
+}
+
+@media (max-width: 575px) {
+    .form-section-title,
+    .form-section-description {
+        padding-left: var(--spacing-4);
+    }
+}
+
+@media (max-width: 991px) {
+    .form-horizontal .form-group-horizontal {
+        padding-left: var(--spacing-10);
+        padding-right: var(--spacing-4);
+    }
+}
+
+@media (max-width: 575px) {
+    .form-horizontal .form-group-horizontal {
+        padding-left: var(--spacing-10);
+        padding-right: var(--spacing-4);
     }
 }

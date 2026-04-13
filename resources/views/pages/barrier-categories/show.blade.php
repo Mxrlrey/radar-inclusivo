@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Categorias de Barreiras' => route('inclusive-radar.barrier-categories.index'),
+            'Categorias de Barreiras' => route('barrier-categories.index'),
             $barrierCategory->name => null
         ]" />
     </div>
@@ -22,13 +22,13 @@
 
         <div>
             <x-buttons.link-button
-                :href="route('inclusive-radar.barrier-categories.edit', $barrierCategory)"
+                :href="route('barrier-categories.edit', $barrierCategory)"
                 variant="warning">
                 <i class="fas fa-edit"></i> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('inclusive-radar.barrier-categories.index')"
+                :href="route('barrier-categories.index')"
                 variant="secondary">
                 <i class="fas fa-arrow-left"></i> Voltar
             </x-buttons.link-button>
@@ -67,7 +67,7 @@
 
                 <div class="d-flex gap-3">
 
-                    <form action="{{ route('inclusive-radar.barrier-categories.destroy', $barrierCategory) }}"
+                    <form action="{{ route('barrier-categories.destroy', $barrierCategory) }}"
                           method="POST"
                           onsubmit="return confirm('ATENÇÃO: Esta ação excluirá esta categoria de barreira. Confirmar?')">
                         @csrf
@@ -79,7 +79,7 @@
                     </form>
 
                     <x-buttons.link-button
-                        :href="route('inclusive-radar.barrier-categories.index')"
+                        :href="route('barrier-categories.index')"
                         variant="secondary">
                         <i class="fas fa-arrow-left"></i> Voltar
                     </x-buttons.link-button>

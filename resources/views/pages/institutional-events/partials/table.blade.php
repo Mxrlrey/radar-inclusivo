@@ -22,13 +22,13 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('inclusive-radar.institutional-events.show', $event)"
+                        :href="route('institutional-events.show', $event)"
                         variant="info"
                     >
                         <i class="fas fa-eye"></i> Ver
                     </x-buttons.link-button>
 
-                    <form action="{{ route('inclusive-radar.institutional-events.destroy', $event) }}"
+                    <form action="{{ route('institutional-events.destroy', $event) }}"
                           method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')

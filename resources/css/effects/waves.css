@@ -10,6 +10,11 @@
     transition: all 0.3s ease-out;
 }
 
+.waves-effect.dropdown-toggle,
+.dropdown > .waves-effect {
+    overflow: visible;
+}
+
 .waves-effect .waves-ripple {
     position: absolute;
     border-radius: 50% !important;

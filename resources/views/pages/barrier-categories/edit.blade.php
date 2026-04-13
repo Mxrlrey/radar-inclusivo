@@ -6,8 +6,8 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Categorias de Barreiras' => route('inclusive-radar.barrier-categories.index'),
-            $barrierCategory->name => route('inclusive-radar.barrier-categories.show', $barrierCategory),
+            'Categorias de Barreiras' => route('barrier-categories.index'),
+            $barrierCategory->name => route('barrier-categories.show', $barrierCategory),
             'Editar' => null
         ]" />
     </div>
@@ -19,14 +19,14 @@
         </div>
 
         <div>
-            <x-buttons.link-button href="{{ route('inclusive-radar.barrier-categories.show', $barrierCategory) }}" variant="secondary">
+            <x-buttons.link-button href="{{ route('barrier-categories.show', $barrierCategory) }}" variant="secondary">
                 <i class="fas fa-times"></i> Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('inclusive-radar.barrier-categories.update', $barrierCategory) }}" method="POST">
+        <x-forms.form-card action="{{ route('barrier-categories.update', $barrierCategory) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -75,7 +75,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-3 border-t pt-4 px-4 pb-4 mt-4">
-                <x-buttons.link-button href="{{ route('inclusive-radar.barrier-categories.show', $barrierCategory) }}" variant="secondary">
+                <x-buttons.link-button href="{{ route('barrier-categories.show', $barrierCategory) }}" variant="secondary">
                     <i class="fas fa-times"></i> Cancelar
                 </x-buttons.link-button>
 

@@ -19,13 +19,13 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('inclusive-radar.barrier-categories.show', $category)"
+                        :href="route('barrier-categories.show', $category)"
                         variant="info"
                     >
                         <i class="fas fa-eye"></i> Ver
                     </x-buttons.link-button>
 
-                    <form action="{{ route('inclusive-radar.barrier-categories.destroy', $category) }}"
+                    <form action="{{ route('barrier-categories.destroy', $category) }}"
                           method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')

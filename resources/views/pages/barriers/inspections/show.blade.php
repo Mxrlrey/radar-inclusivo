@@ -6,8 +6,8 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Barreiras' => route('inclusive-radar.barriers.index'),
-            $barrier->name => route('inclusive-radar.barriers.show', $barrier),
+            'Barreiras' => route('barriers.index'),
+            $barrier->name => route('barriers.show', $barrier),
             'Detalhes da Inspeção' => null
         ]" />
     </div>
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="d-flex gap-2">
-                    <x-buttons.link-button :href="route('inclusive-radar.barriers.show', $barrier)" variant="secondary">
+                    <x-buttons.link-button :href="route('barriers.show', $barrier)" variant="secondary">
                         <i class="fas fa-arrow-left me-1"></i> Voltar
                     </x-buttons.link-button>
                 </div>

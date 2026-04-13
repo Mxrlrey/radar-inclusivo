@@ -106,7 +106,7 @@
                                 display: flex; align-items: center; justify-content: center;
                                 border-radius: 15px 15px 0 0; cursor: not-allowed;">
                         <span class="bg-white p-3 rounded shadow-sm border text-center">
-                            <i class="fas fa-lock text-danger mb-2 d-block"></i>
+                            <i class="fa fa-lock text-danger mb-2 d-block"></i>
                             <span id="blocked-message" class="fw-bold text-muted">
                                 Mapa não se aplica aos filtros selecionados.
                             </span>

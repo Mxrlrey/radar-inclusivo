@@ -33,6 +33,6 @@
     transform: none;
 }
 
-/* Utilitários de cor (mantidos) */
+/* Utilitários de cor */
 .text-primary-custom { color: var(--color-primary) !important; }
 .bg-primary-custom { background-color: var(--color-primary) !important; }

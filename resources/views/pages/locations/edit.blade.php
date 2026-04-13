@@ -6,8 +6,8 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Pontos de Referência' => route('inclusive-radar.locations.index'),
-            $location->name => route('inclusive-radar.locations.show', $location),
+            'Pontos de Referência' => route('locations.index'),
+            $location->name => route('locations.show', $location),
             'Editar' => null
         ]" />
     </div>
@@ -21,14 +21,14 @@
             </p>
         </div>
         <div>
-            <x-buttons.link-button href="{{ route('inclusive-radar.locations.show', $location) }}" variant="secondary">
+            <x-buttons.link-button href="{{ route('locations.show', $location) }}" variant="secondary">
                 <i class="fas fa-times"></i> Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('inclusive-radar.locations.update', $location) }}" method="POST">
+        <x-forms.form-card action="{{ route('locations.update', $location) }}" method="POST">
             @method('PUT')
 
             <div class="col-lg-5 border-end">
@@ -132,7 +132,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4 mt-4">
-                <x-buttons.link-button href="{{ route('inclusive-radar.locations.show', $location) }}" variant="secondary">
+                <x-buttons.link-button href="{{ route('locations.show', $location) }}" variant="secondary">
                     <i class="fas fa-times"></i> Cancelar
                 </x-buttons.link-button>
 
@@ -165,6 +165,6 @@
                 }
             });
         </script>
-        @vite('resources/js/pages/inclusive-radar/locations.js')
+        @vite('resources/js/pages/locations.js')
     @endpush
 @endsection

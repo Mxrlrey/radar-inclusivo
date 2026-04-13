@@ -4,7 +4,7 @@
 <div class="mb-5">
     <x-breadcrumb :items="[
         'Home' => route('dashboard'),
-        'Alunos' => route('specialized-educational-support.students.index'),
+        'Alunos' => route('students.index'),
         $student->person->name => null
     ]" />
 </div>
@@ -18,12 +18,12 @@
     <div class="d-flex gap-2">
         {{-- Permissão para EDITAR o cadastro do aluno --}}
         @can('student.update')
-            <x-buttons.link-button :href="route('specialized-educational-support.students.edit', $student)" variant="warning">
+            <x-buttons.link-button :href="route('students.edit', $student)" variant="warning">
                 <i class="fas fa-edit"></i> Editar Cadastro
             </x-buttons.link-button>
         @endcan
 
-        <x-buttons.link-button :href="route('specialized-educational-support.students.index')" variant="secondary">
+        <x-buttons.link-button :href="route('students.index')" variant="secondary">
             <i class="fas fa-arrow-left"></i> Voltar
         </x-buttons.link-button>
     </div>
@@ -50,53 +50,15 @@
             </div>
         </div>
 
-        {{-- Dados básicos e Acadêmicos (Geralmente vinculados à view do estudante) --}}
-        @include('pages.specialized-educational-support.students.record.personal-data')
-        
-        @include('pages.specialized-educational-support.students.record.academic-info')
-
-        {{-- Seção de Deficiências --}}
-        @can('student-deficiency.view')
-            @include('pages.specialized-educational-support.students.record.deficiencies')
-        @endcan
-
-        {{-- Seção de Responsáveis --}}
-        @can('guardian.view')
-            @include('pages.specialized-educational-support.students.record.guardians')
-        @endcan
-
-        {{-- Seção de Contextos --}}
-        @can('student-context.view')
-            @include('pages.specialized-educational-support.students.record.contexts')
-        @endcan
-            
-        {{-- Seção de PEIs --}}
-        @can('pei.view')
-            @include('pages.specialized-educational-support.students.record.peis')
-        @endcan
-            
-        {{-- Seção de Documentos --}}
-        @can('student-document.view')
-            @include('pages.specialized-educational-support.students.record.documents')
-        @endcan
-            
-        {{-- Seção de Sessões --}}
-        @can('session.view')
-            @include('pages.specialized-educational-support.students.record.sessions')
-        @endcan
-        
-
         {{-- RODAPÉ DE AÇÕES --}}
         <div class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light no-print">
             <div class="text-muted small">
                 <i class="fas fa-id-badge me-1"></i> Aluno ID: #{{ $student->id }} | Sistema GNAI 2026
             </div>
-            
+
             <div class="d-flex gap-3">
-                {{-- Logs (Conforme solicitado, sem middleware específico, mas pode-se usar student.view) --}}
-                {{-- Permissão para EXCLUIR o aluno --}}
                 @can('student.delete')
-                    <form action="{{ route('specialized-educational-support.students.destroy', $student) }}" method="POST" onsubmit="return confirm('Excluir este aluno?')">
+                    <form action="{{ route('students.destroy', $student) }}" method="POST" onsubmit="return confirm('Excluir este aluno?')">
                         @csrf @method('DELETE')
                         <x-buttons.submit-button variant="danger">
                             <i class="fas fa-trash-alt"></i> Excluir

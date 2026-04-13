@@ -1,16 +1,35 @@
 <x-table.table
-    :headers="['Nome', 'Natureza', 'Estoque', 'Status', 'Ações']"
+    :headers="[
+        ['label' => 'Nome'],
+        ['label' => 'Natureza', 'class' => 'col-hide-md'],
+        ['label' => 'Estoque', 'class' => 'col-hide-md'],
+        ['label' => 'Status', 'class' => 'col-hide-md'],
+        ['label' => 'Ações']
+    ]"
     :records="$materials"
+    aria-label="Tabela de Materiais Pedagógicos Acessíveis"
+    class="table-striped"
 >
     @forelse($materials as $material)
+
+        @php
+            $modalId = "modal-delete-material-" . $material->id;
+        @endphp
+
         <tr>
-            <x-table.td>{{ $material->name }}</x-table.td>
+            <x-table.td scope="row" class="font-weight-medium">
+                {{ $material->name }}
+            </x-table.td>
 
-            <x-table.td>{{ $material->is_digital ? 'Digital' : 'Físico' }}</x-table.td>
+            <x-table.td class="align-middle col-hide-md">
+                {{ $material->is_digital ? 'Digital' : 'Físico' }}
+            </x-table.td>
 
-            <x-table.td>
+            <x-table.td class="align-middle col-hide-md">
                 @if($material->is_digital)
-                    <span class="text-info fw-bold text-uppercase" style="font-size: 0.85rem;">Ilimitado</span>
+                    <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">
+                        Ilimitado
+                    </span>
                 @else
                     <span class="{{ ($material->quantity_available ?? 0) > 0 ? 'text-success' : 'text-danger' }} fw-bold">
                         {{ $material->quantity_available ?? 0 }}
@@ -19,46 +38,98 @@
                 @endif
             </x-table.td>
 
-            <x-table.td>
+            <x-table.td class="align-middle col-hide-md">
                 @php
                     $isUnavailable = !$material->is_digital && (($material->quantity_available ?? 0) <= 0);
-                    $stColor = $isUnavailable ? 'danger' : ($material->is_active ? 'success' : 'secondary');
-                    $stLabel = $isUnavailable ? 'Esgotado' : ($material->is_active ? 'Ativo' : 'Inativo');
+                    $variant = $isUnavailable
+                        ? 'danger'
+                        : ($material->is_active ? 'success' : 'secondary');
+
+                    $label = $isUnavailable
+                        ? 'Esgotado'
+                        : ($material->is_active ? 'Ativo' : 'Inativo');
                 @endphp
 
-                <span class="text-{{ $stColor }} fw-bold text-uppercase" style="font-size: 0.85rem;">
-                    {{ $stLabel }}
+                <span class="badge bg-{{ $variant }}">
+                    {{ $label }}
                 </span>
             </x-table.td>
 
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('inclusive-radar.accessible-educational-materials.show', $material)"
+                        :href="route('accessible-educational-materials.show', $material)"
                         variant="info"
+                        size="xs"
+                        title="Visualizar {{ $material->name }}"
+                        aria-label="Visualizar detalhes de {{ $material->name }}"
                     >
-                        <i class="fas fa-eye"></i> Ver
+                        <i class="fa fa-eye" aria-hidden="true"></i>
                     </x-buttons.link-button>
 
-                    <form action="{{ route('inclusive-radar.accessible-educational-materials.destroy', $material) }}"
-                          method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <x-buttons.submit-button
-                            variant="danger"
-                            onclick="return confirm('Deseja remover este material?')"
-                        >
-                            <i class="fas fa-trash-alt"></i> Excluir
-                        </x-buttons.submit-button>
-                    </form>
+                    <x-buttons.submit-button
+                        variant="danger"
+                        size="xs"
+                        type="button"
+                        onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                        title="Excluir {{ $material->name }}"
+                        aria-label="Abrir confirmação para excluir o material {{ $material->name }}"
+                    >
+                        <i class="fa fa-eraser" aria-hidden="true"></i>
+                    </x-buttons.submit-button>
                 </x-table.actions>
             </x-table.td>
         </tr>
+
     @empty
         <tr>
-            <td colspan="6" class="text-center text-muted py-4">
-                Nenhum material pedagógico cadastrado.
+            <td colspan="5" class="text-center text-muted py-4" role="status">
+                Nenhum material pedagógico encontrado.
             </td>
         </tr>
     @endforelse
 </x-table.table>
+
+
+@foreach($materials as $material)
+
+    @php
+        $modalId = "modal-delete-material-" . $material->id;
+    @endphp
+
+    <x-modal.modal
+        :id="$modalId"
+        title="Confirmar Exclusão"
+        size="sm"
+    >
+        <div class="p-3">
+            <p class="mb-2 text-danger fw-bold">
+                Esta ação não pode ser desfeita.
+            </p>
+
+            <p class="mb-0 text-muted">
+                Deseja realmente excluir o material
+                <strong>{{ $material->name }}</strong>?
+            </p>
+        </div>
+
+        <x-slot:footer>
+            <x-buttons.link-button
+                href="javascript:void(0)"
+                variant="secondary"
+                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+            >
+                Cancelar
+            </x-buttons.link-button>
+
+            <form action="{{ route('accessible-educational-materials.destroy', $material) }}" method="POST">
+                @csrf
+                @method('DELETE')
+
+                <x-buttons.submit-button variant="danger">
+                    Excluir
+                </x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
+@endforeach

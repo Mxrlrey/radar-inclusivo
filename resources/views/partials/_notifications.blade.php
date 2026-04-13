@@ -1,4 +1,3 @@
-{{-- 🔔 Partials: Notificações --}}
 @auth
     @php
         $unreadCount = Auth::user()->unreadNotifications()->count();
@@ -7,18 +6,20 @@
     @endphp
 
     <div class="dropdown">
-        <button class="btn-notif-circle position-relative waves-effect"
+        <button class="btn-notif-circle position-relative"
                 type="button"
                 id="dropdownNotif"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
                 title="{{ $unreadCount > 0 ? 'Ver ' . $unreadCount . ' notificações não lidas' : 'Nenhuma notificação nova' }}">
+        <span class="waves-effect waves-effect-notif d-flex align-items-center justify-content-center w-100 h-100">
             <i class="fa fa-bell" aria-hidden="true"></i>
+        </span>
             @if($unreadCount > 0)
                 <span id="notif-count" class="notification-badge">
-            {{ $displayCount }}
-            <span class="visually-hidden">notificações não lidas</span>
-        </span>
+                {{ $displayCount }}
+                <span class="visually-hidden">notificações não lidas</span>
+            </span>
             @endif
         </button>
 
@@ -30,7 +31,6 @@
                 @endif
             </div>
 
-            {{-- Lista de notificações --}}
             <div class="notification-scroll">
                 @forelse($notifications as $notification)
                     @php $data = $notification->data; @endphp
@@ -55,7 +55,6 @@
                 @endforelse
             </div>
 
-            {{-- Rodapé --}}
             <div class="notification-footer">
                 <a href="{{ route('notifications.index') }}">Ver todas as notificações</a>
             </div>

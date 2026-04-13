@@ -4,7 +4,7 @@
    target="_blank"
    aria-label="Exportar em PDF"
     {{ $attributes->merge(['class' => 'btn-pdf-custom']) }}>
-    <i class="fas fa-file-pdf"></i>
+    <i class="fa fa-file-pdf-o"></i>
 </a>
 
 <style>
@@ -14,7 +14,7 @@
         gap: 8px;
         background-color: #e02424; /* Vermelho PDF */
         color: white !important;
-        padding: 8px 15px;
+        padding: 4px 15px;
         border: 1px solid #000000; /* Bordinha preta fina */
         border-radius: 4px; /* Quadradinho com leve arredondamento */
         text-decoration: none;

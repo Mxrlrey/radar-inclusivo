@@ -190,7 +190,6 @@
 .btn-action.xs {
     height: 1.75rem;
     padding: 0 var(--spacing-2);
-    font-size: 0.7rem;
 }
 
 .btn-action.lg {
@@ -214,34 +213,22 @@
     padding-top: 0;
     padding-bottom: 0;
     height: 1rem;
-    min-width: 2.2rem;
+    min-width: 2.5rem;
 }
 
-/* O Label (Lado Esquerdo) - AGORA FLUIDO */
 .btn-action .btn-label {
-    /* 0.08 é o ponto ideal: sutil e elegante */
     background: rgba(0, 0, 0, 0.08);
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
-    /* Estica para a altura total */
     align-self: stretch;
-
     padding: 0 12px;
     margin-right: 12px;
-
-    /* REMOVIDO: border-right que criava a listra */
     border-right: none;
-
     line-height: 1;
-
-    /* Garante que o hover seja suave em ambos os lados */
     transition: background 0.2s ease;
 }
 
-/* Ajuste para versão XS */
 .btn-action.xs .btn-label {
     padding: 0 8px;
     margin-right: 8px;

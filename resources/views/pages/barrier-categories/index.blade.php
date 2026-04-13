@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Categorias de Barreiras' => route('inclusive-radar.barrier-categories.index'),
+            'Categorias de Barreiras' => route('barrier-categories.index'),
         ]" />
     </div>
 
@@ -17,7 +17,7 @@
             subtitle="Classificação para o mapeamento de acessibilidade e identificação de obstáculos."
         >
             <x-buttons.link-button
-                :href="route('inclusive-radar.barrier-categories.create')"
+                :href="route('barrier-categories.create')"
                 variant="new"
                 title="Adicionar Categorias de Barreiras"
             >
@@ -41,7 +41,7 @@
         </div>
 
         <div id="barrier-categories-table" class="p-3">
-            @include('pages.inclusive-radar.barrier-categories.partials.table')
+            @include('pages.barrier-categories.partials.table')
         </div>
     </div>
 

@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Fila de Espera' => route('inclusive-radar.waitlists.index'),
+            'Fila de Espera' => route('waitlists.index'),
             'Cadastrar' => null
         ]" />
     </div>
@@ -20,14 +20,14 @@
             </p>
         </div>
         <div>
-            <x-buttons.link-button href="{{ route('inclusive-radar.waitlists.index') }}" variant="secondary">
+            <x-buttons.link-button href="{{ route('waitlists.index') }}" variant="secondary">
                 <i class="fas fa-times"></i> Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('inclusive-radar.waitlists.store') }}" method="POST">
+        <x-forms.form-card action="{{ route('waitlists.store') }}" method="POST">
 
             <x-forms.section title="Seleção do Recurso" />
 
@@ -100,7 +100,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4 mt-4">
-                <x-buttons.link-button href="{{ route('inclusive-radar.waitlists.index') }}" variant="secondary">
+                <x-buttons.link-button href="{{ route('waitlists.index') }}" variant="secondary">
                     <i class="fas fa-times"></i> Cancelar
                 </x-buttons.link-button>
 
@@ -122,6 +122,6 @@
     </script>
 
     @push('scripts')
-        @vite('resources/js/pages/inclusive-radar/waitlists.js')
+        @vite('resources/js/pages/waitlists.js')
     @endpush
 @endsection

@@ -54,7 +54,6 @@ class DeficiencyController extends Controller
 
     public function show(Deficiency $deficiency): View
     {
-        $deficiency->loadCount('students');
         return view('pages.deficiencies.show', compact('deficiency'));
     }
 

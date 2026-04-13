@@ -21,11 +21,6 @@ class DeficiencyService
     public function delete(Deficiency $deficiency): void
     {
         DB::transaction(function () use ($deficiency) {
-            // Regra de Negócio: Impedir a exclusão se houver alunos vinculados
-            if ($deficiency->students()->exists()) {
-                throw new BusinessRuleException('Não é possível excluir uma deficiência que possui alunos vinculados.');
-            }
-
             $deficiency->delete();
         });
     }

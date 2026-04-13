@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Categorias de Barreiras' => route('inclusive-radar.barrier-categories.index'),
+            'Categorias de Barreiras' => route('barrier-categories.index'),
             'Cadastrar' => null
         ]" />
     </div>
@@ -18,14 +18,14 @@
         </div>
 
         <div>
-            <x-buttons.link-button href="{{ route('inclusive-radar.barrier-categories.index') }}" variant="secondary">
+            <x-buttons.link-button href="{{ route('barrier-categories.index') }}" variant="secondary">
                 <i class="fas fa-times"></i> Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('inclusive-radar.barrier-categories.store') }}" method="POST">
+        <x-forms.form-card action="{{ route('barrier-categories.store') }}" method="POST">
             @csrf
 
             <x-forms.section title="Informações da Categoria" />
@@ -73,7 +73,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-3 border-t pt-4 px-4 pb-4 mt-4">
-                <x-buttons.link-button href="{{ route('inclusive-radar.barrier-categories.index') }}" variant="secondary">
+                <x-buttons.link-button href="{{ route('barrier-categories.index') }}" variant="secondary">
                     <i class="fas fa-times"></i> Cancelar
                 </x-buttons.link-button>
 

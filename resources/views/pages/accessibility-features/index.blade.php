@@ -13,8 +13,12 @@
             <p class="text-muted mb-0">Gerencie as categorias de recursos de acessibilidade disponíveis.</p>
         </div>
         <div class="page-header-actions">
-            <x-buttons.link-button :href="route('accessibility-features.create')" variant="info">
-                <span class="btn-label"><i class="fa fa-plus"></i></span> Cadastrar
+            <x-buttons.link-button
+                :href="route('accessibility-features.create')"
+                variant="info"
+                aria-label="Cadastrar novo recurso de acessibilidade"
+            >
+                <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span> Cadastrar
             </x-buttons.link-button>
         </div>
     </div>
@@ -22,20 +26,29 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-dynamic-filter
+                data-url="{{ route('accessibility-features.index') }}"
                 data-target="#features-table"
                 :fields="[
-                    ['name' => 'name', 'placeholder' => 'Filtrar por nome...'],
-                    ['name' => 'is_active', 'type' => 'select', 'options' => [
-                        '' => 'Status (Todos)',
-                        '1' => 'Ativo',
-                        '0' => 'Inativo'
-                    ]]
+                    [
+                        'name' => 'name',
+                        'placeholder' => 'Filtrar por nome...',
+                        'label' => 'Nome do recurso'
+                    ],
+                    [
+                        'name' => 'is_active',
+                        'type' => 'select',
+                        'placeholder' => 'Status',
+                        'options' => [
+                            '' => 'Status (Todos)',
+                            '1' => 'Ativo',
+                            '0' => 'Inativo'
+                        ]
+                    ]
                 ]"
             />
         </div>
 
-        <div id="features-table" class="p-3">
+        <div id="features-table" class="p-3" role="region" aria-label="Listagem de recursos">
             @include('pages.accessibility-features.partials.table')
         </div>
     </div>

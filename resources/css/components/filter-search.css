@@ -49,12 +49,11 @@
 }
 
 .search-input:focus {
-    outline: none;
     border-color: var(--input-focus-border);
 }
 
 /* ===== SELECT DE FILTRO ===== */
-.semester-filter {
+.filter-select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -82,8 +81,7 @@
     white-space: nowrap;
 }
 
-.semester-filter:focus {
-    outline: none;
+.filter-select:focus {
     border-color: var(--input-focus-border);
 }
 

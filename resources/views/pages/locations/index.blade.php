@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Pontos de Referência' => route('inclusive-radar.locations.index'),
+            'Pontos de Referência' => route('locations.index'),
         ]" />
     </div>
 
@@ -17,7 +17,7 @@
             subtitle="Gerencie os prédios, salas e locais específicos dentro de cada instituição."
         >
             <x-buttons.link-button
-                :href="route('inclusive-radar.locations.create')"
+                :href="route('locations.create')"
                 variant="new"
                 title="Adicionar Ponto de Referência"
             >
@@ -42,7 +42,7 @@
         </div>
 
         <div id="locations-table" class="p-3">
-            @include('pages.inclusive-radar.locations.partials.table')
+            @include('pages.locations.partials.table')
         </div>
     </div>
 

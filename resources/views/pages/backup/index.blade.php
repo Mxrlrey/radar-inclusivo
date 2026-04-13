@@ -3,87 +3,81 @@
 @section('title', 'Gerenciamento de Backups')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Backups' => route('backup.backups.index'),
-        ]" />
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Backups' => null
+            ]" />
+            <h1>Gerenciamento de Backups</h1>
+            <p class="text-muted mb-0">
+                Visualize e administre as cópias de segurança do sistema.
+            </p>
+        </div>
+
+        <div class="page-header-actions d-flex gap-2">
+            <form action="{{ route('backups.upload') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="file"
+                       name="backup_file"
+                       id="input-backup-file"
+                       class="d-none"
+                       accept=".zip"
+                       onchange="if(this.value) this.form.submit()">
+
+                <x-buttons.link-button
+                    type="button"
+                    variant="info"
+                    onclick="document.getElementById('input-backup-file').click()"
+                >
+                    <span class="btn-label">
+                        <i class="fa fa-upload"></i>
+                    </span>
+                    Importar
+                </x-buttons.link-button>
+            </form>
+
+            <form action="{{ route('backups.store') }}" method="POST">
+                @csrf
+                <x-buttons.submit-button variant="new">
+                    <span class="btn-label">
+                        <i class="fa fa-database"></i>
+                    </span>
+                    Gerar Backup
+                </x-buttons.submit-button>
+            </form>
+        </div>
     </div>
 
-    {{-- CARD UNIFICADO --}}
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
-
-        {{-- HEADER --}}
-        <x-table.page-header
-            title="Gerenciamento de Backups"
-            subtitle="Visualize e administre as cópias de segurança do sistema."
-        >
-            <div class="d-flex gap-2">
-                {{-- FORM DE UPLOAD --}}
-                <form action="{{ route('backup.backups.upload') }}" method="POST" enctype="multipart/form-data" id="form-upload-backup">
-                    @csrf
-                    {{-- O segredo está no onchange="this.form.submit()" --}}
-                    <input type="file"
-                           name="backup_file"
-                           id="input-backup-file"
-                           class="d-none"
-                           accept=".zip"
-                           onchange="if(this.value) { this.form.submit(); }">
-
-                    {{-- Use o x-buttons.link-button aqui --}}
-                    <x-buttons.link-button
-                        type="button"
-                        variant="outline-primary"
-                        onclick="document.getElementById('input-backup-file').click()"
-                    >
-                        <i class="fas fa-upload"></i> Importar Backup
-                    </x-buttons.link-button>
-                </form>
-
-                {{-- BOTÃO GERAR NOVO --}}
-                <form action="{{ route('backup.backups.store') }}" method="POST">
-                    @csrf
-                    <x-buttons.submit-button type="submit" variant="new">
-                        <i class="fas fa-plus-circle"></i> Gerar Novo
-                    </x-buttons.submit-button>
-                </form>
-            </div>
-        </x-table.page-header>
-
-        {{-- FILTROS --}}
+    <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-dynamic-filter
+                data-url="{{ route('backups.index') }}"
                 data-target="#backups-table"
-                action="{{ route('backup.backups.index') }}"
                 :fields="[
-                    ['name' => 'name', 'placeholder' => 'Filtrar por nome...', 'column' => 'col-md-5'],
-                    ['name' => 'status', 'type' => 'select', 'options' => [
-                        '' => 'Todos os Status',
-                        'success' => 'Sucesso',
-                        'failed' => 'Falha',
-                        'archived' => 'Arquivado'
-                    ], 'column' => 'col-md-3'],
-                    ['name' => 'user_id', 'type' => 'select', 'options' => $users->mapWithKeys(fn($u) => [$u->id => $u->name])->prepend('Todos os Responsáveis', ''), 'column' => 'col-md-4']
+                    [
+                        'name' => 'name',
+                        'placeholder' => 'Filtrar por nome...',
+                        'label' => 'Arquivo'
+                    ],
+                    [
+                        'name' => 'user_id',
+                        'type' => 'select',
+                        'placeholder' => 'Responsável',
+                        'options' => $users->mapWithKeys(fn($u) => [$u->id => $u->name])->prepend('Todos', '')
+                    ]
                 ]"
             />
         </div>
 
-        {{-- TABELA --}}
-        <div id="backups-table" class="p-3">
+        <div id="backups-table" class="p-3" role="region" aria-label="Listagem de backups">
             @include('pages.backup.partials.table')
         </div>
     </div>
 
-    <div class="mt-4 alert alert-info d-flex align-items-center border-0 shadow-sm" role="alert">
-        <i class="fas fa-shield-alt me-3 fa-lg text-primary"></i>
-        <div>
-            <span class="fw-bold d-block">Política de Armazenamento</span>
-            <small>
-                Os backups são armazenados em <code class="fw-bold text-dark">storage/app/GNAI</code>.
-                Arquivos com status <span class="badge bg-info-subtle text-info-emphasis border px-1">Arquivado</span> não serão removidos por limpezas automáticas.
-            </small>
-        </div>
+    <div class="mt-4 alert alert-info border-0">
+        <strong>Política de armazenamento:</strong>
+        Backups ficam em <code>storage/app/GNAI</code>. Arquivos arquivados não são removidos automaticamente.
     </div>
 
     <script>
@@ -92,22 +86,16 @@
                 e.preventDefault();
 
                 const fileName = this.querySelector('.btn-restore').dataset.filename;
-                const confirmacao = confirm(
-                    `⚠️ ATENÇÃO: Você está prestes a restaurar o backup: ${fileName}\n\n` +
-                    `Isso substituirá TODOS os dados atuais do banco de dados e arquivos de mídia pelas informações desta data.\n\n` +
-                    `Deseja continuar?`
-                );
 
-                if (confirmacao) {
+                if (confirm(`Restaurar backup ${fileName}? Isso substituirá os dados atuais.`)) {
                     const btn = this.querySelector('.btn-restore');
                     btn.disabled = true;
-                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Restaurando...';
+                    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
                     this.submit();
                 }
             });
         });
     </script>
-
     @push('scripts')
         @vite('resources/js/components/dynamicFilters.js')
     @endpush

@@ -4,7 +4,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Profissionais' => route('specialized-educational-support.professionals.index'),
+            'Profissionais' => route('professionals.index'),
             $professional->person->name => null
 
         ]" />
@@ -19,11 +19,11 @@
             </p>
         </div>
         <div class="d-flex gap-2">
-            <x-buttons.link-button :href="route('specialized-educational-support.professionals.edit', $professional->id)" variant="warning">
+            <x-buttons.link-button :href="route('professionals.edit', $professional->id)" variant="warning">
                 <i class="fas fa-edit"></i> Editar
             </x-buttons.link-button>
 
-            <x-buttons.link-button :href="route('specialized-educational-support.professionals.index')" variant="secondary">
+            <x-buttons.link-button :href="route('professionals.index')" variant="secondary">
                <i class="fas fa-arrow-left "></i>  Voltar
             </x-buttons.link-button>
         </div>
@@ -31,7 +31,7 @@
 
     <div class="custom-table-card bg-white shadow-sm">
         <div class="row g-0">
-            
+
             {{-- SEÇÃO: DADOS PESSOAIS --}}
             <x-forms.section title="Identificação Pessoal" />
 
@@ -47,7 +47,7 @@
 
                 </div>
             </div>
-            
+
             <x-show.info-item label="Nome Completo" column="col-md-8" isBox="true">
                 <strong>{{ $professional->person->name }}</strong>
             </x-show.info-item>
@@ -111,15 +111,14 @@
                 </x-show.info-item>
             @endif
 
-            {{-- RODAPÉ --}}
             <div class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light no-print">
                 <div class="text-muted small">
                     <i class="fas fa-id-badge me-1"></i> Profissional ID: #{{ $professional->id }}
                 </div>
-                
+
                 <div class="d-flex gap-3">
-                    <form action="{{ route('specialized-educational-support.professionals.destroy', $professional->id) }}" 
-                          method="POST" 
+                    <form action="{{ route('professionals.destroy', $professional->id) }}"
+                          method="POST"
                           onsubmit="return confirm('Excluir este profissional do sistema?')">
                         @csrf
                         @method('DELETE')
@@ -128,7 +127,7 @@
                         </x-buttons.submit-button>
                     </form>
 
-                    <x-buttons.link-button :href="route('specialized-educational-support.professionals.index')" variant="secondary">
+                    <x-buttons.link-button :href="route('professionals.index')" variant="secondary">
                         <i class="fas fa-arrow-left "></i>  Voltar
                     </x-buttons.link-button>
                 </div>

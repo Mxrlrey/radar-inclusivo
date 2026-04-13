@@ -4,7 +4,7 @@
      <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Cargos' => route('specialized-educational-support.positions.index'),
+            'Cargos' => route('positions.index'),
             $position->name => null
         ]" />
     </div>
@@ -18,11 +18,11 @@
             </p>
         </div>
         <div class="d-flex gap-2">
-            <x-buttons.link-button :href="route('specialized-educational-support.positions.edit', $position->id)" variant="warning">
-                <i class="fas fa-edit"></i> Editar 
+            <x-buttons.link-button :href="route('positions.edit', $position->id)" variant="warning">
+                <i class="fas fa-edit"></i> Editar
             </x-buttons.link-button>
 
-            <x-buttons.link-button :href="route('specialized-educational-support.positions.index')" variant="secondary">
+            <x-buttons.link-button :href="route('positions.index')" variant="secondary">
                <i class="fas fa-arrow-left"></i> Voltar
             </x-buttons.link-button>
         </div>
@@ -30,10 +30,10 @@
 
     <div class="custom-table-card bg-white shadow-sm">
         <div class="row g-0">
-            
+
             {{-- SEÇÃO: IDENTIFICAÇÃO --}}
             <x-forms.section title="Informações do Cargo" />
-            
+
             <x-show.info-item label="Nome do Cargo / Função" column="col-md-8" isBox="true">
                 <strong class="text-purple-dark">{{ $position->name }}</strong>
             </x-show.info-item>
@@ -79,13 +79,13 @@
             {{-- RODAPÉ --}}
             <div class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light no-print">
                 <div class="text-muted small">
-                    <i class="fas fa-briefcase me-1"></i> ID do Cargo: #{{ $position->id }} | 
+                    <i class="fas fa-briefcase me-1"></i> ID do Cargo: #{{ $position->id }} |
                     Criado em: {{ \Carbon\Carbon::parse($position->created_at)->format('d/m/Y') }}
                 </div>
-                
+
                 <div class="d-flex gap-3">
-                    <form action="{{ route('specialized-educational-support.positions.destroy', $position->id) }}" 
-                          method="POST" 
+                    <form action="{{ route('positions.destroy', $position->id) }}"
+                          method="POST"
                           onsubmit="return confirm('Excluir este cargo? Isso pode afetar profissionais vinculados.')">
                         @csrf
                         @method('DELETE')

@@ -167,7 +167,7 @@
                             <div id="map-blocked-overlay"
                                  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #333; border-radius: 0.375rem; cursor: not-allowed;">
                                 <span class="bg-white p-3 rounded shadow-sm border text-center">
-                                    <i class="fas fa-lock text-danger mb-2 d-block"></i>
+                                    <i class="fa fa-lock text-danger mb-2 d-block"></i>
                                     Mapa não se aplica a categoria <br>{{ $barrier->category?->name }}.
                                 </span>
                             </div>

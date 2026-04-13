@@ -1,113 +1,153 @@
-<x-table.table :headers="['Arquivo ZIP', 'Status', 'Tamanho', 'Criado em', 'Responsável', 'Ações']" :records="$backups">
+<x-table.table
+    :headers="[
+        ['label' => 'Arquivo'],
+        ['label' => 'Status', 'class' => 'col-hide-md'],
+        ['label' => 'Tamanho', 'class' => 'col-hide-md'],
+        ['label' => 'Criado em', 'class' => 'col-hide-md'],
+        ['label' => 'Responsável', 'class' => 'col-hide-md'],
+        ['label' => 'Ações']
+    ]"
+    :records="$backups"
+    class="table-striped"
+>
     @forelse($backups as $backup)
+        @php
+            $modalId = "modal-delete-backup-" . $backup->id;
+        @endphp
+
         <tr>
-            {{-- ARQUIVO ZIP --}}
-            <x-table.td>
-                <a href="{{ route('backup.backups.show', $backup->id) }}" class="fw-medium text-decoration-none hover-underline text-dark">
-                    <i class="fas fa-file-archive text-warning me-1"></i>
+            <x-table.td scope="row" class="font-weight-medium">
+                <a href="{{ route('backups.show', $backup->id) }}" class="text-decoration-none text-dark">
                     {{ $backup->file_name }}
                 </a>
             </x-table.td>
 
-            {{-- STATUS (Estilo TA: Texto colorido e negrito) --}}
-            <x-table.td>
+            <x-table.td class="col-hide-md">
                 @php
-                    $statusConfig = [
-                        'success'  => 'success',
-                        'failed'   => 'danger',
-                        'archived' => 'info',
+                    $map = [
+                        'success' => ['success', 'Sucesso'],
+                        'failed' => ['danger', 'Falha'],
+                        'archived' => ['secondary', 'Arquivado'],
                     ];
-                    $color = $statusConfig[$backup->status] ?? 'secondary';
-                    $label = [
-                        'success'  => 'Sucesso',
-                        'failed'   => 'Falha',
-                        'archived' => 'Arquivado',
-                    ][$backup->status] ?? $backup->status;
+                    [$variant, $label] = $map[$backup->status] ?? ['secondary', $backup->status];
                 @endphp
 
-                <span class="badge bg-{{ $color }}-subtle text-{{ $color }}-emphasis border px-2">
+                <span class="badge bg-{{ $variant }}">
                     {{ $label }}
                 </span>
             </x-table.td>
 
-            {{-- TAMANHO --}}
-            <x-table.td>
-                <span class="text-primary fw-medium">{{ $backup->size }}</span>
+            <x-table.td class="col-hide-md">
+                {{ $backup->size }}
             </x-table.td>
 
-            {{-- CRIADO EM --}}
-            <x-table.td>
-                <span class="text-muted small">
-                    {{ $backup->created_at->format('d/m/Y H:i') }}
-                </span>
+            <x-table.td class="col-hide-md">
+                {{ $backup->created_at->format('d/m/Y H:i') }}
             </x-table.td>
 
-            {{-- RESPONSÁVEL --}}
-            <x-table.td>
-                <span class="text-secondary fw-medium">
-                    {{ $backup->user->name ?? 'Sistema' }}
-                </span>
+            <x-table.td class="col-hide-md">
+                {{ $backup->user->name ?? 'Sistema' }}
             </x-table.td>
 
-            {{-- AÇÕES (Estilo TA: Botão 'Ver' em Info e Ícones) --}}
             <x-table.td>
                 <x-table.actions>
-                    {{-- Download (Mantive apenas ícone para não poluir, como nas TA) --}}
                     <x-buttons.link-button
-                        :href="route('backup.backups.download', $backup->id)"
-                        variant="success"
+                        :href="route('backups.show', $backup->id)"
+                        variant="info"
+                        size="xs"
+                        title="Visualizar backup"
+                        aria-label="Visualizar detalhes do backup"
                     >
-                        <i class="fas fa-download"></i> Baixar
+                        <i class="fa fa-eye" aria-hidden="true"></i>
                     </x-buttons.link-button>
 
-                    {{-- Restaurar --}}
+                    <x-buttons.link-button
+                        :href="route('backups.download', $backup->id)"
+                        variant="success"
+                        size="xs"
+                        title="Baixar backup"
+                        aria-label="Baixar arquivo do backup"
+                    >
+                        <i class="fa fa-download" aria-hidden="true"></i>
+                    </x-buttons.link-button>
+
                     @if($backup->status === 'success')
-                        <form action="{{ route('backup.backups.restore', $backup->id) }}"
+                        <form action="{{ route('backups.restore', $backup->id) }}"
                               method="POST"
                               class="d-inline form-restore">
                             @csrf
                             <x-buttons.submit-button
                                 variant="warning"
+                                size="xs"
                                 class="btn-restore"
                                 data-filename="{{ $backup->file_name }}"
+                                title="Restaurar backup"
+                                aria-label="Restaurar sistema usando o backup"
                             >
-                                <i class="fas fa-history"></i> Restaurar
+                                <i class="fa fa-history" aria-hidden="true"></i>
                             </x-buttons.submit-button>
                         </form>
                     @endif
 
-                    {{-- Ver --}}
-                    <x-buttons.link-button
-                        :href="route('backup.backups.show', $backup->id)"
-                        variant="info"
+                    <x-buttons.submit-button
+                        variant="danger"
+                        size="xs"
+                        type="button"
+                        onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                        title="Excluir backup"
+                        aria-label="Abrir confirmação para excluir o backup"
                     >
-                        <i class="fas fa-eye"></i> Ver
-                    </x-buttons.link-button>
-
-                    {{-- Excluir --}}
-                    <form action="{{ route('backup.backups.destroy', $backup->id) }}"
-                          method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <x-buttons.submit-button
-                            variant="danger"
-                            onclick="return confirm('Deseja remover este backup?')"
-                        >
-                            <i class="fas fa-trash-alt"></i> Excluir
-                        </x-buttons.submit-button>
-                    </form>
+                        <i class="fa fa-eraser" aria-hidden="true"></i>
+                    </x-buttons.submit-button>
                 </x-table.actions>
             </x-table.td>
         </tr>
     @empty
         <tr>
-            <td colspan="6" class="text-center text-muted py-4">Nenhum backup encontrado no histórico.</td>
+            <td colspan="6" class="text-center text-muted py-4">
+                Nenhum backup encontrado.
+            </td>
         </tr>
     @endforelse
 </x-table.table>
 
-@if($backups->hasPages())
-    <div class="mt-3">
-        {{ $backups->links() }}
-    </div>
-@endif
+@foreach($backups as $backup)
+    @php
+        $modalId = "modal-delete-backup-" . $backup->id;
+    @endphp
+
+    <x-modal.modal
+        :id="$modalId"
+        title="Confirmar Exclusão"
+        size="sm"
+    >
+        <div class="p-3">
+            <p class="mb-2 text-danger fw-bold">
+                Esta ação não pode ser desfeita.
+            </p>
+            <p class="mb-0 text-muted">
+                Deseja realmente excluir o backup
+                <strong>{{ $backup->file_name }}</strong>?
+            </p>
+        </div>
+
+        <x-slot:footer>
+            <x-buttons.link-button
+                href="javascript:void(0)"
+                variant="secondary"
+                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+            >
+                Cancelar
+            </x-buttons.link-button>
+
+            <form action="{{ route('backups.destroy', $backup->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+
+                <x-buttons.submit-button variant="danger">
+                    Excluir
+                </x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
+@endforeach

@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
         'Home' => route('dashboard'),
-        'Filas de Espera' => route('inclusive-radar.waitlists.index'),
+        'Filas de Espera' => route('waitlists.index'),
         $waitlist->id => null
     ]" />
     </div>
@@ -18,11 +18,11 @@
         </div>
 
         <div>
-            <x-buttons.link-button :href="route('inclusive-radar.waitlists.edit', $waitlist)" variant="warning">
+            <x-buttons.link-button :href="route('waitlists.edit', $waitlist)" variant="warning">
                 <i class="fas fa-edit"></i> Editar
             </x-buttons.link-button>
 
-            <x-buttons.link-button :href="route('inclusive-radar.waitlists.index')" variant="secondary">
+            <x-buttons.link-button :href="route('waitlists.index')" variant="secondary">
                 <i class="fas fa-arrow-left"></i> Voltar
             </x-buttons.link-button>
         </div>
@@ -46,8 +46,8 @@
                                 $id = $waitlist->waitlistable_id;
 
                                 $resourceRoute = match($type) {
-                                    'assistive_technology'            => route('inclusive-radar.assistive-technologies.show', $id),
-                                    'accessible_educational_material' => route('inclusive-radar.accessible-educational-materials.show', $id),
+                                    'assistive_technology'            => route('assistive-technologies.show', $id),
+                                    'accessible_educational_material' => route('accessible-educational-materials.show', $id),
                                     default                           => '#',
                                 };
                             @endphp
@@ -109,12 +109,12 @@
             <div class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light no-print">
                 <div class="text-muted small d-flex align-items-center">
                     <i class="fas fa-id-card me-1" aria-hidden="true"></i> ID no Sistema: #{{ $waitlist->id }}
-                    <x-buttons.pdf-button :href="route('inclusive-radar.waitlists.pdf', $waitlist)" class="ms-1" />
+                    <x-buttons.pdf-button :href="route('waitlists.pdf', $waitlist)" class="ms-1" />
                 </div>
 
                 <div class="d-flex gap-3">
                     @if($canCancel)
-                        <form action="{{ route('inclusive-radar.waitlists.cancel', $waitlist) }}" method="POST" class="d-inline">
+                        <form action="{{ route('waitlists.cancel', $waitlist) }}" method="POST" class="d-inline">
                             @csrf
                             @method('PATCH')
                             <x-buttons.submit-button variant="danger" onclick="return confirm('Deseja cancelar?')">
@@ -123,7 +123,7 @@
                         </form>
                     @endif
 
-                    <form action="{{ route('inclusive-radar.waitlists.destroy', $waitlist) }}" method="POST" class="d-inline">
+                    <form action="{{ route('waitlists.destroy', $waitlist) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <x-buttons.submit-button
@@ -134,7 +134,7 @@
                         </x-buttons.submit-button>
                     </form>
 
-                    <x-buttons.link-button :href="route('inclusive-radar.waitlists.index')" variant="secondary">
+                    <x-buttons.link-button :href="route('waitlists.index')" variant="secondary">
                         <i class="fas fa-arrow-left"></i> Voltar
                     </x-buttons.link-button>
                 </div>
@@ -143,6 +143,6 @@
     </div>
 
     @push('scripts')
-        @vite('resources/js/pages/inclusive-radar/waitlists.js')
+        @vite('resources/js/pages/waitlists.js')
     @endpush
 @endsection

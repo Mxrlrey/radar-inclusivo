@@ -430,7 +430,9 @@ body.sidebar-collapsed .sidebar:not(.hover-open) .sidebar-header {
 }
 
 /* ===== 4. RESPONSIVIDADE ===== */
-@media (max-width: 768px) {
+
+/* Mobile e Tablet (até 1024px) — sidebar vira drawer */
+@media (max-width: 1024px) {
     .navbar-custom {
         left: 0;
         padding: 0;
@@ -448,13 +450,45 @@ body.sidebar-collapsed .sidebar:not(.hover-open) .sidebar-header {
         display: none;
     }
 
+    /* Sidebar escondida por padrão — drawer */
     .sidebar {
         transform: translateX(-100%);
-        width: 280px;
+        width: 280px !important;          /* largura fixa sempre */
         transition: transform 0.2s ease;
     }
+
+    /* Quando aberta via JS — sempre mostra tudo */
     .sidebar.show {
         transform: translateX(0);
+    }
+
+    /* Garante que o conteúdo apareça completo ao abrir */
+    .sidebar.show .text,
+    .sidebar.show .sidebar-title,
+    .sidebar.show .badge,
+    .sidebar.show .menu-divider span {
+        display: inline !important;
+    }
+
+    .sidebar.show .sidebar-menu a {
+        justify-content: flex-start !important;
+        padding: var(--spacing-3) var(--spacing-5) !important;
+        border-left: 3px solid transparent !important;
+    }
+
+    .sidebar.show .sidebar-menu .icon {
+        margin-right: var(--spacing-3) !important;
+    }
+
+    .sidebar.show .sidebar-header {
+        justify-content: flex-start !important;
+        padding: 0 var(--spacing-5) !important;
+    }
+
+    /* Cancela qualquer estado collapsed no mobile */
+    body.sidebar-collapsed .sidebar .text,
+    body.sidebar-collapsed .sidebar.show .text {
+        display: inline !important;
     }
 
     .main-content {
@@ -465,82 +499,23 @@ body.sidebar-collapsed .sidebar:not(.hover-open) .sidebar-header {
     }
 
     .navbar-brand {
+        max-width: 260px;
+    }
+}
+
+/* Mobile pequeno */
+@media (max-width: 480px) {
+    .main-content {
+        padding-left: var(--spacing-3);
+        padding-right: var(--spacing-3);
+    }
+
+    .navbar-brand {
         max-width: 160px;
     }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
-    .navbar-custom {
-        left: var(--sidebar-collapsed-width);
-        padding: 0;
-    }
-
-    .navbar-left-content {
-        padding: 0 var(--spacing-4);
-    }
-
-    .main-content {
-        margin-left: var(--sidebar-collapsed-width);
-        padding-left: var(--spacing-5);
-        padding-right: var(--spacing-5);
-    }
-
-    .navbar-brand {
-        max-width: 380px;
-    }
-
-    .sidebar {
-        width: var(--sidebar-collapsed-width);
-    }
-    .sidebar .text,
-    .sidebar .menu-divider span,
-    .sidebar .sidebar-title,
-    .sidebar .badge {
-        display: none;
-    }
-    .sidebar .sidebar-menu a {
-        justify-content: center;
-        padding: var(--spacing-3) 0;
-        border-left: none;
-    }
-    .sidebar .sidebar-menu .icon {
-        margin-right: 0;
-        font-size: 1.25rem;
-    }
-    .sidebar .sidebar-header {
-        justify-content: center;
-        padding: 0;
-    }
-
-    .sidebar:hover,
-    .sidebar.hover-open {
-        width: var(--sidebar-width) !important;
-    }
-    .sidebar:hover .text,
-    .sidebar:hover .sidebar-title,
-    .sidebar:hover .badge,
-    .sidebar.hover-open .text,
-    .sidebar.hover-open .sidebar-title,
-    .sidebar.hover-open .badge {
-        display: inline;
-    }
-    .sidebar:hover .sidebar-menu a,
-    .sidebar.hover-open .sidebar-menu a {
-        justify-content: flex-start;
-        padding: var(--spacing-3) var(--spacing-5);
-        border-left: 3px solid transparent;
-    }
-    .sidebar:hover .sidebar-menu .icon,
-    .sidebar.hover-open .sidebar-menu .icon {
-        margin-right: var(--spacing-3);
-    }
-    .sidebar:hover .sidebar-header,
-    .sidebar.hover-open .sidebar-header {
-        justify-content: flex-start;
-        padding: 0 var(--spacing-5);
-    }
-}
-
+/* Desktop grande */
 @media (min-width: 1441px) {
     .main-content {
         max-width: 1600px;

@@ -1,9 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-
     document.querySelectorAll('.ctx-toggle').forEach(button => {
-
         button.addEventListener('click', function () {
-
             const targetId = button.getAttribute('data-target');
             const target = document.getElementById(targetId);
 
@@ -25,9 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 80);
             }
-
         });
-
     });
-
 });

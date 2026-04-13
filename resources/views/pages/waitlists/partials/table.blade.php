@@ -4,8 +4,8 @@
             <x-table.td>
                 @php
                     $resourceRoute = match($waitlist->waitlistable_type) {
-                        'assistive_technology'            => route('inclusive-radar.assistive-technologies.show', $waitlist->waitlistable_id),
-                        'accessible_educational_material' => route('inclusive-radar.accessible-educational-materials.show', $waitlist->waitlistable_id),
+                        'assistive_technology'            => route('assistive-technologies.show', $waitlist->waitlistable_id),
+                        'accessible_educational_material' => route('accessible-educational-materials.show', $waitlist->waitlistable_id),
                         default                           => '#',
                     };
                 @endphp
@@ -45,13 +45,13 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                            :href="route('inclusive-radar.waitlists.show', $waitlist)"
+                            :href="route('waitlists.show', $waitlist)"
                             variant="info"
                     >
                         <i class="fas fa-eye"></i> Ver
                     </x-buttons.link-button>
 
-                    <form action="{{ route('inclusive-radar.waitlists.destroy', $waitlist) }}" method="POST"
+                    <form action="{{ route('waitlists.destroy', $waitlist) }}" method="POST"
                           class="d-inline">
                         @csrf
                         @method('DELETE')

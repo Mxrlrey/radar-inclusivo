@@ -10,8 +10,8 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Empréstimos' => route('inclusive-radar.loans.index'),
-            $loan->id => route('inclusive-radar.loans.show', $loan),
+            'Empréstimos' => route('loans.index'),
+            $loan->id => route('loans.show', $loan),
             'Editar' => null
         ]" />
     </div>
@@ -23,7 +23,7 @@
         </div>
 
         <div>
-            <x-buttons.link-button href="{{ route('inclusive-radar.loans.index') }}" variant="secondary">
+            <x-buttons.link-button href="{{ route('loans.index') }}" variant="secondary">
                 <i class="fas fa-times"></i> Cancelar
             </x-buttons.link-button>
         </div>
@@ -50,7 +50,7 @@
     @endif
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('inclusive-radar.loans.update', $loan) }}" method="POST">
+        <x-forms.form-card action="{{ route('loans.update', $loan) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -156,7 +156,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-3 border-t pt-4 px-4 pb-4 mt-4">
-                <x-buttons.link-button href="{{ route('inclusive-radar.loans.index') }}" variant="secondary">
+                <x-buttons.link-button href="{{ route('loans.index') }}" variant="secondary">
                     <i class="fas fa-times"></i> Cancelar
                 </x-buttons.link-button>
 
@@ -174,6 +174,6 @@
     </div>
 
     @push('scripts')
-        @vite('resources/js/pages/inclusive-radar/loans.js')
+        @vite('resources/js/pages/loans.js')
     @endpush
 @endsection

@@ -6,7 +6,7 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Empréstimos' => route('inclusive-radar.loans.index'),
+            'Empréstimos' => route('loans.index'),
         ]" />
     </div>
 
@@ -17,7 +17,7 @@
             subtitle="Controle de saídas e devoluções de tecnologias e materiais pedagógicos."
         >
             <x-buttons.link-button
-                :href="route('inclusive-radar.loans.create')"
+                :href="route('loans.create')"
                 variant="new"
                 title="Adicionar Empréstimo"
             >
@@ -45,7 +45,7 @@
         </div>
 
         <div id="loans-table" class="p-3">
-            @include('pages.inclusive-radar.loans.partials.table')
+            @include('pages.loans.partials.table')
         </div>
     </div>
 

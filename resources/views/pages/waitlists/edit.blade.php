@@ -6,8 +6,8 @@
     <div class="mb-5">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Filas de Espera' => route('inclusive-radar.waitlists.index'),
-            $waitlist->id => route('inclusive-radar.waitlists.show', $waitlist),
+            'Filas de Espera' => route('waitlists.index'),
+            $waitlist->id => route('waitlists.show', $waitlist),
             'Editar' => null
         ]" />
     </div>
@@ -19,14 +19,14 @@
         </header>
 
         <div class="d-flex gap-2">
-            <x-buttons.link-button :href="route('inclusive-radar.waitlists.show', $waitlist)" variant="secondary">
+            <x-buttons.link-button :href="route('waitlists.show', $waitlist)" variant="secondary">
                 <i class="fas fa-times"></i> Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
     <div class="mt-3">
-        <x-forms.form-card action="{{ route('inclusive-radar.waitlists.update', $waitlist) }}" method="POST">
+        <x-forms.form-card action="{{ route('waitlists.update', $waitlist) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -45,8 +45,8 @@
                         <h5 class="mb-0 fw-bold">
                             @php
                                 $resourceRoute = match($waitlist->waitlistable_type) {
-                                    'assistive_technology'            => route('inclusive-radar.assistive-technologies.show', $waitlist->waitlistable_id),
-                                    'accessible_educational_material' => route('inclusive-radar.accessible-educational-materials.show', $waitlist->waitlistable_id),
+                                    'assistive_technology'            => route('assistive-technologies.show', $waitlist->waitlistable_id),
+                                    'accessible_educational_material' => route('accessible-educational-materials.show', $waitlist->waitlistable_id),
                                     default                           => '#',
                                 };
                             @endphp
@@ -115,7 +115,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4 mt-4">
-                <x-buttons.link-button :href="route('inclusive-radar.waitlists.show', $waitlist)" variant="secondary">
+                <x-buttons.link-button :href="route('waitlists.show', $waitlist)" variant="secondary">
                     <i class="fas fa-times"></i> Cancelar
                 </x-buttons.link-button>
 
