@@ -1,6 +1,7 @@
 @props([
     'location' => null,
     'institution' => null,
+    'institutionsData' => [],
     'lat' => null,
     'lng' => null,
     'zoom' => 16,
@@ -58,8 +59,8 @@
             location: @json($location ?? null),
             isEditMode: {{ $location ? 'true' : 'false' }}
         };
-
+        window.institutionsData = @json($institutionsData ?? []);
         console.log('Configuração do mapa de localização definida:', window.locationMapConfig);
     </script>
-    @vite('resources/js/pages/locations.js')
+    @vite('resources/js/maps/location-map.js')
 @endpush

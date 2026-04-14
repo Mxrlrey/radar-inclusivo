@@ -13,13 +13,7 @@
     @forelse($positions as $item)
         <tr>
             <x-table.td scope="row">
-                <strong class="text-primary">{{ $item->name }}</strong>
-
-                @if($item->description)
-                    <small class="d-block text-muted">
-                        {{ Str::limit(strip_tags($item->description), 60) }}
-                    </small>
-                @endif
+                {{ $item->name }}
             </x-table.td>
 
             <x-table.td class="align-middle col-hide-md">

@@ -60,33 +60,6 @@
             </div>
         </x-show.info-item>
 
-        <x-forms.separator/>
-
-        <x-forms.section title="Histórico de Vistorias" />
-
-        <div class="show-field">
-            <span class="show-label"></span>
-            <div class="show-value" style="max-width: 100%; flex: 1;">
-                <div class="history-timeline">
-                    @forelse($material->inspections as $inspection)
-                        <div class="mb-3 cursor-pointer p-2 border inspection-link"
-                             role="button"
-                             tabindex="0"
-                             data-url="{{ route('accessible-educational-materials.inspection.show', [$material, $inspection]) }}"
-                             aria-label="Ver detalhes da vistoria de {{ $inspection->inspection_date->format('d/m/Y') }}">
-                            <x-forms.inspection-history-card :inspection="$inspection" />
-                        </div>
-                    @empty
-                        <p class="text-muted mb-0">Nenhum histórico de vistoria encontrado.</p>
-                    @endforelse
-                </div>
-            </div>
-        </div>
-
-        <x-forms.separator/>
-
-        <x-forms.section title="Gestão e Público" />
-
         <x-show.info-item label="Quantidade Total">
             {{ $material->is_digital ? 'Não se aplica' : $material->quantity }}
         </x-show.info-item>
@@ -122,6 +95,56 @@
                 @endforelse
             </div>
         </x-show.info-item>
+
+        @can('system.audit.view')
+            <x-forms.separator/>
+
+            <x-forms.section
+                title="Registro do Sistema"
+                description="Informações automáticas de auditoria do sistema."
+            />
+
+            <x-show.info-item label="ID no Sistema">
+                #{{ $material->id }}
+            </x-show.info-item>
+
+            <x-show.info-item label="Status do Sistema">
+            <span class="badge bg-{{ $material->is_active ? 'success' : 'danger' }}">
+                {{ $material->is_active ? 'Ativo' : 'Inativo' }}
+            </span>
+            </x-show.info-item>
+
+            <x-show.info-item label="Criado em">
+                {{ $material->created_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            </x-show.info-item>
+
+            <x-show.info-item label="Última atualização">
+                {{ $material->updated_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            </x-show.info-item>
+        @endcan
+
+        <x-forms.separator/>
+
+        <x-forms.section title="Histórico de Vistorias" />
+
+        <div class="show-field">
+            <span class="show-label"></span>
+            <div class="show-value" style="max-width: 100%; flex: 1;">
+                <div class="history-timeline">
+                    @forelse($material->inspections as $inspection)
+                        <div class="mb-3 cursor-pointer p-2 border inspection-link"
+                             role="button"
+                             tabindex="0"
+                             data-url="{{ route('accessible-educational-materials.inspection.show', [$material, $inspection]) }}"
+                             aria-label="Ver detalhes da vistoria de {{ $inspection->inspection_date->format('d/m/Y') }}">
+                            <x-forms.inspection-history-card :inspection="$inspection" />
+                        </div>
+                    @empty
+                        <p class="text-muted mb-0">Nenhum histórico de vistoria encontrado.</p>
+                    @endforelse
+                </div>
+            </div>
+        </div>
 
         @php
             $modalId = "modal-delete-material-" . $material->id;

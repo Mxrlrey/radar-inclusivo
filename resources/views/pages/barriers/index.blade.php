@@ -3,47 +3,71 @@
 @section('title', 'Barreiras')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Barreiras' => route('barriers.index'),
-        ]"/>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Barreiras' => null
+            ]" />
+
+            <h1>Barreiras</h1>
+
+            <p class="text-muted mb-0">
+                Mapeamento de obstáculos relatados pela comunidade para melhoria da acessibilidade.
+            </p>
+        </div>
+
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('barriers.create')"
+                variant="info"
+                aria-label="Cadastrar nova barreira"
+            >
+                <span class="btn-label">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </span>
+                Cadastrar
+            </x-buttons.link-button>
+        </div>
     </div>
 
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
-        <x-table.page-header
-                title="Mapa de Barreiras"
-                subtitle="Contribuições da comunidade para uma instituição mais acessível."
-        >
-            <x-buttons.link-button
-                    :href="route('barriers.create')"
-                    variant="new"
-                    title="Adicionar Barreiras"
-            >
-                <i class="fas fa-plus"></i>
-            </x-buttons.link-button>
-        </x-table.page-header>
-
+    <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                    data-dynamic-filter
-                    data-target="#barriers-table"
-                    :fields="[
-                    ['name' => 'name', 'placeholder' => 'Filtrar por nome da barreira...'],
-                    ['name' => 'category', 'placeholder' => 'Filtrar por categoria...'],
-                    ['name' => 'priority', 'type' => 'select', 'options' => collect(\App\Enums\Priority::cases())
-                        ->mapWithKeys(fn ($case) => [$case->value => $case->label()])
-                        ->prepend('Prioridade (Todas)', '')
-                        ->toArray()],
-                    ['name' => 'status', 'type' => 'select', 'options' => collect(\App\Enums\BarrierStatus::cases())
-                        ->mapWithKeys(fn ($case) => [$case->value => $case->label()])
-                        ->prepend('Status (Todos)', '')
-                        ->toArray()],
+                data-url="{{ route('barriers.index') }}"
+                data-target="#barriers-table"
+                :fields="[
+                    [
+                        'name' => 'name',
+                        'placeholder' => 'Filtrar por nome...'
+                    ],
+                    [
+                        'name' => 'category',
+                        'placeholder' => 'Filtrar por categoria...'
+                    ],
+                    [
+                        'name' => 'priority',
+                        'type' => 'select',
+                        'placeholder' => 'Prioridade',
+                        'options' => collect(\App\Enums\Priority::cases())
+                            ->mapWithKeys(fn ($case) => [$case->value => $case->label()])
+                            ->prepend('Prioridade (Todas)', '')
+                            ->toArray()
+                    ],
+                    [
+                        'name' => 'status',
+                        'type' => 'select',
+                        'placeholder' => 'Status',
+                        'options' => collect(\App\Enums\BarrierStatus::cases())
+                            ->mapWithKeys(fn ($case) => [$case->value => $case->label()])
+                            ->prepend('Status (Todos)', '')
+                            ->toArray()
+                    ]
                 ]"
             />
         </div>
 
-        <div id="barriers-table" class="p-3">
+        <div id="barriers-table" class="p-3" role="region" aria-label="Listagem de barreiras">
             @include('pages.barriers.partials.table')
         </div>
     </div>

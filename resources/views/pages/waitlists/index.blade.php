@@ -3,46 +3,63 @@
 @section('title', 'Fila de Espera')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Fila de Espera' => route('waitlists.index'),
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Fila de Espera' => null
+            ]" />
+            <h1>Fila de Espera</h1>
+            <p class="text-muted mb-0">
+                Gerencie solicitações de recursos que estão indisponíveis para empréstimo.
+            </p>
+        </div>
 
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
-        <x-table.page-header
-            title="Fila de Espera"
-            subtitle="Gerencie solicitações de recursos que estão indisponíveis para empréstimo."
-        >
+        <div class="page-header-actions">
             <x-buttons.link-button
                 :href="route('waitlists.create')"
-                variant="new"
-                title="Adicionar Fila de Espera"
+                variant="info"
+                aria-label="Adicionar à fila de espera"
             >
-                <i class="fas fa-plus"></i>
+                <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                Cadastrar
             </x-buttons.link-button>
-        </x-table.page-header>
+        </div>
+    </div>
 
+    <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-dynamic-filter
+                data-url="{{ route('waitlists.index') }}"
                 data-target="#waitlists-table"
                 :fields="[
-                    ['name' => 'student', 'placeholder' => 'Filtrar por aluno...'],
-                    ['name' => 'professional', 'placeholder' => 'Filtrar por profissional...'],
-                    ['name' => 'status', 'type' => 'select', 'options' => [
-                        ''          => 'Status (Todos)',
-                        'waiting'   => 'Em espera',
-                        'notified'  => 'Notificado',
-                        'fulfilled' => 'Atendido',
-                        'cancelled' => 'Cancelado',
-                    ]],
+                    [
+                        'name' => 'student',
+                        'placeholder' => 'Filtrar por aluno...',
+                        'label' => 'Aluno'
+                    ],
+                    [
+                        'name' => 'professional',
+                        'placeholder' => 'Filtrar por profissional...',
+                        'label' => 'Profissional'
+                    ],
+                    [
+                        'name' => 'status',
+                        'type' => 'select',
+                        'placeholder' => 'Status',
+                        'options' => [
+                            ''          => 'Status (Todos)',
+                            'waiting'   => 'Em espera',
+                            'notified'  => 'Notificado',
+                            'fulfilled' => 'Atendido',
+                            'cancelled' => 'Cancelado',
+                        ]
+                    ]
                 ]"
             />
         </div>
 
-        <div id="waitlists-table" class="p-3">
+        <div id="waitlists-table" class="p-3" role="region" aria-label="Listagem da fila de espera">
             @include('pages.waitlists.partials.table')
         </div>
     </div>

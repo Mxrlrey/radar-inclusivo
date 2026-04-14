@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Gender;
 use App\Http\Requests\ProfessionalRequest;
 use App\Models\Person;
 use App\Models\Position;
@@ -23,21 +24,23 @@ class ProfessionalController extends Controller
             ->name($request->name)
             ->email($request->email)
             ->position($request->position_id)
-            ->status($request->status)
+            ->active($request->is_active)
             ->latest()
             ->paginate(15)
             ->withQueryString();
 
+        $data = $this->formData();
+
         if ($request->ajax()) {
             return view(
                 'pages.professionals.partials.table',
-                compact('professionals')
+                $data + compact('professionals')
             );
         }
 
         return view(
             'pages.professionals.index',
-            compact('professionals')
+            $data + compact('professionals')
         );
     }
 
@@ -96,9 +99,8 @@ class ProfessionalController extends Controller
     private function formData(): array
     {
         return [
-            'positions'     => Position::where('is_active', true)->orderBy('name')->get(),
-            'statusOptions' => Professional::statusOptions(),
-            'genders'       => Person::genderOptions(),
+            'positions' => Position::where('is_active', true)->orderBy('name')->get(),
+            'genders' => Gender::options(),
         ];
     }
 }

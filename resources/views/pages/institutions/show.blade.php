@@ -1,130 +1,196 @@
 @extends('layouts.master')
 
-@section('title', "$institution->name")
+@section('title', $institution->name)
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Instituições' => route('institutions.index'),
-            $institution->name => null
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Instituições' => route('institutions.index'),
+                $institution->name => null
+            ]" />
 
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <h2 class="text-title">Detalhes da Instituição</h2>
-            <p class="text-muted">
-                Visualize as informações cadastrais e a localização no mapa da instituição:
-                <strong>{{ $institution->name }}</strong>
+            <h1>Detalhes da Instituição</h1>
+            <p class="text-muted mb-0">
+                Visualize as informações cadastrais e a localização da instituição no mapa.
             </p>
         </div>
 
-        <div>
-            <x-buttons.link-button :href="route('institutions.edit', $institution)" variant="warning">
-                <i class="fas fa-edit"></i> Editar
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('institutions.edit', $institution)"
+                variant="info"
+            >
+                <x-slot:icon><i class="fa fa-pencil"></i></x-slot:icon>
+                Editar
             </x-buttons.link-button>
 
-            <x-buttons.link-button :href="route('institutions.index')" variant="secondary">
-                <i class="fas fa-arrow-left"></i> Voltar
+            <x-buttons.link-button
+                :href="route('institutions.index')"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
+                Voltar
             </x-buttons.link-button>
         </div>
     </div>
 
-    <div class="mt-3">
-        <x-show.display-card>
-            <div class="row g-0">
-                <div class="col-lg-5 border-end">
+    <div class="card-custom overflow-hidden show-container">
+        <div class="row g-0">
+            <div class="col-lg-5 border-end">
+                <x-forms.section
+                    title="Informações Gerais"
+                    description="Dados principais da instituição."
+                />
 
-                    <x-forms.section title="Informações Gerais" />
+                <x-show.info-item label="Nome da Instituição">
+                    {{ $institution->name }}
+                </x-show.info-item>
 
-                    <div class="row g-3 mb-0">
-                        <x-show.info-item label="Nome da Instituição" column="col-12" isBox="true">
-                            {{ $institution->name }}
-                        </x-show.info-item>
+                <x-show.info-item label="Sigla / Nome Curto">
+                    {{ $institution->short_name ?: 'Não informada' }}
+                </x-show.info-item>
 
-                        <x-show.info-item label="Sigla / Nome Curto" column="col-12" isBox="true">
-                            {{ $institution->short_name ?: '— Não informada —' }}
-                        </x-show.info-item>
+                <x-show.info-item label="Cidade">
+                    {{ $institution->city }}
+                </x-show.info-item>
 
-                        <x-show.info-item label="Cidade" column="col-md-8" isBox="true">
-                            {{ $institution->city }}
-                        </x-show.info-item>
+                <x-show.info-item label="Estado">
+                    {{ $institution->state }}
+                </x-show.info-item>
 
-                        <x-show.info-item label="Estado" column="col-md-4" isBox="true">
-                            {{ $institution->state }}
-                        </x-show.info-item>
+                <x-show.info-item label="Bairro / Distrito">
+                    {{ $institution->district ?: 'Não informado' }}
+                </x-show.info-item>
 
-                        <x-show.info-item label="Bairro / Distrito" column="col-md-5" isBox="true">
-                            {{ $institution->district ?: '— Não informado —' }}
-                        </x-show.info-item>
+                <x-show.info-item label="Rua / Logradouro">
+                    {{ $institution->address ?: 'Não informado' }}
+                </x-show.info-item>
 
-                        <x-show.info-item label="Rua / Logradouro" column="col-md-7" isBox="true">
-                            {{ $institution->address ?: '— Não informado —' }}
-                        </x-show.info-item>
+                <x-forms.separator />
 
-                        <x-show.info-item label="Instituição Ativa" column="col-12" isBox="true">
-                            {{ $institution->is_active ? 'Sim' : 'Não' }}
-                        </x-show.info-item>
-                    </div>
+                <x-forms.section
+                    title="Configurações do Mapa"
+                    description="Parâmetros usados na exibição da sede."
+                />
 
-                    <x-forms.section title="Configurações do Mapa" />
+                <x-show.info-item label="Zoom Padrão">
+                    {{ $institution->default_zoom }}
+                </x-show.info-item>
 
-                    <div class="row g-3 mb-0">
-                        <x-show.info-item label="Zoom Padrão" column="col-12" isBox="true">
-                            {{ $institution->default_zoom }}
-                        </x-show.info-item>
+                <x-show.info-item label="Latitude Sede">
+                    {{ $institution->latitude ?: 'Não informada' }}
+                </x-show.info-item>
 
-                        <x-show.info-item label="Latitude Sede" column="col-12" isBox="true">
-                            {{ $institution->latitude ?: '— Não informada —' }}
-                        </x-show.info-item>
+                <x-show.info-item label="Longitude Sede">
+                    {{ $institution->longitude ?: 'Não informada' }}
+                </x-show.info-item>
 
-                        <x-show.info-item label="Longitude Sede" column="col-12" isBox="true">
-                            {{ $institution->longitude ?: '— Não informada —' }}
-                        </x-show.info-item>
-                    </div>
-                </div>
+                @can('system.audit.view')
+                    <x-forms.separator />
 
-                <div class="col-lg-7 bg-light">
+                    <x-forms.section
+                        title="Registro do Sistema"
+                        description="Informações automáticas de auditoria do sistema."
+                    />
 
-                    <x-forms.section title="Localização no Mapa" id="map-section-title" />
+                    <x-show.info-item label="ID no Sistema">
+                        #{{ $institution->id }}
+                    </x-show.info-item>
 
-                    <div class="sticky-top" style="top:20px; z-index:1;">
-                        <section aria-labelledby="map-section-title">
-                            <x-show.maps.institution
-                                :institution="$institution"
-                                :lat="$institution->latitude"
-                                :lng="$institution->longitude"
-                                :zoom="$institution->default_zoom"
-                                height="550px"
-                                label="Localização da Instituição"
-                            />
-                        </section>
-                    </div>
-                </div>
+                    <x-show.info-item label="Instituição Ativa">
+                    <span class="badge bg-{{ $institution->is_active ? 'success' : 'danger' }}">
+                        {{ $institution->is_active ? 'Ativa' : 'Inativa' }}
+                    </span>
+                    </x-show.info-item>
+
+                    <x-show.info-item label="Criado em">
+                        {{ $institution->created_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+                    </x-show.info-item>
+
+                    <x-show.info-item label="Última atualização">
+                        {{ $institution->updated_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+                    </x-show.info-item>
+                @endcan
             </div>
 
-            <div class="col-12 border-top d-flex justify-content-between align-items-center bg-light no-print mt-4 p-4">
-                <div class="text-muted small">
-                    <i class="fas fa-id-card me-1" aria-hidden="true"></i> ID no Sistema: #{{ $institution->id }}
-                </div>
+            <div class="col-lg-7 px-0">
+                <x-forms.section
+                    title="Localização"
+                    description="Visualização da sede no mapa."
+                    id="map-section-title"
+                />
 
-                <div class="d-flex gap-3">
-                    <form action="{{ route('institutions.destroy', $institution) }}"
-                          method="POST"
-                          onsubmit="return confirm('ATENÇÃO: Esta ação excluirá todos os dados do recurso. Confirmar?')">
-                        @csrf
-                        @method('DELETE')
-                        <x-buttons.submit-button variant="danger">
-                            <i class="fas fa-trash-alt"></i> Excluir
-                        </x-buttons.submit-button>
-                    </form>
-
-                    <x-buttons.link-button :href="route('institutions.index')" variant="secondary">
-                        <i class="fas fa-arrow-left"></i> Voltar
-                    </x-buttons.link-button>
+                <div style="position: relative;">
+                    <x-show.maps.institution
+                        :institution="$institution"
+                        :lat="$institution->latitude"
+                        :lng="$institution->longitude"
+                        :zoom="$institution->default_zoom"
+                        height="450px"
+                        label="Localização da Instituição"
+                    />
                 </div>
             </div>
-        </x-show.display-card>
+            <x-show.footer>
+                <x-buttons.link-button
+                    :href="route('institutions.index')"
+                    variant="secondary"
+                >
+                    <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
+                    Voltar
+                </x-buttons.link-button>
+
+                <x-buttons.submit-button
+                    variant="danger"
+                    type="button"
+                    onclick="new bootstrap.Modal(document.getElementById('modal-delete-institution-{{ $institution->id }}')).show();"
+                >
+                    <x-slot:icon><i class="fa fa-eraser"></i></x-slot:icon>
+                    Excluir
+                </x-buttons.submit-button>
+            </x-show.footer>
+        </div>
     </div>
+
+    @php
+        $modalId = "modal-delete-institution-" . $institution->id;
+    @endphp
+
+    <x-modal.modal
+        :id="$modalId"
+        title="Confirmar Exclusão"
+        size="sm"
+    >
+        <div class="p-3">
+            <p class="mb-2 text-danger fw-bold">
+                Esta ação não pode ser desfeita.
+            </p>
+
+            <p class="mb-0 text-muted">
+                Deseja realmente excluir a instituição
+                <strong>{{ $institution->name }}</strong>?
+            </p>
+        </div>
+
+        <x-slot:footer>
+            <x-buttons.link-button
+                href="javascript:void(0)"
+                variant="secondary"
+                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+            >
+                Cancelar
+            </x-buttons.link-button>
+
+            <form action="{{ route('institutions.destroy', $institution) }}" method="POST">
+                @csrf
+                @method('DELETE')
+
+                <x-buttons.submit-button variant="danger">
+                    Excluir
+                </x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
 @endsection

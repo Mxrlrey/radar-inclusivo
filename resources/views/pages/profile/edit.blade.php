@@ -33,9 +33,9 @@
                             label="Alterar Foto"
                             :current="$person->photo_url"
                         />
-                        
+
                         <h4 class="text-title mt-3 mb-1">{{ $person->name }}</h4>
-                        <span class="badge bg-purple-light text-purple-dark mb-4">
+                        <span class="badge bg-purple-light mb-4">
                             {{ isset($professional) ? $professional->position->name : 'Professor(a)' }}
                         </span>
 
@@ -55,20 +55,20 @@
                 {{-- COLUNA DIREITA: Campos Editáveis --}}
                 <div class="col-md-8 p-4">
                     <x-forms.section title="Dados Pessoais" />
-                    
+
                     <div class="row">
                         <div class="col-md-12">
                             <x-forms.input name="name" label="Nome Completo" required :value="old('name', $person->name)" />
                         </div>
 
                         <div class="col-md-6">
-                            <x-forms.input 
-                                name="document" 
-                                label="CPF/Documento" 
-                                required 
-                                :value="old('document', $person->document)" 
+                            <x-forms.input
+                                name="document"
+                                label="CPF/Documento"
+                                required
+                                :value="old('document', $person->document)"
                                 class="cpf-mask"
-                                maxlength="14"  
+                                maxlength="14"
                                 placeholder="000.000.000-00"/>
                         </div>
 
@@ -93,12 +93,12 @@
                         </div>
 
                         <div class="col-md-6">
-                            <x-forms.input 
-                                name="phone" 
-                                label="Telefone" 
-                                :value="old('phone', $person->phone)" 
-                                class="phone-mask" 
-                                maxlength="15" 
+                            <x-forms.input
+                                name="phone"
+                                label="Telefone"
+                                :value="old('phone', $person->phone)"
+                                class="phone-mask"
+                                maxlength="15"
                                 placeholder="(00) 00000-0000"/>
                         </div>
 
@@ -112,23 +112,23 @@
                     </div>
 
                     <x-forms.section title="Alterar Senha" />
-                    
+
                     <div class="row">
                         <div class="col-md-6">
                             {{-- Adicionamos o autocomplete="new-password" --}}
-                            <x-forms.input 
-                                name="password" 
-                                label="Nova Senha" 
-                                type="password" 
-                                autocomplete="new-password" 
+                            <x-forms.input
+                                name="password"
+                                label="Nova Senha"
+                                type="password"
+                                autocomplete="new-password"
                             />
                         </div>
                         <div class="col-md-6">
-                            <x-forms.input 
-                                name="password_confirmation" 
-                                label="Confirmar Nova Senha" 
-                                type="password" 
-                                autocomplete="new-password" 
+                            <x-forms.input
+                                name="password_confirmation"
+                                label="Confirmar Nova Senha"
+                                type="password"
+                                autocomplete="new-password"
                             />
                         </div>
                     </div>

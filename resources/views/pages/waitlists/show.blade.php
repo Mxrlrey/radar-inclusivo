@@ -1,148 +1,150 @@
 @extends('layouts.master')
 
-@section('title', "Fila de Espera #$waitlist->id")
+@section('title', "Solicitação #$waitlist->id")
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-        'Home' => route('dashboard'),
-        'Filas de Espera' => route('waitlists.index'),
-        $waitlist->id => null
-    ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Fila de Espera' => route('waitlists.index'),
+                'Detalhes' => null
+            ]" />
 
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <h2 class="text-title">Detalhes da Fila de Espera</h2>
-            <p class="text-muted">Visualize informações da solicitação, status e histórico do recurso.</p>
+            <h1>Detalhes da Fila de Espera</h1>
+            <p class="text-muted mb-0">
+                Visualize informações da solicitação, status e histórico do recurso.
+            </p>
         </div>
 
-        <div>
-            <x-buttons.link-button :href="route('waitlists.edit', $waitlist)" variant="warning">
-                <i class="fas fa-edit"></i> Editar
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('waitlists.edit', $waitlist)"
+                variant="info">
+                <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
             </x-buttons.link-button>
 
+            <x-buttons.link-button
+                :href="route('waitlists.index')"
+                variant="secondary">
+                <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
+            </x-buttons.link-button>
+        </div>
+    </div>
+
+    <div class="card-custom overflow-hidden show-container">
+        <x-forms.section
+            title="Informações da Solicitação"
+            description="Dados do recurso desejado e do beneficiário interessado."
+        />
+
+        <x-show.info-item label="Tipo do Recurso">
+            {{ $waitlist->waitlistable_type === 'assistive_technology' ? 'Tecnologia Assistiva' : 'Material Pedagógico' }}
+        </x-show.info-item>
+
+        <x-show.info-item
+            label="Item"
+            :value="$waitlist->waitlistable->name ?? ($waitlist->waitlistable->title ?? 'Item Removido')"
+        />
+
+        @if($waitlist->student)
+            <x-show.info-item
+                label="Estudante (Beneficiário)"
+                :value="$waitlist->student->person->name"
+            />
+        @elseif($waitlist->professional)
+            <x-show.info-item
+                label="Profissional (Beneficiário)"
+                :value="$waitlist->professional->person->name"
+            />
+        @endif
+
+        <x-show.info-item label="Responsável pelo Registro" :value="$waitlist->user->name ?? '---'" />
+
+        <x-show.info-item label="Data da Solicitação" :value="$waitlist->requested_at->format('d/m/Y \à\s H:i')" />
+
+        <x-show.info-item label="Status Atual">
+            <span class="badge bg-{{ $statusColor }}">
+                {{ $statusLabel }}
+            </span>
+        </x-show.info-item>
+
+        <x-show.info-item label="Observações">
+            {!! $waitlist->observation ?: '<span class="text-muted">Nenhuma observação registrada.</span>' !!}
+        </x-show.info-item>
+
+        @can('system.audit.view')
+            <x-forms.separator/>
+
+            <x-forms.section title="Registro do Sistema" description="Informações de auditoria." />
+            <x-show.info-item label="ID no Sistema" :value="'#' . $waitlist->id" />
+            <x-show.info-item label="Criado em" :value="$waitlist->created_at?->format('d/m/Y \à\s H:i')" />
+            <x-show.info-item label="Atualizado em" :value="$waitlist->updated_at?->format('d/m/Y \à\s H:i')" />
+        @endcan
+
+        @php
+            $modalDeleteId = "modal-delete-waitlist-" . $waitlist->id;
+            $modalCancelId = "modal-cancel-waitlist-" . $waitlist->id;
+        @endphp
+
+        <x-show.footer>
             <x-buttons.link-button :href="route('waitlists.index')" variant="secondary">
-                <i class="fas fa-arrow-left"></i> Voltar
+                <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
-        </div>
+
+            <x-buttons.pdf-button :href="route('waitlists.pdf', $waitlist)" />
+
+            @if($canCancel)
+                <x-buttons.submit-button
+                    variant="warning"
+                    type="button"
+                    onclick="new bootstrap.Modal(document.getElementById('{{ $modalCancelId }}')).show();"
+                >
+                    <span class="btn-label"><i class="fa fa-chain-broken"></i></span> Cancelar
+                </x-buttons.submit-button>
+            @endif
+
+            <x-buttons.submit-button
+                variant="danger"
+                type="button"
+                onclick="new bootstrap.Modal(document.getElementById('{{ $modalDeleteId }}')).show();"
+            >
+                <span class="btn-label"><i class="fa fa-eraser"></i></span> Excluir
+            </x-buttons.submit-button>
+        </x-show.footer>
     </div>
 
-    <div class="mt-3">
-        <div class="custom-table-card bg-white shadow-sm">
-
-            <x-forms.section title="Recurso Solicitado" />
-
-            <div class="col-md-12 mb-4 px-4">
-                <div class="p-3 border rounded bg-light d-flex align-items-center gap-3">
-                    <div class="bg-purple-dark text-white p-3 rounded shadow-sm" style="background-color: #4c1d95;">
-                        <i class="fas {{ $waitlist->waitlistable_type === 'assistive_technology' ? 'fa-microchip' : 'fa-book' }} fa-lg"></i>
-                    </div>
-
-                    <div>
-                        <h5 class="mb-0 fw-bold">
-                            @php
-                                $type = $waitlist->waitlistable_type;
-                                $id = $waitlist->waitlistable_id;
-
-                                $resourceRoute = match($type) {
-                                    'assistive_technology'            => route('assistive-technologies.show', $id),
-                                    'accessible_educational_material' => route('accessible-educational-materials.show', $id),
-                                    default                           => '#',
-                                };
-                            @endphp
-
-                            <a href="{{ $resourceRoute }}"
-                               class="text-purple-dark text-decoration-none hover-underline"
-                               target="_blank"
-                               aria-label="Ver detalhes do recurso: {{ $waitlist->waitlistable->name }} (abre em nova aba)">
-                                {{ $waitlist->waitlistable->name ?? ($waitlist->waitlistable->title ?? 'Recurso') }}
-                                <i class="fas fa-external-link-alt ms-1" aria-hidden="true" style="font-size: 0.70rem;"></i>
-                            </a>
-                        </h5>
-                        <small class="text-muted text-uppercase">Patrimônio: {{ $waitlist->waitlistable->asset_code ?? 'N/A' }}</small>
-                    </div>
-                </div>
-            </div>
-
-            <x-forms.section title="Beneficiário e Usuário Responsável" />
-
-            <div class="row g-3 mb-4">
-                <x-show.info-item label="Estudante (Beneficiário)" column="col-md-6" isBox="true">
-                    {{ $waitlist->student->person->name ?? '---' }}
-                </x-show.info-item>
-
-                <x-show.info-item label="Profissional (Beneficiário)" column="col-md-6" isBox="true">
-                    {{ $waitlist->professional->person->name ?? '---' }}
-                </x-show.info-item>
-
-                <x-show.info-item label="Usuário Autenticado (Responsável)" column="col-md-6" isBox="true">
-                    {{ $waitlist->user->name ?? '---' }}
-                </x-show.info-item>
-            </div>
-
-            <x-forms.section title="Status e Datas" />
-
-            <div class="row g-3 mb-4">
-                <x-show.info-item label="Data da Solicitação" column="col-md-6" isBox="true">
-                    {{ $waitlist->requested_at->format('d/m/Y H:i') }}
-                </x-show.info-item>
-
-                <x-show.info-item label="Status da Solicitação" column="col-md-6" isBox="true">
-                    <span class="text-{{ $statusColor }} fw-bold text-uppercase">
-                        {{ $statusLabel }}
-                    </span>
-                </x-show.info-item>
-            </div>
-
-            <x-forms.section title="Observações" />
-
-            <div class="row g-3 mb-4">
-                <x-show.info-textarea
-                    label="Observações"
-                    column="col-md-12"
-                    :value="$waitlist->observation ?? '---'"
-                    :rich="true"
-                />
-            </div>
-
-            <div class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light no-print">
-                <div class="text-muted small d-flex align-items-center">
-                    <i class="fas fa-id-card me-1" aria-hidden="true"></i> ID no Sistema: #{{ $waitlist->id }}
-                    <x-buttons.pdf-button :href="route('waitlists.pdf', $waitlist)" class="ms-1" />
-                </div>
-
-                <div class="d-flex gap-3">
-                    @if($canCancel)
-                        <form action="{{ route('waitlists.cancel', $waitlist) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('PATCH')
-                            <x-buttons.submit-button variant="danger" onclick="return confirm('Deseja cancelar?')">
-                                <i class="fas fa-times"></i> Cancelar
-                            </x-buttons.submit-button>
-                        </form>
-                    @endif
-
-                    <form action="{{ route('waitlists.destroy', $waitlist) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <x-buttons.submit-button
-                            variant="danger"
-                            onclick="return confirm('Deseja excluir esta solicitação?')"
-                        >
-                            <i class="fas fa-trash-alt"></i> Excluir
-                        </x-buttons.submit-button>
-                    </form>
-
-                    <x-buttons.link-button :href="route('waitlists.index')" variant="secondary">
-                        <i class="fas fa-arrow-left"></i> Voltar
-                    </x-buttons.link-button>
-                </div>
-            </div>
+    <x-modal.modal :id="$modalCancelId" title="Cancelar Solicitação" size="sm">
+        <div class="p-3">
+            <p class="mb-2 text-warning fw-bold">Esta ação não pode ser desfeita.</p>
+            <p>Deseja realmente <strong>cancelar</strong> esta solicitação na fila de espera?</p>
         </div>
-    </div>
+        <x-slot:footer>
+            <x-buttons.link-button href="javascript:void(0)" variant="secondary" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
+                Voltar
+            </x-buttons.link-button>
+            <form action="{{ route('waitlists.cancel', $waitlist) }}" method="POST">
+                @csrf
+                @method('PATCH')
+                <x-buttons.submit-button variant="warning">Cancelar</x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
 
-    @push('scripts')
-        @vite('resources/js/pages/waitlists.js')
-    @endpush
+    <x-modal.modal :id="$modalDeleteId" title="Confirmar Exclusão" size="sm">
+        <div class="p-3">
+            <p class="mb-2 text-danger fw-bold">Esta ação não pode ser desfeita.</p>
+            <p class="mb-0 text-muted">Deseja excluir permanentemente o registro de fila <strong>#{{ $waitlist->id }}</strong>?</p>
+        </div>
+        <x-slot:footer>
+            <x-buttons.link-button href="javascript:void(0)" variant="secondary" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
+                Cancelar
+            </x-buttons.link-button>
+            <form action="{{ route('waitlists.destroy', $waitlist) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <x-buttons.submit-button variant="danger">Excluir</x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
 @endsection

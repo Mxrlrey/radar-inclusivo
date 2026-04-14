@@ -12,22 +12,29 @@
                 $assistiveTechnology->name => route('assistive-technologies.show', $assistiveTechnology),
                 'Detalhes da Inspeção' => null
             ]" />
+
             <h1>Detalhes da Inspeção</h1>
+
             <p class="text-muted mb-0">
                 Visualize o estado de conservação, tipo de inspeção, parecer técnico e evidências visuais.
             </p>
         </div>
 
         <div class="page-header-actions">
-            <div class="inspection-highlight">
-                <span class="inspection-highlight__label">Data da Inspeção</span>
-                <span class="inspection-highlight__value">
-                    {{ $inspection->inspection_date->format('d/m/Y') }}
-                </span>
-            </div>
+            <x-buttons.link-button
+                :href="route('assistive-technologies.show', $assistiveTechnology)"
+                variant="secondary"
+            >
+                <x-slot:icon>
+                    <i class="fa fa-arrow-left"></i>
+                </x-slot:icon>
+                Voltar
+            </x-buttons.link-button>
         </div>
     </div>
+
     <div class="card-custom show-container">
+
         <x-forms.section
             title="Informações Gerais"
             description="Dados principais da inspeção realizada."
@@ -47,17 +54,41 @@
             :rich="true"
         />
 
+        @can('system.audit.view')
+            <x-forms.section
+                title="Registro do Sistema"
+                description="Informações automáticas de auditoria do sistema."
+            />
+
+            <x-show.info-item label="ID no Sistema">
+                #{{ $inspection->id }}
+            </x-show.info-item>
+
+            <x-show.info-item label="Criado em">
+                {{ $inspection->created_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            </x-show.info-item>
+
+            <x-show.info-item label="Última atualização">
+                {{ $inspection->updated_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            </x-show.info-item>
+        @endcan
+
         <x-forms.section
             title="Evidências Visuais"
             description="Imagens registradas durante a inspeção."
         />
+
         @if($inspection->images && $inspection->images->count() > 0)
             <div class="inspection-gallery">
                 @foreach($inspection->images as $index => $img)
-                    <a href="{{ asset('storage/' . $img->path) }}" target="_blank" class="inspection-gallery__item">
-                        <img src="{{ asset('storage/' . $img->path) }}"
-                             alt="Foto de evidência {{ $index + 1 }}"
-                             @if($loop->first) fetchpriority="high" loading="eager" @else loading="lazy" @endif
+                    <a href="{{ asset('storage/' . $img->path) }}"
+                       target="_blank"
+                       class="inspection-gallery__item">
+
+                        <img
+                            src="{{ asset('storage/' . $img->path) }}"
+                            alt="Foto de evidência {{ $index + 1 }}"
+                            @if($loop->first) fetchpriority="high" loading="eager" @else loading="lazy" @endif
                         >
                     </a>
                 @endforeach
@@ -71,7 +102,6 @@
 
         <x-show.footer
             :backRoute="route('assistive-technologies.show', $assistiveTechnology)"
-        >
-        </x-show.footer>
+        />
     </div>
 @endsection

@@ -52,6 +52,63 @@
             {{ $assistiveTechnology->asset_code ?? 'Não se Aplica' }}
         </x-show.info-item>
 
+        <x-show.info-item label="Quantidade Total">
+            {{ $assistiveTechnology->is_digital ? 'Não se aplica' : $assistiveTechnology->quantity }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Quantidade Disponível">
+            {{ $assistiveTechnology->is_digital ? 'Não se aplica' : ($assistiveTechnology->quantity_available ?? '---') }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Status do Recurso">
+            <span class="badge bg-{{ $assistiveTechnology->status?->color() ?? 'secondary' }}">
+                {{ $assistiveTechnology->status?->label() ?? '---' }}
+            </span>
+        </x-show.info-item>
+
+        <x-show.info-item label="Permite Empréstimos">
+            <span class="badge bg-{{ $assistiveTechnology->is_loanable ? 'success' : 'danger' }}">
+                {{ $assistiveTechnology->is_loanable ? 'Sim' : 'Não' }}
+            </span>
+        </x-show.info-item>
+
+        <x-show.info-item label="Público-Alvo">
+            <div class="tag-container">
+                @forelse($deficiencies as $def)
+                    <x-show.tag color="light">{{ $def->name }}</x-show.tag>
+                @empty
+                    <span class="text-muted">Nenhum público-alvo definido.</span>
+                @endforelse
+            </div>
+        </x-show.info-item>
+
+        <x-forms.separator/>
+
+        @can('system.audit.view')
+            <x-forms.section
+                title="Registro do Sistema"
+                description="Informações automáticas de auditoria do sistema."
+            />
+
+            <x-show.info-item label="ID no Sistema">
+                #{{ $assistiveTechnology->id }}
+            </x-show.info-item>
+
+            <x-show.info-item label="Status do Sistema">
+            <span class="badge bg-{{ $assistiveTechnology->is_active ? 'success' : 'danger' }}">
+                {{ $assistiveTechnology->is_active ? 'Ativo' : 'Inativo' }}
+            </span>
+            </x-show.info-item>
+
+            <x-show.info-item label="Criado em">
+                {{ $assistiveTechnology->created_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            </x-show.info-item>
+
+            <x-show.info-item label="Última atualização">
+                {{ $assistiveTechnology->updated_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            </x-show.info-item>
+        @endcan
+
         <x-forms.separator/>
 
         <x-forms.section title="Histórico de Vistorias" />
@@ -78,46 +135,6 @@
                 </div>
             </div>
         </div>
-
-        <x-forms.separator/>
-
-        <x-forms.section title="Gestão e Público" />
-
-        <x-show.info-item label="Quantidade Total">
-            {{ $assistiveTechnology->is_digital ? 'Não se aplica' : $assistiveTechnology->quantity }}
-        </x-show.info-item>
-
-        <x-show.info-item label="Quantidade Disponível">
-            {{ $assistiveTechnology->is_digital ? 'Não se aplica' : ($assistiveTechnology->quantity_available ?? '---') }}
-        </x-show.info-item>
-
-        <x-show.info-item label="Status do Recurso">
-            <span class="badge bg-{{ $assistiveTechnology->status?->color() ?? 'secondary' }}">
-                {{ $assistiveTechnology->status?->label() ?? '---' }}
-            </span>
-        </x-show.info-item>
-
-        <x-show.info-item label="Permite Empréstimos">
-            <span class="badge bg-{{ $assistiveTechnology->is_loanable ? 'success' : 'danger' }}">
-                {{ $assistiveTechnology->is_loanable ? 'Sim' : 'Não' }}
-            </span>
-        </x-show.info-item>
-
-        <x-show.info-item label="Status no Sistema">
-            <span class="badge bg-{{ $assistiveTechnology->is_active ? 'success' : 'danger' }}">
-                {{ $assistiveTechnology->is_active ? 'Ativo' : 'Inativo' }}
-            </span>
-        </x-show.info-item>
-
-        <x-show.info-item label="Público-Alvo">
-            <div class="tag-container">
-                @forelse($deficiencies as $def)
-                    <x-show.tag color="light">{{ $def->name }}</x-show.tag>
-                @empty
-                    <span class="text-muted">Nenhum público-alvo definido.</span>
-                @endforelse
-            </div>
-        </x-show.info-item>
 
         @php
             $modalId = "modal-delete-assistive-tech-" . $assistiveTechnology->id;

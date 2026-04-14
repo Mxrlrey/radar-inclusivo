@@ -3,118 +3,151 @@
 @section('title', $event->title)
 
 @section('content')
-    <div class="mb-5">
-        <nav aria-label="Breadcrumb">
+    <div class="page-header">
+        <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
                 'Agenda Institucional' => route('institutional-events.index'),
                 $event->title => null
             ]" />
-        </nav>
-    </div>
 
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <header>
-            <h1 class="text-title h2">Detalhes da Agenda Institucional</h1>
-            <p class="text-muted mb-0">Visualize as informações do registro da agenda institucional.</p>
-        </header>
+            <h1>Detalhes da Agenda</h1>
+            <p class="text-muted mb-0">
+                Visualize as informações, horários e público-alvo do evento institucional.
+            </p>
+        </div>
 
-        <div role="group" aria-label="Ações principais">
+        <div class="page-header-actions">
             <x-buttons.link-button
                 :href="route('institutional-events.edit', $event)"
-                variant="warning"
-                label="Editar informações deste registro"
-            >
-                <i class="fas fa-edit" aria-hidden="true"></i> Editar
+                variant="info">
+                <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                href="{{ route('institutional-events.index') }}"
-                variant="secondary"
-                label="Voltar para a lista da agenda institucional"
-            >
-                <i class="fas fa-arrow-left" aria-hidden="true"></i> Voltar
+                :href="route('institutional-events.index')"
+                variant="secondary">
+                <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
         </div>
     </div>
 
-    <div class="mt-3">
-        <main class="custom-table-card bg-white shadow-sm">
+    <div class="card-custom overflow-hidden show-container">
+        <x-forms.section
+            title="Informações do Registro"
+            description="Dados principais e cronograma do evento."
+        />
 
-            <x-forms.section title="Informações do Registro" />
+        <x-show.info-item label="Título do Evento" :value="$event->title" />
 
-            <div class="row g-3 px-4 pb-4">
-                <x-show.info-item label="Título" column="col-md-12" isBox="true">
-                    {{ $event->title }}
-                </x-show.info-item>
+        <x-show.info-item label="Descrição">
+            {!! $event->description ?: '<span class="text-muted">Nenhuma descrição fornecida.</span>' !!}
+        </x-show.info-item>
 
-                <x-show.info-textarea label="Descrição" column="col-md-12" :value="$event->description ?: 'Nenhuma descrição fornecida.'" :rich="true"/>
+        <x-show.info-item label="Cronograma">
+            {{ $event->start_date?->format('d/m/Y') }} às {{ $event->start_time?->format('H:i') }}
+            <i class="fa fa-long-arrow-right mx-2 text-muted"></i>
+            {{ $event->end_date?->format('d/m/Y') }} às {{ $event->end_time?->format('H:i') }}
+        </x-show.info-item>
 
-                <x-show.info-item label="Data de Início" column="col-md-6" isBox="true">
-                    {{ $event->start_date?->format('d/m/Y') }}
-                </x-show.info-item>
+        <x-forms.separator/>
 
-                <x-show.info-item label="Horário de Início" column="col-md-6" isBox="true">
-                    {{ $event->start_time?->format('H:i') }}
-                </x-show.info-item>
+        <x-forms.section
+            title="Detalhes Adicionais"
+            description="Localização e público envolvido."
+        />
 
-                <x-show.info-item label="Data de Término" column="col-md-6" isBox="true">
-                    {{ $event->end_date?->format('d/m/Y') }}
-                </x-show.info-item>
+        <x-show.info-item label="Local" :value="$event->location ?: 'Não informado'" />
 
-                <x-show.info-item label="Horário de Término" column="col-md-6" isBox="true">
-                    {{ $event->end_time?->format('H:i') }}
-                </x-show.info-item>
-            </div>
+        <x-show.info-item label="Organizador" :value="$event->organizer ?: 'Não informado'" />
 
-            <x-forms.section title="Detalhes Adicionais" />
+        <x-show.info-item label="Público-Alvo" :value="$event->audience ?: 'Geral'" />
 
-            <div class="row g-3 px-4 pb-4">
-                <x-show.info-item label="Local" column="col-md-6" isBox="true">
-                    {{ $event->location ?: '-' }}
-                </x-show.info-item>
+        <x-show.info-item label="Status">
+            <span class="badge bg-{{ $event->is_active ? 'success' : 'secondary' }}">
+                {{ $event->is_active ? 'Ativo' : 'Inativo' }}
+            </span>
+        </x-show.info-item>
 
-                <x-show.info-item label="Organizador" column="col-md-6" isBox="true">
-                    {{ $event->organizer ?: '-' }}
-                </x-show.info-item>
+        <x-forms.separator/>
 
-                <x-show.info-item label="Ouvintes" column="col-md-12" isBox="true">
-                    {{ $event->audience ?: '-' }}
-                </x-show.info-item>
-            </div>
+        @can('system.audit.view')
+            <x-forms.section
+                title="Registro do Sistema"
+                description="Informações automáticas de auditoria."
+            />
 
-            <x-forms.section title="Configurações de Visibilidade" />
-            <div class="row g-3 px-4 pb-4">
-                <x-show.info-item label="Status" column="col-md-12" isBox="true">
-                    <span class="text-{{ $event->is_active ? 'success' : 'secondary' }} fw-bold text-uppercase" role="status">
-                        {{ $event->is_active ? 'Ativo' : 'Inativo' }}
-                    </span>
-                </x-show.info-item>
-            </div>
+            <x-show.info-item label="ID no Sistema">
+                #{{ $event->id }}
+            </x-show.info-item>
 
-            <footer class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light-subtle">
-                <div class="text-muted small">
-                    <i class="fas fa-id-card me-1" aria-hidden="true"></i> ID no Sistema: #{{ $event->id }}
-                    <x-buttons.pdf-button :href="route('institutional-events.pdf', $event)" class="ms-1" />
-                </div>
+            <x-show.info-item label="Criado em">
+                {{ $event->created_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            </x-show.info-item>
 
-                <div class="d-flex gap-2" role="group" aria-label="Ações de gestão do registro">
-                    <form action="{{ route('institutional-events.destroy', $event) }}" method="POST" onsubmit="return confirm('Deseja excluir permanentemente este registro?')">
-                        @csrf @method('DELETE')
-                        <x-buttons.submit-button variant="danger" label="Excluir este registro">
-                            <i class="fas fa-trash-alt" aria-hidden="true"></i> Excluir
-                        </x-buttons.submit-button>
-                    </form>
+            <x-show.info-item label="Última atualização">
+                {{ $event->updated_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            </x-show.info-item>
+        @endcan
 
-                    <x-buttons.link-button
-                        href="{{ route('institutional-events.index') }}"
-                        variant="secondary"
-                        label="Voltar para a lista"
-                    >
-                        <i class="fas fa-arrow-left" aria-hidden="true"></i> Voltar
-                    </x-buttons.link-button>
-                </div>
-            </footer>
-        </main>
+        @php
+            $modalId = "modal-delete-event-" . $event->id;
+        @endphp
+
+        <x-show.footer>
+            <x-buttons.link-button
+                :href="route('institutional-events.index')"
+                variant="secondary"
+            >
+                <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                Voltar
+            </x-buttons.link-button>
+
+            <x-buttons.pdf-button
+                :href="route('institutional-events.pdf', $event)"
+            />
+
+            <x-buttons.submit-button
+                variant="danger"
+                type="button"
+                onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+            >
+                <span class="btn-label"><i class="fa fa-eraser"></i></span>
+                Excluir
+            </x-buttons.submit-button>
+        </x-show.footer>
     </div>
+
+    <x-modal.modal
+        :id="$modalId"
+        title="Confirmar Exclusão"
+        size="sm"
+    >
+        <div class="p-3">
+            <p class="mb-2 text-danger fw-bold">
+                Esta ação não pode ser desfeita.
+            </p>
+            <p class="mb-0 text-muted">
+                Deseja realmente excluir o evento <strong>{{ $event->title }}</strong> da agenda?
+            </p>
+        </div>
+
+        <x-slot:footer>
+            <x-buttons.link-button
+                href="javascript:void(0)"
+                variant="secondary"
+                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+            >
+                Cancelar
+            </x-buttons.link-button>
+
+            <form action="{{ route('institutional-events.destroy', $event) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <x-buttons.submit-button variant="danger">
+                    Excluir
+                </x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
 @endsection

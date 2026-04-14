@@ -57,6 +57,7 @@ class LocationController extends Controller
     public function edit(Location $location): View
     {
         $selectedInstitution = Institution::where('is_active', true)
+            ->with('locations')
             ->find($location->institution_id);
 
         return view('pages.locations.edit',
@@ -88,18 +89,20 @@ class LocationController extends Controller
     private function formData(): array
     {
         $institutions = Institution::where('is_active', true)
+            ->with('locations')
             ->orderBy('name')
             ->get();
 
         return [
             'institutions' => $institutions->pluck('name', 'id'),
-            'institutionsData' => $institutions->mapWithKeys(fn($inst) => [
-                $inst->id => [
-                    'latitude' => $inst->latitude,
-                    'longitude' => $inst->longitude,
-                    'default_zoom' => $inst->default_zoom ?? 16,
-                ],
-            ]),
+            'institutionsData' => $institutions->map(fn($inst) => [
+                'id'           => $inst->id,
+                'name'         => $inst->name,
+                'latitude'     => $inst->latitude,
+                'longitude'    => $inst->longitude,
+                'default_zoom' => $inst->default_zoom ?? 16,
+                'locations'    => $inst->locations,
+            ])->values(),
         ];
     }
 }

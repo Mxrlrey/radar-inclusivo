@@ -3,44 +3,63 @@
 @section('title', 'Instituições')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Instituições' => route('institutions.index'),
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Instituições' => null
+            ]" />
 
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
-        <x-table.page-header
-            title="Instituições Base"
-            subtitle="Gerencie os locais centrais onde o radar de acessibilidade opera."
-        >
+            <h1>Instituições</h1>
+
+            <p class="text-muted mb-0">
+                Gerenciamento dos locais base onde o radar de acessibilidade opera.
+            </p>
+        </div>
+
+        <div class="page-header-actions">
             <x-buttons.link-button
                 :href="route('institutions.create')"
-                variant="new"
-                title="Adicionar Instituição"
+                variant="info"
+                aria-label="Cadastrar nova instituição"
             >
-                <i class="fas fa-plus"></i>
+                <span class="btn-label">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </span>
+                Cadastrar
             </x-buttons.link-button>
-        </x-table.page-header>
+        </div>
+    </div>
 
+    <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-dynamic-filter
+                data-url="{{ route('institutions.index') }}"
                 data-target="#institutions-table"
                 :fields="[
-                    ['name' => 'name', 'placeholder' => 'Filtrar por nome...'],
-                    ['name' => 'location', 'placeholder' => 'Filtrar por cidade ou estado...'],
-                    ['name' => 'is_active', 'type' => 'select', 'options' => [
-                        '' => 'Status (Todos)',
-                        '1' => 'Ativo',
-                        '0' => 'Inativo'
-                    ]]
+                    [
+                        'name' => 'name',
+                        'placeholder' => 'Filtrar por nome...'
+                    ],
+                    [
+                        'name' => 'location',
+                        'placeholder' => 'Filtrar por cidade ou estado...'
+                    ],
+                    [
+                        'name' => 'is_active',
+                        'type' => 'select',
+                        'placeholder' => 'Status',
+                        'options' => [
+                            '' => 'Status (Todos)',
+                            '1' => 'Ativo',
+                            '0' => 'Inativo'
+                        ]
+                    ]
                 ]"
             />
         </div>
 
-        <div id="institutions-table" class="p-3">
+        <div id="institutions-table" class="p-3" role="region" aria-label="Listagem de instituições">
             @include('pages.institutions.partials.table')
         </div>
     </div>

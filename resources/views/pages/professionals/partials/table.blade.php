@@ -1,69 +1,138 @@
 <x-table.table
-    :headers="['Nome', 'Email', 'Cargo', 'Status', 'Ações']"
+    :headers="[
+        ['label' => 'Nome'],
+        ['label' => 'E-mail', 'class' => 'col-hide-md'],
+        ['label' => 'Cargo', 'class' => 'col-hide-md'],
+        ['label' => 'Status', 'class' => 'col-hide-md'],
+        ['label' => 'Ações']
+    ]"
     :records="$professionals"
-    aria-label="Tabela de profissionais do suporte educacional"
+    aria-label="Tabela de profissionais"
+    class="table-striped"
 >
-@forelse($professionals as $professional)
-    <tr>
-        <x-table.td>
-            <div class="name-with-photo">
-                {{-- Importante: Alt vazio em fotos decorativas, ou com o nome se for funcional --}}
-                <img src="{{ $professional->person->photo_url }}"
-                     class="avatar-table"
-                     alt="Foto de {{ $professional->person->name }}">
-                <span class="fw-bold text-purple-dark">{{ $professional->person->name }}</span>
-            </div>
-        </x-table.td>
+    @forelse($professionals as $professional)
+        @php
+            $modalId = "modal-delete-professional-" . $professional->id;
+            $isActive = $professional->is_active;
+            $statusLabel = $isActive ? 'Ativo' : 'Inativo';
+            $statusColor = $isActive ? 'success' : 'danger';
+        @endphp
 
-        <x-table.td>{{ $professional->person->email }}</x-table.td>
-        <x-table.td>{{ $professional->position->name }}</x-table.td>
-
-        <x-table.td>
-            @php
-                $statusColor = $professional->status === 'active' ? 'success' : 'danger';
-                $statusLabel = $professional->status === 'active' ? 'Ativo' : 'Inativo';
-            @endphp
-
-            {{-- Adicionado aria-label para descrever o estado --}}
-            <span class="text-{{ $statusColor }} text-uppercase fw-bold"
-                  aria-label="Status: {{ $statusLabel }}">
-                {{ $statusLabel }}
-            </span>
-        </x-table.td>
-
-        <x-table.td>
-            <x-table.actions>
-                <x-buttons.link-button
-                    :href="route('professionals.show', $professional)"
-                    variant="info"
-                    aria-label="Visualizar prontuário de {{ $professional->person->name }}"
-                >
-                <i class="fas fa-eye" aria-hidden="true"></i> ver
-                </x-buttons.link-button>
-
-                <form action="{{ route('professionals.destroy', $professional) }}"
-                    method="POST"
-                    class="d-inline">
-                    @csrf
-                    @method('DELETE')
-
-                    <x-buttons.submit-button
-                        variant="danger"
-                        onclick="return confirm('Deseja remover este profissional?')"
-                        aria-label="Excluir profissional {{ $professional->person->name }} do sistema"
+        <tr>
+            <x-table.td scope="row" class="font-weight-medium">
+                <div class="d-flex align-items-center gap-2">
+                    <img
+                        src="{{ $professional->person->photo_url }}"
+                        class="avatar-table"
+                        alt="Foto de {{ $professional->person->name }}"
                     >
-                       <i class="fas fa-trash" aria-hidden="true"></i> Excluir
-                    </x-buttons.submit-button>
-                </form>
-            </x-table.actions>
-        </x-table.td>
-    </tr>
-@empty
-    <tr>
-        <td colspan="5" class="text-center text-muted fw-bold py-5">
-            <i class="fas fa-folder-open d-block mb-2" style="font-size: 2.5rem;"></i>
-            Nenhum aluno encontrado.
-        </td>
-    </tr>
-@endforelse
+
+                    <span>{{ $professional->person->name }}</span>
+                </div>
+            </x-table.td>
+
+            <x-table.td class="align-middle col-hide-md">
+                {{ $professional->person->email ?? '---' }}
+            </x-table.td>
+
+            <x-table.td class="align-middle col-hide-md">
+                {{ $professional->position->name ?? '---' }}
+            </x-table.td>
+
+            <x-table.td class="align-middle col-hide-md">
+                @php
+                    $isActive = $professional->is_active;
+                    $statusColor = $isActive ? 'success' : 'danger';
+                    $statusLabel = $isActive ? 'Ativo' : 'Inativo';
+                @endphp
+
+                <span class="badge bg-{{ $statusColor }}">
+                    {{ $statusLabel }}
+                </span>
+            </x-table.td>
+
+            <x-table.td>
+                <x-table.actions>
+
+                    @can('professional.show')
+                        <x-buttons.link-button
+                            :href="route('professionals.show', $professional)"
+                            variant="info"
+                            size="xs"
+                            title="Visualizar {{ $professional->person->name }}"
+                        >
+                            <i class="fa fa-eye"></i>
+                        </x-buttons.link-button>
+                    @endcan
+
+                    @can('professional.delete')
+                        <x-buttons.submit-button
+                            variant="danger"
+                            size="xs"
+                            type="button"
+                            onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                            title="Excluir {{ $professional->person->name }}"
+                        >
+                            <i class="fa fa-eraser"></i>
+                        </x-buttons.submit-button>
+                    @endcan
+
+                    @if (!auth()->user()->can('professional.show') &&
+                         !auth()->user()->can('professional.delete'))
+                        <span class="text-muted small">
+                            Você não tem permissões
+                        </span>
+                    @endif
+                </x-table.actions>
+            </x-table.td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="5" class="text-center text-muted py-4" role="status">
+                Nenhum profissional encontrado.
+            </td>
+        </tr>
+    @endforelse
 </x-table.table>
+
+@foreach($professionals as $professional)
+    @php
+        $modalId = "modal-delete-professional-" . $professional->id;
+    @endphp
+
+    <x-modal.modal
+        :id="$modalId"
+        title="Confirmar Exclusão"
+        size="sm"
+    >
+        <div class="p-3">
+            <p class="mb-2 text-danger fw-bold">
+                Esta ação não pode ser desfeita.
+            </p>
+
+            <p class="mb-0 text-muted">
+                Deseja realmente excluir o profissional
+                <strong>{{ $professional->person->name }}</strong>?
+            </p>
+        </div>
+
+        <x-slot:footer>
+            <x-buttons.link-button
+                href="javascript:void(0)"
+                variant="secondary"
+                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+            >
+                Cancelar
+            </x-buttons.link-button>
+
+            <form action="{{ route('professionals.destroy', $professional) }}" method="POST">
+                @csrf
+                @method('DELETE')
+
+                <x-buttons.submit-button variant="danger">
+                    Excluir
+                </x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
+@endforeach

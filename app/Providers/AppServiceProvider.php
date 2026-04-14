@@ -12,8 +12,10 @@ use App\Models\Permission;
 use App\Models\Person;
 use App\Models\Student;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -29,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
+        App::setLocale('pt_BR');
+        Carbon::setLocale('pt_BR');
         Relation::enforceMorphMap([
             'student' => Student::class,
             'person' => Person::class,

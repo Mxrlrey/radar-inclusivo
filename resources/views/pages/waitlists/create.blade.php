@@ -3,113 +3,116 @@
 @section('title', 'Registrar Fila de Espera')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Fila de Espera' => route('waitlists.index'),
-            'Cadastrar' => null
-        ]" />
-    </div>
-
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <h2 class="text-title">Nova Solicitação de Fila</h2>
-            <p class="text-muted">
-                Registre um beneficiário para um recurso atualmente indisponível. <br>
-                <small class="text-purple-dark fw-bold">Selecione apenas um: aluno ou profissional.</small>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Fila de Espera' => route('waitlists.index'),
+                'Cadastrar' => null
+            ]" />
+            <h1>Nova Solicitação de Fila</h1>
+            <p class="text-muted mb-0">
+                Registre um beneficiário para um recurso atualmente indisponível.
             </p>
         </div>
-        <div>
-            <x-buttons.link-button href="{{ route('waitlists.index') }}" variant="secondary">
-                <i class="fas fa-times"></i> Cancelar
+
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('waitlists.index')"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
-    <div class="mt-3">
-        <x-forms.form-card action="{{ route('waitlists.store') }}" method="POST">
+    <x-forms.form-card
+        action="{{ route('waitlists.store') }}"
+        method="POST"
+        class="form-horizontal"
+    >
+        @csrf
+        <x-forms.section
+            title="Informações do Pedido"
+            description="Preencha os dados do recurso e beneficiário para aguardar na fila de espera."
+        />
 
-            <x-forms.section title="Seleção do Recurso" />
+        <x-forms.select
+            name="waitlistable_type"
+            id="waitlistable_type"
+            label="Tipo de Recurso"
+            required
+            :horizontal="true"
+            :options="[
+                'assistive_technology' => 'Tecnologia Assistiva',
+                'accessible_educational_material' => 'Material Pedagógico'
+            ]"
+            :selected="old('waitlistable_type')"
+        />
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="waitlistable_type"
-                    id="waitlistable_type"
-                    label="Tipo de Recurso"
-                    required
-                    :options="[
-                        'assistive_technology' => 'Tecnologia Assistiva',
-                        'accessible_educational_material' => 'Material Pedagógico'
-                    ]"
-                    :selected="old('waitlistable_type')"
-                />
-            </div>
+        <div id="waitlistable_id_container">
+            <x-forms.select
+                name="waitlistable_id"
+                id="waitlistable_id"
+                label="Item Específico"
+                required
+                :horizontal="true"
+                :options="['' => 'Selecione o tipo primeiro']"
+            />
+        </div>
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="waitlistable_id"
-                    id="waitlistable_id"
-                    label="Item Específico"
-                    required
-                    :options="['' => 'Selecione o tipo primeiro']"
-                />
-            </div>
+        <x-forms.select
+            name="student_id"
+            id="student_id"
+            label="Estudante"
+            :horizontal="true"
+            :options="$students"
+            :selected="old('student_id')"
+        />
 
-            <x-forms.section title="Solicitante" />
+        <x-forms.select
+            name="professional_id"
+            id="professional_id"
+            label="Profissional"
+            :horizontal="true"
+            :options="$professionals"
+            :selected="old('professional_id')"
+        />
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="student_id"
-                    id="student_id"
-                    label="Aluno (Beneficiário)"
-                    :options="$students"
-                    :selected="old('student_id')"
-                />
-            </div>
+        <x-forms.input
+            name="user_id_display"
+            label="Responsável pelo Registro"
+            :horizontal="true"
+            :value="$authUser->name"
+            disabled
+        />
+        <input type="hidden" name="user_id" value="{{ $authUser->id }}">
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="professional_id"
-                    id="professional_id"
-                    label="Profissional (Beneficiário)"
-                    :options="$professionals"
-                    :selected="old('professional_id')"
-                />
-            </div>
+        <x-forms.textarea
+            name="observation"
+            label="Detalhes"
+            :horizontal="true"
+            rows="3"
+            placeholder="Anote detalhes sobre a solicitação..."
+            :value="old('observation')"
+        />
 
-            <div class="col-md-12">
-                <x-forms.input
-                    name="user_id_display"
-                    label="Usuário Responsável pelo Registro"
-                    :value="$authUser->name"
-                    disabled
-                />
-                <input type="hidden" name="user_id" value="{{ $authUser->id }}">
-            </div>
+        <x-forms.form-footer>
+            <x-buttons.link-button
+                :href="route('waitlists.index')"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
+            </x-buttons.link-button>
 
-            <x-forms.section title="Observações" />
-
-            <div class="col-12">
-                <x-forms.textarea
-                    name="observation"
-                    label="Observações Adicionais"
-                    :value="old('observation')"
-                    placeholder="Relate o motivo da urgência ou detalhes da solicitação..."
-                    rows="3"
-                />
-            </div>
-
-            <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4 mt-4">
-                <x-buttons.link-button href="{{ route('waitlists.index') }}" variant="secondary">
-                    <i class="fas fa-times"></i> Cancelar
-                </x-buttons.link-button>
-
-                <x-buttons.submit-button type="submit" class="btn-action new submit">
-                    <i class="fas fa-save me-1"></i> Cadastrar
-                </x-buttons.submit-button>
-            </div>
-        </x-forms.form-card>
-    </div>
+            <x-buttons.submit-button variant="new">
+                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                Cadastrar
+            </x-buttons.submit-button>
+        </x-forms.form-footer>
+    </x-forms.form-card>
 
     <script>
         window.waitlistData = {

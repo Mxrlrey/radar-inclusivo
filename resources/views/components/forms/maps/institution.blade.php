@@ -39,5 +39,5 @@
             isEditMode: {{ $institution ? 'true' : 'false' }}
         };
     </script>
-    @vite('resources/js/pages/institutions.js')
+    @vite('resources/js/maps/institution-map.js')
 @endpush

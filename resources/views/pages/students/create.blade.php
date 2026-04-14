@@ -57,7 +57,7 @@
 
         <x-forms.input
             name="document"
-            label="Documento (CPF)"
+            label="CPF"
             required
             class="cpf-mask"
             maxlength="14"

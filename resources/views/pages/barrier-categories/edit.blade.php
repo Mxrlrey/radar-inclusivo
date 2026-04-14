@@ -3,87 +3,99 @@
 @section('title', "Editar - $barrierCategory->name")
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Categorias de Barreiras' => route('barrier-categories.index'),
-            $barrierCategory->name => route('barrier-categories.show', $barrierCategory),
-            'Editar' => null
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Categorias de Barreiras' => route('barrier-categories.index'),
+                $barrierCategory->name => route('barrier-categories.show', $barrierCategory),
+                'Editar' => null
+            ]" />
 
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <h2 class="text-title">Editar Categoria de Barreira</h2>
-            <p class="text-muted">Atualizando as definições da categoria: <strong>{{ $barrierCategory->name }}</strong></p>
+            <h1>Editar Categoria de Barreira</h1>
+            <p class="text-muted mb-0">
+                Atualize as definições da categoria <strong>{{ $barrierCategory->name }}</strong>.
+            </p>
         </div>
 
-        <div>
-            <x-buttons.link-button href="{{ route('barrier-categories.show', $barrierCategory) }}" variant="secondary">
-                <i class="fas fa-times"></i> Cancelar
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('barrier-categories.show', $barrierCategory)"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
-    <div class="mt-3">
-        <x-forms.form-card action="{{ route('barrier-categories.update', $barrierCategory) }}" method="POST">
-            @csrf
-            @method('PUT')
+    <x-forms.form-card
+        action="{{ route('barrier-categories.update', $barrierCategory) }}"
+        method="POST"
+        class="form-horizontal"
+    >
+        @csrf
+        @method('PUT')
 
-            <x-forms.section title="Informações da Categoria" />
+        <x-forms.section
+            title="Informações da Categoria"
+            description="Atualize os dados principais da categoria de barreira."
+        />
 
-            <div class="col-md-12">
-                <x-forms.input
-                    name="name"
-                    label="Nome da Categoria"
-                    required
-                    :value="old('name', $barrierCategory->name)"
-                    placeholder="Ex: Arquitetônica, Atitudinal, Comunicacional..."
-                />
-            </div>
+        <x-forms.input
+            name="name"
+            label="Nome da Categoria"
+            required
+            :horizontal="true"
+            :value="old('name', $barrierCategory->name)"
+            placeholder="Ex: Arquitetônica, Atitudinal, Comunicacional..."
+        />
 
-            <div class="col-md-12">
-                <x-forms.textarea
-                    name="description"
-                    label="Descrição Detalhada"
-                    rows="4"
-                    :value="old('description', $barrierCategory->description)"
-                    placeholder="Descreva o que este tipo de barreira engloba..."
-                />
-            </div>
+        <x-forms.textarea
+            name="description"
+            label="Descrição Detalhada"
+            :horizontal="true"
+            rows="4"
+            :value="old('description', $barrierCategory->description)"
+            placeholder="Descreva o que este tipo de barreira engloba..."
+        />
 
-            <x-forms.section title="Status e Visibilidade" />
+        <x-forms.separator />
 
-            <div class="col-md-12">
-                <x-forms.checkbox
-                    name="is_active"
-                    id="is_active"
-                    label="Ativar no Sistema"
-                    description="Indica se esta categoria estará disponível para seleção no cadastro de novas barreiras"
-                    :checked="old('is_active', $barrierCategory->is_active)"
-                />
-            </div>
+        <x-forms.section
+            title="Status e Visibilidade"
+            description="Configure a disponibilidade da categoria no sistema."
+        />
 
-            <div class="col-md-12">
-                <x-forms.checkbox
-                    name="blocks_map"
-                    id="blocks_map"
-                    label="Bloquear Mapa"
-                    description="Caso ativo ocultará o mapa no cadastro de novas barreiras quando esta categoria for selecionada"
-                    :checked="old('blocks_map', $barrierCategory->blocks_map)"
-                />
-            </div>
+        <x-forms.switch
+            name="is_active"
+            label="Ativar no Sistema"
+            description="Indica se esta categoria estará disponível para seleção no cadastro de novas barreiras."
+            :horizontal="true"
+            :checked="old('is_active', $barrierCategory->is_active)"
+        />
 
-            <div class="col-12 d-flex justify-content-end gap-3 border-t pt-4 px-4 pb-4 mt-4">
-                <x-buttons.link-button href="{{ route('barrier-categories.show', $barrierCategory) }}" variant="secondary">
-                    <i class="fas fa-times"></i> Cancelar
-                </x-buttons.link-button>
+        <x-forms.switch
+            name="blocks_map"
+            label="Bloquear Mapa"
+            description="Quando ativo, oculta o mapa no cadastro de novas barreiras ao selecionar esta categoria."
+            :horizontal="true"
+            :checked="old('blocks_map', $barrierCategory->blocks_map)"
+        />
 
-                <x-buttons.submit-button type="submit" class="btn-action new submit">
-                    <i class="fas fa-save mr-2"></i> Salvar
-                </x-buttons.submit-button>
-            </div>
+        <x-forms.form-footer>
+            <x-buttons.link-button
+                :href="route('barrier-categories.show', $barrierCategory)"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
+            </x-buttons.link-button>
 
-        </x-forms.form-card>
-    </div>
+            <x-buttons.submit-button variant="new">
+                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                Salvar
+            </x-buttons.submit-button>
+        </x-forms.form-footer>
+    </x-forms.form-card>
 @endsection

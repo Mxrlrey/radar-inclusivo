@@ -3,43 +3,67 @@
 @section('title', 'Relatar Barreira')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Barreiras' => route('barriers.index'),
-            'Cadastrar' => null
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Barreiras' => route('barriers.index'),
+                'Cadastrar' => null
+            ]" />
 
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <h2 class="text-title">Relatar Barreira de Acessibilidade</h2>
-            <p class="text-muted">Registre um ponto de obstrução ou dificuldade encontrada no campus.</p>
+            <h1>Relatar Barreira</h1>
+
+            <p class="text-muted mb-0">
+                Registre um ponto de obstrução ou dificuldade encontrada no campus.
+            </p>
         </div>
 
-        <div>
-            <x-buttons.link-button href="{{ route('barriers.index') }}" variant="secondary">
-                <i class="fas fa-times"></i> Cancelar
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('barriers.index')"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
-    <div class="mt-3">
-        <x-forms.form-card action="{{ route('barriers.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+    <x-forms.form-card
+        action="{{ route('barriers.store') }}"
+        method="POST"
+        enctype="multipart/form-data"
+        class="form-horizontal"
+    >
+        @csrf
 
+        <div class="row g-0">
             <div class="col-lg-5 border-end">
-
-                <x-forms.section title="Detalhes da Ocorrência" />
+                <x-forms.section
+                    title="Detalhes da Ocorrência"
+                    description="Informe os dados principais da barreira identificada."
+                />
 
                 <div class="px-4">
                     <div class="row g-3">
                         <div class="col-md-8">
-                            <x-forms.input name="name" label="Título do Relato" required :value="old('name')" placeholder="Ex: Calçada irregular" />
+                            <x-forms.input
+                                name="name"
+                                label="Título do Relato"
+                                required
+                                :value="old('name')"
+                                placeholder="Ex: Calçada irregular"
+                            />
                         </div>
+
                         <div class="col-md-4">
-                            <x-forms.input type="date" name="identified_at" label="Data" required
-                                           :value="old('identified_at', now()->format('Y-m-d'))" />
+                            <x-forms.input
+                                type="date"
+                                name="identified_at"
+                                label="Data"
+                                required
+                                :value="old('identified_at', now()->format('Y-m-d'))"
+                            />
                         </div>
 
                         <div class="col-md-6">
@@ -50,9 +74,11 @@
                                 :selected="old('priority', 'medium')"
                             />
                         </div>
+
                         <div class="col-md-6">
                             <x-forms.select
                                 name="barrier_category_id"
+                                id="barrier_category_id"
                                 label="Categoria"
                                 required
                                 :options="$categories->pluck('name', 'id')"
@@ -67,7 +93,7 @@
                                 id="institution_select"
                                 label="Campus / Unidade"
                                 required
-                                :options="$institutions->pluck('name','id')"
+                                :options="$institutions->pluck('name', 'id')"
                                 :selected="old('institution_id')"
                                 :resourceObjects="$institutions"
                             />
@@ -83,8 +109,7 @@
                             />
                         </div>
 
-                        <div id="location_wrapper"
-                             class="{{ old('institution_id') ? '' : 'd-none' }} col-md-12 mb-3 mt-3">
+                        <div id="location_wrapper" class="{{ old('institution_id') ? '' : 'd-none' }} col-md-12 mt-3">
                             <x-forms.textarea
                                 name="location_specific_details"
                                 label="Complemento"
@@ -93,33 +118,64 @@
                                 :value="old('location_specific_details')"
                             />
                         </div>
+
+                        <div class="col-md-12">
+                            <x-forms.textarea
+                                name="description"
+                                label="Descrição Detalhada"
+                                required
+                                rows="3"
+                                placeholder="Explique o problema encontrado..."
+                                :value="old('description')"
+                            />
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-md-12 mb-3 px-4 mt-3">
-                    <x-forms.textarea
-                        name="description"
-                        label="Descrição Detalhada"
-                        required
-                        rows="3"
-                        placeholder="Explique o problema encontrado..."
-                        :value="old('description')"
-                    />
-                </div>
+                <div class="px-4 mt-4">
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Deficiências Relacionadas</label>
 
-                <div class="px-4">
-                    <div class="bg-light p-3 rounded mb-4 border shadow-sm">
-                        <label class="fw-bold text-purple-dark small uppercase mb-3 d-block">Pessoa Impactada</label>
+                        <div class="d-flex flex-wrap gap-4 p-3 border checkbox-group-wrapper max-h-40 overflow-y-auto custom-scrollbar">
+                            @foreach($deficiencies as $def)
+                                <x-forms.checkbox
+                                    name="deficiencies[]"
+                                    id="def_{{ $def->id }}"
+                                    :value="$def->id"
+                                    :label="$def->name"
+                                    :checked="in_array($def->id, old('deficiencies', []))"
+                                    class="mb-0"
+                                />
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group-wrapper p-3 rounded mb-4 border shadow-sm">
+                        <label class="fw-bold small text-uppercase mb-3 d-block">
+                            Pessoa Impactada
+                        </label>
+
                         <div class="d-flex flex-column gap-2">
-                            <x-forms.checkbox name="is_anonymous" id="is_anonymous" label="Relato Anônimo" :checked="old('is_anonymous')" />
+                            <x-forms.checkbox
+                                name="is_anonymous"
+                                id="is_anonymous"
+                                label="Relato Anônimo"
+                                :checked="old('is_anonymous')"
+                            />
+
                             <div id="wrapper_not_applicable">
-                                <x-forms.checkbox name="not_applicable" id="not_applicable" label="Relato Geral" :checked="old('not_applicable')" />
+                                <x-forms.checkbox
+                                    name="not_applicable"
+                                    id="not_applicable"
+                                    label="Relato Geral"
+                                    :checked="old('not_applicable')"
+                                />
                             </div>
                         </div>
 
                         <div id="identification_fields" class="mt-3">
                             <div id="person_selects" class="{{ old('not_applicable') ? 'd-none' : '' }}">
-                                <div class="row">
+                                <div class="row g-3">
                                     <div class="col-md-6">
                                         <x-forms.select
                                             name="affected_student_id"
@@ -139,49 +195,54 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div id="manual_person_data" class="{{ old('not_applicable') ? '' : 'd-none' }} mt-2">
-                                <div class="row">
+                                <div class="row g-3">
                                     <div class="col-md-6">
-                                        <x-forms.input name="affected_person_name" label="Nome" :value="old('affected_person_name')" />
+                                        <x-forms.input
+                                            name="affected_person_name"
+                                            label="Nome"
+                                            :value="old('affected_person_name')"
+                                        />
                                     </div>
+
                                     <div class="col-md-6">
-                                        <x-forms.input name="affected_person_role" label="Cargo" :value="old('affected_person_role')" />
+                                        <x-forms.input
+                                            name="affected_person_role"
+                                            label="Cargo"
+                                            :value="old('affected_person_role')"
+                                        />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-12 mb-4 px-4">
-                    <label class="form-label fw-bold text-purple-dark">Deficiências Relacionadas</label>
-                    <div class="d-flex flex-wrap gap-4 p-3 border rounded bg-light max-h-40 overflow-y-auto custom-scrollbar">
-                        @foreach($deficiencies as $def)
-                            <x-forms.checkbox
-                                name="deficiencies[]"
-                                id="def_{{ $def->id }}"
-                                :value="$def->id"
-                                :label="$def->name"
-                                :checked="in_array($def->id, old('deficiencies', []))"
-                                class="mb-0"
-                            />
-                        @endforeach
-                    </div>
-                </div>
-
                 <input type="hidden" name="is_active" value="1">
             </div>
 
             <div class="col-lg-7 bg-light px-0">
+                <x-forms.section
+                    title="Localização no Mapa"
+                    description="Selecione a instituição e marque o ponto exato da barreira."
+                    id="map-section-title"
+                />
 
-                <x-forms.section title="Localização no Mapa" id="map-section-title" />
-
-                <div class="sticky-top" style="top:20px; z-index:1;">
+                <div class="sticky-top" style="top: 20px; z-index: 1;">
                     <div class="mb-4">
                         <div class="mb-3 px-4 d-flex justify-content-between align-items-center">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="btn-toggle-locations" checked style="cursor: pointer;">
-                                <label class="form-check-label small text-muted fw-bold" for="btn-toggle-locations" style="cursor: pointer;">
+                            <div class="toggle-switch">
+                                <input
+                                    class="toggle-input filter-switch"
+                                    type="checkbox"
+                                    id="btn-toggle-locations"
+                                    checked
+                                >
+
+                                <label
+                                    class="toggle-label toggle-label--secondary"
+                                    for="btn-toggle-locations"
+                                >
                                     Exibir Locais (Cinza)
                                 </label>
                             </div>
@@ -190,21 +251,26 @@
                         <div style="position: relative;">
                             <x-forms.maps.barrier
                                 :institution="$selectedInstitution"
-                            height="450px"
+                                height="450px"
                                 label="Localização da Barreira"
                             />
 
-                            <div id="map-blocked-overlay"
-                                 class="d-none"
-                                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #333; pointer-events: none; border-radius: 0.375rem;">
-                                <span id="map-blocked-text" class="bg-white p-3 rounded shadow-sm"></span>
-                            </div>
+                            <div
+                                id="map-blocked-overlay"
+                                class="d-none"
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                                background: rgba(255,255,255,0.8); z-index: 1000;
+                                align-items: center; justify-content: center;
+                                font-weight: bold; color: #333; pointer-events: none; border-radius: 0.375rem;"
+                            >
                         </div>
                     </div>
 
                     <div class="mt-3">
-
-                        <x-forms.section title="Vistoria Inicial" />
+                        <x-forms.section
+                            title="Vistoria Inicial"
+                            description="Registro técnico inicial da barreira."
+                        />
 
                         <div class="px-4">
                             <div class="row g-3">
@@ -254,28 +320,27 @@
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4 mt-4 bg-white">
-                <x-buttons.link-button href="{{ route('barriers.index') }}" variant="secondary">
-                    <i class="fas fa-times"></i> Cancelar
+                <x-buttons.link-button
+                    :href="route('barriers.index')"
+                    variant="secondary"
+                >
+                    <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                    Cancelar
                 </x-buttons.link-button>
 
-                <x-buttons.submit-button type="submit" class="btn-action new submit">
-                    <i class="fas fa-save mr-2"></i> Salvar
+                <x-buttons.submit-button variant="new">
+                    <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                    Cadastrar
                 </x-buttons.submit-button>
             </div>
-        </x-forms.form-card>
-    </div>
-
-    @push('styles')
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    @endpush
+        </div>
+    </x-forms.form-card>
 
     @push('scripts')
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
             window.categoriesData = @json($categories->mapWithKeys(fn($cat) => [$cat->id => $cat->blocks_map]));
             window.institutionsData = @json($institutions);
             window.oldLocationId = "{{ old('location_id') }}";
         </script>
     @endpush
-    @vite('resources/js/pages/barriers.js')
 @endsection

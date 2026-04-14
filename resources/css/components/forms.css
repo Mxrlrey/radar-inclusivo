@@ -381,11 +381,6 @@ form .row .row [class*="col-"] {
     border-left: none;
 }
 
-/*!* ===== REMOÇÃO DE CORES INDESEJADAS ===== *!*/
-/*.text-purple-dark,*/
-/*.text-purple-light {*/
-/*    color: var(--text-primary) !important;*/
-/*}*/
 
 /* ===== SOBRESCREVE FOCO DO BOOTSTRAP (TEMA CLARO E ESCURO) ===== */
 .form-control:focus,

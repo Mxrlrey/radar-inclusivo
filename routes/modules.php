@@ -230,10 +230,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Profissionais
     Route::prefix('professionals')->name('professionals.')->group(function () {
-        Route::get('/', [ProfessionalController::class, 'index'])->name('index')->middleware('can:professional.view');
+        Route::get('/', [ProfessionalController::class, 'index'])->name('index')->middleware('can:professional.index');
         Route::get('/create', [ProfessionalController::class, 'create'])->name('create')->middleware('can:professional.create');
         Route::post('/store', [ProfessionalController::class, 'store'])->name('store')->middleware('can:professional.create');
-        Route::get('/{professional}/show', [ProfessionalController::class, 'show'])->name('show')->middleware('can:professional.view');
+        Route::get('/{professional}/show', [ProfessionalController::class, 'show'])->name('show')->middleware('can:professional.show');
         Route::get('/{professional}/edit', [ProfessionalController::class, 'edit'])->name('edit')->middleware('can:professional.update');
         Route::put('/{professional}', [ProfessionalController::class, 'update'])->name('update')->middleware('can:professional.update');
         Route::delete('/{professional}', [ProfessionalController::class, 'destroy'])->name('destroy')->middleware('can:professional.delete');

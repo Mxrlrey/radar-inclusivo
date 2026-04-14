@@ -14,18 +14,22 @@
             ]" />
 
             <h1>Detalhes da Inspeção</h1>
+
             <p class="text-muted mb-0">
                 Visualize o estado de conservação, tipo de inspeção, parecer técnico e evidências visuais.
             </p>
         </div>
 
         <div class="page-header-actions">
-            <div class="inspection-highlight">
-                <span class="inspection-highlight__label">Data da Inspeção</span>
-                <span class="inspection-highlight__value">
-                    {{ $inspection->inspection_date->format('d/m/Y') }}
-                </span>
-            </div>
+            <x-buttons.link-button
+                :href="route('accessible-educational-materials.show', $material)"
+                variant="secondary"
+            >
+                <x-slot:icon>
+                    <i class="fa fa-arrow-left"></i>
+                </x-slot:icon>
+                Voltar
+            </x-buttons.link-button>
         </div>
     </div>
 
@@ -50,6 +54,25 @@
             :rich="true"
         />
 
+        @can('system.audit.view')
+            <x-forms.section
+                title="Registro do Sistema"
+                description="Informações automáticas de auditoria do sistema."
+            />
+
+            <x-show.info-item label="ID no Sistema">
+                #{{ $inspection->id }}
+            </x-show.info-item>
+
+            <x-show.info-item label="Criado em">
+                {{ $inspection->created_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            </x-show.info-item>
+
+            <x-show.info-item label="Última atualização">
+                {{ $inspection->updated_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            </x-show.info-item>
+        @endcan
+
         <x-forms.section
             title="Evidências Visuais"
             description="Imagens registradas durante a inspeção."
@@ -58,10 +81,14 @@
         @if($inspection->images && $inspection->images->count() > 0)
             <div class="inspection-gallery">
                 @foreach($inspection->images as $index => $img)
-                    <a href="{{ asset('storage/' . $img->path) }}" target="_blank" class="inspection-gallery__item">
-                        <img src="{{ asset('storage/' . $img->path) }}"
-                             alt="Foto de evidência {{ $index + 1 }}"
-                             @if($loop->first) fetchpriority="high" loading="eager" @else loading="lazy" @endif
+                    <a href="{{ asset('storage/' . $img->path) }}"
+                       target="_blank"
+                       class="inspection-gallery__item">
+
+                        <img
+                            src="{{ asset('storage/' . $img->path) }}"
+                            alt="Foto de evidência {{ $index + 1 }}"
+                            @if($loop->first) fetchpriority="high" loading="eager" @else loading="lazy" @endif
                         >
                     </a>
                 @endforeach
@@ -73,10 +100,8 @@
             </div>
         @endif
 
-        {{-- FOOTER --}}
         <x-show.footer
             :backRoute="route('accessible-educational-materials.show', $material)"
-        >
-        </x-show.footer>
+        />
     </div>
 @endsection

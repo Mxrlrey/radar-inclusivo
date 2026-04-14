@@ -1,137 +1,212 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('title', $professional->person->name)
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Profissionais' => route('professionals.index'),
-            $professional->person->name => null
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Profissionais' => route('professionals.index'),
+                $professional->person->name => null
+            ]" />
 
-        ]" />
-    </div>
-
-    {{-- Cabeçalho da Página --}}
-    <div class="d-flex justify-content-between align-items-center mb-4 no-print">
-        <div>
-            <h2 class="text-title">Perfil do Profissional</h2>
-            <p class="text-muted">
-                Informações de cadastro e vínculo institucional.
+            <h1>Detalhes do Profissional</h1>
+            <p class="text-muted mb-0">
+                Visualize informações cadastrais, funcionais e o status do profissional no sistema.
             </p>
         </div>
-        <div class="d-flex gap-2">
-            <x-buttons.link-button :href="route('professionals.edit', $professional->id)" variant="warning">
-                <i class="fas fa-edit"></i> Editar
-            </x-buttons.link-button>
 
-            <x-buttons.link-button :href="route('professionals.index')" variant="secondary">
-               <i class="fas fa-arrow-left "></i>  Voltar
+        <div class="page-header-actions">
+            @can('professional.update')
+                <x-buttons.link-button
+                    :href="route('professionals.edit', $professional)"
+                    variant="info"
+                >
+                    <span class="btn-label">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </span>
+                    Editar
+                </x-buttons.link-button>
+            @endcan
+
+            <x-buttons.link-button
+                :href="route('professionals.index')"
+                variant="secondary"
+            >
+                <span class="btn-label">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </span>
+                Voltar
             </x-buttons.link-button>
         </div>
     </div>
 
-    <div class="custom-table-card bg-white shadow-sm">
-        <div class="row g-0">
+    <div class="card-custom overflow-hidden show-container">
+        <x-forms.section
+            title="{{ $professional->person->name }}"
+            description="Visualize as informações de {{ $professional->person->name }}"
+        />
 
-            {{-- SEÇÃO: DADOS PESSOAIS --}}
-            <x-forms.section title="Identificação Pessoal" />
-
-            <div class="col-12 d-flex justify-content-center py-4 bg-light mb-4 border-bottom">
-                <div class="text-center">
-
-                    <img src="{{ $professional->person->photo_url }}"
-                        class="avatar-show-lg">
-
-                    <h4 class="mt-3 text-title mb-0">
-                        {{ $professional->person->name }}
-                    </h4>
-
-                </div>
-            </div>
-
-            <x-show.info-item label="Nome Completo" column="col-md-8" isBox="true">
-                <strong>{{ $professional->person->name }}</strong>
-            </x-show.info-item>
-
-            <x-show.info-item label="CPF" column="col-md-4" isBox="true">
-                {{ $professional->person->document ?? '---' }}
-            </x-show.info-item>
-
-            <x-show.info-item label="Data de Nascimento" column="col-md-4" isBox="true">
-                {{ $professional->person->birth_date ? \Carbon\Carbon::parse($professional->person->birth_date)->format('d/m/Y') : '---' }}
-            </x-show.info-item>
-
-            <x-show.info-item label="E-mail" column="col-md-4" isBox="true">
-                {{ $professional->person->email ?? '---' }}
-            </x-show.info-item>
-
-            <x-show.info-item label="Telefone" column="col-md-4" isBox="true">
-                {{ $professional->person->phone ?? '---' }}
-            </x-show.info-item>
-
-            {{-- SEÇÃO: DADOS PROFISSIONAIS --}}
-            <x-forms.section title="Vínculo Profissional" />
-
-            <x-show.info-item label="Cargo / Função" column="col-md-6" isBox="true">
-                <span class="text-purple-dark fw-bold">
-                    {{ $professional->position->name ?? 'Não definido' }}
-                </span>
-            </x-show.info-item>
-
-            <x-show.info-item label="Matrícula" column="col-md-3" isBox="true">
-                {{ $professional->registration }}
-            </x-show.info-item>
-
-            <x-show.info-item label="Status" column="col-md-3" isBox="true">
-                @if($professional->status === 'active')
-                    <span class="text-success fw-bold">ATIVO</span>
+        <div class="d-flex flex-column align-items-center py-3 text-center">
+            <div class="avatar-show-lg mx-auto">
+                @if($professional->person->photo)
+                    <img
+                        src="{{ $professional->person->photo_url }}"
+                        alt="Foto de {{ $professional->person->name }}"
+                    >
                 @else
-                    <span class="text-danger fw-bold">INATIVO</span>
+                    <i class="ion-android-social-user mt-5"></i>
                 @endif
+            </div>
+        </div>
+
+        <x-forms.separator />
+
+        <x-forms.section title="Dados Pessoais" />
+
+        <x-show.info-item label="Nome Completo">
+            {{ $professional->person->name }}
+        </x-show.info-item>
+
+        <x-show.info-item label="CPF">
+            {{ $professional->person->document_formatted ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Matrícula">
+            {{ $professional->registration }}
+        </x-show.info-item>
+
+        <x-show.info-item label="E-mail">
+            {{ $professional->person->email ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Cargo / Função">
+            {{ $professional->position->name ?? 'Não definido' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Data de Nascimento">
+            {{ $professional->person->birth_date?->format('d/m/Y') ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Gênero">
+            {{ $professional->person->gender?->label() ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Telefone">
+            {{ $professional->person->phone ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Endereço">
+            {!! $professional->person->address ?: '---' !!}
+        </x-show.info-item>
+
+        <x-show.info-item label="Data de Ingresso">
+            {{ $professional->entry_date?->format('d/m/Y') ?? '---' }}
+        </x-show.info-item>
+
+        @can('system.audit.view')
+            <x-forms.section
+                title="Registro do Sistema"
+                description="Informações automáticas de auditoria do sistema."
+            />
+
+            <x-show.info-item label="Tempo de Instituição">
+                {{ $professional->entry_date
+                    ? $professional->entry_date->diffForHumans(['parts' => 2])
+                    : '---' }}
             </x-show.info-item>
 
-            <x-show.info-item label="Data de Admissão" column="col-md-6" isBox="true">
-                {{ $professional->entry_date ? \Carbon\Carbon::parse($professional->entry_date)->format('d/m/Y') : '---' }}
-            </x-show.info-item>
-
-            <x-show.info-item label="Tempo de Instituição" column="col-md-6" isBox="true">
-                {{ $professional->entry_date ? \Carbon\Carbon::parse($professional->entry_date)->diffForHumans(null, true) : '---' }}
+            <x-show.info-item label="Status no Sistema">
+            <span class="badge bg-{{ $professional->is_active ? 'success' : 'danger' }}">
+                {{ $professional->is_active ? 'Ativo' : 'Inativo' }}
+            </span>
             </x-show.info-item>
 
             @if(auth()->check() && auth()->user()->isAdmin())
-                <x-show.info-item label="Administrador do Sistema" column="col-md-6" isBox="true">
-                    @if(optional($professional->user)->is_admin)
-                        <span class="text-success fw-bold">
-                            <i class="fas fa-user-shield"></i> SIM
-                        </span>
-                    @else
-                        <span class="text-muted fw-bold">
-                            NÃO
-                        </span>
-                    @endif
+                <x-show.info-item label="Administrador do Sistema">
+                <span class="badge bg-{{ optional($professional->user)->is_admin ? 'success' : 'danger' }}">
+                    {{ optional($professional->user)->is_admin ? 'Sim' : 'Não' }}
+                </span>
                 </x-show.info-item>
             @endif
 
-            <div class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light no-print">
-                <div class="text-muted small">
-                    <i class="fas fa-id-badge me-1"></i> Profissional ID: #{{ $professional->id }}
-                </div>
+            <x-show.info-item label="ID no Sistema">
+                #{{ $professional->id }}
+            </x-show.info-item>
 
-                <div class="d-flex gap-3">
-                    <form action="{{ route('professionals.destroy', $professional->id) }}"
-                          method="POST"
-                          onsubmit="return confirm('Excluir este profissional do sistema?')">
-                        @csrf
-                        @method('DELETE')
-                        <x-buttons.submit-button variant="danger">
-                            <i class="fas fa-trash-alt"></i> Excluir
-                        </x-buttons.submit-button>
-                    </form>
+            <x-show.info-item label="Criado em">
+                {{ $professional->created_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            </x-show.info-item>
 
-                    <x-buttons.link-button :href="route('professionals.index')" variant="secondary">
-                        <i class="fas fa-arrow-left "></i>  Voltar
-                    </x-buttons.link-button>
-                </div>
-            </div>
-        </div>
+            <x-show.info-item label="Última atualização">
+                {{ $professional->updated_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            </x-show.info-item>
+        @endcan
+
+        @php
+            $modalId = "modal-delete-professional-{$professional->id}";
+        @endphp
+
+        <x-show.footer>
+            <x-buttons.link-button
+                :href="route('professionals.index')"
+                variant="secondary"
+            >
+                <span class="btn-label">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </span>
+                Voltar
+            </x-buttons.link-button>
+
+            @can('professional.delete')
+                <x-buttons.submit-button
+                    variant="danger"
+                    type="button"
+                    onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                >
+                    <span class="btn-label">
+                        <i class="fa fa-eraser" aria-hidden="true"></i>
+                    </span>
+                    Excluir
+                </x-buttons.submit-button>
+            @endcan
+        </x-show.footer>
     </div>
+
+    <x-modal.modal
+        :id="$modalId"
+        title="Confirmar Exclusão"
+        size="sm"
+    >
+        <div class="p-3">
+            <p class="mb-2 text-danger fw-bold">
+                Esta ação não pode ser desfeita.
+            </p>
+
+            <p class="mb-0 text-muted">
+                Deseja realmente excluir o profissional
+                <strong>{{ $professional->person->name }}</strong>?
+            </p>
+        </div>
+
+        <x-slot:footer>
+            <x-buttons.link-button
+                href="javascript:void(0)"
+                variant="secondary"
+                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+            >
+                Cancelar
+            </x-buttons.link-button>
+
+            <form action="{{ route('professionals.destroy', $professional) }}" method="POST">
+                @csrf
+                @method('DELETE')
+
+                <x-buttons.submit-button variant="danger">
+                    Excluir
+                </x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
 @endsection

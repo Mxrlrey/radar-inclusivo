@@ -3,48 +3,68 @@
 @section('title', 'Empréstimos')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Empréstimos' => route('loans.index'),
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Empréstimos' => null
+            ]" />
+            <h1>Empréstimos de Recursos</h1>
+            <p class="text-muted mb-0">
+                Controle de saídas e devoluções de tecnologias e materiais pedagógicos.
+            </p>
+        </div>
 
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
-
-        <x-table.page-header
-            title="Empréstimos de Recursos"
-            subtitle="Controle de saídas e devoluções de tecnologias e materiais pedagógicos."
-        >
+        <div class="page-header-actions">
             <x-buttons.link-button
                 :href="route('loans.create')"
-                variant="new"
-                title="Adicionar Empréstimo"
+                variant="info"
+                aria-label="Cadastrar novo empréstimo"
             >
-                <i class="fas fa-plus"></i>
+                <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                Cadastrar
             </x-buttons.link-button>
-        </x-table.page-header>
+        </div>
+    </div>
 
+    <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-dynamic-filter
+                data-url="{{ route('loans.index') }}"
                 data-target="#loans-table"
                 :fields="[
-                    ['name' => 'item', 'placeholder' => 'Filtrar por item...'],
-                    ['name' => 'student', 'placeholder' => 'Filtrar por aluno...'],
-                    ['name' => 'professional', 'placeholder' => 'Filtrar por profissional...'],
-                    ['name' => 'status', 'type' => 'select', 'options' => [
-                        ''         => 'Status (Todos)',
-                        'active'   => 'Ativo (Com o Beneficiário)',
-                        'returned' => 'Devolvido (No prazo)',
-                        'late'     => 'Devolvido (Com atraso)',
-                        'damaged'  => 'Devolvido (Com avaria)',
-                    ]],
+                    [
+                        'name' => 'item',
+                        'placeholder' => 'Filtrar por item...',
+                        'label' => 'Item'
+                    ],
+                    [
+                        'name' => 'student',
+                        'placeholder' => 'Filtrar por aluno...',
+                        'label' => 'Aluno'
+                    ],
+                    [
+                        'name' => 'professional',
+                        'placeholder' => 'Filtrar por profissional...',
+                        'label' => 'Profissional'
+                    ],
+                    [
+                        'name' => 'status',
+                        'type' => 'select',
+                        'placeholder' => 'Status',
+                        'options' => [
+                            ''         => 'Status (Todos)',
+                            'active'   => 'Ativo (Com o Beneficiário)',
+                            'returned' => 'Devolvido (No prazo)',
+                            'late'     => 'Devolvido (Com atraso)',
+                            'damaged'  => 'Devolvido (Com avaria)',
+                        ]
+                    ]
                 ]"
             />
         </div>
 
-        <div id="loans-table" class="p-3">
+        <div id="loans-table" class="p-3" role="region" aria-label="Listagem de empréstimos">
             @include('pages.loans.partials.table')
         </div>
     </div>

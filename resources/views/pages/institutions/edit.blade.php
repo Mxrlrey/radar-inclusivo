@@ -1,60 +1,69 @@
 @extends('layouts.master')
 
-@section('title', "Editar - $institution->name")
+@section('title', "Editar Instituição")
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Instituições' => route('institutions.index'),
-            $institution->name => route('institutions.show', $institution),
-            'Editar' => null
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Instituições' => route('institutions.index'),
+                $institution->name => route('institutions.show', $institution),
+                'Editar' => null
+            ]" />
 
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <h2 class="text-title">Editar Instituição Base</h2>
-            <p class="text-muted">
-                Atualize a localização central ou as informações da sede para o mapa de barreiras.
+            <h1>Editar Instituição</h1>
+
+            <p class="text-muted mb-0">
+                Atualize as informações e a localização da instituição no sistema.
             </p>
         </div>
 
-        <div>
-            <x-buttons.link-button href="{{ route('institutions.show', $institution) }}" variant="secondary">
-                <i class="fas fa-times"></i> Cancelar
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('institutions.show', $institution)"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
-    <div class="mt-3">
-        <x-forms.form-card action="{{ route('institutions.update', $institution) }}" method="POST">
-            @method('PUT')
+    <x-forms.form-card
+        action="{{ route('institutions.update', $institution) }}"
+        method="POST"
+        class="form-horizontal"
+    >
+        @csrf
+        @method('PUT')
+
+        <div class="row g-0">
             <div class="col-lg-5 border-end">
+                <x-forms.section
+                    title="Informações Gerais"
+                    description="Atualize os dados principais da instituição."
+                />
 
-                <x-forms.section title="Informações Gerais" />
-
-                <div class="col-md-12">
-                    <x-forms.input
-                        name="name"
-                        label="Nome da Instituição"
-                        required aria-required="true"
-                        :value="old('name', $institution->name)"
-                        placeholder="Ex: IFBA - Campus Guanambi"
-                    />
-                </div>
-
-                <div class="col-md-12">
-                    <x-forms.input
-                        name="short_name"
-                        label="Sigla / Nome Curto"
-                        :value="old('short_name', $institution->short_name)"
-                        placeholder="Ex: IFBA-GBI"
-                    />
-                </div>
-
-                <div class="col-md-12 mt-3">
+                <div class="px-4">
                     <div class="row g-3">
+                        <div class="col-12">
+                            <x-forms.input
+                                name="name"
+                                label="Nome da Instituição"
+                                required
+                                :value="old('name', $institution->name)"
+                            />
+                        </div>
+
+                        <div class="col-12">
+                            <x-forms.input
+                                name="short_name"
+                                label="Sigla / Nome Curto"
+                                :value="old('short_name', $institution->short_name)"
+                            />
+                        </div>
+
                         <div class="col-md-8">
                             <x-forms.input
                                 id="city_search"
@@ -74,11 +83,7 @@
                                 :value="old('state', $institution->state)"
                             />
                         </div>
-                    </div>
-                </div>
 
-                <div class="col-md-12 mt-3">
-                    <div class="row g-3">
                         <div class="col-md-5">
                             <x-forms.input
                                 id="district_search"
@@ -99,83 +104,116 @@
                     </div>
                 </div>
 
-                <div class="col-md-12 mt-4">
-                    <x-forms.checkbox
-                        name="is_active"
-                        label="Instituição Ativa"
-                        description="Define se esta sede estará disponível para o mapeamento público"
-                        :checked="old('is_active', $institution->is_active)"
+                <x-forms.switch
+                    name="is_active"
+                    label="Instituição Ativa"
+                    description="Define se esta instituição estará disponível para uso no sistema."
+                    :horizontal="false"
+                    :checked="old('is_active', $institution->is_active)"
+                />
+            </div>
+
+            <div class="col-lg-7 px-0">
+                <x-forms.section
+                    title="Ajuste a Sede no Mapa"
+                    description="Reposicione a instituição diretamente no mapa."
+                    id="map-section-title"
+                />
+
+                <div style="position: relative;">
+                    <x-forms.maps.institution
+                        :institution="$institution"
+                        :lat="old('latitude', $institution->latitude)"
+                        :lng="old('longitude', $institution->longitude)"
+                        :zoom="old('default_zoom', $institution->default_zoom)"
+                        height="450px"
                     />
                 </div>
 
-                <hr class="mt-4 opacity-0">
+                <div class="px-4 pb-4 mt-3">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="default_zoom" class="form-label fw-bold mb-1">
+                                Zoom Padrão
+                            </label>
 
-                <x-forms.section title="Configurações do Mapa" />
+                            <small class="text-muted d-block mb-2">
+                                Define o nível de aproximação inicial no mapa.
+                            </small>
 
-                <div class="col-md-12 mb-4">
-                    <label for="zoom_range" class="form-label fw-bold text-purple-dark mb-1">Zoom Padrão</label>
-                    <small id="zoom_help" class="text-muted d-block mb-2">Define o nível de aproximação inicial no mapa.</small>
-                    <div class="d-flex align-items-center gap-3">
-                        <input type="range" name="default_zoom" id="zoom_range" min="1" max="20"
-                               value="{{ old('default_zoom', $institution->default_zoom) }}"
-                               class="form-range custom-range"
-                               aria-describedby="zoom_help"
-                               oninput="document.getElementById('zoom_val').innerText = this.value"
-                        >
-                        <span id="zoom_val" class="badge bg-purple-dark p-2" style="min-width: 40px;">
-                            {{ old('default_zoom', $institution->default_zoom) }}
-                        </span>
+                            <div class="d-flex align-items-center gap-3">
+                                <input
+                                    type="range"
+                                    name="default_zoom"
+                                    id="default_zoom"
+                                    min="1"
+                                    max="20"
+                                    value="{{ old('default_zoom', $institution->default_zoom) }}"
+                                    class="form-range custom-range"
+                                    oninput="document.getElementById('zoom_val').innerText = this.value"
+                                >
+
+                                <span id="zoom_val" class="badge bg-purple-dark p-2" style="min-width:40px;">
+                                    {{ old('default_zoom', $institution->default_zoom) }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <label for="latitude" class="form-label fw-bold">
+                                Latitude Sede
+                            </label>
+
+                            <small class="text-muted d-block mb-2">
+                                Preenchida automaticamente pelo mapa ou manualmente.
+                            </small>
+
+                            <input
+                                type="number"
+                                step="any"
+                                name="latitude"
+                                id="latitude"
+                                class="form-control"
+                                value="{{ old('latitude', $institution->latitude) }}"
+                            >
+                        </div>
+
+                        <div class="col-6">
+                            <label for="longitude" class="form-label fw-bold">
+                                Longitude Sede
+                            </label>
+
+                            <small class="text-muted d-block mb-2">
+                                Preenchida automaticamente pelo mapa ou manualmente.
+                            </small>
+
+                            <input
+                                type="number"
+                                step="any"
+                                name="longitude"
+                                id="longitude"
+                                class="form-control"
+                                value="{{ old('longitude', $institution->longitude) }}"
+                            >
+                        </div>
                     </div>
                 </div>
-
-                <div class="col-md-12">
-                    <label for="lat_manual" class="form-label fw-bold text-purple-dark mb-0">Latitude Sede</label>
-                    <small id="lat_help" class="text-muted d-block mb-2">Preenchida pelo mapa ou manualmente em Graus Decimais.</small>
-                    <input type="number" step="any" id="lat_manual" class="form-control"
-                           placeholder="-14.2350"
-                           aria-describedby="lat_help"
-                           value="{{ old('latitude', $institution->latitude) }}"
-                    >
-                </div>
-
-                <div class="col-md-12 mt-3">
-                    <label for="lng_manual" class="form-label fw-bold text-purple-dark mb-0">Longitude Sede</label>
-                    <small id="lng_help" class="text-muted d-block mb-2">Preenchida pelo mapa ou manualmente em Graus Decimais.</small>
-                    <input type="number" step="any" id="lng_manual" class="form-control"
-                           placeholder="-51.9253"
-                           aria-describedby="lng_help"
-                           value="{{ old('longitude', $institution->longitude) }}"
-                    >
-                </div>
             </div>
 
-            <div class="col-lg-7 bg-light">
-
-                <x-forms.section title="Ajuste a Sede no Mapa" id="map-section-title" />
-
-                <div class="sticky-top" style="top:20px; z-index:1;">
-                    <section aria-labelledby="map-section-title">
-                        <x-forms.maps.institution
-                            :institution="$institution"
-                            :lat="old('latitude', $institution->latitude)"
-                            :lng="old('longitude', $institution->longitude)"
-                            :zoom="old('default_zoom', $institution->default_zoom)"
-                            height="550px"
-                            label="Ajuste a Sede no Mapa"
-                        />
-                    </section>
-                </div>
-            </div>
-
-            <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4 mt-4">
-                <x-buttons.link-button href="{{ route('institutions.show', $institution) }}" variant="secondary">
-                    <i class="fas fa-times"></i> Cancelar
+            <x-forms.form-footer>
+                <x-buttons.link-button
+                    :href="route('institutions.show', $institution)"
+                    variant="secondary"
+                >
+                    <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                    Cancelar
                 </x-buttons.link-button>
 
-                <x-buttons.submit-button type="submit" class="btn-action new submit">
-                    <i class="fas fa-save mr-2"></i> Salvar
+                <x-buttons.submit-button variant="new">
+                    <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                    Salvar
                 </x-buttons.submit-button>
-            </div>
-        </x-forms.form-card>
-    </div>
+            </x-forms.form-footer>
+        </div>
+    </x-forms.form-card>
 @endsection

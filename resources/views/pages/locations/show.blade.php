@@ -1,125 +1,183 @@
 @extends('layouts.master')
 
-@section('title', "$location->name")
+@section('title', $location->name)
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Pontos de Referência' => route('locations.index'),
-            $location->name => null
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Pontos de Referência' => route('locations.index'),
+                $location->name => null
+            ]" />
 
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <h2 class="text-title">Detalhes do Ponto de Referência</h2>
-            <p class="text-muted">
-                Visualize as informações cadastradas e a posição no mapa:
-                <strong>{{ $location->name }}</strong>
+            <h1>Detalhes do Ponto de Referência</h1>
+            <p class="text-muted mb-0">
+                Visualize as informações cadastradas e a posição no mapa do ponto de referência.
             </p>
         </div>
 
-        <div>
+        <div class="page-header-actions">
             <x-buttons.link-button
                 :href="route('locations.edit', $location)"
-                variant="warning"
+                variant="info"
             >
-                <i class="fas fa-edit"></i> Editar
+                <x-slot:icon><i class="fa fa-pencil"></i></x-slot:icon>
+                Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
                 :href="route('locations.index')"
                 variant="secondary"
             >
-                <i class="fas fa-arrow-left"></i> Voltar
+                <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
+                Voltar
             </x-buttons.link-button>
         </div>
     </div>
 
-    <div class="mt-3">
-        <x-show.display-card>
-            <div class="row g-0">
-                <div class="col-lg-5 border-end">
+    <div class="card-custom overflow-hidden show-container">
+        <div class="row g-0">
+            <div class="col-lg-5 border-end">
+                <x-forms.section
+                    title="Vínculo e Identificação"
+                    description="Dados principais do ponto de referência."
+                />
 
-                    <x-forms.section title="Vínculo e Identificação" />
+                <x-show.info-item label="Instituição Base">
+                    {{ $location->institution?->name ?? 'Não informada' }}
+                </x-show.info-item>
 
-                    <div class="row g-3 mb-0">
-                        <x-show.info-item label="Instituição Base" column="col-12" isBox="true">
-                            {{ $location->institution->name }}
-                        </x-show.info-item>
+                <x-show.info-item label="Nome do Local">
+                    {{ $location->name }}
+                </x-show.info-item>
 
-                        <x-show.info-item label="Nome do Local" column="col-12" isBox="true">
-                            {{ $location->name }}
-                        </x-show.info-item>
+                <x-show.info-item label="Tipo de Local">
+                    {{ $location->type ?: 'Não informado' }}
+                </x-show.info-item>
 
-                        <x-show.info-item label="Tipo de Local" column="col-12" isBox="true">
-                            {{ $location->type ?: '— Não informado —' }}
-                        </x-show.info-item>
+                <x-show.info-item label="Descrição / Observações">
+                    {!! $location->description  ?: 'Não informada'!!}
+                </x-show.info-item>
 
-                        <x-show.info-textarea label="Descrição/Observações" column="col-12" :value="$location->description ?: '— Não informada —'" :rich="true"/>
+                <x-forms.separator />
 
-                        <x-show.info-item label="Ativo no Sistema" column="col-12" isBox="true">
-                            {{ $location->is_active ? 'Sim' : 'Não' }}
-                        </x-show.info-item>
-                    </div>
+                <x-forms.section
+                    title="Coordenadas"
+                    description="Posição geográfica cadastrada para este local."
+                />
 
-                    <x-forms.section title="Coordenadas" />
+                <x-show.info-item label="Latitude">
+                    {{ $location->latitude ?: 'Não informada' }}
+                </x-show.info-item>
 
-                    <div class="row g-3 mb-0">
-                        <x-show.info-item label="Latitude" column="col-12" isBox="true">
-                            {{ $location->latitude ?: '— Não informada —' }}
-                        </x-show.info-item>
+                <x-show.info-item label="Longitude">
+                    {{ $location->longitude ?: 'Não informada' }}
+                </x-show.info-item>
 
-                        <x-show.info-item label="Longitude" column="col-12" isBox="true">
-                            {{ $location->longitude ?: '— Não informada —' }}
-                        </x-show.info-item>
-                    </div>
-                </div>
+                @can('system.audit.view')
+                    <x-forms.separator />
 
-                <div class="col-lg-7 bg-light">
+                    <x-forms.section
+                        title="Registro do Sistema"
+                        description="Informações automáticas de auditoria do sistema."
+                    />
 
-                    <x-forms.section title="Localização no Mapa" id="map-section-title" />
+                    <x-show.info-item label="ID no Sistema">
+                        #{{ $location->id }}
+                    </x-show.info-item>
 
-                    <div class="sticky-top" style="top:20px; z-index:1;">
-                        <section aria-labelledby="map-section-title">
-                            <x-show.maps.location
-                                :location="$location"
-                                :institution="$location->institution"
-                                height="550px"
-                                label="Localização do Ponto"
-                            />
-                        </section>
-                    </div>
+                    <x-show.info-item label="Status no Sistema">
+                        <span class="badge bg-{{ $location->is_active ? 'success' : 'danger' }}">
+                            {{ $location->is_active ? 'Ativo' : 'Inativo' }}
+                        </span>
+                    </x-show.info-item>
+
+                    <x-show.info-item label="Criado em">
+                        {{ $location->created_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+                    </x-show.info-item>
+
+                    <x-show.info-item label="Última atualização">
+                        {{ $location->updated_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+                    </x-show.info-item>
+                @endcan
+            </div>
+
+            <div class="col-lg-7 px-0">
+                <x-forms.section
+                    title="Localização"
+                    description="Visualização do ponto de referência no mapa."
+                    id="map-section-title"
+                />
+
+                <div style="position: relative;">
+                    <x-show.maps.location
+                        :location="$location"
+                        :institution="$location->institution"
+                        height="450px"
+                        label="Localização do Ponto"
+                    />
                 </div>
             </div>
 
-            <div class="col-12 border-top d-flex justify-content-between align-items-center bg-light no-print mt-4 p-4">
+            <x-show.footer>
+                <x-buttons.link-button
+                    :href="route('locations.index')"
+                    variant="secondary"
+                >
+                    <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
+                    Voltar
+                </x-buttons.link-button>
 
-                <div class="text-muted small">
-                    <i class="fas fa-id-card me-1" aria-hidden="true"></i> ID no Sistema: #{{ $location->id }}
-                </div>
-
-                <div class="d-flex gap-3">
-                    <form action="{{ route('locations.destroy', $location) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <x-buttons.submit-button
-                            variant="danger"
-                            onclick="return confirm('Deseja remover este ponto de referência?')"
-                        >
-                            <i class="fas fa-trash-alt"></i> Excluir
-                        </x-buttons.submit-button>
-                    </form>
-
-                    <x-buttons.link-button
-                        :href="route('locations.index')"
-                        variant="secondary"
-                    >
-                        <i class="fas fa-arrow-left"></i> Voltar
-                    </x-buttons.link-button>
-                </div>
-            </div>
-        </x-show.display-card>
+                <x-buttons.submit-button
+                    variant="danger"
+                    type="button"
+                    onclick="new bootstrap.Modal(document.getElementById('modal-delete-location-{{ $location->id }}')).show();"
+                >
+                    <x-slot:icon><i class="fa fa-eraser"></i></x-slot:icon>
+                    Excluir
+                </x-buttons.submit-button>
+            </x-show.footer>
+        </div>
     </div>
+
+    @php
+        $modalId = "modal-delete-location-" . $location->id;
+    @endphp
+
+    <x-modal.modal
+        :id="$modalId"
+        title="Confirmar Exclusão"
+        size="sm"
+    >
+        <div class="p-3">
+            <p class="mb-2 text-danger fw-bold">
+                Esta ação não pode ser desfeita.
+            </p>
+
+            <p class="mb-0 text-muted">
+                Deseja realmente excluir o ponto de referência
+                <strong>{{ $location->name }}</strong>?
+            </p>
+        </div>
+
+        <x-slot:footer>
+            <x-buttons.link-button
+                href="javascript:void(0)"
+                variant="secondary"
+                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+            >
+                Cancelar
+            </x-buttons.link-button>
+
+            <form action="{{ route('locations.destroy', $location) }}" method="POST">
+                @csrf
+                @method('DELETE')
+
+                <x-buttons.submit-button variant="danger">
+                    Excluir
+                </x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
 @endsection

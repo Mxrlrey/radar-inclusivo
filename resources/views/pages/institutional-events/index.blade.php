@@ -3,45 +3,58 @@
 @section('title', 'Agenda Institucional')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Agenda Institucional' => route('institutional-events.index'),
-        ]"/>
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Agenda Institucional' => null
+            ]" />
+            <h1>Agenda Institucional</h1>
+            <p class="text-muted mb-0">
+                Gerenciamento de eventos, reuniões e atividades institucionais.
+            </p>
+        </div>
 
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
-
-        <x-table.page-header
-            title="Agenda Institucional"
-            subtitle="Gerenciamento de eventos institucionais."
-        >
+        <div class="page-header-actions">
             <x-buttons.link-button
                 :href="route('institutional-events.create')"
-                variant="new"
-                title="Adicionar Evento"
+                variant="info"
+                aria-label="Cadastrar novo evento institucional"
             >
-                <i class="fas fa-plus"></i>
+                <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                Cadastrar
             </x-buttons.link-button>
-        </x-table.page-header>
+        </div>
+    </div>
 
+    <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-dynamic-filter
+                data-url="{{ route('institutional-events.index') }}"
                 data-target="#events-table"
                 :fields="[
-                    ['name' => 'title', 'placeholder' => 'Filtrar por nome do evento...'],
-                    ['name' => 'is_active', 'type' => 'select', 'options' => [
-                        '' => 'Status (Todos)',
-                        '1' => 'Ativo',
-                        '0' => 'Inativo'
-                    ]],
+                    [
+                        'name' => 'title',
+                        'placeholder' => 'Filtrar por nome...',
+                        'label' => 'Nome do evento'
+                    ],
+                    [
+                        'name' => 'is_active',
+                        'type' => 'select',
+                        'placeholder' => 'Status',
+                        'label' => 'Situação',
+                        'options' => [
+                            '' => 'Status (Todos)',
+                            '1' => 'Ativo',
+                            '0' => 'Inativo'
+                        ]
+                    ]
                 ]"
             />
         </div>
 
-        <div id="events-table" class="p-3">
-            @include('pages.institutional-events.partials.table', ['events' => $events])
+        <div id="events-table" class="p-3" role="region" aria-label="Listagem de eventos institucionais">
+            @include('pages.institutional-events.partials.table')
         </div>
     </div>
 

@@ -3,55 +3,77 @@
 @section('title', 'Profissionais')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Profissionais' => null
-        ]" />
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Profissionais' => null
+            ]" />
+
+            <h1>Profissionais</h1>
+
+            <p class="text-muted mb-0">
+                Gerenciamento dos profissionais e seus registros de apoio educacional.
+            </p>
+        </div>
+        @can('professional.create')
+            <div class="page-header-actions">
+                <x-buttons.link-button
+                    :href="route('professionals.create')"
+                    variant="info"
+                    aria-label="Cadastrar novo profissional"
+                >
+                    <span class="btn-label">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </span>
+                    Cadastrar
+                </x-buttons.link-button>
+            </div>
+        @endcan
     </div>
 
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
-        <x-table.page-header
-            title="Profissionais"
-            subtitle="Gerencie os profissionais e seus documentos de apoio especializado."
-        >
-            <x-buttons.link-button
-                :href="route('professionals.create')"
-                variant="new"
-                title="Adicionar profissional"
-            >
-                <i class="fas fa-plus"></i>
-            </x-buttons.link-button>
-        </x-table.page-header>
-
+    <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-dynamic-filter
+                data-url="{{ route('professionals.index') }}"
                 data-target="#professionals-table"
                 :fields="[
                     [
                         'name' => 'name',
-                        'placeholder' => 'Nome do Profissional...'
+                        'placeholder' => 'Filtrar por nome...',
+                        'label' => 'Nome do profissional'
                     ],
                     [
                         'name' => 'email',
-                        'placeholder' => 'Email...'
+                        'placeholder' => 'Filtrar por e-mail...',
+                        'label' => 'E-mail'
                     ],
                     [
                         'name' => 'position',
                         'type' => 'select',
-                        'options' => ['' => 'Cargo (Todos)'] +
+                        'placeholder' => 'Cargo',
+                        'options' => array_merge(
+                            ['' => 'Cargo (Todos)'],
                             collect($positions)
-                                ->mapWithKeys(fn($position) => [
-                                    $position->id => $position->name
-                                ])
+                                ->mapWithKeys(fn($position) => [$position->id => $position->name])
                                 ->toArray()
+                        )
+                    ],
+                    [
+                        'name' => 'is_active',
+                        'type' => 'select',
+                        'placeholder' => 'Status',
+                        'options' => [
+                            '' => 'Status (Todos)',
+                            '1' => 'Ativo',
+                            '0' => 'Inativo'
+                        ]
                     ],
                 ]"
             />
         </div>
 
-        <div id="professionals-table" class="p-3">
+        <div id="professionals-table" class="p-3" role="region" aria-label="Listagem de profissionais">
             @include('pages.professionals.partials.table')
         </div>
     </div>

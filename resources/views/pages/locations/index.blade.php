@@ -3,45 +3,63 @@
 @section('title', 'Pontos de Referência')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Pontos de Referência' => route('locations.index'),
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Pontos de Referência' => null
+            ]" />
 
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
+            <h1>Pontos de Referência</h1>
 
-        <x-table.page-header
-            title="Pontos de Referência"
-            subtitle="Gerencie os prédios, salas e locais específicos dentro de cada instituição."
-        >
+            <p class="text-muted mb-0">
+                Gerenciamento dos prédios, salas e locais específicos dentro de cada instituição.
+            </p>
+        </div>
+
+        <div class="page-header-actions">
             <x-buttons.link-button
                 :href="route('locations.create')"
-                variant="new"
-                title="Adicionar Ponto de Referência"
+                variant="info"
+                aria-label="Adicionar novo ponto de referência"
             >
-                <i class="fas fa-plus"></i>
+                <span class="btn-label">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </span>
+                Cadastrar
             </x-buttons.link-button>
-        </x-table.page-header>
+        </div>
+    </div>
 
+    <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-dynamic-filter
+                data-url="{{ route('locations.index') }}"
                 data-target="#locations-table"
                 :fields="[
-                    ['name' => 'name', 'placeholder' => 'Filtrar por nome do local...'],
-                    ['name' => 'institution_name', 'placeholder' => 'Filtrar por instituição...'],
-                    ['name' => 'is_active', 'type' => 'select', 'options' => [
-                        '' => 'Status (Todos)',
-                        '1' => 'Ativo',
-                        '0' => 'Inativo'
-                    ]]
+                    [
+                        'name' => 'name',
+                        'placeholder' => 'Filtrar por nome...'
+                    ],
+                    [
+                        'name' => 'institution_name',
+                        'placeholder' => 'Filtrar por instituição...'
+                    ],
+                    [
+                        'name' => 'is_active',
+                        'type' => 'select',
+                        'placeholder' => 'Status',
+                        'options' => [
+                            '' => 'Status (Todos)',
+                            '1' => 'Ativo',
+                            '0' => 'Inativo'
+                        ]
+                    ]
                 ]"
             />
         </div>
 
-        <div id="locations-table" class="p-3">
+        <div id="locations-table" class="p-3" role="region" aria-label="Listagem de pontos de referência">
             @include('pages.locations.partials.table')
         </div>
     </div>

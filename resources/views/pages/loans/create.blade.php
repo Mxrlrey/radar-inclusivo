@@ -1,150 +1,137 @@
 @extends('layouts.master')
 
-@section('title', 'Realizar Empréstimo')
+@section('title', 'Registrar Empréstimo')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Empréstimos' => route('loans.index'),
-            'Cadastrar' => null
-            ]"
-        />
-    </div>
-
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <h2 class="text-title">Registrar Novo Empréstimo</h2>
-            <p class="text-muted">Vincule um recurso de acessibilidade a um beneficiário e defina os prazos de devolução.</p>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Empréstimos' => route('loans.index'),
+                'Cadastrar' => null
+            ]" />
+            <h1>Registrar Novo Empréstimo</h1>
+            <p class="text-muted mb-0">
+                Vincule um recurso de acessibilidade a um beneficiário e defina os prazos de devolução.
+            </p>
         </div>
 
-        <div>
-            <x-buttons.link-button href="{{ route('loans.index') }}" variant="secondary">
-                <i class="fas fa-times"></i> Cancelar
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('loans.index')"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
             </x-buttons.link-button>
         </div>
     </div>
 
-    @if($errors->any())
-        <div class="alert alert-danger border-0 shadow-sm mb-4">
-            <p class="font-weight-bold mb-1"><i class="fas fa-exclamation-triangle mr-2"></i> Atenção: Existem erros no preenchimento.</p>
-            <ul class="mb-0">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    <x-forms.form-card
+        action="{{ route('loans.store') }}"
+        method="POST"
+        class="form-horizontal"
+    >
+        @csrf
+
+        <x-forms.section
+            title="Informações do Empréstimo"
+            description="Identificação do recurso, beneficiário e controle de prazos."
+        />
+
+        <x-forms.select
+            name="loanable_type"
+            id="loanable_type"
+            label="Tipo de Recurso"
+            required
+            :horizontal="true"
+            :options="[
+                'assistive_technology' => 'Tecnologia Assistiva',
+                'accessible_educational_material' => 'Material Pedagógico'
+            ]"
+            :selected="old('loanable_type', $selectedItemType)"
+        />
+
+        <div id="loanable_id_container">
+            <x-forms.select
+                name="loanable_id"
+                id="loanable_id"
+                label="Item"
+                required
+                :horizontal="true"
+                :options="['' => 'Selecione o tipo primeiro']"
+            />
         </div>
-    @endif
 
-    <div class="mt-3">
-        <x-forms.form-card action="{{ route('loans.store') }}" method="POST">
-            @csrf
+        <x-forms.select
+            name="student_id"
+            id="student_id"
+            label="Estudante"
+            :horizontal="true"
+            :options="$students"
+            :selected="old('student_id', $selectedStudentId)"
+        />
 
-            <x-forms.section title="Seleção do Recurso" />
+        <x-forms.select
+            name="professional_id"
+            id="professional_id"
+            label="Profissional"
+            :horizontal="true"
+            :options="$professionals"
+            :selected="old('professional_id', $selectedProfessionalId)"
+        />
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="loanable_type"
-                    id="loanable_type"
-                    label="Tipo de Recurso"
-                    required
-                    aria-controls="loanable_id"
-                    :options="[
-                    'assistive_technology' => 'Tecnologia Assistiva',
-                    'accessible_educational_material' => 'Material Pedagógico'
-                ]"
-                    :selected="old('loanable_type', $selectedItemType)"
-                />
-            </div>
+        <x-forms.input
+            name="user_id_display"
+            label="Responsável Técnico"
+            :horizontal="true"
+            :value="$authUser->name"
+            disabled
+        />
+        <input type="hidden" name="user_id" value="{{ $authUser->id }}">
 
-            <div class="col-md-6">
-                <div aria-live="polite" id="loanable_id_container">
-                    <x-forms.select
-                        name="loanable_id"
-                        id="loanable_id"
-                        label="Item Específico"
-                        required
-                        :options="['' => 'Selecione o tipo primeiro']"
-                    />
-                </div>
-            </div>
+        <x-forms.input
+            name="loan_date"
+            label="Data de Saída"
+            type="datetime-local"
+            required
+            :horizontal="true"
+            :value="old('loan_date', now()->format('Y-m-d\TH:i'))"
+        />
 
-            <x-forms.section title="Beneficiário e Responsável" />
+        <x-forms.input
+            name="due_date"
+            label="Previsão de Devolução"
+            type="date"
+            required
+            :horizontal="true"
+            :value="old('due_date')"
+        />
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="student_id"
-                    id="student_id"
-                    label="Estudante (Beneficiário)"
-                    :options="$students"
-                    :selected="old('student_id', $selectedStudentId)"
-                />
-            </div>
+        <x-forms.textarea
+            name="observation"
+            label="Observações"
+            :horizontal="true"
+            rows="3"
+            placeholder="Anote detalhes sobre o estado de conservação no momento da entrega..."
+            :value="old('observation')"
+        />
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="professional_id"
-                    id="professional_id"
-                    label="Profissional (Beneficiário)"
-                    :options="$professionals"
-                    :selected="old('professional_id', $selectedProfessionalId)"
-                />
-            </div>
+        <x-forms.form-footer>
+            <x-buttons.link-button
+                :href="route('loans.index')"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
+            </x-buttons.link-button>
 
-            <div class="col-md-12">
-                <x-forms.input
-                    name="user_id_display"
-                    label="Usuário Autenticado (Responsável)"
-                    :value="$authUser->name"
-                    disabled
-                />
-                <input type="hidden" name="user_id" value="{{ $authUser->id }}">
-            </div>
-
-            <x-forms.section title="Prazos e Observações" />
-
-            <div class="col-md-6">
-                <x-forms.input
-                    name="loan_date"
-                    label="Data de Saída"
-                    type="datetime-local"
-                    required
-                    :value="old('loan_date', now()->format('Y-m-d\TH:i'))"
-                />
-            </div>
-
-            <div class="col-md-6">
-                <x-forms.input
-                    name="due_date"
-                    label="Previsão de Devolução"
-                    type="date"
-                    required
-                    :value="old('due_date')"
-                />
-                <small class="text-muted italic">Defina o prazo limite para a entrega do item.</small>
-            </div>
-
-            <div class="col-md-12">
-                <x-forms.textarea
-                    name="observation"
-                    label="Observações / Estado do Item"
-                    rows="3"
-                    :value="old('observation')"
-                    placeholder="Anote detalhes sobre o estado de conservação no momento da entrega..."
-                />
-            </div>
-
-            <div class="col-12 d-flex justify-content-end gap-3 border-t pt-4 px-4 pb-4">
-                <x-buttons.link-button href="{{ route('loans.index') }}" variant="secondary">
-                    <i class="fas fa-times"></i> Cancelar
-                </x-buttons.link-button>
-
-                <x-buttons.submit-button type="submit" class="btn-action new submit">
-                    <i class="fas fa-save me-1"></i> Cadastrar
-                </x-buttons.submit-button>
-            </div>
-        </x-forms.form-card>
-    </div>
+            <x-buttons.submit-button variant="new">
+                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                Cadastrar
+            </x-buttons.submit-button>
+        </x-forms.form-footer>
+    </x-forms.form-card>
 
     <script>
         window.loanData = {

@@ -3,44 +3,60 @@
 @section('title', 'Categorias de Barreiras')
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Categorias de Barreiras' => route('barrier-categories.index'),
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Categorias de Barreiras' => null
+            ]" />
 
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
+            <h1>Categorias de Barreiras</h1>
 
-        <x-table.page-header
-            title="Categorias de Barreiras"
-            subtitle="Classificação para o mapeamento de acessibilidade e identificação de obstáculos."
-        >
+            <p class="text-muted mb-0">
+                Classificação para o mapeamento de acessibilidade e identificação de obstáculos.
+            </p>
+        </div>
+
+        <div class="page-header-actions">
             <x-buttons.link-button
                 :href="route('barrier-categories.create')"
-                variant="new"
-                title="Adicionar Categorias de Barreiras"
+                variant="info"
+                aria-label="Cadastrar nova categoria de barreira"
             >
-                <i class="fas fa-plus"></i>
+                <span class="btn-label">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </span>
+                Cadastrar
             </x-buttons.link-button>
-        </x-table.page-header>
+        </div>
+    </div>
 
+    <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-dynamic-filter
+                data-url="{{ route('barrier-categories.index') }}"
                 data-target="#barrier-categories-table"
                 :fields="[
-                    ['name' => 'name', 'placeholder' => 'Filtrar por nome da categoria...'],
-                    ['name' => 'is_active', 'type' => 'select', 'options' => [
-                        '' => 'Status (Todos)',
-                        '1' => 'Ativo',
-                        '0' => 'Inativo'
-                    ]]
+                    [
+                        'name' => 'name',
+                        'placeholder' => 'Filtrar por nome...',
+                        'label' => 'Nome da categoria'
+                    ],
+                    [
+                        'name' => 'is_active',
+                        'type' => 'select',
+                        'placeholder' => 'Status',
+                        'options' => [
+                            '' => 'Status (Todos)',
+                            '1' => 'Ativo',
+                            '0' => 'Inativo'
+                        ]
+                    ]
                 ]"
             />
         </div>
 
-        <div id="barrier-categories-table" class="p-3">
+        <div id="barrier-categories-table" class="p-3" role="region" aria-label="Listagem de categorias de barreiras">
             @include('pages.barrier-categories.partials.table')
         </div>
     </div>

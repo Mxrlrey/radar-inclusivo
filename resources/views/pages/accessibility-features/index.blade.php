@@ -10,15 +10,19 @@
                 'Recursos de Acessibilidade' => null
             ]" />
             <h1>Recursos de Acessibilidade</h1>
-            <p class="text-muted mb-0">Gerencie as categorias de recursos de acessibilidade disponíveis.</p>
+            <p class="text-muted mb-0">
+                Gerencie as categorias de recursos de acessibilidade disponíveis no sistema.
+            </p>
         </div>
+
         <div class="page-header-actions">
             <x-buttons.link-button
                 :href="route('accessibility-features.create')"
                 variant="info"
                 aria-label="Cadastrar novo recurso de acessibilidade"
             >
-                <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span> Cadastrar
+                <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                Cadastrar
             </x-buttons.link-button>
         </div>
     </div>
@@ -38,6 +42,7 @@
                         'name' => 'is_active',
                         'type' => 'select',
                         'placeholder' => 'Status',
+                        'label' => 'Situação',
                         'options' => [
                             '' => 'Status (Todos)',
                             '1' => 'Ativo',
@@ -48,7 +53,7 @@
             />
         </div>
 
-        <div id="features-table" class="p-3" role="region" aria-label="Listagem de recursos">
+        <div id="features-table" class="p-3" role="region" aria-label="Listagem de recursos de acessibilidade">
             @include('pages.accessibility-features.partials.table')
         </div>
     </div>

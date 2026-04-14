@@ -1,168 +1,189 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('title', "Editar - {$professional->person->name}")
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Profissionais' => route('professionals.index'),
-            $professional->person->name => route('professionals.show', $professional),
-            'Editar' => null
-        ]" />
-    </div>
 
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <h2 class="text-title">Editar Profissional</h2>
-            <p class="text-muted">Atualize as informações do profissional e seu vínculo com a instituição.</p>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Profissionais' => route('professionals.index'),
+                $professional->person->name => route('professionals.show', $professional),
+                'Editar' => null
+            ]" />
+
+            <h1>Editar Profissional</h1>
+            <p class="text-muted mb-0">
+                Atualize as informações cadastrais e funcionais do profissional.
+            </p>
         </div>
-        <x-buttons.link-button href="{{ route('professionals.show', $professional) }}" variant="secondary">
-            <i class="fas fa-times"></i>Cancelar
-        </x-buttons.link-button>
+
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('professionals.show', $professional)"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
+            </x-buttons.link-button>
+        </div>
     </div>
 
-    <div class="mt-3">
-        <x-forms.form-card action="{{ route('professionals.update', $professional) }}" method="POST" enctype="multipart/form-data">
-            @method('PUT')
+    <x-forms.form-card
+        action="{{ route('professionals.update', $professional) }}"
+        method="POST"
+        enctype="multipart/form-data"
+        class="form-horizontal"
+    >
+        @csrf
+        @method('PUT')
 
-            <x-forms.section title="Dados da Pessoa" />
+        <x-forms.section
+            title="Dados Pessoais"
+            description="Atualize as informações básicas do profissional."
+        />
 
-            <x-forms.photo-upload
-                name="photo"
-                label="Foto do Profissional"
-                :current="$professional->person->photo_url"
+        <x-forms.photo-upload
+            name="photo"
+            label="Foto do Profissional"
+            :current="$professional->person->photo_url"
+        />
+
+        <x-forms.input
+            name="name"
+            label="Nome Completo"
+            required
+            :horizontal="true"
+            :value="old('name', $professional->person->name)"
+        />
+
+        <x-forms.input
+            name="document"
+            label="CPF"
+            class="cpf-mask"
+            maxlength="14"
+            placeholder="000.000.000-00"
+            required
+            :horizontal="true"
+            :value="old('document', $professional->person->document)"
+        />
+
+        <x-forms.input
+            name="registration"
+            label="Matrícula"
+            required
+            :horizontal="true"
+            :value="old('registration', $professional->registration)"
+        />
+
+        <x-forms.input
+            name="email"
+            label="E-mail"
+            type="email"
+            required
+            :horizontal="true"
+            :value="old('email', $professional->person->email)"
+        />
+
+        <x-forms.select
+            name="position_id"
+            label="Cargo"
+            required
+            :horizontal="true"
+            :options="$positions->pluck('name', 'id')"
+            :selected="old('position_id', $professional->position_id)"
+        />
+
+        <x-forms.input
+            name="birth_date"
+            label="Data de Nascimento"
+            type="date"
+            required
+            :horizontal="true"
+            :value="old('birth_date', optional($professional->person->birth_date)->format('Y-m-d'))"
+        />
+
+        <x-forms.select
+            name="gender"
+            label="Gênero"
+            required
+            :horizontal="true"
+            :options="[
+                'male' => 'Masculino',
+                'female' => 'Feminino',
+                'other' => 'Outro',
+                'not_specified' => 'Não informado'
+            ]"
+            :selected="old('gender', $professional->person->gender?->value ?? $professional->person->gender)"
+        />
+
+        <x-forms.input
+            name="phone"
+            label="Telefone"
+            class="phone-mask"
+            maxlength="15"
+            placeholder="(00) 00000-0000"
+            :horizontal="true"
+            :value="old('phone', $professional->person->phone)"
+        />
+
+        <x-forms.textarea
+            name="address"
+            label="Endereço"
+            rows="3"
+            :horizontal="true"
+            :value="old('address', $professional->person->address)"
+        />
+
+        @can('system.admin.view')
+            <x-forms.separator />
+
+            <x-forms.section
+                title="Gestão e Público"
             />
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="name"
-                    label="Nome "
-                    required
-                    :value="old('name', $professional->person->name)"
-                />
-            </div>
+            <x-forms.input
+                name="entry_date"
+                label="Data de Ingresso"
+                type="date"
+                required
+                :horizontal="true"
+                :value="old('entry_date', $professional->entry_date?->format('Y-m-d'))"
+            />
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="document"
-                    label="Documento "
-                    class="cpf-mask"
-                    maxlength="14"
-                    placeholder="000.000.000-00"
-                    required
-                    :value="old('document', $professional->person->document)"
-                />
-            </div>
+            <x-forms.switch
+                name="is_active"
+                label="Profissional Ativo"
+                :horizontal="true"
+                :checked="old('is_active', $professional->is_active)"
+            />
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="birth_date"
-                    label="Nascimento "
-                    type="date"
-                    required
-                    :value="old('birth_date', optional($professional->person->birth_date)->format('Y-m-d'))"
-                />
-            </div>
+            <x-forms.switch
+                name="is_admin"
+                label="Administrador do sistema"
+                :horizontal="true"
+                :checked="old('is_admin', optional($professional->user)->is_admin)"
+            />
+        @endcan
 
-            <div class="col-md-6">
-                <x-forms.select
-                    name="gender"
-                    label="Gênero"
-                    :options="[
-                        'not_specified' => 'Não informado',
-                        'male' => 'Masculino',
-                        'female' => 'Feminino',
-                        'other' => 'Outro'
-                    ]"
-                    :value="old('gender', $professional->person->gender)"
-                    :selected="old('gender', $professional->person->gender)"
-                    required
-                />
-            </div>
+        <x-forms.form-footer>
+            <x-buttons.link-button
+                :href="route('professionals.show', $professional)"
+                variant="secondary"
+            >
+                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                Cancelar
+            </x-buttons.link-button>
 
-            <div class="col-md-6">
-                <x-forms.input
-                    name="phone"
-                    label="Telefone"
-                    class="phone-mask"
-                    maxlength="15"
-                    placeholder="(00) 00000-0000"
-                    :value="old('phone', $professional->person->phone)"
-                />
-            </div>
-
-            <div class="col-md-6">
-                <x-forms.input
-                    name="email"
-                    label="Email "
-                    type="email"
-                    required
-                    :value="old('email', $professional->person->email)"
-                />
-            </div>
-
-            <div class="col-md-6">
-                <x-forms.input
-                    name="address"
-                    label="Endereço"
-                    :value="old('address', $professional->person->address)"
-                />
-            </div>
-
-            <x-forms.section title="Dados do Profissional" />
-
-            <div class="col-md-6">
-                <x-forms.select
-                    name="position_id"
-                    label="Cargo "
-                    required
-                    :options="$positions->pluck('name', 'id')"
-                    :value="old('position_id', $professional->position_id)"
-                    :selected="old('position_id', $professional->position_id)"
-                />
-            </div>
-
-            <div class="col-md-6">
-                <x-forms.input
-                    name="registration"
-                    label="Matrícula "
-                    required
-                    :value="old('registration', $professional->registration)"
-                />
-            </div>
-
-            <div class="col-md-6">
-                <x-forms.select
-                    name="status"
-                    label="Status"
-                    :options="['active' => 'Ativo', 'inactive' => 'Inativo']"
-                    :value="old('status', $professional->status)"
-                    :selected="old('status', $professional->status)"
-                />
-            </div>
-
-            @if(auth()->check() && auth()->user()->isAdmin())
-                <div class="col-12 mt-3">
-                    <x-forms.checkbox
-                        name="is_admin"
-                        label="Definir este profissional como administrador do sistema"
-                        :checked="old('is_admin', optional($professional->user)->is_admin)"
-                    />
-                </div>
-            @endif
-
-            <div class="col-12 d-flex justify-content-end gap-3 border-t pt-4 px-4 pb-4">
-                <x-buttons.link-button href="{{ route('professionals.show', $professional) }}" variant="secondary">
-                    <i class="fas fa-times"></i>Cancelar
-                </x-buttons.link-button>
-
-                <x-buttons.submit-button type="submit" class="btn-action new submit">
-                    <i class="fas fa-save"></i> Salvar
-                </x-buttons.submit-button>
-            </div>
-
-        </x-forms.form-card>
-    </div>
+            <x-buttons.submit-button variant="new">
+                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                Salvar
+            </x-buttons.submit-button>
+        </x-forms.form-footer>
+    </x-forms.form-card>
 @endsection
+
 @push('scripts')
     @vite(['resources/js/components/photos.js'])
 @endpush

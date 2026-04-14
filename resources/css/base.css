@@ -65,11 +65,6 @@ a:focus, a:active { outline: 0; }
 .text-danger { color: var(--color-danger) !important; }
 .text-info { color: var(--color-info) !important; }
 
-.text-purple-light {
-    word-break: break-word;
-    white-space: pre-line;
-}
-
 .italic { font-style: italic; }
 
 /* 4. Fundos suaves */

@@ -1,36 +1,40 @@
 @extends('layouts.master')
 
-@section('title', "Detalhes - Empréstimo #$loan->id")
+@section('title', "Empréstimo #$loan->id")
 
 @section('content')
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Empréstimos' => route('loans.index'),
-            $loan->id => null
-        ]" />
-    </div>
+    <div class="page-header">
+        <div class="page-header-title">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Empréstimos' => route('loans.index'),
+                'Detalhes' => null
+            ]" />
 
-    <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <h2 class="text-title">Detalhes do Empréstimo</h2>
-            <p class="text-muted">Visualize as informações, prazos e histórico do recurso.</p>
+            <h1>Detalhes do Empréstimo</h1>
+            <p class="text-muted mb-0">
+                Visualize as informações, prazos e histórico do recurso emprestado.
+            </p>
         </div>
 
-        <div class="d-flex gap-2">
-            <x-buttons.link-button :href="route('loans.edit', $loan)" variant="warning">
-                <i class="fas fa-edit"></i> Editar
+        <div class="page-header-actions">
+            <x-buttons.link-button
+                :href="route('loans.edit', $loan)"
+                variant="info">
+                <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
             </x-buttons.link-button>
 
-            <x-buttons.link-button :href="route('loans.index')" variant="secondary">
-                <i class="fas fa-arrow-left"></i> Voltar
+            <x-buttons.link-button
+                :href="route('loans.index')"
+                variant="secondary">
+                <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
         </div>
     </div>
 
     @if($isOverdue)
         <div class="alert alert-warning border-0 shadow-sm mb-4 d-flex align-items-center gap-3">
-            <i class="fas fa-clock fa-spin fs-4"></i>
+            <i class="fa fa-clock-o fs-4"></i>
             <div>
                 <p class="mb-0 fw-bold">Atenção: Este item está com a devolução atrasada!</p>
                 <small>O prazo encerrou em {{ $loan->due_date->format('d/m/Y') }}.</small>
@@ -38,104 +42,131 @@
         </div>
     @endif
 
-    <div class="mt-3">
-        <div class="custom-table-card bg-white shadow-sm border rounded">
+    <div class="card-custom overflow-hidden show-container">
 
-            <x-forms.section title="Recurso Emprestado" />
+        <x-forms.section
+            title="Geral do Empréstimo"
+            description="Dados do item vinculado a este registro."
+        />
 
-            <div class="col-md-12 mb-4 px-4">
-                <div class="p-3 border rounded bg-light d-flex align-items-center gap-3">
-                    <div class="bg-purple-dark text-white p-3 rounded shadow-sm" style="background-color: #4c1d95;">
-                        <i class="fas {{ $loan->loanable_type === 'App\Models\AssistiveTechnology' ? 'fa-microchip' : 'fa-book' }} fa-lg"></i>
-                    </div>
+        <x-show.info-item label="Item" :value="$loan->loanable->name ?? ($loan->loanable->title ?? 'Item não identificado')" />
 
-                    <div>
-                        <h5 class="mb-0 fw-bold text-purple-dark">
-                            {{ $loan->loanable->name ?? ($loan->loanable->title ?? 'Item não identificado') }}
-                        </h5>
-                        <small class="text-muted text-uppercase">Patrimônio: {{ $loan->loanable->asset_code ?? 'N/A' }}</small>
-                    </div>
-                </div>
-            </div>
+        <x-show.info-item label="Patrimônio / Tombamento" :value="$loan->loanable->asset_code ?? 'Não informado'" />
 
-            <x-forms.section title="Beneficiário e Responsável" />
-            <div class="row g-3 mb-4 px-4">
-                <x-show.info-item label="Estudante (Beneficiário)" column="col-md-6" isBox="true">
-                    {{ $loan->student?->person?->name ?? 'Não se aplica' }}
-                </x-show.info-item>
+        @if($loan->student)
+            <x-show.info-item label="Estudante (Beneficiário)" :value="$loan->student->person->name" />
+            <x-show.info-item label="Matrícula" :value="$loan->student->registration" />
+        @elseif($loan->professional)
+            <x-show.info-item label="Profissional (Beneficiário)" :value="$loan->professional->person->name" />
+        @endif
 
-                <x-show.info-item label="Profissional (Beneficiário)" column="col-md-6" isBox="true">
-                    {{ $loan->professional?->person?->name ?? 'Não se aplica' }}
-                </x-show.info-item>
+        <x-show.info-item label="Usuário Responsável" :value="$loan->user->name ?? '---'" />
 
-                <x-show.info-item label="Usuário Responsável" column="col-md-12" isBox="true">
-                    {{ $loan->user->name ?? '---' }}
-                </x-show.info-item>
-            </div>
+        <x-show.info-item label="Data de Saída" :value="$loan->loan_date->format('d/m/Y H:i')" />
 
-            <x-forms.section title="Prazos e Status" />
-            <div class="row g-3 mb-4 px-4">
-                <x-show.info-item label="Data de Saída" column="col-md-6" isBox="true">
-                    {{ $loan->loan_date->format('d/m/Y H:i') }}
-                </x-show.info-item>
+        <x-show.info-item label="Previsão de Devolução">
+            <span class="{{ $isOverdue ? 'text-danger fw-bold' : '' }}">
+                {{ $loan->due_date->format('d/m/Y') }}
+            </span>
+        </x-show.info-item>
 
-                <x-show.info-item label="Previsão de Devolução" column="col-md-6" isBox="true">
-                    {{ $loan->due_date->format('d/m/Y') }}
-                </x-show.info-item>
+        <x-show.info-item label="Status Atual">
+            <span class="badge bg-{{ $statusColor }}">
+                {{ $statusLabel }}
+            </span>
+        </x-show.info-item>
 
-                <x-show.info-item label="Status do Empréstimo" column="col-md-6" isBox="true">
-                    <span class="text-{{ $statusColor }} fw-bold text-uppercase">
-                        {{ $statusLabel }}
-                    </span>
-                </x-show.info-item>
+        <x-show.info-item label="Data Real da Devolução" :value="$loan->return_date?->format('d/m/Y H:i') ?? 'Ainda não devolvido'" />
 
-                <x-show.info-item label="Data Real da Devolução" column="col-md-6" isBox="true">
-                    {{ $loan->return_date?->format('d/m/Y H:i') ?? 'Não devolvido' }}
-                </x-show.info-item>
+        <x-show.info-item label="Observações">
+            {!! $loan->observation ?: '<span class="text-muted">Nenhuma observação registrada.</span>' !!}
+        </x-show.info-item>
 
-                <x-show.info-textarea label="Observações" column="col-md-12" :value="$loan->observation ?? 'Nenhuma observação registrada.'" :rich="true"/>
-            </div>
+        @can('system.audit.view')
+            <x-forms.separator/>
 
-            <div class="col-12 border-top p-4 d-flex justify-content-between align-items-center bg-light no-print">
-                <div class="text-muted small d-flex align-items-center">
-                    <i class="fas fa-fingerprint me-1"></i> ID: #{{ $loan->id }}
-                    <x-buttons.pdf-button :href="route('loans.pdf', $loan)" class="ms-3" />
-                </div>
+            <x-forms.section
+                title="Registro do Sistema"
+                description="Informações automáticas de auditoria."
+            />
+            <x-show.info-item label="ID no Sistema" :value="'#' . $loan->id" />
+            <x-show.info-item label="Criado em" :value="$loan->created_at?->format('d/m/Y \à\s H:i')" />
+            <x-show.info-item label="Atualizado em" :value="$loan->updated_at?->format('d/m/Y \à\s H:i')" />
+        @endcan
 
-                <div class="d-flex gap-2">
-                    @if($loan->status->value === 'active')
-                        <x-buttons.submit-button type="button" variant="success" data-bs-toggle="modal" data-bs-target="#returnLoanModal">
-                            <i class="fas fa-undo"></i> Devolver
-                        </x-buttons.submit-button>
-                    @endif
+        @php
+            $modalDeleteId = "modal-delete-loan-" . $loan->id;
+            $modalReturnId = "modal-return-loan-" . $loan->id;
+        @endphp
 
-                    <form action="{{ route('loans.destroy', $loan) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <x-buttons.submit-button variant="danger" onclick="return confirm('Excluir este empréstimo permanentemente?')">
-                            <i class="fas fa-trash-alt"></i> Excluir
-                        </x-buttons.submit-button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <x-show.footer>
+            <x-buttons.link-button
+                :href="route('loans.index')"
+                variant="secondary"
+            >
+                <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                Voltar
+            </x-buttons.link-button>
+
+            <x-buttons.pdf-button
+                :href="route('loans.pdf', $loan)"
+            />
+
+            @if($loan->status->value === 'active')
+                <x-buttons.submit-button
+                    variant="success"
+                    type="button"
+                    onclick="new bootstrap.Modal(document.getElementById('{{ $modalReturnId }}')).show();"
+                >
+                    <span class="btn-label"><i class="fa fa-undo"></i></span>
+                    Devolver
+                </x-buttons.submit-button>
+            @endif
+
+            <x-buttons.submit-button
+                variant="danger"
+                type="button"
+                onclick="new bootstrap.Modal(document.getElementById('{{ $modalDeleteId }}')).show();"
+            >
+                <span class="btn-label"><i class="fa fa-eraser"></i></span>
+                Excluir
+            </x-buttons.submit-button>
+        </x-show.footer>
     </div>
 
-    <x-modal id="returnLoanModal" title="Confirmar Devolução">
-        <form action="{{ route('loans.return', $loan) }}" method="POST" id="returnLoanForm">
+    <x-modal.modal :id="$modalReturnId" title="Confirmar Devolução" size="sm">
+        <form action="{{ route('loans.return', $loan) }}" method="POST" id="form-return-{{ $loan->id }}">
             @csrf
             @method('PATCH')
-            <div class="py-2">
+            <div class="p-3">
                 <p>Deseja confirmar a devolução deste recurso ao acervo?</p>
                 <x-forms.checkbox name="is_damaged" label="Item devolvido com avarias ou danos" />
             </div>
         </form>
-
-        @slot('footer')
-            <x-buttons.link-button variant="secondary" data-bs-dismiss="modal">Cancelar</x-buttons.link-button>
-            <x-buttons.submit-button variant="success" onclick="document.getElementById('returnLoanForm').submit()">
-                Confirmar Devolução
+        <x-slot:footer>
+            <x-buttons.link-button href="javascript:void(0)" variant="secondary" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
+                Cancelar
+            </x-buttons.link-button>
+            <x-buttons.submit-button variant="success" onclick="document.getElementById('form-return-{{ $loan->id }}').submit()">
+                Devolver
             </x-buttons.submit-button>
-        @endslot
-    </x-modal>
+        </x-slot:footer>
+    </x-modal.modal>
+
+    <x-modal.modal :id="$modalDeleteId" title="Confirmar Exclusão" size="sm">
+        <div class="p-3">
+            <p class="mb-2 text-danger fw-bold">Esta ação não pode ser desfeita.</p>
+            <p class="mb-0 text-muted">Deseja realmente excluir o registro de empréstimo <strong>#{{ $loan->id }}</strong>?</p>
+        </div>
+        <x-slot:footer>
+            <x-buttons.link-button href="javascript:void(0)" variant="secondary" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
+                Cancelar
+            </x-buttons.link-button>
+            <form action="{{ route('loans.destroy', $loan) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <x-buttons.submit-button variant="danger">Excluir</x-buttons.submit-button>
+            </form>
+        </x-slot:footer>
+    </x-modal.modal>
 @endsection
