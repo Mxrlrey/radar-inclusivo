@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - GNAI</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -15,26 +14,24 @@
 
 <div class="login-wrapper">
     <div class="login-split-card">
+
         <div class="login-brand-side">
             <div class="brand-content">
-                <div class="brand-icon mb-4">
-                    <img src="{{ asset('./images/logo.png') }}" style="max-width: 60px;">
-                </div>
-                <h1 class="welcome-title">Bem-vindo(a) ao GNAI</h1>
+                <h1 class="welcome-title">
+                    Bem-vindo(a) ao <br>
+                    <strong>RADAR INCLUSIVO</strong>
+                </h1>
                 <p class="brand-tagline">
-                    A plataforma definitiva para a <strong>gestão estratégica dos NAIs</strong>.
-                    Unindo tecnologia e inclusão para transformar o suporte educacional.
+                    Uma plataforma completa para <strong>gestão de recursos nos NAIs</strong>,
+                    integrando alunos, equipe, tecnologias assistivas, empréstimos e barreiras
+                    em um único ambiente.
                 </p>
-                <div class="brand-decoration">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </div>
             </div>
         </div>
 
         <div class="login-form-side">
             <div class="form-content">
+
                 <div class="mb-4">
                     <h2 class="form-title">Acesse sua conta</h2>
                     <p class="text-muted small">Insira suas credenciais para continuar.</p>
@@ -50,13 +47,21 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">E-mail</label>
-                        <input type="email" name="email" class="form-control custom-input" placeholder="exemplo@ifbaiano.edu.br" required autofocus>
+                        <!-- form-label já tem font-weight e cor via forms.css -->
+                        <label class="form-label">E-mail</label>
+                        <!-- form-control já aplica altura, borda, foco, bg via forms.css -->
+                        <input type="email" name="email"
+                               class="form-control"
+                               placeholder="exemplo@ifbaiano.edu.br"
+                               required autofocus>
                     </div>
 
                     <div class="mb-2">
-                        <label class="form-label fw-bold">Senha</label>
-                        <input type="password" name="password" class="form-control custom-input" placeholder="••••••••" required>
+                        <label class="form-label">Senha</label>
+                        <input type="password" name="password"
+                               class="form-control"
+                               placeholder="••••••••"
+                               required>
                     </div>
 
                     <div class="text-end mb-4">
@@ -65,16 +70,20 @@
                         </a>
                     </div>
 
-                    <button type="submit" class="btn btn-login-primary w-100">
+                    <!-- btn-action primary lg submit = botão grande, cor primária, peso semibold -->
+                    <button type="submit" class="btn-action primary lg submit w-100">
                         Entrar no Sistema <i class="fas fa-arrow-right ms-2"></i>
                     </button>
+
                 </form>
 
                 <div class="mt-5 text-center">
-                    <p class="footer-copy">GNAI &copy; {{ date('Y') }} | Gestão NAIs</p>
+                    <p class="footer-copy">Radar Inclusivo © {{ date('Y') }} | Gestão NAIs</p>
                 </div>
+
             </div>
         </div>
+
     </div>
 </div>
 

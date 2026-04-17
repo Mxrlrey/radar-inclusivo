@@ -82,6 +82,14 @@
             </div>
         </x-show.info-item>
 
+        <div class="show-field">
+            <span class="show-label">Histórico de Vistorias</span>
+
+            <div class="show-value" id="inspections-table-wrapper">
+                @include('pages.assistive-technologies.partials.inspections-table')
+            </div>
+        </div>
+
         <x-forms.separator/>
 
         @can('system.audit.view')
@@ -108,33 +116,6 @@
                 {{ $assistiveTechnology->updated_at?->format('d/m/Y \à\s H:i') ?? '---' }}
             </x-show.info-item>
         @endcan
-
-        <x-forms.separator/>
-
-        <x-forms.section title="Histórico de Vistorias" />
-
-        <div class="show-field">
-            <span class="show-label"></span>
-
-            <div class="show-value" style="max-width: 100%; flex: 1;">
-                <div class="history-timeline">
-
-                    @forelse($inspections as $inspection)
-                        <div class="mb-3 cursor-pointer inspection-link"
-                             role="button"
-                             tabindex="0"
-                             data-url="{{ route('assistive-technologies.inspection.show', [$assistiveTechnology, $inspection]) }}"
-                             aria-label="Ver detalhes da vistoria de {{ $inspection->inspection_date->format('d/m/Y') }}">
-
-                            <x-forms.inspection-history-card :inspection="$inspection" />
-                        </div>
-                    @empty
-                        <p class="text-muted mb-0">Nenhum histórico de vistoria encontrado.</p>
-                    @endforelse
-
-                </div>
-            </div>
-        </div>
 
         @php
             $modalId = "modal-delete-assistive-tech-" . $assistiveTechnology->id;

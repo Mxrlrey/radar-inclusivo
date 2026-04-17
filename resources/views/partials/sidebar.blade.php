@@ -1,7 +1,8 @@
 <aside class="sidebar">
     <div class="sidebar-header">
         <img src="{{ asset('images/logo2.png') }}" class="sidebar-logo" alt="Logo">
-        <span class="sidebar-title">NAI</span>
+        <span class="sidebar-title">Radar</span>
+        <span class="sidebar-title">Inclusivo</span>
     </div>
 
     <ul class="sidebar-menu">

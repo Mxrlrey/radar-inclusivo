@@ -26,6 +26,7 @@
     --bg-surface: #ffffff;
     --bg-surface-secondary: #f4f8fb;
     --bg-sidebar: #2c3a47;
+    --bg-sidebar-header: #334150;
     --bg-input: #ffffff;
 
     /* --- FUNDOS SUAVES --- */
@@ -45,7 +46,7 @@
     --text-sidebar-hover: #ffffff;
 
     /* --- BORDAS --- */
-    --border-color: #d8dde1;;
+    --border-color: #abaeb0;
     --border-color-light: #f3f3f4;
     --border-width: 1px;
     --border-radius: 0;
@@ -171,7 +172,8 @@
     --bg-body: #1e1e1e;
     --bg-surface: #2a2a2a;
     --bg-surface-secondary: #333333;
-    --bg-sidebar: #1a1c1e;
+    --bg-sidebar: #121213;
+    --bg-sidebar-header: #181818;
     --bg-input: #2a2a2a;
 
     --bg-soft-primary: #2d2d2d;
@@ -188,7 +190,7 @@
     --text-sidebar: #dddddd;
     --text-sidebar-hover: #ffffff;
 
-    --border-color: #3a3a3a;
+    --border-color: #abaeb0;
     --border-color-light: #2e2e2e;
 
     --input-bg: #2a2a2a;

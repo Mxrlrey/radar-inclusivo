@@ -69,13 +69,28 @@ class BarrierController extends Controller
             'location',
             'institution',
             'deficiencies',
-            'inspections' => fn($q) => $q->with('images')->latest('inspection_date'),
             'registeredBy',
             'affectedStudent.person',
             'affectedProfessional.person',
         ]);
 
-        return view('pages.barriers.show', compact('barrier'));
+        $inspections = $barrier->inspections()
+            ->with(['images'])
+            ->orderByDesc('inspection_date')
+            ->orderByDesc('created_at')
+            ->simplePaginate(3);
+
+        if (request()->ajax()) {
+            return view('pages.barriers.partials.inspections-table', [
+                'barrier' => $barrier,
+                'inspections' => $inspections
+            ]);
+        }
+
+        return view('pages.barriers.show', [
+            'barrier' => $barrier,
+            'inspections' => $inspections
+        ]);
     }
 
     public function edit(Barrier $barrier): View

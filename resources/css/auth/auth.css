@@ -1,0 +1,193 @@
+/* ================================
+   AUTH PAGE
+   Usa variáveis de variables.css
+   Forms/inputs/botões via forms.css e buttons.css
+   ================================ */
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background:
+        radial-gradient(circle at top left, rgba(76, 86, 103, 0.08), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(42, 55, 74, 0.08), transparent 35%),
+        var(--bg-body);
+    color: var(--text-primary);
+}
+
+/* ===== ESTRUTURA ===== */
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
+}
+
+.login-split-card {
+    width: 100%;
+    height: 100vh;
+    max-width: none;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+}
+
+.login-brand-side,
+.login-form-side {
+    height: 100%;
+}
+
+/* ===== LADO ESQUERDO (MARCA) ===== */
+.login-brand-side {
+    position: relative;
+    overflow: hidden;
+    color: var(--text-on-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 56px;
+
+    background-image:
+        url('/public/images/pontos.png'),
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url('/public/images/tecnologias-assistivas.png');
+
+    background-repeat: repeat, no-repeat, no-repeat;
+    background-size: auto, cover, cover;
+    background-position: center;
+}
+
+.login-brand-side::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.16), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(255,255,255,0.10), transparent 32%);
+    pointer-events: none;
+}
+
+.brand-content {
+    position: relative;
+    z-index: 1;
+    max-width: 440px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.brand-icon {
+    width: 84px;
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    margin-bottom: 28px;
+}
+
+.brand-icon img {
+    max-width: 60px;
+    height: auto;
+    display: block;
+}
+
+.welcome-title {
+    color: var(--text-on-primary);
+    font-family: var(--font-family-heading);
+    font-size: 2.2rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.15;
+    margin-bottom: 18px;
+}
+
+.brand-tagline {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: var(--font-size-lg);
+    line-height: 1.8;
+    margin-bottom: 28px;
+}
+
+.brand-tagline strong {
+    color: var(--text-on-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+.brand-decoration {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.brand-decoration .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.55);
+}
+
+/* ===== LADO DIREITO (FORMULÁRIO) ===== */
+.login-form-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 56px 44px;
+    background: var(--bg-surface);
+}
+
+.form-content {
+    width: 100%;
+    max-width: 420px;
+}
+
+.form-title {
+    font-family: var(--font-family-heading);
+    font-size: 1.8rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 6px;
+}
+
+.forgot-password-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.forgot-password-link:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+.footer-copy {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 991.98px) {
+    .login-wrapper {
+        padding: 0;
+    }
+
+    .login-split-card {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .login-brand-side,
+    .login-form-side {
+        height: auto;
+    }
+
+    .login-brand-side {
+        padding: var(--spacing-10) var(--spacing-6);
+        text-align: center;
+        min-height: 40vh;
+    }
+
+    .login-form-side {
+        padding: var(--spacing-10) var(--spacing-6);
+    }
+}

@@ -27,7 +27,7 @@
 
             <x-table.td class="align-middle col-hide-md">
                 @if($material->is_digital)
-                    <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">
+                    <span class="badge bg-info">
                         Ilimitado
                     </span>
                 @else

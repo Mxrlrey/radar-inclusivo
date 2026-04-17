@@ -87,7 +87,7 @@
         <div class="form-group-horizontal mb-3">
             <label class="control-label">Recursos do Material</label>
             <div class="field-wrapper">
-                <div class="d-flex flex-wrap gap-3 p-3 border bg-light @error('accessibility_features') border-danger @enderror">
+                <div class="d-flex flex-wrap gap-3 p-3 border checkbox-group-wrapper @error('accessibility_features') border-danger @enderror">
                     @foreach($accessibilityFeatures as $feature)
                         <x-forms.checkbox
                             name="accessibility_features[]"
@@ -208,7 +208,7 @@
         <div class="form-group-horizontal mb-3">
             <label class="control-label">Público-Alvo</label>
             <div class="field-wrapper">
-                <div class="d-flex flex-wrap gap-3 p-3 border bg-light @error('deficiencies') border-danger @enderror">
+                <div class="d-flex flex-wrap gap-3 p-3 border checkbox-group-wrapper @error('deficiencies') border-danger @enderror">
                     @foreach($deficiencies as $def)
                         <x-forms.checkbox
                             name="deficiencies[]"

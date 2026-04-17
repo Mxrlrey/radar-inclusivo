@@ -1,44 +1,69 @@
-// Lógica dos Campos Digitais (Sua lógica original intacta)
+/**
+ * Lógica dos Campos Digitais
+ */
 function toggleAssetCodeField() {
     const select = document.querySelector('[name="is_digital"]');
     if (!select) return;
 
     const isDigital = select.value == "1";
-    const assetCodeContainer = document.getElementById('asset_code_container');
-    const assetCodeInput = assetCodeContainer?.querySelector('input[name="asset_code"]');
+
+    const input = document.getElementById('asset_code');
+    const wrapper = input?.closest('.form-group-horizontal');
+
+    if (!wrapper) return;
 
     if (isDigital) {
-        if (assetCodeContainer) assetCodeContainer.style.display = 'none';
-        if (assetCodeInput) assetCodeInput.value = '';
+        wrapper.style.display = 'none';
+        input.value = '';
     } else {
-        if (assetCodeContainer) assetCodeContainer.style.display = 'block';
+        wrapper.style.display = 'flex';
     }
 }
 
-// Lógica de Redirecionamento da Vistoria
-function initInspectionRedirects() {
-    const timeline = document.querySelector('.history-timeline');
-    if (!timeline) return;
+/**
+ * Lógica de Paginação AJAX para Inspeções
+ */
+function initInspectionPagination() {
+    const wrapper = document.getElementById('inspections-table-wrapper');
+    if (!wrapper) return;
 
-    // Clique no Card
-    timeline.onclick = (e) => {
-        const card = e.target.closest('.cursor-pointer');
-        if (card && card.dataset.url) {
-            window.location.href = card.dataset.url;
-        }
-    };
+    wrapper.addEventListener('click', function (e) {
+        const link = e.target.closest('.ajax-pagination');
 
-    // Acessibilidade via Teclado (Enter ou Espaço)
-    timeline.onkeydown = (e) => {
-        const card = e.target.closest('.cursor-pointer');
-        if (card && (e.key === 'Enter' || e.key === ' ')) {
+        if (link) {
             e.preventDefault();
-            window.location.href = card.dataset.url;
+            const url = link.getAttribute('href');
+
+            wrapper.style.opacity = '0.5';
+            wrapper.style.pointerEvents = 'none';
+
+            fetch(url, {
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+                .then(response => response.text())
+                .then(html => {
+                    wrapper.innerHTML = html;
+                    wrapper.style.opacity = '1';
+                    wrapper.style.pointerEvents = 'auto';
+                    wrapper.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                })
+                .catch(err => {
+                    console.error('Erro ao carregar inspeções:', err);
+                    wrapper.style.opacity = '1';
+                    wrapper.style.pointerEvents = 'auto';
+                });
         }
-    };
+    });
 }
 
-// Inicialização Geral
+/**
+ * Inicialização Geral
+ */
 document.addEventListener('DOMContentLoaded', function () {
     // Inicializa campos digitais
     toggleAssetCodeField();
@@ -47,6 +72,5 @@ document.addEventListener('DOMContentLoaded', function () {
         selectDigital.addEventListener('change', toggleAssetCodeField);
     }
 
-    // Inicializa redirecionamentos de vistoria
-    initInspectionRedirects();
+    initInspectionPagination();
 });

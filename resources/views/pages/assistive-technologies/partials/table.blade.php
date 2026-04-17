@@ -26,7 +26,9 @@
 
             <x-table.td class="align-middle col-hide-md">
                 @if($tech->is_digital)
-                    <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Ilimitado</span>
+                    <span class="badge bg-info">
+                        Ilimitado
+                    </span>
                 @else
                     <span class="{{ $tech->quantity_available > 0 ? 'text-success' : 'text-danger' }} fw-bold">
                         {{ $tech->quantity_available ?? 0 }}

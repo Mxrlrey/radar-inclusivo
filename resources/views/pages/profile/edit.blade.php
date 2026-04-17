@@ -39,7 +39,7 @@
                             {{ isset($professional) ? $professional->position->name : 'Professor(a)' }}
                         </span>
 
-                        <div class="text-start mt-4 bg-white p-3 rounded shadow-sm">
+                        <div class="text-start mt-4 p-3 rounded shadow-sm">
                             <div class="mb-3">
                                 <label class="text-muted small d-block text-uppercase fw-bold">Matrícula</label>
                                 <span class="fw-bold text-dark">{{ $professional->registration ?? $teacher->registration }}</span>

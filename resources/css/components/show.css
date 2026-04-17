@@ -77,129 +77,6 @@
     cursor: default;
 }
 
-/* ===== HISTÓRICO DE INSPEÇÕES ===== */
-.inspection-item {
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    margin-bottom: var(--spacing-4);
-    transition: none;
-}
-
-.inspection-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-2) var(--spacing-4);
-    border-bottom: 1px solid var(--border-color-light);
-}
-
-.inspection-date-badge {
-    background-color: var(--color-primary);
-    color: #fff;
-    padding: 2px 12px;
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-bold);
-}
-
-.inspection-type-label {
-    text-transform: uppercase;
-    font-weight: var(--font-weight-bold);
-    font-size: 11px;
-    color: var(--text-muted);
-    letter-spacing: 1px;
-}
-
-.inspection-content {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: var(--spacing-6);
-    padding: var(--spacing-4);
-}
-
-.inspection-item label {
-    display: block;
-    margin-bottom: var(--spacing-1);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    font-weight: var(--font-weight-bold);
-    font-size: 10px;
-}
-
-.info-value {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary-dark);
-}
-
-.inspection-info {
-    border-right: 1px solid var(--border-color-light);
-    padding-right: var(--spacing-4);
-}
-
-.evidence-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-    gap: var(--spacing-2);
-    margin-top: var(--spacing-2);
-}
-
-.evidence-thumb {
-    aspect-ratio: 1 / 1;
-    border: 1px solid var(--border-color);
-    display: block;
-    overflow: hidden;
-}
-
-.evidence-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(20%);
-}
-
-.evidence-thumb:hover img {
-    filter: none;
-}
-
-.no-evidence {
-    background-color: var(--bg-surface-secondary);
-    border: 1px dashed var(--border-color);
-    text-align: center;
-    padding: var(--spacing-4);
-}
-
-.no-evidence span {
-    color: var(--text-muted);
-    font-size: var(--font-size-sm);
-}
-
-.history-description-text {
-    color: var(--text-secondary);
-    line-height: 1.6;
-    font-size: 13.5px;
-}
-
-.evidence-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-2);
-    margin-top: var(--spacing-2);
-}
-
-.evidence-thumb-small {
-    width: 70px;
-    height: 70px;
-    border: 1px solid var(--border-color);
-    display: block;
-    overflow: hidden;
-}
-
-.evidence-thumb-small img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
 /* ===== FOOTER ===== */
 .show-footer {
     display: flex;
@@ -223,28 +100,6 @@
 }
 
 /* ===== INSPECTION SHOW — TELA INDIVIDUAL ===== */
-.inspection-highlight {
-    text-align: right;
-}
-
-.inspection-highlight__label {
-    display: block;
-    margin-bottom: var(--spacing-1);
-    font-size: var(--font-size-sm);
-    text-transform: uppercase;
-    color: var(--text-muted);
-    font-weight: var(--font-weight-semibold);
-}
-
-.inspection-highlight__value {
-    display: inline-block;
-    background-color: var(--color-primary);
-    color: var(--text-on-primary);
-    padding: 4px 12px;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-semibold);
-}
-
 .inspection-gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -294,7 +149,7 @@
     padding-top: 0;
 }
 
-.show-container .history-description-text {
+.show-container {
     margin-top: var(--spacing-2);
 }
 
@@ -331,15 +186,6 @@
     .show-record-title {
         padding: var(--spacing-3) var(--spacing-4);
         font-size: calc(var(--page-title-font-size) - 2px);
-    }
-
-    .inspection-content {
-        grid-template-columns: 1fr;
-    }
-
-    .inspection-info {
-        border-right: none;
-        padding-right: 0;
     }
 
     .show-footer {

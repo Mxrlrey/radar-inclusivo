@@ -34,7 +34,6 @@
     </div>
 
     <div class="card-custom show-container">
-
         <x-forms.section
             title="Informações Gerais"
             description="Dados principais da inspeção realizada."

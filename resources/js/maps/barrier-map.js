@@ -425,33 +425,9 @@ class FormManager {
 }
 
 /* ============================
-   Timeline de inspeções
-   ============================ */
-function initInspectionRedirects() {
-    const timeline = document.querySelector('.history-timeline');
-    if (!timeline) return;
-
-    timeline.addEventListener('click', (e) => {
-        const url = e.target.closest('.cursor-pointer')?.getAttribute('data-url');
-        if (url) window.location.href = url;
-    });
-
-    timeline.addEventListener('keydown', (e) => {
-        const card = e.target.closest('.cursor-pointer');
-        if (card && (e.key === 'Enter' || e.key === ' ')) {
-            e.preventDefault();
-            const url = card.getAttribute('data-url');
-            if (url) window.location.href = url;
-        }
-    });
-}
-
-/* ============================
    Bootstrap
    ============================ */
 document.addEventListener('DOMContentLoaded', () => {
-    initInspectionRedirects();
-
     if (!MapUtils.$('map-barrier') || !window.barrierMapConfig || typeof L === 'undefined') {
         console.error('[BarrierMap] Dependências não encontradas.');
         return;

@@ -19,10 +19,9 @@
         {{-- LADO MARCA --}}
         <div class="login-brand-side">
             <div class="brand-content">
-                <div class="brand-icon mb-4">
-                    <i class="fas fa-key"></i>
-                </div>
-                <h1 class="welcome-title">Recuperação de acesso</h1>
+                <h1 class="welcome-title">
+                    Recuperação de acesso
+                </h1>
                 <p class="brand-tagline">
                     Informe seu e-mail institucional e enviaremos um link seguro para redefinir sua senha.
                 </p>
@@ -33,10 +32,15 @@
         <div class="login-form-side">
             <div class="form-content">
 
-                <h2 class="form-title mb-3">Esqueceu sua senha?</h2>
+                <div class="mb-4">
+                    <h2 class="form-title">Esqueceu sua senha?</h2>
+                    <p class="text-muted small">
+                        Digite seu e-mail para receber o link de redefinição.
+                    </p>
+                </div>
 
                 @if(session('status'))
-                    <div class="alert alert-success border-0 small">
+                    <div class="alert alert-success border-0 small mb-4">
                         {{ session('status') }}
                     </div>
                 @endif
@@ -45,15 +49,15 @@
                     @csrf
 
                     <div class="mb-4">
-                        <label class="form-label fw-bold">E-mail</label>
+                        <label class="form-label">E-mail</label>
                         <input type="email"
                                name="email"
-                               class="form-control custom-input"
+                               class="form-control"
                                placeholder="exemplo@ifbaiano.edu.br"
                                required>
                     </div>
 
-                    <button class="btn btn-login-primary w-100">
+                    <button type="submit" class="btn-action primary lg submit w-100">
                         Enviar link <i class="fas fa-paper-plane ms-2"></i>
                     </button>
                 </form>
@@ -63,7 +67,6 @@
                         Voltar para login
                     </a>
                 </div>
-
             </div>
         </div>
     </div>

@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden bg-white">
+    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
         <div class="row g-0">
 
             <x-forms.section title="1. Escolha o tipo de relatório" />
@@ -306,7 +306,7 @@
 
                 Object.entries(meta.columns ?? {}).forEach(([k, label]) => {
                     c.innerHTML += `
-                        <label class="border rounded-3 px-3 py-2 d-inline-flex align-items-center gap-2 bg-white shadow-sm"
+                        <label class="border rounded-3 px-3 py-2 d-inline-flex align-items-center gap-2 shadow-sm"
                                style="font-size:13px;cursor:pointer;user-select:none">
                             <input type="checkbox" name="cols" value="${k}" class="form-check-input mt-0">
                             <span>${label}</span>
@@ -329,7 +329,7 @@
 
                 addedRelations.forEach(rel => {
                     const colsHtml = Object.entries(rel.columns ?? {}).map(([ck, cLabel]) => `
-                        <label class="border rounded-3 px-3 py-2 d-inline-flex align-items-center gap-2 bg-white shadow-sm"
+                        <label class="border rounded-3 px-3 py-2 d-inline-flex align-items-center gap-2 shadow-sm"
                                style="font-size:13px;cursor:pointer;user-select:none">
                             <input type="checkbox" name="cols" value="${rel.name}.${ck}" class="form-check-input mt-0">
                             <span>${cLabel}</span>
@@ -340,7 +340,7 @@
                                <small class="text-muted d-block mb-2">Campos do vínculo</small>
                                <div class="d-flex flex-wrap gap-2">
                                    ${Object.entries(rel.pivot.columns).map(([pk, pl]) => `
-                                       <label class="border rounded-3 px-3 py-2 d-inline-flex align-items-center gap-2 bg-white shadow-sm"
+                                       <label class="border rounded-3 px-3 py-2 d-inline-flex align-items-center gap-2 shadow-sm"
                                               style="font-size:13px;cursor:pointer;user-select:none">
                                            <input type="checkbox" name="cols" value="${rel.name}.pivot.${pk}" class="form-check-input mt-0">
                                            <span>${pl}</span>
@@ -351,7 +351,7 @@
 
                     area.innerHTML += `
                         <div class="border rounded-3 overflow-hidden mb-3 bg-light">
-                            <div class="px-3 py-2 bg-white border-bottom d-flex justify-content-between align-items-center">
+                            <div class="px-3 py-2 border-bottom d-flex justify-content-between align-items-center">
                                 <strong style="font-size:13px">${rel.label}</strong>
                                 <x-buttons.submit-button
                                     type="button"

@@ -221,7 +221,7 @@
                 <input type="hidden" name="is_active" value="1">
             </div>
 
-            <div class="col-lg-7 bg-light px-0">
+            <div class="col-lg-7 px-0">
                 <x-forms.section
                     title="Localização no Mapa"
                     description="Selecione a instituição e marque o ponto exato da barreira."
@@ -263,6 +263,7 @@
                                 align-items: center; justify-content: center;
                                 font-weight: bold; color: #333; pointer-events: none; border-radius: 0.375rem;"
                             >
+                            </div>
                         </div>
                     </div>
 
@@ -319,7 +320,7 @@
                 </div>
             </div>
 
-            <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4 mt-4 bg-white">
+            <div class="col-12 d-flex justify-content-end gap-3 border-top pt-4 px-4 pb-4 mt-4">
                 <x-buttons.link-button
                     :href="route('barriers.index')"
                     variant="secondary"

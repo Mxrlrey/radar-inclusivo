@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <div class="card-custom overflow-hidden show-container">
+    <div class="card-custom show-container">
 
         <x-forms.section
             title="Informações Gerais"
@@ -45,7 +45,7 @@
         </x-show.info-item>
 
         <x-show.info-item label="Data da Inspeção">
-            {{ $inspection->inspection_date->format('d/m/Y') }}
+            {{ $inspection->inspection_date?->format('d/m/Y') ?? '---' }}
         </x-show.info-item>
 
         <x-show.info-item label="Tipo de Inspeção">
@@ -91,18 +91,16 @@
 
                         <img
                             src="{{ asset('storage/' . $img->path) }}"
-                            alt="Foto de evidência {{ $index + 1 }}"
+                            alt="Evidência {{ $index + 1 }}"
                             @if($loop->first) fetchpriority="high" loading="eager" @else loading="lazy" @endif
                         >
                     </a>
                 @endforeach
             </div>
         @else
-            <div class="text-center py-5 bg-light rounded border border-dashed">
-                <i class="fa fa-camera fa-2x text-secondary mb-2"></i>
-                <p class="text-muted mb-0 small">
-                    Nenhuma evidência visual registrada para esta inspeção.
-                </p>
+            <div class="inspection-empty">
+                <i class="fa fa-camera"></i>
+                <span>Nenhuma evidência visual registrada para esta inspeção.</span>
             </div>
         @endif
 
@@ -110,4 +108,5 @@
             :backRoute="route('barriers.show', $barrier)"
         />
     </div>
+
 @endsection

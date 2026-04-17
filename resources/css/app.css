@@ -30,9 +30,11 @@
 @import "./components/photo-upload.css";
 @import "./components/timeline.css";
 @import "./components/show.css";
+@import "./components/inspection.css";
+
 
 /* ESTILOS DE PÁGINAS ESPECÍFICAS */
-@import "./auth/login.css";
+@import "./auth/auth.css";
 @import "./pages/dashboard.css";
 @import "./pages/errors.css";
 

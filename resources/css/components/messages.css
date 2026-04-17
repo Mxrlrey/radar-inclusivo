@@ -1,8 +1,7 @@
 /* =========================================
-   MESSAGES.CSS — TOAST NOTIFICAÇÕES (REFINADO)
+   MESSAGES.CSS — TOAST NOTIFICAÇÕES (CORES SÓLIDAS)
    ========================================= */
 
-/* Container principal */
 #toast-container {
     position: fixed !important;
     top: 0 !important;
@@ -16,95 +15,80 @@
     gap: var(--spacing-3);
 }
 
-/* Estrutura do toast */
 .toast-custom {
     min-width: 18rem;
     max-width: 22rem;
-    min-height: auto;
     border-radius: var(--border-radius);
-    border-left: 3px solid;
-    border: var(--border-width) solid var(--border-color);
-    box-shadow: var(--shadow-none);
-    background-color: var(--bg-surface);
+    border: 1px solid transparent;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
     pointer-events: auto;
     opacity: 0;
     overflow: hidden;
     position: relative;
+    transition: all 0.3s ease;
 }
 
-/* Tipos */
 .toast-custom.success {
-    border-left-color: var(--color-success);
+    background-color: var(--color-success);
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
 .toast-custom.danger {
-    border-left-color: var(--color-danger);
+    background-color: var(--color-danger);
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
 .toast-custom.info {
-    border-left-color: var(--color-info);
+    background-color: var(--color-info);
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Conteúdo */
+/* Conteúdo interno */
 .toast-content {
     padding: var(--spacing-3) var(--spacing-4);
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: var(--spacing-3);
 }
 
-/* Texto */
+.toast-body-text,
+.toast-content i,
+.btn-close-toast {
+    color: #ffffff !important;
+}
+
 .toast-body-text {
     flex: 1;
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
     line-height: 1.3;
-    color: var(--text-primary);
 }
 
-/* Ícone */
 .toast-content i {
-    font-size: 1rem;
-    margin-top: 2px;
+    font-size: 1.1rem;
 }
 
-.toast-custom.success .toast-content i {
-    color: var(--color-success);
-}
-
-.toast-custom.danger .toast-content i {
-    color: var(--color-danger);
-}
-
-.toast-custom.info .toast-content i {
-    color: var(--color-info);
-}
-
-/* Botão fechar */
 .btn-close-toast {
     border: none;
     background: none;
-    color: var(--text-muted);
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     line-height: 1;
     cursor: pointer;
-    padding: 0 var(--spacing-1);
-    opacity: 0.6;
-    transition: 0.15s;
+    padding: 0;
+    opacity: 0.8;
+    transition: 0.2s;
 }
 
 .btn-close-toast:hover {
     opacity: 1;
     transform: scale(1.1);
-    color: var(--text-primary);
 }
 
-/* Barra de progresso */
 .toast-progress {
-    height: 3px;
-    background-color: var(--bg-surface-secondary);
+    height: 4px;
+    background-color: rgba(0, 0, 0, 0.1);
     width: 100%;
     position: absolute;
     bottom: 0;
@@ -115,52 +99,23 @@
     display: block;
     height: 100%;
     width: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
     animation: progress 4s linear forwards;
 }
 
-/* cores progress */
-.toast-custom.success .toast-progress::before {
-    background-color: var(--color-success) !important;
-}
-
-.toast-custom.danger .toast-progress::before {
-    background-color: var(--color-danger) !important;
-}
-
-.toast-custom.info .toast-progress::before {
-    background-color: var(--color-info) !important;
-}
-
-/* animações */
 @keyframes slideIn {
-    from {
-        transform: translateX(110%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+    from { transform: translateX(110%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes slideOut {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(110%);
-        opacity: 0;
-    }
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(110%); opacity: 0; }
 }
 
 @keyframes progress {
-    from {
-        width: 100%;
-    }
-    to {
-        width: 0%;
-    }
+    from { width: 100%; }
+    to { width: 0%; }
 }
 
 .animate-slide-in {

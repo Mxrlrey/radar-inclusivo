@@ -68,20 +68,32 @@ class AccessibleEducationalMaterialController extends Controller
             ->with('success', 'Material criado com sucesso!');
     }
 
-    public function show(AccessibleEducationalMaterial $material): View
+    public function show(AccessibleEducationalMaterial $material)
     {
         $material->load([
-            'deficiencies'          => fn($q) => $q->orderBy('name'),
+            'deficiencies' => fn($q) => $q->orderBy('name'),
             'accessibilityFeatures' => fn($q) => $q->orderBy('name'),
-            'inspections'           => fn($q) => $q->with('images')->latest('inspection_date'),
             'loans',
         ]);
 
+        $inspections = $material->inspections()
+            ->with(['images'])
+            ->latest('inspection_date')
+            ->latest('created_at')
+            ->simplePaginate(3);
+
+        if (request()->ajax()) {
+            return view('pages.accessible-educational-materials.partials.inspections-table', [
+                'material' => $material,
+                'inspections' => $inspections
+            ])->render();
+        }
+
         return view('pages.accessible-educational-materials.show', [
-            'material'    => $material,
-            'deficiencies'=> $material->deficiencies,
-            'features'    => $material->accessibilityFeatures,
-            'inspections' => $material->inspections,
+            'material' => $material,
+            'deficiencies' => $material->deficiencies,
+            'features' => $material->accessibilityFeatures,
+            'inspections'  => $inspections,
         ]);
     }
 

@@ -24,7 +24,7 @@
     </div>
 
     @if($records instanceof \Illuminate\Pagination\LengthAwarePaginator && $records->hasPages())
-        <div class="px-4 py-3 border-top d-flex justify-content-between align-items-center bg-white custom-pagination-container" role="status">
+        <div class="px-4 py-3 border-top d-flex justify-content-between align-items-center custom-pagination-container" role="status">
             <div class="text-muted small fw-medium">
                 Mostrando <span class="text-primary">{{ $records->firstItem() }}</span>
                 - <span class="text-primary">{{ $records->lastItem() }}</span>

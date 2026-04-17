@@ -66,18 +66,30 @@ class AssistiveTechnologyController extends Controller
             ->with('success', 'Tecnologia assistiva criada com sucesso!');
     }
 
-    public function show(AssistiveTechnology $assistiveTechnology): View
+    public function show(AssistiveTechnology $assistiveTechnology)
     {
         $assistiveTechnology->load([
             'deficiencies' => fn($q) => $q->orderBy('name'),
-            'inspections' => fn($q) => $q->with('images')->latest('inspection_date'),
             'loans',
         ]);
 
+        $inspections = $assistiveTechnology->inspections()
+            ->with(['images'])
+            ->latest('inspection_date')
+            ->latest('created_at')
+            ->simplePaginate(3);
+
+        if (request()->ajax()) {
+            return view('pages.assistive-technologies.partials.inspections-table', [
+                'assistiveTechnology' => $assistiveTechnology,
+                'inspections' => $inspections
+            ])->render();
+        }
+
         return view('pages.assistive-technologies.show', [
             'assistiveTechnology' => $assistiveTechnology,
-            'deficiencies'        => $assistiveTechnology->deficiencies,
-            'inspections'         => $assistiveTechnology->inspections,
+            'deficiencies' => $assistiveTechnology->deficiencies,
+            'inspections' => $inspections,
         ]);
     }
 

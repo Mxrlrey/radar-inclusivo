@@ -34,6 +34,10 @@
                 data-target="#waitlists-table"
                 :fields="[
                     [
+                        'name' => 'item',
+                        'placeholder' => 'Filtrar por item...'
+                    ],
+                    [
                         'name' => 'student',
                         'placeholder' => 'Filtrar por aluno...',
                         'label' => 'Aluno'

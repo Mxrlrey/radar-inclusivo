@@ -1,34 +1,72 @@
-// Lógica dos Campos Digitais
+/**
+ * Lógica dos Campos Digitais
+ */
 function toggleAssetCodeField() {
-    const select = document.querySelector('[name="is_digital"]');
+    const select = document.querySelector('select[name="is_digital"]');
     if (!select) return;
 
     const isDigital = select.value == "1";
-    const assetCodeContainer = document.getElementById('asset_code_container');
-    const assetCodeInput = assetCodeContainer?.querySelector('input[name="asset_code"]');
+
+    const input = document.getElementById('asset_code');
+    const wrapper = input?.closest('.form-group-horizontal');
+
+    if (!wrapper) return;
 
     if (isDigital) {
-        if (assetCodeContainer) assetCodeContainer.style.display = 'none';
-        if (assetCodeInput) assetCodeInput.value = '';
+        wrapper.style.display = 'none';
+        input.value = '';
     } else {
-        if (assetCodeContainer) assetCodeContainer.style.display = 'block';
+        wrapper.style.display = 'flex';
     }
 }
 
-// Lógica de Redirecionamento da Vistoria
+function initInspectionPagination() {
+    const wrapper = document.getElementById('inspections-table-wrapper');
+    if (!wrapper) return;
+
+    wrapper.addEventListener('click', function (e) {
+        const link = e.target.closest('.ajax-pagination');
+
+        if (link) {
+            e.preventDefault();
+            const url = link.getAttribute('href');
+
+            wrapper.style.opacity = '0.5';
+            wrapper.style.pointerEvents = 'none';
+
+            fetch(url, {
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+                .then(response => response.text())
+                .then(html => {
+                    wrapper.innerHTML = html;
+                    wrapper.style.opacity = '1';
+                    wrapper.style.pointerEvents = 'auto';
+                })
+                .catch(() => {
+                    wrapper.style.opacity = '1';
+                    wrapper.style.pointerEvents = 'auto';
+                });
+        }
+    });
+}
+
+/**
+ * Lógica de Redirecionamento da Vistoria
+ */
 function initInspectionRedirects() {
     const timeline = document.querySelector('.history-timeline');
     if (!timeline) return;
 
-    // Clique no Card
     timeline.onclick = (e) => {
         const card = e.target.closest('.cursor-pointer');
-        if (card && card.dataset.url) {
+        if (card?.dataset.url) {
             window.location.href = card.dataset.url;
         }
     };
 
-    // Acessibilidade via Teclado (Enter ou Espaço)
     timeline.onkeydown = (e) => {
         const card = e.target.closest('.cursor-pointer');
         if (card && (e.key === 'Enter' || e.key === ' ')) {
@@ -40,13 +78,13 @@ function initInspectionRedirects() {
 
 // Inicialização Geral
 document.addEventListener('DOMContentLoaded', function () {
-    // Inicializa campos digitais
     toggleAssetCodeField();
+
     const selectDigital = document.querySelector('[name="is_digital"]');
     if (selectDigital) {
         selectDigital.addEventListener('change', toggleAssetCodeField);
     }
 
-    // Inicializa redirecionamentos de vistoria
     initInspectionRedirects();
+    initInspectionPagination();
 });

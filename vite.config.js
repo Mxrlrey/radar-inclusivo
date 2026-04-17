@@ -12,6 +12,7 @@ export default defineConfig({
                 'resources/js/maps/barrier-map.js',
                 'resources/js/maps/institution-map.js',
                 'resources/js/maps/location-map.js',
+                'resources/js/pages/barriers.js',
                 'resources/js/pages/image-uploader.js',
                 'resources/js/pages/assistive-technologies.js',
                 'resources/js/pages/accessible-educational-materials.js',
