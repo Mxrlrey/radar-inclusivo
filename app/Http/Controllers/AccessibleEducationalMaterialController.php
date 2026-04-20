@@ -64,7 +64,7 @@ class AccessibleEducationalMaterialController extends Controller
         $this->service->store($request->validated());
 
         return redirect()
-            ->route('accessible-educational-materials.index')
+            ->route('materiais-pedagogicos-acessiveis.index')
             ->with('success', 'Material criado com sucesso!');
     }
 
@@ -115,7 +115,7 @@ class AccessibleEducationalMaterialController extends Controller
         $this->service->update($material, $request->validated());
 
         return redirect()
-            ->route('accessible-educational-materials.index')
+            ->route('materiais-pedagogicos-acessiveis.index')
             ->with('success', 'Material atualizado com sucesso!');
     }
 
@@ -124,7 +124,7 @@ class AccessibleEducationalMaterialController extends Controller
         $this->service->delete($material);
 
         return redirect()
-            ->route('accessible-educational-materials.index')
+            ->route('materiais-pedagogicos-acessiveis.index')
             ->with('success', 'Material removido!');
     }
 

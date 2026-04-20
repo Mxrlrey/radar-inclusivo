@@ -7,7 +7,6 @@
     ]"
     :records="$categories"
     aria-label="Tabela de Categorias de Barreiras"
-    class="table-striped"
 >
     @forelse($categories as $category)
         @php
@@ -34,7 +33,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('barrier-categories.show', $category)"
+                        :href="route('categorias-de-barreiras.visualizar', $category)"
                         variant="info"
                         size="xs"
                         title="Visualizar categoria"
@@ -95,7 +94,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('barrier-categories.destroy', $category) }}" method="POST">
+            <form action="{{ route('categorias-de-barreiras.excluir', $category) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

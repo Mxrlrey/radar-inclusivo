@@ -7,8 +7,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Categorias de Barreiras' => route('barrier-categories.index'),
-                $barrierCategory->name => route('barrier-categories.show', $barrierCategory),
+                'Categorias de Barreiras' => route('categorias-de-barreiras.index'),
+                $barrierCategory->name => route('categorias-de-barreiras.visualizar', $barrierCategory),
                 'Editar' => null
             ]" />
 
@@ -20,7 +20,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('barrier-categories.show', $barrierCategory)"
+                :href="route('categorias-de-barreiras.visualizar', $barrierCategory)"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -30,7 +30,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('barrier-categories.update', $barrierCategory) }}"
+        action="{{ route('categorias-de-barreiras.atualizar', $barrierCategory) }}"
         method="POST"
         class="form-horizontal"
     >
@@ -85,7 +85,7 @@
 
         <x-forms.form-footer>
             <x-buttons.link-button
-                :href="route('barrier-categories.show', $barrierCategory)"
+                :href="route('categorias-de-barreiras.visualizar', $barrierCategory)"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

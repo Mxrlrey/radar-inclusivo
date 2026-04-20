@@ -56,7 +56,7 @@
             </div>
 
             <div class="notification-footer">
-                <a href="{{ route('notifications.index') }}">Ver todas as notificações</a>
+                <a href="{{ route('notificacoes.index') }}">Ver todas as notificações</a>
             </div>
         </div>
     </div>

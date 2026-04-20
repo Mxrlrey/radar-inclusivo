@@ -7,8 +7,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Recursos de Acessibilidade' => route('accessibility-features.index'),
-                $accessibilityFeature->name => route('accessibility-features.show', $accessibilityFeature),
+                'Recursos de Acessibilidade' => route('recursos-de-acessibilidade.index'),
+                $accessibilityFeature->name => route('recursos-de-acessibilidade.visualizar', $accessibilityFeature),
                 'Editar' => null
             ]" />
             <h1>Editar Recurso de Acessibilidade</h1>
@@ -18,7 +18,7 @@
         </div>
         <div class="page-header-actions">
             <x-buttons.link-button
-                href="{{ route('accessibility-features.show', $accessibilityFeature) }}"
+                href="{{ route('recursos-de-acessibilidade.visualizar', $accessibilityFeature) }}"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon> Cancelar
@@ -27,7 +27,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('accessibility-features.update', $accessibilityFeature->id) }}"
+        action="{{ route('recursos-de-acessibilidade.atualizar', $accessibilityFeature->id) }}"
         method="POST"
         class="form-horizontal"
     >
@@ -63,7 +63,7 @@
 
         <x-forms.form-footer>
             <x-buttons.link-button
-                href="{{ route('accessibility-features.show', $accessibilityFeature) }}"
+                href="{{ route('recursos-de-acessibilidade.visualizar', $accessibilityFeature) }}"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon> Cancelar

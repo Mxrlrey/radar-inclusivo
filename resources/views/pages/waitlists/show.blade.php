@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Fila de Espera' => route('waitlists.index'),
+                'Fila de Espera' => route('filas-de-espera.index'),
                 'Detalhes' => null
             ]" />
 
@@ -19,13 +19,13 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('waitlists.edit', $waitlist)"
+                :href="route('filas-de-espera.editar', $waitlist)"
                 variant="info">
                 <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('waitlists.index')"
+                :href="route('filas-de-espera.index')"
                 variant="secondary">
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
@@ -88,11 +88,11 @@
         @endphp
 
         <x-show.footer>
-            <x-buttons.link-button :href="route('waitlists.index')" variant="secondary">
+            <x-buttons.link-button :href="route('filas-de-espera.index')" variant="secondary">
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
 
-            <x-buttons.pdf-button :href="route('waitlists.pdf', $waitlist)" />
+            <x-buttons.pdf-button :href="route('filas-de-espera.pdf', $waitlist)" />
 
             @if($canCancel)
                 <x-buttons.submit-button
@@ -123,7 +123,7 @@
             <x-buttons.link-button href="javascript:void(0)" variant="secondary" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
                 Voltar
             </x-buttons.link-button>
-            <form action="{{ route('waitlists.cancel', $waitlist) }}" method="POST">
+            <form action="{{ route('filas-de-espera.cancelar', $waitlist) }}" method="POST">
                 @csrf
                 @method('PATCH')
                 <x-buttons.submit-button variant="warning">Cancelar</x-buttons.submit-button>
@@ -140,7 +140,7 @@
             <x-buttons.link-button href="javascript:void(0)" variant="secondary" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
                 Cancelar
             </x-buttons.link-button>
-            <form action="{{ route('waitlists.destroy', $waitlist) }}" method="POST">
+            <form action="{{ route('filas-de-espera.excluir', $waitlist) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <x-buttons.submit-button variant="danger">Excluir</x-buttons.submit-button>

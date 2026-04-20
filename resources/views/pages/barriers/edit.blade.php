@@ -7,8 +7,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Barreiras' => route('barriers.index'),
-                $barrier->name => route('barriers.show', $barrier),
+                'Barreiras' => route('barreiras.index'),
+                $barrier->name => route('barreiras.visualizar', $barrier),
                 'Editar' => null
             ]" />
 
@@ -20,7 +20,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('barriers.show', $barrier)"
+                :href="route('barreiras.visualizar', $barrier)"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -30,7 +30,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('barriers.update', $barrier) }}"
+        action="{{ route('barreiras.atualizar', $barrier) }}"
         method="POST"
         enctype="multipart/form-data"
         class="form-horizontal"
@@ -318,7 +318,7 @@
             </div>
             <x-forms.form-footer>
                 <x-buttons.link-button
-                    :href="route('barriers.show', $barrier)"
+                    :href="route('barreiras.visualizar', $barrier)"
                     variant="secondary"
                 >
                     <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

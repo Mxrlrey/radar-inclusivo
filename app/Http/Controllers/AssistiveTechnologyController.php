@@ -62,7 +62,7 @@ class AssistiveTechnologyController extends Controller
         $this->service->store($request->validated());
 
         return redirect()
-            ->route('assistive-technologies.index')
+            ->route('tecnologias-assistivas.index')
             ->with('success', 'Tecnologia assistiva criada com sucesso!');
     }
 
@@ -114,7 +114,7 @@ class AssistiveTechnologyController extends Controller
         $this->service->update($assistiveTechnology, $request->validated());
 
         return redirect()
-            ->route('assistive-technologies.index')
+            ->route('tecnologias-assistivas.index')
             ->with('success', 'Tecnologia assistiva atualizada com sucesso!');
     }
 
@@ -123,7 +123,7 @@ class AssistiveTechnologyController extends Controller
         $this->service->delete($assistiveTechnology);
 
         return redirect()
-            ->route('assistive-technologies.index')
+            ->route('tecnologias-assistivas.index')
             ->with('success', 'Tecnologia removida com sucesso!');
     }
 

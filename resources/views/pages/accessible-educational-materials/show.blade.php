@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Materiais Pedagógicos Acessíveis' => route('accessible-educational-materials.index'),
+                'Materiais Pedagógicos Acessíveis' => route('materiais-pedagogicos-acessiveis.index'),
                 $material->name => null
             ]" />
             <h1>Detalhes do Material Pedagógico Acessível</h1>
@@ -16,12 +16,12 @@
             </p>
         </div>
         <div class="page-header-actions">
-            <x-buttons.link-button :href="route('accessible-educational-materials.edit', $material)" variant="info">
+            <x-buttons.link-button :href="route('materiais-pedagogicos-acessiveis.editar', $material)" variant="info">
                 <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('accessible-educational-materials.index')"
+                :href="route('materiais-pedagogicos-acessiveis.index')"
                 variant="secondary"
             >
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
@@ -136,21 +136,21 @@
 
         <x-show.footer>
             <x-buttons.link-button
-                :href="route('accessible-educational-materials.index')"
+                :href="route('materiais-pedagogicos-acessiveis.index')"
                 variant="secondary">
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
                 Voltar
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('accessible-educational-materials.logs', $material)"
+                :href="route('materiais-pedagogicos-acessiveis.registros', $material)"
                 variant="secondary-outline">
                 <span class="btn-label"><i class="fa fa-history"></i></span>
                 Logs
             </x-buttons.link-button>
 
             <x-buttons.pdf-button
-                :href="route('accessible-educational-materials.pdf', $material)"
+                :href="route('materiais-pedagogicos-acessiveis.pdf', $material)"
             />
 
             <x-buttons.submit-button
@@ -189,7 +189,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('accessible-educational-materials.destroy', $material) }}" method="POST">
+            <form action="{{ route('materiais-pedagogicos-acessiveis.excluir', $material) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

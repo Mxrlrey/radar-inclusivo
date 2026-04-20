@@ -44,7 +44,7 @@ class BarrierCategoryController extends Controller
         $this->service->store($request->validated());
 
         return redirect()
-            ->route('barrier-categories.index')
+            ->route('categorias-de-barreiras.index')
             ->with('success', 'Categoria de barreira cadastrada com sucesso!');
     }
 
@@ -69,7 +69,7 @@ class BarrierCategoryController extends Controller
         $this->service->update($barrierCategory, $request->validated());
 
         return redirect()
-            ->route('barrier-categories.index')
+            ->route('categorias-de-barreiras.index')
             ->with('success', 'Categoria atualizada com sucesso!');
     }
 
@@ -78,7 +78,7 @@ class BarrierCategoryController extends Controller
         $this->service->delete($barrierCategory);
 
         return redirect()
-            ->route('barrier-categories.index')
+            ->route('categorias-de-barreiras.index')
             ->with('success', 'Categoria removida com sucesso!');
     }
 }

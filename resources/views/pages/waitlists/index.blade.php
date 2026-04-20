@@ -17,7 +17,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('waitlists.create')"
+                :href="route('filas-de-espera.criar')"
                 variant="info"
                 aria-label="Adicionar à fila de espera"
             >
@@ -30,7 +30,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('waitlists.index') }}"
+                data-url="{{ route('filas-de-espera.index') }}"
                 data-target="#waitlists-table"
                 :fields="[
                     [

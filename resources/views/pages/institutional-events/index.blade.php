@@ -17,7 +17,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('institutional-events.create')"
+                :href="route('agenda-institucional.criar')"
                 variant="info"
                 aria-label="Cadastrar novo evento institucional"
             >
@@ -30,7 +30,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('institutional-events.index') }}"
+                data-url="{{ route('agenda-institucional.index') }}"
                 data-target="#events-table"
                 :fields="[
                     [

@@ -9,7 +9,7 @@
 <div class="max-w-6xl mx-auto p-6 rounded shadow">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Pessoas Cadastradas</h1>
-        <a href="{{ route('people.create') }}"
+        <a href="{{ route('pessoas.criar') }}"
            class="bg-blue-500 text-white px-4 py-2 rounded">Novo Cadastro</a>
     </div>
 
@@ -35,9 +35,9 @@
                 <td class="p-2">{{ \App\Models\Person::genderOptions()[$person->gender] ?? $person->gender }}</td>
                 <td class="p-2">{{ $person->email }}</td>
                 <td class="p-2 flex gap-2">
-                    <a href="{{ route('people.edit', $person) }}"
+                    <a href="{{ route('pessoas.editar', $person) }}"
                        class="text-orange-500">Editar</a>
-                    <form action="{{ route('people.destroy', $person) }}" method="POST"
+                    <form action="{{ route('pessoas.excluir', $person) }}" method="POST"
                           onsubmit="return confirm('Deletar?')">
                         @csrf @method('DELETE')
                         <button class="text-red-500">Excluir</button>

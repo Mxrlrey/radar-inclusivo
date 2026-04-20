@@ -1,7 +1,7 @@
 <table class="table-mini">
     <tbody>
     @forelse($inspections as $inspection)
-        <tr class="inspection-tr" onclick="window.location='{{ route('accessible-educational-materials.inspection.show', [$material, $inspection]) }}'">
+        <tr class="inspection-tr" onclick="window.location='{{ route('materiais-pedagogicos-acessiveis.inspecao.visualizar', [$material, $inspection]) }}'">
             <td class="col-info">
                 <i class="ion-clipboard"></i>
                 <div class="inspection-details">

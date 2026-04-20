@@ -8,7 +8,6 @@
     ]"
     :records="$loans"
     aria-label="Tabela de Empréstimos"
-    class="table-striped"
 >
     @forelse($loans as $loan)
         @php
@@ -55,7 +54,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('loans.show', $loan)"
+                        :href="route('emprestimos.visualizar', $loan)"
                         variant="info"
                         size="xs"
                         title="Visualizar Empréstimo"
@@ -111,7 +110,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('loans.destroy', $loan) }}" method="POST">
+            <form action="{{ route('emprestimos.excluir', $loan) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <x-buttons.submit-button variant="danger">

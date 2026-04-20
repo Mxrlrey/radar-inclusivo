@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Categorias de Barreiras' => route('barrier-categories.index'),
+                'Categorias de Barreiras' => route('categorias-de-barreiras.index'),
                 'Cadastrar' => null
             ]" />
 
@@ -20,7 +20,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('barrier-categories.index')"
+                :href="route('categorias-de-barreiras.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -30,7 +30,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('barrier-categories.store') }}"
+        action="{{ route('categorias-de-barreiras.salvar') }}"
         method="POST"
         class="form-horizontal"
     >
@@ -84,7 +84,7 @@
 
         <x-forms.form-footer>
             <x-buttons.link-button
-                :href="route('barrier-categories.index')"
+                :href="route('categorias-de-barreiras.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

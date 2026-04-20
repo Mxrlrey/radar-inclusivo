@@ -19,7 +19,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('barriers.create')"
+                :href="route('barreiras.criar')"
                 variant="info"
                 aria-label="Cadastrar nova barreira"
             >
@@ -34,7 +34,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('barriers.index') }}"
+                data-url="{{ route('barreiras.index') }}"
                 data-target="#barriers-table"
                 :fields="[
                     [

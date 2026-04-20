@@ -17,7 +17,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('assistive-technologies.create')"
+                :href="route('tecnologias-assistivas.criar')"
                 variant="info"
                 aria-label="Cadastrar nova tecnologia assistiva"
             >
@@ -30,7 +30,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('assistive-technologies.index') }}"
+                data-url="{{ route('tecnologias-assistivas.index') }}"
                 data-target="#assistive-technologies-table"
                 :fields="[
                     [

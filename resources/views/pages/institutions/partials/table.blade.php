@@ -7,7 +7,6 @@
     ]"
     :records="$institutions"
     aria-label="Tabela de Instituições"
-    class="table-striped"
 >
     @forelse($institutions as $inst)
         @php
@@ -34,7 +33,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('institutions.show', $inst)"
+                        :href="route('instituicoes.visualizar', $inst)"
                         variant="info"
                         size="xs"
                         title="Visualizar instituição"
@@ -95,7 +94,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('institutions.destroy', $inst) }}" method="POST">
+            <form action="{{ route('instituicoes.excluir', $inst) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

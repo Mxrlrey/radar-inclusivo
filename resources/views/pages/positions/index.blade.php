@@ -14,7 +14,7 @@
         </div>
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('positions.create')"
+                :href="route('cargos.criar')"
                 variant="info"
                 aria-label="Cadastrar novo cargo"
             >

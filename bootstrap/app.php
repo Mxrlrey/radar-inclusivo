@@ -19,8 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectTo(
-            guests: 'auth/login',
-            users: 'auth/dashboard'
+            guests: '/entrar',
+            users: '/painel'
         );
         $middleware->alias([
             'admin' => CheckAdmin::class,

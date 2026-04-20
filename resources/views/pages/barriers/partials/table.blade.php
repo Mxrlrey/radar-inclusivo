@@ -8,7 +8,6 @@
     ]"
     :records="$barriers"
     aria-label="Tabela de Barreiras"
-    class="table-striped"
 >
     @forelse($barriers as $barrier)
         @php
@@ -48,7 +47,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('barriers.show', $barrier)"
+                        :href="route('barreiras.visualizar', $barrier)"
                         variant="info"
                         size="xs"
                         title="Visualizar barreira"
@@ -109,7 +108,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('barriers.destroy', $barrier) }}" method="POST">
+            <form action="{{ route('barreiras.excluir', $barrier) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

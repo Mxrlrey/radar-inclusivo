@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Empréstimos' => route('loans.index'),
+                'Empréstimos' => route('emprestimos.index'),
                 'Detalhes' => null
             ]" />
 
@@ -19,13 +19,13 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('loans.edit', $loan)"
+                :href="route('emprestimos.editar', $loan)"
                 variant="info">
                 <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('loans.index')"
+                :href="route('emprestimos.index')"
                 variant="secondary">
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
@@ -101,7 +101,7 @@
 
         <x-show.footer>
             <x-buttons.link-button
-                :href="route('loans.index')"
+                :href="route('emprestimos.index')"
                 variant="secondary"
             >
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
@@ -109,7 +109,7 @@
             </x-buttons.link-button>
 
             <x-buttons.pdf-button
-                :href="route('loans.pdf', $loan)"
+                :href="route('emprestimos.pdf', $loan)"
             />
 
             @if($loan->status->value === 'active')
@@ -135,7 +135,7 @@
     </div>
 
     <x-modal.modal :id="$modalReturnId" title="Confirmar Devolução" size="sm">
-        <form action="{{ route('loans.return', $loan) }}" method="POST" id="form-return-{{ $loan->id }}">
+        <form action="{{ route('emprestimos.devolver', $loan) }}" method="POST" id="form-return-{{ $loan->id }}">
             @csrf
             @method('PATCH')
             <div class="p-3">
@@ -162,7 +162,7 @@
             <x-buttons.link-button href="javascript:void(0)" variant="secondary" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
                 Cancelar
             </x-buttons.link-button>
-            <form action="{{ route('loans.destroy', $loan) }}" method="POST">
+            <form action="{{ route('emprestimos.excluir', $loan) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <x-buttons.submit-button variant="danger">Excluir</x-buttons.submit-button>

@@ -6,8 +6,8 @@
     <div class="mb-4">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Materiais Pedagógicos' => route('accessible-educational-materials.index'),
-            $material->name => route('accessible-educational-materials.show', $material),
+            'Materiais Pedagógicos' => route('materiais-pedagogicos-acessiveis.index'),
+            $material->name => route('materiais-pedagogicos-acessiveis.visualizar', $material),
             'Histórico de Alterações' => null
         ]" />
     </div>
@@ -30,7 +30,7 @@
 
         <div class="d-flex gap-2">
             <x-buttons.link-button
-                href="{{ route('accessible-educational-materials.show', $material) }}"
+                href="{{ route('materiais-pedagogicos-acessiveis.visualizar', $material) }}"
                 variant="secondary"
             >
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar

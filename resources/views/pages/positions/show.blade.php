@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Cargos' => route('positions.index'),
+                'Cargos' => route('cargos.index'),
                 $position->name => null
             ]" />
 
@@ -19,13 +19,13 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('positions.edit', $position)"
+                :href="route('cargos.editar', $position)"
                 variant="info">
                 <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('positions.index')"
+                :href="route('cargos.index')"
                 variant="secondary">
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
@@ -68,7 +68,7 @@
 
         <x-show.footer>
             <x-buttons.link-button
-                :href="route('positions.index')"
+                :href="route('cargos.index')"
                 variant="secondary"
             >
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
@@ -109,7 +109,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('positions.destroy', $position) }}" method="POST">
+            <form action="{{ route('cargos.excluir', $position) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <x-buttons.submit-button variant="danger">

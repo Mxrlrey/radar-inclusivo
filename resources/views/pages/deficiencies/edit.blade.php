@@ -8,8 +8,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Deficiências' => route('deficiencies.index'),
-                $deficiency->name => route('deficiencies.show', $deficiency),
+                'Deficiências' => route('deficiencias.index'),
+                $deficiency->name => route('deficiencias.visualizar', $deficiency),
                 'Editar' => null
             ]" />
 
@@ -22,7 +22,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('deficiencies.show', $deficiency)"
+                :href="route('deficiencias.visualizar', $deficiency)"
                 variant="secondary"
             >
                 <x-slot:icon>
@@ -34,7 +34,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('deficiencies.update', $deficiency) }}"
+        action="{{ route('deficiencias.atualizar', $deficiency) }}"
         method="POST"
         class="form-horizontal"
     >
@@ -86,7 +86,7 @@
 
         <x-forms.form-footer>
             <x-buttons.link-button
-                :href="route('deficiencies.show', $deficiency)"
+                :href="route('deficiencias.visualizar', $deficiency)"
                 variant="secondary"
             >
                 <x-slot:icon>

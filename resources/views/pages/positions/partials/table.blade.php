@@ -8,7 +8,6 @@
     ]"
     :records="$positions"
     aria-label="Tabela de Cargos"
-    class="table-striped"
 >
     @forelse($positions as $item)
         <tr>
@@ -25,7 +24,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('positions.show', $item)"
+                        :href="route('cargos.visualizar', $item)"
                         variant="info"
                         size="xs"
                         title="Visualizar {{ $item->name }}"
@@ -76,7 +75,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('positions.destroy', $item) }}" method="POST">
+            <form action="{{ route('cargos.excluir', $item) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <x-buttons.submit-button variant="danger">

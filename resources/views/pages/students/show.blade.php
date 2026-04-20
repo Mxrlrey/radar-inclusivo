@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Alunos' => route('students.index'),
+                'Alunos' => route('estudantes.index'),
                 $student->person->name => null
             ]" />
 
@@ -20,7 +20,7 @@
         <div class="page-header-actions">
             @can('student.update')
                 <x-buttons.link-button
-                    :href="route('students.edit', $student)"
+                    :href="route('estudantes.editar', $student)"
                     variant="info"
                 >
                     <span class="btn-label"><i class="fa fa-pencil" aria-hidden="true"></i></span>
@@ -29,7 +29,7 @@
             @endcan
 
             <x-buttons.link-button
-                :href="route('students.index')"
+                :href="route('estudantes.index')"
                 variant="secondary"
             >
                 <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
@@ -126,7 +126,7 @@
 
         <x-show.footer>
             <x-buttons.link-button
-                :href="route('students.index')"
+                :href="route('estudantes.index')"
                 variant="secondary"
             >
                 <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
@@ -171,7 +171,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('students.destroy', $student) }}" method="POST">
+            <form action="{{ route('estudantes.excluir', $student) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

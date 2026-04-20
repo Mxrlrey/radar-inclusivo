@@ -8,7 +8,6 @@
     ]"
     :records="$professionals"
     aria-label="Tabela de profissionais"
-    class="table-striped"
 >
     @forelse($professionals as $professional)
         @php
@@ -56,7 +55,7 @@
 
                     @can('professional.show')
                         <x-buttons.link-button
-                            :href="route('professionals.show', $professional)"
+                            :href="route('profissionais.visualizar', $professional)"
                             variant="info"
                             size="xs"
                             title="Visualizar {{ $professional->person->name }}"
@@ -125,7 +124,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('professionals.destroy', $professional) }}" method="POST">
+            <form action="{{ route('profissionais.excluir', $professional) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

@@ -6,7 +6,6 @@
     ]"
     :records="$features"
     aria-label="Tabela de Recursos de Acessibilidade"
-    class="table-striped"
 >
     @forelse($features as $feature)
         @php
@@ -27,7 +26,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('accessibility-features.show', $feature)"
+                        :href="route('recursos-de-acessibilidade.visualizar', $feature)"
                         variant="info"
                         size="xs"
                         title="Visualizar {{ $feature->name }}"
@@ -87,7 +86,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('accessibility-features.destroy', $feature) }}" method="POST">
+            <form action="{{ route('recursos-de-acessibilidade.excluir', $feature) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

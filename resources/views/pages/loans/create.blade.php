@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Empréstimos' => route('loans.index'),
+                'Empréstimos' => route('emprestimos.index'),
                 'Cadastrar' => null
             ]" />
             <h1>Registrar Novo Empréstimo</h1>
@@ -18,7 +18,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('loans.index')"
+                :href="route('emprestimos.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -28,7 +28,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('loans.store') }}"
+        action="{{ route('emprestimos.salvar') }}"
         method="POST"
         class="form-horizontal"
     >
@@ -119,7 +119,7 @@
 
         <x-forms.form-footer>
             <x-buttons.link-button
-                :href="route('loans.index')"
+                :href="route('emprestimos.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

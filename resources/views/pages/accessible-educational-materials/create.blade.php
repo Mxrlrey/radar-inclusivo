@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Materiais Pedagógicos Acessíveis' => route('accessible-educational-materials.index'),
+                'Materiais Pedagógicos Acessíveis' => route('materiais-pedagogicos-acessiveis.index'),
                 'Cadastrar' => null
             ]" />
             <h1>Novo Material Pedagógico Acessível</h1>
@@ -15,7 +15,7 @@
         </div>
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('accessible-educational-materials.index')"
+                :href="route('materiais-pedagogicos-acessiveis.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -25,7 +25,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('accessible-educational-materials.store') }}"
+        action="{{ route('materiais-pedagogicos-acessiveis.salvar') }}"
         method="POST"
         enctype="multipart/form-data"
         class="form-horizontal"
@@ -204,7 +204,7 @@
 
         <x-forms.form-footer>
             <x-buttons.link-button
-                :href="route('accessible-educational-materials.index')"
+                :href="route('materiais-pedagogicos-acessiveis.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

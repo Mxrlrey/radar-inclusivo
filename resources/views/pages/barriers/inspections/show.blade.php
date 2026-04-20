@@ -8,8 +8,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Barreiras' => route('barriers.index'),
-                $barrier->name => route('barriers.show', $barrier),
+                'Barreiras' => route('barreiras.index'),
+                $barrier->name => route('barreiras.visualizar', $barrier),
                 'Detalhes da Inspeção' => null
             ]" />
 
@@ -22,7 +22,7 @@
 
         <div class="page-header-actions d-flex gap-2">
             <x-buttons.link-button
-                :href="route('barriers.show', $barrier)"
+                :href="route('barreiras.visualizar', $barrier)"
                 variant="secondary"
             >
                 <x-slot:icon>
@@ -105,7 +105,7 @@
         @endif
 
         <x-show.footer
-            :backRoute="route('barriers.show', $barrier)"
+            :backRoute="route('barreiras.visualizar', $barrier)"
         />
     </div>
 

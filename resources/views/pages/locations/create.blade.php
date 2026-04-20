@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Pontos de Referência' => route('locations.index'),
+                'Pontos de Referência' => route('localizacoes.index'),
                 'Cadastrar' => null
             ]" />
 
@@ -20,7 +20,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('locations.index')"
+                :href="route('localizacoes.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -30,7 +30,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('locations.store') }}"
+        action="{{ route('localizacoes.salvar') }}"
         method="POST"
         class="form-horizontal"
     >
@@ -164,7 +164,7 @@
 
             <x-forms.form-footer>
                 <x-buttons.link-button
-                    :href="route('locations.index')"
+                    :href="route('localizacoes.index')"
                     variant="secondary"
                 >
                     <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

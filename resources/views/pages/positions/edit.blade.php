@@ -7,8 +7,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Cargos' => route('positions.index'),
-                $position->name => route('positions.show', $position),
+                'Cargos' => route('cargos.index'),
+                $position->name => route('cargos.visualizar', $position),
                 'Editar' => null
             ]" />
 
@@ -19,7 +19,7 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button :href="route('positions.show', $position)" variant="secondary">
+            <x-buttons.link-button :href="route('cargos.visualizar', $position)" variant="secondary">
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
@@ -27,7 +27,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('positions.update', $position) }}"
+        action="{{ route('cargos.atualizar', $position) }}"
         method="POST"
         class="form-horizontal"
     >
@@ -114,7 +114,7 @@
         </div>
 
         <x-forms.form-footer>
-            <x-buttons.link-button :href="route('positions.show', $position)" variant="secondary">
+            <x-buttons.link-button :href="route('cargos.visualizar', $position)" variant="secondary">
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>

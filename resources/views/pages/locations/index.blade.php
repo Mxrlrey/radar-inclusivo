@@ -19,7 +19,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('locations.create')"
+                :href="route('localizacoes.criar')"
                 variant="info"
                 aria-label="Adicionar novo ponto de referência"
             >
@@ -34,7 +34,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('locations.index') }}"
+                data-url="{{ route('localizacoes.index') }}"
                 data-target="#locations-table"
                 :fields="[
                     [

@@ -9,7 +9,6 @@
     ]"
     :records="$events"
     aria-label="Tabela de Eventos Institucionais"
-    class="table-striped"
 >
     @forelse($events as $event)
         @php
@@ -36,7 +35,7 @@
             </x-table.td>
 
             <x-table.td class="align-middle col-hide-md">
-                <span class="badge bg-{{ $event->is_active ? 'success' : 'secondary' }}">
+                <span class="badge bg-{{ $event->is_active ? 'success' : 'danger' }}">
                     {{ $event->is_active ? 'Ativo' : 'Inativo' }}
                 </span>
             </x-table.td>
@@ -44,7 +43,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('institutional-events.show', $event)"
+                        :href="route('agenda-institucional.visualizar', $event)"
                         variant="info"
                         size="xs"
                         title="Visualizar {{ $event->title }}"
@@ -104,7 +103,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('institutional-events.destroy', $event) }}" method="POST">
+            <form action="{{ route('agenda-institucional.excluir', $event) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

@@ -57,7 +57,7 @@ class ProfessionalController extends Controller
         $this->service->store($request->validated());
 
         return redirect()
-            ->route('professionals.index')
+            ->route('profissionais.index')
             ->with('success', 'Profissional cadastrado com sucesso!');
     }
 
@@ -83,7 +83,7 @@ class ProfessionalController extends Controller
         $this->service->update($professional, $request->validated());
 
         return redirect()
-            ->route('professionals.index')
+            ->route('profissionais.index')
             ->with('success', 'Profissional atualizado com sucesso!');
     }
 
@@ -92,7 +92,7 @@ class ProfessionalController extends Controller
         $this->service->delete($professional);
 
         return redirect()
-            ->route('professionals.index')
+            ->route('profissionais.index')
             ->with('success', 'Profissional removido com sucesso!');
     }
 

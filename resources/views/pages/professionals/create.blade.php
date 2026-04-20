@@ -8,7 +8,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Profissionais' => route('professionals.index'),
+                'Profissionais' => route('profissionais.index'),
                 'Cadastrar' => null
             ]" />
 
@@ -20,7 +20,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('professionals.index')"
+                :href="route('profissionais.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -30,7 +30,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('professionals.store') }}"
+        action="{{ route('profissionais.salvar') }}"
         method="POST"
         enctype="multipart/form-data"
         class="form-horizontal"
@@ -166,7 +166,7 @@
 
         <x-forms.form-footer>
             <x-buttons.link-button
-                :href="route('professionals.index')"
+                :href="route('profissionais.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -178,7 +178,6 @@
                 Cadastrar
             </x-buttons.submit-button>
         </x-forms.form-footer>
-
     </x-forms.form-card>
 
 @endsection

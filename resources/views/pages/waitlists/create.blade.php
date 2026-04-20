@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Fila de Espera' => route('waitlists.index'),
+                'Fila de Espera' => route('filas-de-espera.index'),
                 'Cadastrar' => null
             ]" />
             <h1>Nova Solicitação de Fila</h1>
@@ -18,7 +18,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('waitlists.index')"
+                :href="route('filas-de-espera.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -28,7 +28,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('waitlists.store') }}"
+        action="{{ route('filas-de-espera.salvar') }}"
         method="POST"
         class="form-horizontal"
     >
@@ -100,7 +100,7 @@
 
         <x-forms.form-footer>
             <x-buttons.link-button
-                :href="route('waitlists.index')"
+                :href="route('filas-de-espera.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

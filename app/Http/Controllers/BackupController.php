@@ -43,7 +43,7 @@ class BackupController extends Controller
         $this->service->generate();
 
         return redirect()
-            ->route('backups.index')
+            ->route('copias-seguranca.index')
             ->with('success', 'Backup realizado com sucesso!');
     }
 
@@ -89,7 +89,7 @@ class BackupController extends Controller
         $this->service->delete($id);
 
         return redirect()
-            ->route('backups.index')
+            ->route('copias-seguranca.index')
             ->with('success', 'Registro e arquivo removidos permanentemente.');
     }
 
@@ -98,7 +98,7 @@ class BackupController extends Controller
         $this->service->restore($id);
 
         return redirect()
-            ->route('backups.index')
+            ->route('copias-seguranca.index')
             ->with('success', 'Sistema restaurado com sucesso para a versão selecionada!');
     }
 }

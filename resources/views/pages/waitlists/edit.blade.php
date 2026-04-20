@@ -7,8 +7,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Fila de Espera' => route('waitlists.index'),
-                $waitlist->id => route('waitlists.show', $waitlist),
+                'Fila de Espera' => route('filas-de-espera.index'),
+                $waitlist->id => route('filas-de-espera.editar', $waitlist),
                 'Editar' => null
             ]" />
             <h1>Editar Solicitação de Fila</h1>
@@ -18,7 +18,7 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button :href="route('waitlists.show', $waitlist)" variant="secondary">
+            <x-buttons.link-button :href="route('filas-de-espera.visualizar', $waitlist)" variant="secondary">
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
@@ -26,7 +26,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('waitlists.update', $waitlist) }}"
+        action="{{ route('filas-de-espera.atualizar', $waitlist) }}"
         method="POST"
         class="form-horizontal"
     >
@@ -102,7 +102,7 @@
 
         <x-forms.form-footer>
             <x-buttons.link-button
-                :href="route('waitlists.show', $waitlist)"
+                :href="route('filas-de-espera.visualizar', $waitlist)"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

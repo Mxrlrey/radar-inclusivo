@@ -17,7 +17,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('loans.create')"
+                :href="route('emprestimos.criar')"
                 variant="info"
                 aria-label="Cadastrar novo empréstimo"
             >
@@ -30,7 +30,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('loans.index') }}"
+                data-url="{{ route('emprestimos.index') }}"
                 data-target="#loans-table"
                 :fields="[
                     [

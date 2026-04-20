@@ -45,7 +45,7 @@ class LocationController extends Controller
         $this->service->store($request->validated());
 
         return redirect()
-            ->route('locations.index')
+            ->route('localizacoes.index')
             ->with('success', 'Ponto de referência criado com sucesso!');
     }
 
@@ -73,7 +73,7 @@ class LocationController extends Controller
         $this->service->update($location, $request->validated());
 
         return redirect()
-            ->route('locations.index')
+            ->route('localizacoes.index')
             ->with('success', 'Localização atualizada com sucesso!');
     }
 
@@ -82,7 +82,7 @@ class LocationController extends Controller
         $this->service->delete($location);
 
         return redirect()
-            ->route('locations.index')
+            ->route('localizacoes.index')
             ->with('success', 'Localização removida com sucesso!');
     }
 

@@ -17,7 +17,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('deficiencies.create')"
+                :href="route('deficiencias.criar')"
                 variant="info"
                 aria-label="Cadastrar nova deficiência"
             >
@@ -32,7 +32,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('deficiencies.index') }}"
+                data-url="{{ route('deficiencias.index') }}"
                 data-target="#deficiencies-table"
                 :fields="[
                     [

@@ -37,6 +37,7 @@
     --bg-soft-info: #e0f7fa;
 
     /* --- TEXTOS --- */
+    --text-title: #2b2d2f;
     --text-primary: #505458;
     --text-secondary: #666666;
     --text-muted: #98a6ad;
@@ -55,9 +56,9 @@
 
     /* --- SOMBRAS (removidas globalmente) --- */
     --shadow-none: none;
-    --shadow-sm: none;
-    --shadow-md: none;
-    --shadow-lg: none;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 2px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 4px 12px rgba(0,0,0,0.15);
 
     /* --- TIPOGRAFIA --- */
     --font-family-base: 'Noto Sans', 'Roboto', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
@@ -182,6 +183,7 @@
     --bg-soft-danger: #3a2a2a;
     --bg-soft-info: #2a353a;
 
+    --text-title: #ffffff;
     --text-primary: #f0f0f0;
     --text-secondary: #cccccc;
     --text-muted: #999999;
@@ -281,8 +283,8 @@
     --bs-border-radius: var(--border-radius);
     --bs-border-radius-sm: var(--border-radius-sm);
     --bs-border-radius-lg: var(--border-radius-lg);
-    --bs-box-shadow: var(--shadow-none);
     --bs-box-shadow-sm: var(--shadow-sm);
+    --bs-box-shadow: var(--shadow-md);
     --bs-box-shadow-lg: var(--shadow-lg);
 }
 

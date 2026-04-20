@@ -58,7 +58,7 @@ class WaitlistController extends Controller
         $this->service->store($request->validated());
 
         return redirect()
-            ->route('waitlists.index')
+            ->route('filas-de-espera.index')
             ->with('success', 'Solicitação de fila criada com sucesso!');
     }
 
@@ -95,7 +95,7 @@ class WaitlistController extends Controller
         $this->service->update($waitlist, $request->validated());
 
         return redirect()
-            ->route('waitlists.index')
+            ->route('filas-de-espera.index')
             ->with('success', 'Fila atualizada com sucesso!');
     }
 
@@ -104,7 +104,7 @@ class WaitlistController extends Controller
         $this->service->delete($waitlist);
 
         return redirect()
-            ->route('waitlists.index')
+            ->route('filas-de-espera.index')
             ->with('success', 'Solicitação removida com sucesso!');
     }
 

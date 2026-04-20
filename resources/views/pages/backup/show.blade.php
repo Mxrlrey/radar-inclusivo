@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Backups' => route('backups.index'),
+                'Backups' => route('copias-seguranca.index'),
                 $backup->file_name => null
             ]" />
 
@@ -19,7 +19,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('backups.index')"
+                :href="route('copias-seguranca.index')"
                 variant="secondary"
             >
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
@@ -101,11 +101,16 @@
             $modalId = "modal-delete-backup-" . $backup->id;
         @endphp
 
-        <x-show.footer
-            :backRoute="route('backups.index')"
-        >
+        <x-show.footer>
             <x-buttons.link-button
-                :href="route('backups.download', $backup->id)"
+                :href="route('copias-seguranca.index')"
+                variant="secondary">
+                <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                Voltar
+            </x-buttons.link-button>
+
+            <x-buttons.link-button
+                :href="route('copias-seguranca.baixar', $backup->id)"
                 variant="success"
             >
                 <span class="btn-label"><i class="fa fa-download"></i></span>
@@ -145,7 +150,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('backups.destroy', $backup->id) }}" method="POST">
+            <form action="{{ route('copias-seguranca.excluir', $backup->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

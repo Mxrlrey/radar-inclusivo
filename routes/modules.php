@@ -3,19 +3,19 @@
 use Illuminate\Support\Facades\Route;
 
 // ============================================================
-// BACKUP
+// COPIAS DE SEGURANCA
 // ============================================================
 
 use App\Http\Controllers\BackupController;
 
-Route::middleware(['auth'])->prefix('backups')->name('backups.')->group(function () {
+Route::middleware(['auth'])->prefix('copias-seguranca')->name('copias-seguranca.')->group(function () {
     Route::get('/', [BackupController::class, 'index'])->name('index');
-    Route::post('/store', [BackupController::class, 'store'])->name('store');
-    Route::get('/{id}', [BackupController::class, 'show'])->name('show');
-    Route::get('/{id}/download', [BackupController::class, 'download'])->name('download');
-    Route::delete('/{id}', [BackupController::class, 'destroy'])->name('destroy');
-    Route::post('/{id}/restore', [BackupController::class, 'restore'])->name('restore');
-    Route::post('/upload', [BackupController::class, 'upload'])->name('upload');
+    Route::post('/salvar', [BackupController::class, 'store'])->name('salvar');
+    Route::get('/{id}', [BackupController::class, 'show'])->name('visualizar');
+    Route::get('/{id}/baixar', [BackupController::class, 'download'])->name('baixar');
+    Route::delete('/{id}', [BackupController::class, 'destroy'])->name('excluir');
+    Route::post('/{id}/restaurar', [BackupController::class, 'restore'])->name('restaurar');
+    Route::post('/enviar', [BackupController::class, 'upload'])->name('enviar');
 });
 
 // ============================================================
@@ -35,51 +35,51 @@ use App\Http\Controllers\WaitlistController;
 use App\Http\Controllers\Logs\AssistiveTechnologyLogController;
 use App\Http\Controllers\Logs\AccessibleEducationalMaterialLogController;
 
-// --- Admin ---
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+// --- Administracao ---
+Route::middleware(['auth', 'admin'])->prefix('administracao')->group(function () {
 
     // Categorias de Barreiras
-    Route::prefix('barrier-categories')->name('barrier-categories.')->group(function () {
+    Route::prefix('categorias-de-barreiras')->name('categorias-de-barreiras.')->group(function () {
         Route::get('/', [BarrierCategoryController::class, 'index'])->name('index');
-        Route::get('/create', [BarrierCategoryController::class, 'create'])->name('create');
-        Route::post('/store', [BarrierCategoryController::class, 'store'])->name('store');
-        Route::get('/{barrierCategory}', [BarrierCategoryController::class, 'show'])->name('show');
-        Route::get('/{barrierCategory}/edit', [BarrierCategoryController::class, 'edit'])->name('edit');
-        Route::put('/{barrierCategory}', [BarrierCategoryController::class, 'update'])->name('update');
-        Route::delete('/{barrierCategory}', [BarrierCategoryController::class, 'destroy'])->name('destroy');
+        Route::get('/criar', [BarrierCategoryController::class, 'create'])->name('criar');
+        Route::post('/salvar', [BarrierCategoryController::class, 'store'])->name('salvar');
+        Route::get('/{barrierCategory}', [BarrierCategoryController::class, 'show'])->name('visualizar');
+        Route::get('/{barrierCategory}/editar', [BarrierCategoryController::class, 'edit'])->name('editar');
+        Route::put('/{barrierCategory}', [BarrierCategoryController::class, 'update'])->name('atualizar');
+        Route::delete('/{barrierCategory}', [BarrierCategoryController::class, 'destroy'])->name('excluir');
     });
 
-    // Instituições
-    Route::prefix('institutions')->name('institutions.')->group(function () {
+    // Instituicoes
+    Route::prefix('instituicoes')->name('instituicoes.')->group(function () {
         Route::get('/', [InstitutionController::class, 'index'])->name('index');
-        Route::get('/create', [InstitutionController::class, 'create'])->name('create');
-        Route::post('/store', [InstitutionController::class, 'store'])->name('store');
-        Route::get('/{institution}', [InstitutionController::class, 'show'])->name('show');
-        Route::get('/{institution}/edit', [InstitutionController::class, 'edit'])->name('edit');
-        Route::put('/{institution}', [InstitutionController::class, 'update'])->name('update');
-        Route::delete('/{institution}', [InstitutionController::class, 'destroy'])->name('destroy');
+        Route::get('/criar', [InstitutionController::class, 'create'])->name('criar');
+        Route::post('/salvar', [InstitutionController::class, 'store'])->name('salvar');
+        Route::get('/{institution}', [InstitutionController::class, 'show'])->name('visualizar');
+        Route::get('/{institution}/editar', [InstitutionController::class, 'edit'])->name('editar');
+        Route::put('/{institution}', [InstitutionController::class, 'update'])->name('atualizar');
+        Route::delete('/{institution}', [InstitutionController::class, 'destroy'])->name('excluir');
     });
 
-    // Localizações
-    Route::prefix('locations')->name('locations.')->group(function () {
+    // Localizacoes
+    Route::prefix('localizacoes')->name('localizacoes.')->group(function () {
         Route::get('/', [LocationController::class, 'index'])->name('index');
-        Route::get('/create', [LocationController::class, 'create'])->name('create');
-        Route::post('/store', [LocationController::class, 'store'])->name('store');
-        Route::get('/{location}', [LocationController::class, 'show'])->name('show');
-        Route::get('/{location}/edit', [LocationController::class, 'edit'])->name('edit');
-        Route::put('/{location}', [LocationController::class, 'update'])->name('update');
-        Route::delete('/{location}', [LocationController::class, 'destroy'])->name('destroy');
+        Route::get('/criar', [LocationController::class, 'create'])->name('criar');
+        Route::post('/salvar', [LocationController::class, 'store'])->name('salvar');
+        Route::get('/{location}', [LocationController::class, 'show'])->name('visualizar');
+        Route::get('/{location}/editar', [LocationController::class, 'edit'])->name('editar');
+        Route::put('/{location}', [LocationController::class, 'update'])->name('atualizar');
+        Route::delete('/{location}', [LocationController::class, 'destroy'])->name('excluir');
     });
 
     // Recursos de Acessibilidade
-    Route::prefix('accessibility-features')->name('accessibility-features.')->group(function () {
+    Route::prefix('recursos-de-acessibilidade')->name('recursos-de-acessibilidade.')->group(function () {
         Route::get('/', [AccessibilityFeatureController::class, 'index'])->name('index');
-        Route::get('/create', [AccessibilityFeatureController::class, 'create'])->name('create');
-        Route::post('/store', [AccessibilityFeatureController::class, 'store'])->name('store');
-        Route::get('/{accessibilityFeature}', [AccessibilityFeatureController::class, 'show'])->name('show');
-        Route::get('/{accessibilityFeature}/edit', [AccessibilityFeatureController::class, 'edit'])->name('edit');
-        Route::put('/{accessibilityFeature}', [AccessibilityFeatureController::class, 'update'])->name('update');
-        Route::delete('/{accessibilityFeature}', [AccessibilityFeatureController::class, 'destroy'])->name('destroy');
+        Route::get('/criar', [AccessibilityFeatureController::class, 'create'])->name('criar');
+        Route::post('/salvar', [AccessibilityFeatureController::class, 'store'])->name('salvar');
+        Route::get('/{accessibilityFeature}', [AccessibilityFeatureController::class, 'show'])->name('visualizar');
+        Route::get('/{accessibilityFeature}/editar', [AccessibilityFeatureController::class, 'edit'])->name('editar');
+        Route::put('/{accessibilityFeature}', [AccessibilityFeatureController::class, 'update'])->name('atualizar');
+        Route::delete('/{accessibilityFeature}', [AccessibilityFeatureController::class, 'destroy'])->name('excluir');
     });
 });
 
@@ -87,81 +87,81 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 Route::middleware(['auth'])->group(function () {
 
     // Tecnologias Assistivas
-    Route::prefix('assistive-technologies')->name('assistive-technologies.')->group(function () {
+    Route::prefix('tecnologias-assistivas')->name('tecnologias-assistivas.')->group(function () {
         Route::get('/', [AssistiveTechnologyController::class, 'index'])->name('index')->middleware('can:assistive-technology.index');
-        Route::get('/create', [AssistiveTechnologyController::class, 'create'])->name('create')->middleware('can:assistive-technology.create');
-        Route::post('/store', [AssistiveTechnologyController::class, 'store'])->name('store')->middleware('can:assistive-technology.store');
-        Route::get('/{assistiveTechnology}', [AssistiveTechnologyController::class, 'show'])->name('show')->middleware('can:assistive-technology.show');
-        Route::get('/{assistiveTechnology}/inspection/{inspection}', [AssistiveTechnologyController::class, 'showInspection'])->name('inspection.show')->middleware('can:assistive-technology.inspection.show');
-        Route::get('/{assistiveTechnology}/edit', [AssistiveTechnologyController::class, 'edit'])->name('edit')->middleware('can:assistive-technology.edit');
-        Route::put('/{assistiveTechnology}', [AssistiveTechnologyController::class, 'update'])->name('update')->middleware('can:assistive-technology.update');
-        Route::delete('/{assistiveTechnology}', [AssistiveTechnologyController::class, 'destroy'])->name('destroy')->middleware('can:assistive-technology.destroy');
+        Route::get('/criar', [AssistiveTechnologyController::class, 'create'])->name('criar')->middleware('can:assistive-technology.create');
+        Route::post('/salvar', [AssistiveTechnologyController::class, 'store'])->name('salvar')->middleware('can:assistive-technology.store');
+        Route::get('/{assistiveTechnology}', [AssistiveTechnologyController::class, 'show'])->name('visualizar')->middleware('can:assistive-technology.show');
+        Route::get('/{assistiveTechnology}/inspecao/{inspection}', [AssistiveTechnologyController::class, 'showInspection'])->name('inspecao.visualizar')->middleware('can:assistive-technology.inspection.show');
+        Route::get('/{assistiveTechnology}/editar', [AssistiveTechnologyController::class, 'edit'])->name('editar')->middleware('can:assistive-technology.edit');
+        Route::put('/{assistiveTechnology}', [AssistiveTechnologyController::class, 'update'])->name('atualizar')->middleware('can:assistive-technology.update');
+        Route::delete('/{assistiveTechnology}', [AssistiveTechnologyController::class, 'destroy'])->name('excluir')->middleware('can:assistive-technology.destroy');
         Route::get('/{assistiveTechnology}/pdf', [AssistiveTechnologyController::class, 'generatePdf'])->name('pdf')->middleware('can:assistive-technology.pdf');
-        Route::get('/{assistiveTechnology}/logs', [AssistiveTechnologyLogController::class, 'index'])->name('logs')->middleware('can:assistive-technology.logs');
+        Route::get('/{assistiveTechnology}/registros', [AssistiveTechnologyLogController::class, 'index'])->name('registros')->middleware('can:assistive-technology.logs');
     });
 
     // Barreiras
-    Route::prefix('barriers')->name('barriers.')->group(function () {
+    Route::prefix('barreiras')->name('barreiras.')->group(function () {
         Route::get('/', [BarrierController::class, 'index'])->name('index')->middleware('can:barrier.index');
-        Route::get('/create', [BarrierController::class, 'create'])->name('create')->middleware('can:barrier.create');
-        Route::post('/store', [BarrierController::class, 'store'])->name('store')->middleware('can:barrier.store');
-        Route::get('/{barrier}', [BarrierController::class, 'show'])->name('show')->middleware('can:barrier.show');
-        Route::get('/{barrier}/inspection/{inspection}', [BarrierController::class, 'showInspection'])->name('inspection.show')->middleware('can:barrier.inspection.show');
-        Route::get('/{barrier}/edit', [BarrierController::class, 'edit'])->name('edit')->middleware('can:barrier.edit');
-        Route::put('/{barrier}', [BarrierController::class, 'update'])->name('update')->middleware('can:barrier.update');
-        Route::delete('/{barrier}', [BarrierController::class, 'destroy'])->name('destroy')->middleware('can:barrier.destroy');
+        Route::get('/criar', [BarrierController::class, 'create'])->name('criar')->middleware('can:barrier.create');
+        Route::post('/salvar', [BarrierController::class, 'store'])->name('salvar')->middleware('can:barrier.store');
+        Route::get('/{barrier}', [BarrierController::class, 'show'])->name('visualizar')->middleware('can:barrier.show');
+        Route::get('/{barrier}/inspecao/{inspection}', [BarrierController::class, 'showInspection'])->name('inspecao.visualizar')->middleware('can:barrier.inspection.show');
+        Route::get('/{barrier}/editar', [BarrierController::class, 'edit'])->name('editar')->middleware('can:barrier.edit');
+        Route::put('/{barrier}', [BarrierController::class, 'update'])->name('atualizar')->middleware('can:barrier.update');
+        Route::delete('/{barrier}', [BarrierController::class, 'destroy'])->name('excluir')->middleware('can:barrier.destroy');
         Route::get('/{barrier}/pdf', [BarrierController::class, 'generatePdf'])->name('pdf')->middleware('can:barrier.pdf');
     });
 
-    // Materiais Pedagógicos Acessíveis
-    Route::prefix('accessible-educational-materials')->name('accessible-educational-materials.')->group(function () {
+    // Materiais Pedagogicos Acessiveis
+    Route::prefix('materiais-pedagogicos-acessiveis')->name('materiais-pedagogicos-acessiveis.')->group(function () {
         Route::get('/', [AccessibleEducationalMaterialController::class, 'index'])->name('index')->middleware('can:material.index');
-        Route::get('/create', [AccessibleEducationalMaterialController::class, 'create'])->name('create')->middleware('can:material.create');
-        Route::post('/store', [AccessibleEducationalMaterialController::class, 'store'])->name('store')->middleware('can:material.store');
-        Route::get('/{material}', [AccessibleEducationalMaterialController::class, 'show'])->name('show')->middleware('can:material.show');
-        Route::get('/{material}/inspection/{inspection}', [AccessibleEducationalMaterialController::class, 'showInspection'])->name('inspection.show')->middleware('can:material.inspection.show');
-        Route::get('/{material}/edit', [AccessibleEducationalMaterialController::class, 'edit'])->name('edit')->middleware('can:material.edit');
-        Route::put('/{material}', [AccessibleEducationalMaterialController::class, 'update'])->name('update')->middleware('can:material.update');
-        Route::delete('/{material}', [AccessibleEducationalMaterialController::class, 'destroy'])->name('destroy')->middleware('can:material.destroy');
+        Route::get('/criar', [AccessibleEducationalMaterialController::class, 'create'])->name('criar')->middleware('can:material.create');
+        Route::post('/salvar', [AccessibleEducationalMaterialController::class, 'store'])->name('salvar')->middleware('can:material.store');
+        Route::get('/{material}', [AccessibleEducationalMaterialController::class, 'show'])->name('visualizar')->middleware('can:material.show');
+        Route::get('/{material}/inspecao/{inspection}', [AccessibleEducationalMaterialController::class, 'showInspection'])->name('inspecao.visualizar')->middleware('can:material.inspection.show');
+        Route::get('/{material}/editar', [AccessibleEducationalMaterialController::class, 'edit'])->name('editar')->middleware('can:material.edit');
+        Route::put('/{material}', [AccessibleEducationalMaterialController::class, 'update'])->name('atualizar')->middleware('can:material.update');
+        Route::delete('/{material}', [AccessibleEducationalMaterialController::class, 'destroy'])->name('excluir')->middleware('can:material.destroy');
         Route::get('/{material}/pdf', [AccessibleEducationalMaterialController::class, 'generatePdf'])->name('pdf')->middleware('can:material.pdf');
-        Route::get('/{material}/logs', [AccessibleEducationalMaterialLogController::class, 'index'])->name('logs')->middleware('can:material.logs');
+        Route::get('/{material}/registros', [AccessibleEducationalMaterialLogController::class, 'index'])->name('registros')->middleware('can:material.logs');
     });
 
     // Agenda Institucional
-    Route::prefix('institutional-events')->name('institutional-events.')->group(function () {
+    Route::prefix('agenda-institucional')->name('agenda-institucional.')->group(function () {
         Route::get('/', [InstitutionalEventController::class, 'index'])->name('index')->middleware('can:institutional-event.index');
-        Route::get('/create', [InstitutionalEventController::class, 'create'])->name('create')->middleware('can:institutional-event.create');
-        Route::post('/store', [InstitutionalEventController::class, 'store'])->name('store')->middleware('can:institutional-event.store');
-        Route::get('/{event}', [InstitutionalEventController::class, 'show'])->name('show')->middleware('can:institutional-event.show');
-        Route::get('/{event}/edit', [InstitutionalEventController::class, 'edit'])->name('edit')->middleware('can:institutional-event.edit');
-        Route::put('/{event}', [InstitutionalEventController::class, 'update'])->name('update')->middleware('can:institutional-event.update');
-        Route::delete('/{event}', [InstitutionalEventController::class, 'destroy'])->name('destroy')->middleware('can:institutional-event.destroy');
+        Route::get('/criar', [InstitutionalEventController::class, 'create'])->name('criar')->middleware('can:institutional-event.create');
+        Route::post('/salvar', [InstitutionalEventController::class, 'store'])->name('salvar')->middleware('can:institutional-event.store');
+        Route::get('/{event}', [InstitutionalEventController::class, 'show'])->name('visualizar')->middleware('can:institutional-event.show');
+        Route::get('/{event}/editar', [InstitutionalEventController::class, 'edit'])->name('editar')->middleware('can:institutional-event.edit');
+        Route::put('/{event}', [InstitutionalEventController::class, 'update'])->name('atualizar')->middleware('can:institutional-event.update');
+        Route::delete('/{event}', [InstitutionalEventController::class, 'destroy'])->name('excluir')->middleware('can:institutional-event.destroy');
         Route::get('/{event}/pdf', [InstitutionalEventController::class, 'generatePdf'])->name('pdf')->middleware('can:institutional-event.pdf');
     });
 
-    // Empréstimos
-    Route::prefix('loans')->name('loans.')->group(function () {
+    // Emprestimos
+    Route::prefix('emprestimos')->name('emprestimos.')->group(function () {
         Route::get('/', [LoanController::class, 'index'])->name('index')->middleware('can:loan.index');
-        Route::get('/create', [LoanController::class, 'create'])->name('create')->middleware('can:loan.create');
-        Route::post('/store', [LoanController::class, 'store'])->name('store')->middleware('can:loan.store');
-        Route::get('/{loan}', [LoanController::class, 'show'])->name('show')->middleware('can:loan.show');
-        Route::get('/{loan}/edit', [LoanController::class, 'edit'])->name('edit')->middleware('can:loan.edit');
-        Route::put('/{loan}', [LoanController::class, 'update'])->name('update')->middleware('can:loan.update');
-        Route::patch('/{loan}/return', [LoanController::class, 'returnItem'])->name('return')->middleware('can:loan.return');
-        Route::delete('/{loan}', [LoanController::class, 'destroy'])->name('destroy')->middleware('can:loan.destroy');
+        Route::get('/criar', [LoanController::class, 'create'])->name('criar')->middleware('can:loan.create');
+        Route::post('/salvar', [LoanController::class, 'store'])->name('salvar')->middleware('can:loan.store');
+        Route::get('/{loan}', [LoanController::class, 'show'])->name('visualizar')->middleware('can:loan.show');
+        Route::get('/{loan}/editar', [LoanController::class, 'edit'])->name('editar')->middleware('can:loan.edit');
+        Route::put('/{loan}', [LoanController::class, 'update'])->name('atualizar')->middleware('can:loan.update');
+        Route::patch('/{loan}/devolver', [LoanController::class, 'returnItem'])->name('devolver')->middleware('can:loan.return');
+        Route::delete('/{loan}', [LoanController::class, 'destroy'])->name('excluir')->middleware('can:loan.destroy');
         Route::get('/{loan}/pdf', [LoanController::class, 'generatePdf'])->name('pdf')->middleware('can:loan.pdf');
     });
 
     // Fila de Espera
-    Route::prefix('waitlists')->name('waitlists.')->group(function () {
+    Route::prefix('filas-de-espera')->name('filas-de-espera.')->group(function () {
         Route::get('/', [WaitlistController::class, 'index'])->name('index')->middleware('can:waitlist.index');
-        Route::get('/create', [WaitlistController::class, 'create'])->name('create')->middleware('can:waitlist.create');
-        Route::post('/store', [WaitlistController::class, 'store'])->name('store')->middleware('can:waitlist.store');
-        Route::get('/{waitlist}', [WaitlistController::class, 'show'])->name('show')->middleware('can:waitlist.show');
-        Route::get('/{waitlist}/edit', [WaitlistController::class, 'edit'])->name('edit')->middleware('can:waitlist.edit');
-        Route::put('/{waitlist}', [WaitlistController::class, 'update'])->name('update')->middleware('can:waitlist.update');
-        Route::delete('/{waitlist}', [WaitlistController::class, 'destroy'])->name('destroy')->middleware('can:waitlist.destroy');
-        Route::patch('/{waitlist}/cancel', [WaitlistController::class, 'cancel'])->name('cancel')->middleware('can:waitlist.cancel');
+        Route::get('/criar', [WaitlistController::class, 'create'])->name('criar')->middleware('can:waitlist.create');
+        Route::post('/salvar', [WaitlistController::class, 'store'])->name('salvar')->middleware('can:waitlist.store');
+        Route::get('/{waitlist}', [WaitlistController::class, 'show'])->name('visualizar')->middleware('can:waitlist.show');
+        Route::get('/{waitlist}/editar', [WaitlistController::class, 'edit'])->name('editar')->middleware('can:waitlist.edit');
+        Route::put('/{waitlist}', [WaitlistController::class, 'update'])->name('atualizar')->middleware('can:waitlist.update');
+        Route::delete('/{waitlist}', [WaitlistController::class, 'destroy'])->name('excluir')->middleware('can:waitlist.destroy');
+        Route::patch('/{waitlist}/cancelar', [WaitlistController::class, 'cancel'])->name('cancelar')->middleware('can:waitlist.cancel');
         Route::get('/{waitlist}/pdf', [WaitlistController::class, 'generatePdf'])->name('pdf')->middleware('can:waitlist.pdf');
     });
 });
@@ -176,41 +176,41 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\StudentController;
 
-// --- Admin ---
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+// --- Administracao ---
+Route::middleware(['auth', 'admin'])->prefix('administracao')->group(function () {
 
     // Pessoas
-    Route::prefix('people')->name('people.')->group(function () {
+    Route::prefix('pessoas')->name('pessoas.')->group(function () {
         Route::get('/', [PersonController::class, 'index'])->name('index')->middleware('can:people.view');
-        Route::get('/create', [PersonController::class, 'create'])->name('create')->middleware('can:people.create');
-        Route::post('/store', [PersonController::class, 'store'])->name('store')->middleware('can:people.create');
-        Route::get('/{person}/edit', [PersonController::class, 'edit'])->name('edit')->middleware('can:people.update');
-        Route::put('/{person}', [PersonController::class, 'update'])->name('update')->middleware('can:people.update');
-        Route::delete('/{person}', [PersonController::class, 'destroy'])->name('destroy')->middleware('can:people.delete');
+        Route::get('/criar', [PersonController::class, 'create'])->name('criar')->middleware('can:people.create');
+        Route::post('/salvar', [PersonController::class, 'store'])->name('salvar')->middleware('can:people.create');
+        Route::get('/{person}/editar', [PersonController::class, 'edit'])->name('editar')->middleware('can:people.update');
+        Route::put('/{person}', [PersonController::class, 'update'])->name('atualizar')->middleware('can:people.update');
+        Route::delete('/{person}', [PersonController::class, 'destroy'])->name('excluir')->middleware('can:people.delete');
     });
 
-    // Deficiências
-    Route::prefix('deficiencies')->name('deficiencies.')->group(function () {
+    // Deficiencias
+    Route::prefix('deficiencias')->name('deficiencias.')->group(function () {
         Route::get('/', [DeficiencyController::class, 'index'])->name('index')->middleware('can:deficiency.view');
-        Route::get('/create', [DeficiencyController::class, 'create'])->name('create')->middleware('can:deficiency.create');
-        Route::post('/store', [DeficiencyController::class, 'store'])->name('store')->middleware('can:deficiency.create');
-        Route::get('/{deficiency}/show', [DeficiencyController::class, 'show'])->name('show')->middleware('can:deficiency.view');
-        Route::get('/{deficiency}/edit', [DeficiencyController::class, 'edit'])->name('edit')->middleware('can:deficiency.update');
-        Route::put('/{deficiency}', [DeficiencyController::class, 'update'])->name('update')->middleware('can:deficiency.update');
-        Route::patch('/{deficiency}/deactivate', [DeficiencyController::class, 'toggleActive'])->name('deactivate')->middleware('can:deficiency.update');
-        Route::delete('/{deficiency}', [DeficiencyController::class, 'destroy'])->name('destroy')->middleware('can:deficiency.delete');
+        Route::get('/criar', [DeficiencyController::class, 'create'])->name('criar')->middleware('can:deficiency.create');
+        Route::post('/salvar', [DeficiencyController::class, 'store'])->name('salvar')->middleware('can:deficiency.create');
+        Route::get('/{deficiency}/visualizar', [DeficiencyController::class, 'show'])->name('visualizar')->middleware('can:deficiency.view');
+        Route::get('/{deficiency}/editar', [DeficiencyController::class, 'edit'])->name('editar')->middleware('can:deficiency.update');
+        Route::put('/{deficiency}', [DeficiencyController::class, 'update'])->name('atualizar')->middleware('can:deficiency.update');
+        Route::patch('/{deficiency}/desativar', [DeficiencyController::class, 'toggleActive'])->name('desativar')->middleware('can:deficiency.update');
+        Route::delete('/{deficiency}', [DeficiencyController::class, 'destroy'])->name('excluir')->middleware('can:deficiency.delete');
     });
 
     // Cargos
-    Route::prefix('positions')->name('positions.')->group(function () {
+    Route::prefix('cargos')->name('cargos.')->group(function () {
         Route::get('/', [PositionController::class, 'index'])->name('index')->middleware('can:position.view');
-        Route::get('/create', [PositionController::class, 'create'])->name('create')->middleware('can:position.create');
-        Route::post('/store', [PositionController::class, 'store'])->name('store')->middleware('can:position.create');
-        Route::get('/{position}/show', [PositionController::class, 'show'])->name('show')->middleware('can:position.view');
-        Route::get('/{position}/edit', [PositionController::class, 'edit'])->name('edit')->middleware('can:position.update');
-        Route::put('/{position}', [PositionController::class, 'update'])->name('update')->middleware('can:position.update');
-        Route::patch('/{position}/deactivate', [PositionController::class, 'toggleActive'])->name('deactivate')->middleware('can:position.update');
-        Route::delete('/{position}', [PositionController::class, 'destroy'])->name('destroy')->middleware('can:position.delete');
+        Route::get('/criar', [PositionController::class, 'create'])->name('criar')->middleware('can:position.create');
+        Route::post('/salvar', [PositionController::class, 'store'])->name('salvar')->middleware('can:position.create');
+        Route::get('/{position}/visualizar', [PositionController::class, 'show'])->name('visualizar')->middleware('can:position.view');
+        Route::get('/{position}/editar', [PositionController::class, 'edit'])->name('editar')->middleware('can:position.update');
+        Route::put('/{position}', [PositionController::class, 'update'])->name('atualizar')->middleware('can:position.update');
+        Route::patch('/{position}/desativar', [PositionController::class, 'toggleActive'])->name('desativar')->middleware('can:position.update');
+        Route::delete('/{position}', [PositionController::class, 'destroy'])->name('excluir')->middleware('can:position.delete');
     });
 });
 
@@ -218,24 +218,24 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 Route::middleware(['auth'])->group(function () {
 
     // Estudantes
-    Route::prefix('students')->name('students.')->group(function () {
+    Route::prefix('estudantes')->name('estudantes.')->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('index')->middleware('can:student.view');
-        Route::get('/create', [StudentController::class, 'create'])->name('create')->middleware('can:student.create');
-        Route::post('/store', [StudentController::class, 'store'])->name('store')->middleware('can:student.create');
-        Route::get('/{student}/show', [StudentController::class, 'show'])->name('show')->middleware('can:student.view');
-        Route::get('/{student}/edit', [StudentController::class, 'edit'])->name('edit')->middleware('can:student.update');
-        Route::put('/{student}', [StudentController::class, 'update'])->name('update')->middleware('can:student.update');
-        Route::delete('/{student}', [StudentController::class, 'destroy'])->name('destroy')->middleware('can:student.delete');
+        Route::get('/criar', [StudentController::class, 'create'])->name('criar')->middleware('can:student.create');
+        Route::post('/salvar', [StudentController::class, 'store'])->name('salvar')->middleware('can:student.create');
+        Route::get('/{student}/visualizar', [StudentController::class, 'show'])->name('visualizar')->middleware('can:student.view');
+        Route::get('/{student}/editar', [StudentController::class, 'edit'])->name('editar')->middleware('can:student.update');
+        Route::put('/{student}', [StudentController::class, 'update'])->name('atualizar')->middleware('can:student.update');
+        Route::delete('/{student}', [StudentController::class, 'destroy'])->name('excluir')->middleware('can:student.delete');
     });
 
     // Profissionais
-    Route::prefix('professionals')->name('professionals.')->group(function () {
+    Route::prefix('profissionais')->name('profissionais.')->group(function () {
         Route::get('/', [ProfessionalController::class, 'index'])->name('index')->middleware('can:professional.index');
-        Route::get('/create', [ProfessionalController::class, 'create'])->name('create')->middleware('can:professional.create');
-        Route::post('/store', [ProfessionalController::class, 'store'])->name('store')->middleware('can:professional.create');
-        Route::get('/{professional}/show', [ProfessionalController::class, 'show'])->name('show')->middleware('can:professional.show');
-        Route::get('/{professional}/edit', [ProfessionalController::class, 'edit'])->name('edit')->middleware('can:professional.update');
-        Route::put('/{professional}', [ProfessionalController::class, 'update'])->name('update')->middleware('can:professional.update');
-        Route::delete('/{professional}', [ProfessionalController::class, 'destroy'])->name('destroy')->middleware('can:professional.delete');
+        Route::get('/criar', [ProfessionalController::class, 'create'])->name('criar')->middleware('can:professional.create');
+        Route::post('/salvar', [ProfessionalController::class, 'store'])->name('salvar')->middleware('can:professional.create');
+        Route::get('/{professional}/visualizar', [ProfessionalController::class, 'show'])->name('visualizar')->middleware('can:professional.show');
+        Route::get('/{professional}/editar', [ProfessionalController::class, 'edit'])->name('editar')->middleware('can:professional.update');
+        Route::put('/{professional}', [ProfessionalController::class, 'update'])->name('atualizar')->middleware('can:professional.update');
+        Route::delete('/{professional}', [ProfessionalController::class, 'destroy'])->name('excluir')->middleware('can:professional.delete');
     });
 });

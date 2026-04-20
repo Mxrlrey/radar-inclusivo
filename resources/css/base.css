@@ -223,7 +223,6 @@ a:focus, a:active { outline: 0; }
 *::before,
 *::after {
     border-radius: 0 !important;
-    box-shadow: none !important;
 }
 
 :focus-visible {

@@ -8,8 +8,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Tecnologias Assistivas' => route('assistive-technologies.index'),
-                $assistiveTechnology->name => route('assistive-technologies.show', $assistiveTechnology),
+                'Tecnologias Assistivas' => route('tecnologias-assistivas.index'),
+                $assistiveTechnology->name => route('tecnologias-assistivas.visualizar', $assistiveTechnology),
                 'Editar' => null
             ]" />
 
@@ -20,7 +20,7 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button :href="route('assistive-technologies.show', $assistiveTechnology)"
+            <x-buttons.link-button :href="route('tecnologias-assistivas.visualizar', $assistiveTechnology)"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -30,7 +30,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('assistive-technologies.update', $assistiveTechnology) }}"
+        action="{{ route('tecnologias-assistivas.atualizar', $assistiveTechnology) }}"
         method="POST"
         enctype="multipart/form-data"
         class="form-horizontal"
@@ -198,7 +198,7 @@
 
         <x-forms.form-footer>
             <x-buttons.link-button
-                :href="route('assistive-technologies.show', $assistiveTechnology)"
+                :href="route('tecnologias-assistivas.index', $assistiveTechnology)"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

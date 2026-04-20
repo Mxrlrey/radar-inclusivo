@@ -8,8 +8,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Materiais Pedagógicos' => route('accessible-educational-materials.index'),
-                $material->name => route('accessible-educational-materials.show', $material),
+                'Materiais Pedagógicos' => route('materiais-pedagogicos-acessiveis.index'),
+                $material->name => route('materiais-pedagogicos-acessiveis.visualizar', $material),
                 'Detalhes da Inspeção' => null
             ]" />
 
@@ -22,7 +22,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('accessible-educational-materials.show', $material)"
+                :href="route('materiais-pedagogicos-acessiveis.visualizar', $material)"
                 variant="secondary"
             >
                 <x-slot:icon>
@@ -100,7 +100,7 @@
         @endif
 
         <x-show.footer
-            :backRoute="route('accessible-educational-materials.show', $material)"
+            :backRoute="route('materiais-pedagogicos-acessiveis.visualizar', $material)"
         />
     </div>
 @endsection

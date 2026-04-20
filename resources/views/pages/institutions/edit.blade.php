@@ -7,8 +7,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Instituições' => route('institutions.index'),
-                $institution->name => route('institutions.show', $institution),
+                'Instituições' => route('instituicoes.index'),
+                $institution->name => route('instituicoes.visualizar', $institution),
                 'Editar' => null
             ]" />
 
@@ -21,7 +21,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('institutions.show', $institution)"
+                :href="route('instituicoes.visualizar', $institution)"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -31,7 +31,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('institutions.update', $institution) }}"
+        action="{{ route('instituicoes.atualizar', $institution) }}"
         method="POST"
         class="form-horizontal"
     >
@@ -202,7 +202,7 @@
 
             <x-forms.form-footer>
                 <x-buttons.link-button
-                    :href="route('institutions.show', $institution)"
+                    :href="route('instituicoes.visualizar', $institution)"
                     variant="secondary"
                 >
                     <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

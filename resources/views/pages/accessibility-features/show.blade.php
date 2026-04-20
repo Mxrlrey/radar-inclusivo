@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Recursos de Acessibilidade' => route('accessibility-features.index'),
+                'Recursos de Acessibilidade' => route('recursos-de-acessibilidade.index'),
                 $feature->name => null
             ]" />
 
@@ -19,7 +19,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('accessibility-features.edit', $feature)"
+                :href="route('recursos-de-acessibilidade.editar', $feature)"
                 variant="info"
             >
                 <x-slot:icon><i class="fa fa-pencil"></i></x-slot:icon>
@@ -27,7 +27,7 @@
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('accessibility-features.index')"
+                :href="route('recursos-de-acessibilidade.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
@@ -82,7 +82,7 @@
 
         <x-show.footer>
             <x-buttons.link-button
-                :href="route('accessibility-features.index')"
+                :href="route('recursos-de-acessibilidade.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
@@ -125,7 +125,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('accessibility-features.destroy', $feature) }}" method="POST">
+            <form action="{{ route('recursos-de-acessibilidade.excluir', $feature) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

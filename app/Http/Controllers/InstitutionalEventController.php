@@ -40,7 +40,7 @@ class InstitutionalEventController extends Controller
 
     public function create(Request $request): View
     {
-        $backRoute = $this->resolveBackRoute($request, 'institutional-events.index');
+        $backRoute = $this->resolveBackRoute($request, 'agenda-institucional.index');
 
         return view('pages.institutional-events.create', compact('backRoute'));
     }
@@ -50,13 +50,13 @@ class InstitutionalEventController extends Controller
         $this->service->store($request->validated());
 
         return redirect()
-            ->route('institutional-events.index')
+            ->route('agenda-institucional.index')
             ->with('success', 'Evento criado com sucesso!');
     }
 
     public function show(Request $request, InstitutionalEvent $event): View
     {
-        $backRoute = $this->resolveBackRoute($request, 'institutional-events.index');
+        $backRoute = $this->resolveBackRoute($request, 'agenda-institucional.index');
 
         return view('pages.institutional-events.show', compact('event', 'backRoute'));
     }
@@ -71,7 +71,7 @@ class InstitutionalEventController extends Controller
         $this->service->update($event, $request->validated());
 
         return redirect()
-            ->route('institutional-events.index')
+            ->route('agenda-institucional.index')
             ->with('success', 'Evento atualizado com sucesso!');
     }
 
@@ -80,7 +80,7 @@ class InstitutionalEventController extends Controller
         $this->service->delete($event);
 
         return redirect()
-            ->route('institutional-events.index')
+            ->route('agenda-institucional.index')
             ->with('success', 'Evento removido com sucesso!');
     }
 

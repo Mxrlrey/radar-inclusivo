@@ -26,7 +26,7 @@ class ReportController extends Controller
     // Página do builder
     public function builder()
     {
-        return view('reports.builder');
+        return view('pages.reports.builder');
     }
 
     // Lista todas as entidades Reportable (procura na pasta Models)
@@ -522,7 +522,7 @@ public function run(Request $request)
         $data = $resp->getData();
         $rows = $data->rows ?? [];
 
-        $pdf = Pdf::loadView('reports.pdf', [
+        $pdf = Pdf::loadView('pages.reports.pdf', [
             'data' => $rows,
             'headers' => $labels
         ]);

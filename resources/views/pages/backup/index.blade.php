@@ -16,7 +16,7 @@
         </div>
 
         <div class="page-header-actions d-flex gap-2">
-            <form action="{{ route('backups.upload') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('copias-seguranca.enviar') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="file"
                        name="backup_file"
@@ -37,7 +37,7 @@
                 </x-buttons.link-button>
             </form>
 
-            <form action="{{ route('backups.store') }}" method="POST">
+            <form action="{{ route('copias-seguranca.salvar') }}" method="POST">
                 @csrf
                 <x-buttons.submit-button variant="new">
                     <span class="btn-label">
@@ -52,7 +52,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('backups.index') }}"
+                data-url="{{ route('copias-seguranca.index') }}"
                 data-target="#backups-table"
                 :fields="[
                     [

@@ -7,8 +7,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Pontos de Referência' => route('locations.index'),
-                $location->name => route('locations.show', $location),
+                'Pontos de Referência' => route('localizacoes.index'),
+                $location->name => route('localizacoes.visualizar', $location),
                 'Editar' => null
             ]" />
 
@@ -22,7 +22,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('locations.show', $location)"
+                :href="route('localizacoes.visualizar', $location)"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -32,7 +32,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('locations.update', $location) }}"
+        action="{{ route('localizacoes.atualizar', $location) }}"
         method="POST"
         class="form-horizontal"
     >
@@ -163,7 +163,7 @@
 
             <x-forms.form-footer>
                 <x-buttons.link-button
-                    :href="route('locations.show', $location)"
+                    :href="route('localizacoes.visualizar', $location)"
                     variant="secondary"
                 >
                     <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

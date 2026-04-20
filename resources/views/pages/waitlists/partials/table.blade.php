@@ -8,7 +8,6 @@
     ]"
     :records="$waitlists"
     aria-label="Tabela da Fila de Espera"
-    class="table-striped"
 >
     @forelse($waitlists as $waitlist)
         @php
@@ -49,7 +48,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('waitlists.show', $waitlist)"
+                        :href="route('filas-de-espera.visualizar', $waitlist)"
                         variant="info"
                         size="xs"
                         title="Visualizar Solicitação"
@@ -106,7 +105,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('waitlists.destroy', $waitlist) }}" method="POST">
+            <form action="{{ route('filas-de-espera.excluir', $waitlist) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <x-buttons.submit-button variant="danger">

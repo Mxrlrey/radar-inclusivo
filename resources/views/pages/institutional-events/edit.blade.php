@@ -7,8 +7,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Agenda Institucional' => route('institutional-events.index'),
-                $event->title => route('institutional-events.show', $event),
+                'Agenda Institucional' => route('agenda-institucional.index'),
+                $event->title => route('agenda-institucional.visualizar', $event),
                 'Editar' => null
             ]" />
             <h1>Editar Evento Institucional</h1>
@@ -19,7 +19,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('institutional-events.show', $event)"
+                :href="route('agenda-institucional.visualizar', $event)"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -29,7 +29,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('institutional-events.update', $event) }}"
+        action="{{ route('agenda-institucional.atualizar', $event) }}"
         method="POST"
         class="form-horizontal"
     >
@@ -142,7 +142,7 @@
 
         <x-forms.form-footer>
             <x-buttons.link-button
-                :href="route('institutional-events.show', $event)"
+                :href="route('agenda-institucional.visualizar', $event)"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

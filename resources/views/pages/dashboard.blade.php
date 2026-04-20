@@ -26,28 +26,28 @@
                 :value="$totalStudents ?? 0"
                 icon="ion-android-contact"
                 color="primary"
-                :href="route('students.index')"
+                :href="route('estudantes.index')"
             />
             <x-stat-widget
                 title="Equipe"
                 :value="$totalProfessionals ?? 0"
                 icon="ion-android-social"
                 color="info"
-                :href="route('professionals.index')"
+                :href="route('profissionais.index')"
             />
             <x-stat-widget
                 title="Empréstimos"
                 :value="$totalLoans ?? 0"
                 icon="ion-arrow-swap"
                 color="success"
-                :href="route('loans.index')"
+                :href="route('emprestimos.index')"
             />
             <x-stat-widget
                 title="Fila de Espera"
                 :value="$totalWaiting ?? 0"
                 icon="ion-android-timer"
                 color="warning"
-                :href="route('waitlists.index')"
+                :href="route('filas-de-espera.index')"
             />
         </div>
 
@@ -58,21 +58,21 @@
                 :value="$totalAt ?? 0"
                 icon="fa fa-microchip"
                 color="primary"
-                :href="route('assistive-technologies.index')"
+                :href="route('tecnologias-assistivas.index')"
             />
             <x-stat-widget
                 title="Materiais Acessíveis"
                 :value="$totalAem ?? 0"
                 icon="ion-android-book"
                 color="info"
-                :href="route('accessible-educational-materials.index')"
+                :href="route('materiais-pedagogicos-acessiveis.index')"
             />
             <x-stat-widget
                 title="Barreiras"
                 :value="$totalBarriers ?? 0"
                 icon="fa fa-ban"
                 color="danger"
-                :href="route('barriers.index')"
+                :href="route('barreiras.index')"
             />
         </div>
 
@@ -115,7 +115,7 @@
                 </div>
 
                 {{-- Barra de Filtros --}}
-                <div class="bg-light p-3 border-top d-flex flex-wrap justify-content-center gap-3"
+                <div class="checkbox-group-wrapper p-3 border-top d-flex flex-wrap justify-content-center gap-3"
                      style="border-radius: 0 0 15px 15px;">
                     <span class="small fw-bold text-muted w-100 text-center mb-1">VISUALIZAR NO MAPA:</span>
 

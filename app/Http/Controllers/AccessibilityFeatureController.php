@@ -54,7 +54,7 @@ class AccessibilityFeatureController extends Controller
     {
         $this->service->store($request->validated());
 
-        return redirect()->route('accessibility-features.index')
+        return redirect()->route('recursos-de-acessibilidade.index')
             ->with('success', 'Recurso de acessibilidade criado com sucesso!');
     }
 
@@ -70,7 +70,7 @@ class AccessibilityFeatureController extends Controller
     {
         $this->service->update($accessibilityFeature, $request->validated());
 
-        return redirect()->route('accessibility-features.index')
+        return redirect()->route('recursos-de-acessibilidade.index')
             ->with('success', 'Recurso de acessibilidade atualizado com sucesso!');
     }
 
@@ -78,7 +78,7 @@ class AccessibilityFeatureController extends Controller
     {
         $this->service->delete($accessibilityFeature);
 
-        return redirect()->route('accessibility-features.index')
+        return redirect()->route('recursos-de-acessibilidade.index')
             ->with('success', 'Recurso de acessibilidade removido com sucesso!');
     }
 }

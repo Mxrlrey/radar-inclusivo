@@ -7,13 +7,13 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Recursos de Acessibilidade' => route('accessibility-features.index'),
+            'Recursos de Acessibilidade' => route('recursos-de-acessibilidade.index'),
             'Cadastrar' => null
         ]" />
             <h1>Novo Recurso de Acessibilidade</h1>
         </div>
         <div class="page-header-actions">
-            <x-buttons.link-button :href="route('accessibility-features.index')" variant="secondary">
+            <x-buttons.link-button :href="route('recursos-de-acessibilidade.index')" variant="secondary">
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
@@ -21,7 +21,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('accessibility-features.store') }}"
+        action="{{ route('recursos-de-acessibilidade.salvar') }}"
         method="POST"
         class="form-horizontal"
     >
@@ -55,7 +55,7 @@
         />
 
         <x-forms.form-footer>
-            <x-buttons.link-button :href="route('accessibility-features.index')" variant="secondary">
+            <x-buttons.link-button :href="route('recursos-de-acessibilidade.index')" variant="secondary">
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>

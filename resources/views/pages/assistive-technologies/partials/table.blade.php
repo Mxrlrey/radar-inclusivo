@@ -8,7 +8,6 @@
     ]"
     :records="$assistiveTechnologies"
     aria-label="Tabela de Tecnologias Assistivas"
-    class="table-striped"
 >
     @forelse($assistiveTechnologies as $tech)
         @php
@@ -52,7 +51,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('assistive-technologies.show', $tech)"
+                        :href="route('tecnologias-assistivas.visualizar', $tech)"
                         variant="info"
                         size="xs"
                         title="Visualizar {{ $tech->name }}"
@@ -112,7 +111,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('assistive-technologies.destroy', $tech) }}" method="POST">
+            <form action="{{ route('tecnologias-assistivas.excluir', $tech) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

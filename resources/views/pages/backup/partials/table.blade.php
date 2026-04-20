@@ -8,16 +8,16 @@
         ['label' => 'Ações']
     ]"
     :records="$backups"
-    class="table-striped"
 >
     @forelse($backups as $backup)
         @php
-            $modalId = "modal-delete-backup-" . $backup->id;
+            $modalDeleteId = "modal-delete-backup-" . $backup->id;
+            $modalRestoreId = "modal-restore-backup-" . $backup->id;
         @endphp
 
         <tr>
             <x-table.td scope="row" class="font-weight-medium">
-                <a href="{{ route('backups.show', $backup->id) }}" class="text-decoration-none text-dark">
+                <a href="{{ route('copias-seguranca.visualizar', $backup->id) }}" class="text-decoration-none text-dark">
                     {{ $backup->file_name }}
                 </a>
             </x-table.td>
@@ -52,7 +52,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('backups.show', $backup->id)"
+                        :href="route('copias-seguranca.visualizar', $backup->id)"
                         variant="info"
                         size="xs"
                         title="Visualizar backup"
@@ -62,7 +62,7 @@
                     </x-buttons.link-button>
 
                     <x-buttons.link-button
-                        :href="route('backups.download', $backup->id)"
+                        :href="route('copias-seguranca.baixar', $backup->id)"
                         variant="success"
                         size="xs"
                         title="Baixar backup"
@@ -72,28 +72,23 @@
                     </x-buttons.link-button>
 
                     @if($backup->status === 'success')
-                        <form action="{{ route('backups.restore', $backup->id) }}"
-                              method="POST"
-                              class="d-inline form-restore">
-                            @csrf
-                            <x-buttons.submit-button
-                                variant="warning"
-                                size="xs"
-                                class="btn-restore"
-                                data-filename="{{ $backup->file_name }}"
-                                title="Restaurar backup"
-                                aria-label="Restaurar sistema usando o backup"
-                            >
-                                <i class="fa fa-history" aria-hidden="true"></i>
-                            </x-buttons.submit-button>
-                        </form>
+                        <x-buttons.submit-button
+                            variant="warning"
+                            size="xs"
+                            type="button"
+                            onclick="new bootstrap.Modal(document.getElementById('{{ $modalRestoreId }}')).show();"
+                            title="Restaurar backup"
+                            aria-label="Restaurar backup"
+                        >
+                            <i class="fa fa-history" aria-hidden="true"></i>
+                        </x-buttons.submit-button>
                     @endif
 
                     <x-buttons.submit-button
                         variant="danger"
                         size="xs"
                         type="button"
-                        onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                        onclick="new bootstrap.Modal(document.getElementById('{{ $modalDeleteId }}')).show();"
                         title="Excluir backup"
                         aria-label="Abrir confirmação para excluir o backup"
                     >
@@ -113,11 +108,49 @@
 
 @foreach($backups as $backup)
     @php
-        $modalId = "modal-delete-backup-" . $backup->id;
+        $modalDeleteId = "modal-delete-backup-" . $backup->id;
+        $modalRestoreId = "modal-restore-backup-" . $backup->id;
     @endphp
 
     <x-modal.modal
-        :id="$modalId"
+        :id="$modalRestoreId"
+        title="Confirmar Restauração"
+        size="sm"
+    >
+        <div class="p-3">
+            <p class="mb-2 text-warning fw-bold">
+                Atenção: esta ação irá restaurar o sistema.
+            </p>
+
+            <p class="mb-0 text-muted">
+                Deseja realmente restaurar o backup
+                <strong>{{ $backup->file_name }}</strong>?
+            </p>
+        </div>
+
+        <x-slot:footer>
+            <div class="d-flex justify-content-end gap-2 w-100">
+                <x-buttons.link-button
+                    href="javascript:void(0)"
+                    variant="secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </x-buttons.link-button>
+
+                <form action="{{ route('copias-seguranca.restaurar', $backup->id) }}" method="POST" class="m-0">
+                    @csrf
+
+                    <x-buttons.submit-button variant="warning" type="submit">
+                        Restaurar
+                    </x-buttons.submit-button>
+                </form>
+            </div>
+        </x-slot:footer>
+    </x-modal.modal>
+
+    <x-modal.modal
+        :id="$modalDeleteId"
         title="Confirmar Exclusão"
         size="sm"
     >
@@ -132,22 +165,24 @@
         </div>
 
         <x-slot:footer>
-            <x-buttons.link-button
-                href="javascript:void(0)"
-                variant="secondary"
-                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
-            >
-                Cancelar
-            </x-buttons.link-button>
+            <div class="d-flex justify-content-end gap-2 w-100">
+                <x-buttons.link-button
+                    href="javascript:void(0)"
+                    variant="secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </x-buttons.link-button>
 
-            <form action="{{ route('backups.destroy', $backup->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
+                <form action="{{ route('copias-seguranca.excluir', $backup->id) }}" method="POST" class="m-0">
+                    @csrf
+                    @method('DELETE')
 
-                <x-buttons.submit-button variant="danger">
-                    Excluir
-                </x-buttons.submit-button>
-            </form>
+                    <x-buttons.submit-button variant="danger" type="submit">
+                        Excluir
+                    </x-buttons.submit-button>
+                </form>
+            </div>
         </x-slot:footer>
     </x-modal.modal>
 @endforeach

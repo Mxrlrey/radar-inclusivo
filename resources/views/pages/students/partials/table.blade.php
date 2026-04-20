@@ -9,7 +9,6 @@
     ]"
     :records="$students"
     aria-label="Tabela de Alunos"
-    class="table-striped"
 >
     @forelse($students as $student)
         @php
@@ -56,7 +55,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('students.show', $student)"
+                        :href="route('estudantes.visualizar', $student)"
                         variant="info"
                         size="xs"
                         title="Visualizar {{ $student->person->name }}"
@@ -117,7 +116,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('students.destroy', $student) }}" method="POST">
+            <form action="{{ route('estudantes.excluir', $student) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

@@ -49,7 +49,7 @@ class StudentController extends Controller
         $student = $this->service->store($request->validated());
 
         return redirect()
-            ->route('students.show', $student)
+            ->route('estudantes.visualizar', $student)
             ->with('success', 'Aluno cadastrado com sucesso!');
     }
 
@@ -74,7 +74,7 @@ class StudentController extends Controller
         ));
 
         return redirect()
-            ->route('students.show', $student)
+            ->route('estudantes.index', $student)
             ->with('success', 'Dados do aluno atualizados com sucesso!');
     }
 
@@ -83,7 +83,7 @@ class StudentController extends Controller
         $this->service->delete($student);
 
         return redirect()
-            ->route('students.index')
+            ->route('estudantes.index')
             ->with('success', 'Aluno removido com sucesso!');
     }
 

@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Barreiras' => route('barriers.index'),
+                'Barreiras' => route('barreiras.index'),
                 $barrier->name => null
             ]" />
 
@@ -19,7 +19,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('barriers.edit', $barrier)"
+                :href="route('barreiras.editar', $barrier)"
                 variant="info"
             >
                 <x-slot:icon><i class="fa fa-pencil"></i></x-slot:icon>
@@ -27,7 +27,7 @@
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('barriers.index')"
+                :href="route('barreiras.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
@@ -178,7 +178,7 @@
                     @if($barrier->category?->blocks_map)
                         <div
                             id="map-blocked-overlay"
-                            style="position:absolute; inset:0; background:rgba(255,255,255,0.85); display:flex; align-items:center; justify-content:center; font-weight:bold;"
+                            style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:bold;"
                         >
                             <div class="p-3 rounded shadow-sm text-center">
                                 <i class="fa fa-lock text-danger mb-2 d-block"></i>
@@ -203,7 +203,7 @@
             <x-show.footer>
                 <div class="d-flex gap-2">
                     <x-buttons.link-button
-                        :href="route('barriers.index')"
+                        :href="route('barreiras.index')"
                         variant="secondary"
                     >
                         <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
@@ -248,7 +248,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('barriers.destroy', $barrier) }}" method="POST">
+            <form action="{{ route('barreiras.excluir', $barrier) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

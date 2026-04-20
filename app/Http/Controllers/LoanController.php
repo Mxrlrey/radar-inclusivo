@@ -59,7 +59,7 @@ class LoanController extends Controller
         $this->service->store($request->validated());
 
         return redirect()
-            ->route('loans.index')
+            ->route('emprestimos.index')
             ->with('success', 'Empréstimo realizado com sucesso!');
     }
 
@@ -99,7 +99,7 @@ class LoanController extends Controller
         $this->service->update($loan, $request->validated());
 
         return redirect()
-            ->route('loans.index')
+            ->route('emprestimos.index')
             ->with('success', 'Empréstimo atualizado com sucesso!');
     }
 
@@ -111,7 +111,7 @@ class LoanController extends Controller
         ]);
 
         return redirect()
-            ->route('loans.index')
+            ->route('emprestimos.index')
             ->with('success', 'Devolução registrada com sucesso!');
     }
 
@@ -120,7 +120,7 @@ class LoanController extends Controller
         $this->service->delete($loan);
 
         return redirect()
-            ->route('loans.index')
+            ->route('emprestimos.index')
             ->with('success', 'Registro de empréstimo removido com sucesso!');
     }
 

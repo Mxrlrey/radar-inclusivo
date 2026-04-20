@@ -87,7 +87,7 @@ class LoginController extends Controller
                     'blocks_map' => (bool) ($barrier->category?->blocks_map ?? false),
                     'category_name' => $barrier->category?->name ?? 'Sem Categoria',
                     'color' => $currentStatus->color(),
-                    'url' => route('barriers.show', $barrier)
+                    'url' => route('barreiras.visualizar', $barrier)
                 ];
             })
             ->filter()

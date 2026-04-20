@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Agenda Institucional' => route('institutional-events.index'),
+                'Agenda Institucional' => route('agenda-institucional.index'),
                 $event->title => null
             ]" />
 
@@ -19,13 +19,13 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('institutional-events.edit', $event)"
+                :href="route('agenda-institucional.editar', $event)"
                 variant="info">
                 <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('institutional-events.index')"
+                :href="route('agenda-institucional.index')"
                 variant="secondary">
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
@@ -96,7 +96,7 @@
 
         <x-show.footer>
             <x-buttons.link-button
-                :href="route('institutional-events.index')"
+                :href="route('agenda-institucional.index')"
                 variant="secondary"
             >
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
@@ -104,7 +104,7 @@
             </x-buttons.link-button>
 
             <x-buttons.pdf-button
-                :href="route('institutional-events.pdf', $event)"
+                :href="route('agenda-institucional.pdf', $event)"
             />
 
             <x-buttons.submit-button
@@ -141,7 +141,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('institutional-events.destroy', $event) }}" method="POST">
+            <form action="{{ route('agenda-institucional.excluir', $event) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <x-buttons.submit-button variant="danger">

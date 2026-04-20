@@ -52,7 +52,7 @@ class PositionController extends Controller
         $this->service->store($request->validated());
 
         return redirect()
-            ->route('positions.index')
+            ->route('cargos.index')
             ->with('success', 'Cargo criado com sucesso!');
     }
 
@@ -78,7 +78,7 @@ class PositionController extends Controller
         $this->service->update($position, $request->validated());
 
         return redirect()
-            ->route('positions.index')
+            ->route('cargos.index')
             ->with('success', 'Cargo atualizado com sucesso!');
     }
 
@@ -89,7 +89,7 @@ class PositionController extends Controller
         $status = $position->wasChanged('is_active') && $position->is_active ? 'ativado' : 'desativado';
 
         return redirect()
-            ->route('positions.index')
+            ->route('cargos.index')
             ->with('success', "Cargo {$status} com sucesso!");
     }
 
@@ -98,7 +98,7 @@ class PositionController extends Controller
         $this->service->delete($position);
 
         return redirect()
-            ->route('positions.index')
+            ->route('cargos.index')
             ->with('success', 'Cargo removido com sucesso!');
     }
 

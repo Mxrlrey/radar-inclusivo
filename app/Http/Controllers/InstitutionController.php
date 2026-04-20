@@ -56,7 +56,7 @@ class InstitutionController extends Controller
         }
 
         return redirect()
-            ->route('institutions.index')
+            ->route('instituicoes.index')
             ->with('success', 'Instituição criada com sucesso!');
     }
 
@@ -85,7 +85,7 @@ class InstitutionController extends Controller
         $this->service->update($institution, $request->validated());
 
         return redirect()
-            ->route('institutions.index')
+            ->route('instituicoes.index')
             ->with('success', 'Instituição atualizada com sucesso!');
     }
 
@@ -94,7 +94,7 @@ class InstitutionController extends Controller
         $this->service->delete($institution);
 
         return redirect()
-            ->route('institutions.index')
+            ->route('instituicoes.index')
             ->with('success', 'Instituição removida com sucesso!');
     }
 }

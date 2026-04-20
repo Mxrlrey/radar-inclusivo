@@ -8,7 +8,6 @@
     ]"
     :records="$locations"
     aria-label="Tabela de Pontos de Referência"
-    class="table-striped"
 >
     @forelse($locations as $loc)
         @php
@@ -39,7 +38,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('locations.show', $loc)"
+                        :href="route('localizacoes.visualizar', $loc)"
                         variant="info"
                         size="xs"
                         title="Visualizar ponto de referência"
@@ -100,7 +99,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('locations.destroy', $loc) }}" method="POST">
+            <form action="{{ route('localizacoes.excluir', $loc) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

@@ -19,7 +19,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('barrier-categories.create')"
+                :href="route('categorias-de-barreiras.criar')"
                 variant="info"
                 aria-label="Cadastrar nova categoria de barreira"
             >
@@ -34,7 +34,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('barrier-categories.index') }}"
+                data-url="{{ route('categorias-de-barreiras.index') }}"
                 data-target="#barrier-categories-table"
                 :fields="[
                     [

@@ -53,7 +53,7 @@ class NotificationController extends Controller
         $notification->markAsRead();
 
         return redirect()
-            ->route('notifications.index')
+            ->route('notificacoes.index')
             ->with('success', 'Notificação marcada como lida.');
     }
 }

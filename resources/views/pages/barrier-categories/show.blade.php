@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Categorias de Barreiras' => route('barrier-categories.index'),
+                'Categorias de Barreiras' => route('categorias-de-barreiras.index'),
                 $barrierCategory->name => null
             ]" />
 
@@ -19,7 +19,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('barrier-categories.edit', $barrierCategory)"
+                :href="route('categorias-de-barreiras.editar', $barrierCategory)"
                 variant="info"
             >
                 <x-slot:icon><i class="fa fa-pencil"></i></x-slot:icon>
@@ -27,7 +27,7 @@
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('barrier-categories.index')"
+                :href="route('categorias-de-barreiras.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
@@ -87,7 +87,7 @@
 
         <x-show.footer>
             <x-buttons.link-button
-                :href="route('barrier-categories.index')"
+                :href="route('categorias-de-barreiras.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
@@ -130,7 +130,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('barrier-categories.destroy', $barrierCategory) }}" method="POST">
+            <form action="{{ route('categorias-de-barreiras.excluir', $barrierCategory) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

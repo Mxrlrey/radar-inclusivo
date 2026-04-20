@@ -8,7 +8,6 @@
     ]"
     :records="$materials"
     aria-label="Tabela de Materiais Pedagógicos Acessíveis"
-    class="table-striped"
 >
     @forelse($materials as $material)
 
@@ -58,7 +57,7 @@
             <x-table.td>
                 <x-table.actions>
                     <x-buttons.link-button
-                        :href="route('accessible-educational-materials.show', $material)"
+                        :href="route('materiais-pedagogicos-acessiveis.visualizar', $material)"
                         variant="info"
                         size="xs"
                         title="Visualizar {{ $material->name }}"
@@ -122,7 +121,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('accessible-educational-materials.destroy', $material) }}" method="POST">
+            <form action="{{ route('materiais-pedagogicos-acessiveis.excluir', $material) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

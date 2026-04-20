@@ -7,7 +7,7 @@
 .form-section-title {
     font-size: var(--form-section-font-size);
     font-weight: var(--font-weight-bold);
-    color: var(--text-primary);
+    color: var(--text-title);
     text-transform: uppercase;
     letter-spacing: var(--form-section-letter-spacing);
     line-height: var(--form-section-line-height);

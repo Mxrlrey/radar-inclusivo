@@ -14,7 +14,7 @@
         </div>
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('accessible-educational-materials.create')"
+                :href="route('materiais-pedagogicos-acessiveis.criar')"
                 variant="info"
                 aria-label="Cadastrar novo material pedagógico"
             >
@@ -26,7 +26,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('accessible-educational-materials.index') }}"
+                data-url="{{ route('materiais-pedagogicos-acessiveis.index') }}"
                 data-target="#materials-table"
                 :fields="[
                     [

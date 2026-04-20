@@ -19,7 +19,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('institutions.create')"
+                :href="route('instituicoes.criar')"
                 variant="info"
                 aria-label="Cadastrar nova instituição"
             >
@@ -34,7 +34,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('institutions.index') }}"
+                data-url="{{ route('instituicoes.index') }}"
                 data-target="#institutions-table"
                 :fields="[
                     [

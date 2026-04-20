@@ -9,7 +9,7 @@
 <div class="max-w-2xl mx-auto p-6 rounded shadow">
     <h1 class="text-2xl font-bold mb-6">Cadastrar Pessoa</h1>
 
-    <form action="{{ route('people.store') }}" method="POST">
+    <form action="{{ route('pessoas.salvar') }}" method="POST">
         @csrf
         <div class="grid grid-cols-1 gap-4">
             <div>
@@ -53,7 +53,7 @@
 
             <div class="flex gap-4 mt-4">
                 <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded">Salvar</button>
-                <a href="{{ route('people.index') }}"
+                <a href="{{ route('pessoas.index') }}"
                    class="bg-gray-500 text-white px-6 py-2 rounded">Cancelar</a>
             </div>
         </div>

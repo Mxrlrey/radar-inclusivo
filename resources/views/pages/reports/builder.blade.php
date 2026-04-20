@@ -257,7 +257,7 @@
 
             async function loadEntities () {
                 try {
-                    const list = await fetch('/reports/builder/available', { credentials: 'same-origin' }).then(r => r.json())
+                    const list = await fetch('/relatorios/dados-disponiveis', { credentials: 'same-origin' }).then(r => r.json())
                     const sel = document.getElementById('model-select')
 
                     sel.innerHTML = '<option value="">-- selecione o tipo de dado --</option>'
@@ -280,7 +280,7 @@
 
             async function loadMeta (modelClass) {
                 try {
-                    const res = await fetch(`/reports/builder/meta?model=${encodeURIComponent(modelClass)}`, {
+                    const res = await fetch(`/relatorios/metadados?model=${encodeURIComponent(modelClass)}`, {
                         credentials: 'same-origin'
                     })
 
@@ -465,7 +465,7 @@
                 showLoading()
 
                 try {
-                    const res = await fetch('/reports/builder/run', {
+                    const res = await fetch('/relatorios/gerar', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -550,7 +550,7 @@
                 })).filter(f => f.value !== '')
 
                 try {
-                    const res = await fetch('/reports/builder/export-pdf', {
+                    const res = await fetch('/relatorios/exportar-pdf', {
                         method: 'POST',
                         credentials: 'same-origin',
                         headers: {

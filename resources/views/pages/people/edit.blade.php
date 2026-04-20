@@ -9,7 +9,7 @@
 <div class="max-w-2xl mx-auto p-6 rounded shadow">
     <h1 class="text-2xl font-bold mb-6">Editar: {{ $person->name }}</h1>
 
-    <form action="{{ route('people.update', $person) }}" method="POST">
+    <form action="{{ route('pessoas.atualizar', $person) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -62,7 +62,7 @@
             <div class="flex gap-4 mt-4">
                 <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Atualizar
                 </button>
-                <a href="{{ route('people.index') }}"
+                <a href="{{ route('pessoas.index') }}"
                    class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600">Cancelar</a>
             </div>
         </div>

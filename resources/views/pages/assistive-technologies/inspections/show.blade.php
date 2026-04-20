@@ -8,8 +8,8 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Tecnologias Assistivas' => route('assistive-technologies.index'),
-                $assistiveTechnology->name => route('assistive-technologies.show', $assistiveTechnology),
+                'Tecnologias Assistivas' => route('tecnologias-assistivas.index'),
+                $assistiveTechnology->name => route('tecnologias-assistivas.visualizar', $assistiveTechnology),
                 'Detalhes da Inspeção' => null
             ]" />
 
@@ -22,7 +22,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('assistive-technologies.show', $assistiveTechnology)"
+                :href="route('tecnologias-assistivas.visualizar', $assistiveTechnology)"
                 variant="secondary"
             >
                 <x-slot:icon>
@@ -101,7 +101,7 @@
         @endif
 
         <x-show.footer
-            :backRoute="route('assistive-technologies.show', $assistiveTechnology)"
+            :backRoute="route('tecnologias-assistivas.visualizar', $assistiveTechnology)"
         />
     </div>
 @endsection

@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Pontos de Referência' => route('locations.index'),
+                'Pontos de Referência' => route('localizacoes.index'),
                 $location->name => null
             ]" />
 
@@ -19,7 +19,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('locations.edit', $location)"
+                :href="route('localizacoes.editar', $location)"
                 variant="info"
             >
                 <x-slot:icon><i class="fa fa-pencil"></i></x-slot:icon>
@@ -27,7 +27,7 @@
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('locations.index')"
+                :href="route('localizacoes.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
@@ -122,7 +122,7 @@
 
             <x-show.footer>
                 <x-buttons.link-button
-                    :href="route('locations.index')"
+                    :href="route('localizacoes.index')"
                     variant="secondary"
                 >
                     <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
@@ -170,7 +170,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('locations.destroy', $location) }}" method="POST">
+            <form action="{{ route('localizacoes.excluir', $location) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

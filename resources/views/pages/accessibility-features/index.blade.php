@@ -17,7 +17,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('accessibility-features.create')"
+                :href="route('recursos-de-acessibilidade.criar')"
                 variant="info"
                 aria-label="Cadastrar novo recurso de acessibilidade"
             >
@@ -30,7 +30,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('accessibility-features.index') }}"
+                data-url="{{ route('recursos-de-acessibilidade.index') }}"
                 data-target="#features-table"
                 :fields="[
                     [

@@ -34,7 +34,7 @@ class BarrierCategoryRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'is_active' => $this->has('is_active'),
+            'is_active' => $this->has('is_active') && $this->boolean('is_active'),
             'blocks_map' => $this->has('blocks_map'),
         ]);
     }

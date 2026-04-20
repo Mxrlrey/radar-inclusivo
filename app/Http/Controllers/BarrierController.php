@@ -58,7 +58,7 @@ class BarrierController extends Controller
         $this->service->store($request->validated());
 
         return redirect()
-            ->route('barriers.index')
+            ->route('barreiras.index')
             ->with('success', 'Barreira identificada com sucesso!');
     }
 
@@ -112,7 +112,7 @@ class BarrierController extends Controller
         $this->service->update($barrier, $request->validated());
 
         return redirect()
-            ->route('barriers.index')
+            ->route('barreiras.index')
             ->with('success', 'Barreira atualizada com sucesso!');
     }
 
@@ -121,7 +121,7 @@ class BarrierController extends Controller
         $this->service->delete($barrier);
 
         return redirect()
-            ->route('barriers.index')
+            ->route('barreiras.index')
             ->with('success', 'Barreira removida com sucesso!');
     }
 

@@ -48,7 +48,7 @@ class DeficiencyController extends Controller
         $this->service->store($request->validated());
 
         return redirect()
-            ->route('deficiencies.index')
+            ->route('deficiencias.index')
             ->with('success', 'Deficiência cadastrada com sucesso!');
     }
 
@@ -67,7 +67,7 @@ class DeficiencyController extends Controller
         $this->service->update($deficiency, $request->validated());
 
         return redirect()
-            ->route('deficiencies.index')
+            ->route('deficiencias.index')
             ->with('success', 'Deficiência atualizada com sucesso!');
     }
 
@@ -78,7 +78,7 @@ class DeficiencyController extends Controller
         $status = $deficiency->is_active ? 'ativada' : 'desativada';
 
         return redirect()
-            ->route('deficiencies.index')
+            ->route('deficiencias.index')
             ->with('success', "Deficiência {$status} com sucesso!");
     }
 
@@ -87,7 +87,7 @@ class DeficiencyController extends Controller
         $this->service->delete($deficiency);
 
         return redirect()
-            ->route('deficiencies.index')
+            ->route('deficiencias.index')
             ->with('success', 'Deficiência removida com sucesso!');
 
     }

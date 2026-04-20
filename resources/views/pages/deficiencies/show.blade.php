@@ -8,7 +8,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Deficiências' => route('deficiencies.index'),
+                'Deficiências' => route('deficiencias.index'),
                 $deficiency->name => null
             ]" />
 
@@ -21,7 +21,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('deficiencies.edit', $deficiency)"
+                :href="route('deficiencias.editar', $deficiency)"
                 variant="info"
             >
                 <span class="btn-label">
@@ -31,7 +31,7 @@
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('deficiencies.index')"
+                :href="route('deficiencias.index')"
                 variant="secondary"
             >
                 <span class="btn-label">
@@ -73,7 +73,7 @@
 
         <x-show.footer>
             <x-buttons.link-button
-                :href="route('deficiencies.index')"
+                :href="route('deficiencias.index')"
                 variant="secondary"
             >
                 <span class="btn-label">
@@ -120,7 +120,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('deficiencies.destroy', $deficiency) }}" method="POST">
+            <form action="{{ route('deficiencias.excluir', $deficiency) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

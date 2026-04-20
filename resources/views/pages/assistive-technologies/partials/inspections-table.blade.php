@@ -2,7 +2,7 @@
     <tbody>
     @forelse($inspections as $inspection)
         <tr class="inspection-tr"
-            onclick="window.location='{{ route('assistive-technologies.inspection.show', [$assistiveTechnology, $inspection]) }}'">
+            onclick="window.location='{{ route('tecnologias-assistivas.inspecao.visualizar', [$assistiveTechnology, $inspection]) }}'">
 
             <td class="col-info">
                 <i class="ion-clipboard"></i>

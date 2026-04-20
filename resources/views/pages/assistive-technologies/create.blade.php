@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Tecnologias Assistivas' => route('assistive-technologies.index'),
+                'Tecnologias Assistivas' => route('tecnologias-assistivas.index'),
                 'Cadastrar' => null
             ]" />
             <h1>Nova Tecnologia Assistiva</h1>
@@ -18,7 +18,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('assistive-technologies.index')"
+                :href="route('tecnologias-assistivas.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
@@ -28,7 +28,7 @@
     </div>
 
     <x-forms.form-card
-        action="{{ route('assistive-technologies.store') }}"
+        action="{{ route('tecnologias-assistivas.salvar') }}"
         method="POST"
         enctype="multipart/form-data"
         class="form-horizontal"
@@ -183,7 +183,7 @@
 
         <x-forms.form-footer>
             <x-buttons.link-button
-                :href="route('assistive-technologies.index')"
+                :href="route('tecnologias-assistivas.index')"
                 variant="secondary"
             >
                 <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>

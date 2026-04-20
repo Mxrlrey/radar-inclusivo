@@ -15,7 +15,7 @@
             <p>Histórico completo das suas notificações do sistema.</p>
         </div>
 
-        <form action="{{ route('notifications.readAll') }}" method="POST">
+        <form action="{{ route('notificacoes.ler.todas') }}" method="POST">
             @csrf
             <x-buttons.submit-button variant="primary">
                 <i class="fa fa-check"></i>
@@ -69,7 +69,7 @@
                     @endif
 
                     @if($isUnread)
-                        <form action="{{ route('notifications.read', $notification->id) }}" method="POST">
+                        <form action="{{ route('notificacoes.ler', $notification->id) }}" method="POST">
                             @csrf
 
                             <x-buttons.submit-button
@@ -84,16 +84,13 @@
                 </div>
             </div>
         </div>
-
     @empty
-
         <div class="card-custom text-center py-5 text-muted">
             <div class="notif-empty-icon mb-3">
                 <i class="far fa-bell"></i>
             </div>
             Nenhuma notificação encontrada
         </div>
-
     @endforelse
 
     <div class="mt-4">

@@ -19,7 +19,7 @@
         @can('professional.create')
             <div class="page-header-actions">
                 <x-buttons.link-button
-                    :href="route('professionals.create')"
+                    :href="route('profissionais.criar')"
                     variant="info"
                     aria-label="Cadastrar novo profissional"
                 >
@@ -35,7 +35,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('professionals.index') }}"
+                data-url="{{ route('profissionais.index') }}"
                 data-target="#professionals-table"
                 :fields="[
                     [

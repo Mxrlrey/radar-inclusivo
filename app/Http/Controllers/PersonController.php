@@ -52,13 +52,8 @@ class PersonController extends Controller
         $this->service->store($request->validated());
 
         return redirect()
-            ->route('people.index')
+            ->route('pessoas.index')
             ->with('success', 'Pessoa cadastrada com sucesso!');
-    }
-
-    public function show(Person $person): View
-    {
-        return view('pages.people.show', compact('person'));
     }
 
     public function edit(Person $person): View
@@ -74,7 +69,7 @@ class PersonController extends Controller
         $this->service->update($person, $request->validated());
 
         return redirect()
-            ->route('people.index')
+            ->route('pessoas.index')
             ->with('success', 'Cadastro atualizado com sucesso!');
     }
 
@@ -83,7 +78,7 @@ class PersonController extends Controller
         $this->service->delete($person);
 
         return redirect()
-            ->route('people.index')
+            ->route('pessoas.index')
             ->with('success', 'Registro removido com sucesso!');
     }
 

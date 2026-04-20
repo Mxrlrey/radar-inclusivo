@@ -20,7 +20,7 @@
                 @endif
 
                 <a class="navbar-brand d-none d-md-flex align-items-center text-primary fw-bold"
-                   href="{{ route('institutions.index') }}"
+                   href="{{ route('instituicoes.index') }}"
                    title="Gerenciar Instituição: {{ $institution?->name ?? 'GNAI' }}">
                     {{ $institution?->name ?? 'GNAI' }}
                 </a>

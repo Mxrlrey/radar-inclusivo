@@ -6,8 +6,8 @@
     <div class="mb-4">
         <x-breadcrumb :items="[
             'Home' => route('dashboard'),
-            'Tecnologias Assistivas' => route('assistive-technologies.index'),
-            $assistiveTechnology->name => route('assistive-technologies.show', $assistiveTechnology),
+            'Tecnologias Assistivas' => route('tecnologias-assistivas.index'),
+            $assistiveTechnology->name => route('tecnologias-assistivas.visualizar', $assistiveTechnology),
             'Histórico de Alterações' => null
         ]" />
     </div>
@@ -32,7 +32,7 @@
 
         <div class="d-flex gap-2">
             <x-buttons.link-button
-                href="{{ route('assistive-technologies.show', $assistiveTechnology) }}"
+                href="{{ route('tecnologias-assistivas.visualizar', $assistiveTechnology) }}"
                 variant="secondary"
             >
                 <span class="btn-label">

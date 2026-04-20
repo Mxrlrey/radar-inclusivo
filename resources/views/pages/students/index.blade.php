@@ -17,7 +17,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('students.create')"
+                :href="route('estudantes.criar')"
                 variant="info"
                 aria-label="Cadastrar novo aluno"
             >
@@ -32,7 +32,7 @@
     <div class="card-custom overflow-hidden">
         <div class="px-3 pt-3">
             <x-table.filters.form
-                data-url="{{ route('students.index') }}"
+                data-url="{{ route('estudantes.index') }}"
                 data-target="#students-table"
                 :fields="[
                     [

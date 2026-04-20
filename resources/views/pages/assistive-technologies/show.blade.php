@@ -7,7 +7,7 @@
         <div class="page-header-title">
             <x-breadcrumb :items="[
                 'Home' => route('dashboard'),
-                'Tecnologias Assistivas' => route('assistive-technologies.index'),
+                'Tecnologias Assistivas' => route('tecnologias-assistivas.index'),
                 $assistiveTechnology->name => null
             ]" />
 
@@ -19,13 +19,13 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button
-                :href="route('assistive-technologies.edit', $assistiveTechnology)"
+                :href="route('tecnologias-assistivas.editar', $assistiveTechnology)"
                 variant="info">
                 <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('assistive-technologies.index')"
+                :href="route('tecnologias-assistivas.index')"
                 variant="secondary">
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
@@ -123,7 +123,7 @@
 
         <x-show.footer>
             <x-buttons.link-button
-                :href="route('assistive-technologies.index')"
+                :href="route('tecnologias-assistivas.index')"
                 variant="secondary"
             >
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
@@ -131,7 +131,7 @@
             </x-buttons.link-button>
 
             <x-buttons.link-button
-                :href="route('assistive-technologies.logs', $assistiveTechnology)"
+                :href="route('tecnologias-assistivas.registros', $assistiveTechnology)"
                 variant="secondary-outline"
             >
                 <span class="btn-label"><i class="fa fa-history"></i></span>
@@ -139,7 +139,7 @@
             </x-buttons.link-button>
 
             <x-buttons.pdf-button
-                :href="route('assistive-technologies.pdf', $assistiveTechnology)"
+                :href="route('tecnologias-assistivas.pdf', $assistiveTechnology)"
             />
 
             <x-buttons.submit-button
@@ -177,7 +177,7 @@
                 Cancelar
             </x-buttons.link-button>
 
-            <form action="{{ route('assistive-technologies.destroy', $assistiveTechnology) }}" method="POST">
+            <form action="{{ route('tecnologias-assistivas.excluir', $assistiveTechnology) }}" method="POST">
                 @csrf
                 @method('DELETE')
 
