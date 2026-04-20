@@ -1,8 +1,13 @@
 <aside class="sidebar">
     <div class="sidebar-header">
-        <img src="{{ asset('images/logo2.png') }}" class="sidebar-logo" alt="Logo">
-        <span class="sidebar-title">Radar</span>
-        <span class="sidebar-title">Inclusivo</span>
+        <a href="{{ route('dashboard') }}" style="display:flex; align-items:center; gap:10px; text-decoration:none;">
+            <div style="width:36px; height:36px; background:#7fb3ef; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <i class="fa fa-podcast" style="color:#fff; font-size:18px;"></i>
+            </div>
+            <span class="sidebar-title" style="font-family:'Rajdhani', sans-serif; font-size:1.2rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;">
+            Radar <span style="color:#7fb3ef;">Inclusivo</span>
+        </span>
+        </a>
     </div>
 
     <ul class="sidebar-menu">
@@ -25,7 +30,7 @@
         @can('student.view')
             <li>
                 <a href="{{ route('estudantes.index') }}"
-                   class="{{ request()->routeIs('alunos.*') ? 'active' : '' }}">
+                   class="{{ request()->routeIs('estudantes.*') ? 'active' : '' }}">
                     <span class="icon"><i class="ion-android-contact"></i></span>
                     <span class="text">Alunos</span>
                 </a>
@@ -55,7 +60,7 @@
         @can('material.index')
             <li>
                 <a href="{{ route('materiais-pedagogicos-acessiveis.index') }}"
-                   class="{{ request()->routeIs('materiais-pedagogicos.*') ? 'active' : '' }}">
+                   class="{{ request()->routeIs('materiais-pedagogicos-acessiveis.*') ? 'active' : '' }}">
                     <span class="icon"><i class="ion-android-book"></i></span>
                     <span class="text">Materiais Pedagógicos</span>
                 </a>
@@ -75,7 +80,7 @@
         @can('waitlist.index')
             <li>
                 <a href="{{ route('filas-de-espera.index') }}"
-                   class="{{ request()->routeIs('fila-espera.*') ? 'active' : '' }}">
+                   class="{{ request()->routeIs('filas-de-espera.*') ? 'active' : '' }}">
                     <span class="icon"><i class="ion-android-timer"></i></span>
                     <span class="text">Fila de Espera</span>
                 </a>
@@ -120,7 +125,7 @@
 
         <li>
             <a href="{{ route('recursos-de-acessibilidade.index') }}"
-               class="{{ request()->routeIs('recursos-acessibilidade.*') ? 'active' : '' }}">
+               class="{{ request()->routeIs('recursos-de-acessibilidade.*') ? 'active' : '' }}">
                 <span class="icon"><i class="ion-man"></i></span>
                 <span class="text">Recursos de Acessibilidade</span>
             </a>
@@ -128,7 +133,7 @@
 
         <li>
             <a href="{{ route('categorias-de-barreiras.index') }}"
-               class="{{ request()->routeIs('categorias-barreiras.*') ? 'active' : '' }}">
+               class="{{ request()->routeIs('categorias-de-barreiras.*') ? 'active' : '' }}">
                 <span class="icon"><i class="ion-grid"></i></span>
                 <span class="text">Categorias de Barreiras</span>
             </a>

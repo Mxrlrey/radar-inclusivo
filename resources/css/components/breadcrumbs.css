@@ -32,7 +32,7 @@
     pointer-events: none;
 }
 
-/* Separador "/" igual ao legado */
+/* Separador */
 .breadcrumb-custom .breadcrumb-item + .breadcrumb-item::before {
     content: "/\00a0";
     color: #cccccc;

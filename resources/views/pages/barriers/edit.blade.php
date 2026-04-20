@@ -135,7 +135,7 @@
 
                 <div class="px-4 mt-4">
                     <div class="mb-4">
-                        <label class="form-label fw-bold">Deficiências Relacionadas</label>
+                        <label class="form-label fw-bold">Deficiências Relacionadas <i class="text-danger">*</i></label>
                         <div class="d-flex flex-wrap gap-4 p-3 border checkbox-group-wrapper max-h-40 overflow-y-auto custom-scrollbar">
                             @foreach($deficiencies as $def)
                                 <x-forms.checkbox
@@ -151,7 +151,7 @@
                     </div>
                     <div class="checkbox-group-wrapper p-3 rounded mb-4 border shadow-sm">
                         <label class="fw-bold small text-uppercase mb-3 d-block">
-                            Pessoa Impactada
+                            Pessoa Impactada <i class="text-danger">*</i>
                         </label>
 
                         <div class="d-flex flex-column gap-2">

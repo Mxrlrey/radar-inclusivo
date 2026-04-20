@@ -206,9 +206,9 @@
         />
 
         <div class="form-group-horizontal mb-3">
-            <label class="control-label">Público-Alvo</label>
+            <label class="control-label">Público-Alvo <i class="text-danger">*</i></label>
             <div class="field-wrapper">
-                <div class="d-flex flex-wrap gap-3 p-3 border checkbox-group-wrapper @error('deficiencies') border-danger @enderror">
+                <div class="d-flex flex-wrap gap-4 p-3 border checkbox-group-wrapper @error('deficiencies') border-danger @enderror">
                     @foreach($deficiencies as $def)
                         <x-forms.checkbox
                             name="deficiencies[]"
@@ -216,6 +216,7 @@
                             :value="$def->id"
                             :label="$def->name"
                             :checked="in_array($def->id, old('deficiencies', $material->deficiencies->pluck('id')->toArray()))"
+                            class="mb-0"
                         />
                     @endforeach
                 </div>

@@ -1,5 +1,5 @@
 /* =========================================
-   TABLES.CSS — TABELAS ESTILO LEGADO (UBOLD)
+   TABLES.CSS
    ========================================= */
 
 .table-container {
@@ -40,7 +40,7 @@
     background-color: var(--bg-surface);
 }
 
-/* Remove hover — igual ao legado */
+/* Remove hover */
 .table-hover tbody tr:hover td {
     background-color: var(--bg-surface) !important;
 }

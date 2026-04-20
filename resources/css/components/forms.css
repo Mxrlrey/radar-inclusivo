@@ -484,7 +484,7 @@ input:-webkit-autofill:active {
     opacity: 1;
 }
 
-/* ===== FORMULÁRIO HORIZONTAL (LEGADO) ===== */
+/* ===== FORMULÁRIO HORIZONTAL ===== */
 .form-horizontal .form-group-horizontal {
     display: flex;
     align-items: flex-start;

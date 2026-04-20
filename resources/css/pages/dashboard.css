@@ -89,7 +89,7 @@
     color: var(--color-primary);
 }
 
-/* ===== WIDGET ESTATÍSTICO (ESTILO LEGADO) – COM RESPONSIVIDADE ===== */
+/* ===== WIDGET ESTATÍSTICO ===== */
 .stat-widget {
     position: relative;
     display: block;

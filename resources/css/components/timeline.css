@@ -1,5 +1,5 @@
 /* =========================================
-   TIMELINE.CSS — LINHA DO TEMPO ESTILO LEGADO (UBOLD)
+   TIMELINE.CSS
    ========================================= */
 
 /* Container principal */
@@ -212,7 +212,7 @@
     font-size: 1.6rem;
 }
 
-/* ===== ANIMAÇÕES DA TIMELINE (LEGADO UBOLD) ===== */
+/* ===== ANIMAÇÕES DA TIMELINE ===== */
 .cssanimations .cd-timeline-img.is-hidden,
 .cssanimations .cd-timeline-content.is-hidden {
     visibility: hidden;

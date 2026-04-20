@@ -161,7 +161,8 @@
         />
 
         <div class="form-group-horizontal mb-3">
-            <label class="control-label">Público-Alvo</label>
+            <label class="control-label">Público-Alvo <i class="text-danger">*</i></label>
+
             <div class="field-wrapper">
                 <div class="d-flex flex-wrap gap-3 p-3 border checkbox-group-wrapper @error('deficiencies') border-danger @enderror">
                     @foreach($deficiencies as $def)

@@ -47,7 +47,7 @@
             class="form-check-input custom-checkbox"
         >
         <label class="form-check-label" for="{{ $checkboxId }}">
-            <span class="fw-bold text-primary">
+            <span class="fw-bold">
                 {{ $label }}
                 @if($required)<i class="text-danger">*</i>@endif
             </span>
