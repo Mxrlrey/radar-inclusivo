@@ -203,21 +203,18 @@ class BarrierMap extends BaseMap {
         if (!this.map) return;
         this.isBlocked = Boolean(blocked);
 
-        const handlers = ['dragging', 'touchZoom', 'doubleClickZoom', 'scrollWheelZoom', 'boxZoom', 'keyboard'];
+        const mapWrapper = MapUtils.$('mapWrapper');
+        const blockedTextSpan = MapUtils.$('blocked-message');
 
         if (this.isBlocked) {
-            handlers.forEach(h => this.map[h]?.disable());
-            this.mainMarker?.dragging?.disable();
-            if (this.blockedOverlay && this.blockedTextSpan) {
-                this.blockedTextSpan.textContent = categoryName
-                    ? `Mapa não se enquadra para categoria: ${categoryName}`
-                    : 'Mapa não se enquadra para esta categoria';
-                this.blockedOverlay.classList.remove('d-none');
+            mapWrapper?.classList.add('is-blocked');
+            if (blockedTextSpan) {
+                blockedTextSpan.textContent = (categoryName === 'Selecione uma categoria' || !categoryName)
+                    ? 'Selecione uma categoria e uma instituição para liberar o mapa.'
+                    : `Esta categoria (${categoryName}) não requer marcação no mapa.`;
             }
         } else {
-            handlers.forEach(h => this.map[h]?.enable());
-            this.mainMarker?.dragging?.enable();
-            this.blockedOverlay?.classList.add('d-none');
+            mapWrapper?.classList.remove('is-blocked');
         }
     }
 
@@ -268,13 +265,12 @@ class FormManager {
     }
 
     _setupListeners() {
-        MapUtils.on(this.institutionSelect,  'change', () => this.handleInstitutionChange());
-        MapUtils.on(this.locationSelect,     'change', () => this._handleLocationSelectChange());
-        MapUtils.on(this.isAnonymousCheck,   'change', () => this.togglePersonFields());
+        MapUtils.on(this.institutionSelect, 'change', () => {this.handleInstitutionChange();this._validateMapLock();});
+        MapUtils.on(this.locationSelect, 'change', () => this._handleLocationSelectChange());
+        MapUtils.on(this.isAnonymousCheck, 'change', () => this.togglePersonFields());
         MapUtils.on(this.notApplicableCheck, 'change', () => this.togglePersonFields());
-
         const catSelect = MapUtils.$('barrier_category_id');
-        MapUtils.on(catSelect, 'change', () => this._handleCategoryChange());
+        MapUtils.on(catSelect, 'change', () => {this._handleCategoryChange();this._validateMapLock();});
     }
 
     _applyInitialState() {
@@ -303,6 +299,28 @@ class FormManager {
         setTimeout(() => this._handleCategoryChange(), 80);
     }
 
+    _validateMapLock() {
+        const catSelect = MapUtils.$('barrier_category_id');
+        const instSelect = MapUtils.$('institution_select');
+
+        const categoryId = catSelect?.value;
+        const institutionId = instSelect?.value;
+
+        if (!categoryId) {
+            window.barrierMapInstance?.setBlocked(true, 'Selecione uma categoria');
+            return;
+        }
+
+        const categoryBlocks = Boolean(window.categoriesData?.[categoryId]);
+        const categoryName = catSelect.options[catSelect.selectedIndex]?.textContent ?? '';
+
+        if (categoryBlocks || !institutionId) {
+            window.barrierMapInstance?.setBlocked(true, categoryBlocks ? categoryName : '');
+        } else {
+            window.barrierMapInstance?.setBlocked(false);
+        }
+    }
+
     /* ---------------------------
        Instituição → carrega localizações
     --------------------------- */
@@ -313,17 +331,19 @@ class FormManager {
         if (!val) {
             this.locationWrapper?.classList.add('d-none');
             if (this.locationSelect) this.locationSelect.innerHTML = '<option value="">Selecione um local...</option>';
+            this._validateMapLock();
             return;
         }
 
         this.locationWrapper?.classList.remove('d-none');
         this._loadInstitutionLocations(val);
 
-        // Atualiza mapa com dados da instituição selecionada
         if (window.barrierMapInstance && Array.isArray(window.institutionsData)) {
             const inst = window.institutionsData.find(i => String(i.id) === String(val));
             if (inst) window.barrierMapInstance.plotInstitutionAndData(inst);
         }
+
+        this._validateMapLock();
     }
 
     _loadInstitutionLocations(institutionId) {
@@ -381,12 +401,23 @@ class FormManager {
 
     _handleCategoryChange() {
         const select = MapUtils.$('barrier_category_id');
-        if (!select?.value) return;
+        const institutionSelect = MapUtils.$('institution_select');
+        const categoryId = select?.value;
+        const institutionId = institutionSelect?.value;
 
-        const blocked      = Boolean(window.categoriesData?.[select.value]);
+        if (!categoryId) {
+            window.barrierMapInstance?.setBlocked(true, 'Selecione uma categoria');
+            return;
+        }
+
+        const categoryBlocks = Boolean(window.categoriesData?.[categoryId]);
         const categoryName = select.options[select.selectedIndex]?.textContent ?? '';
 
-        window.barrierMapInstance?.setBlocked(blocked, categoryName);
+        if (categoryBlocks || !institutionId) {
+            window.barrierMapInstance?.setBlocked(true, categoryBlocks ? categoryName : '');
+        } else {
+            window.barrierMapInstance?.setBlocked(false);
+        }
     }
 
     /* ---------------------------

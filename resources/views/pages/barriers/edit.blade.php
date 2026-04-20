@@ -246,7 +246,7 @@
                             </div>
                         </div>
 
-                        <div style="position: relative;">
+                        <div class="map-container" id="mapWrapper">
                             <x-forms.maps.barrier
                                 :barrier="$barrier"
                                 :institution="$selectedInstitution"
@@ -254,14 +254,14 @@
                                 label="Localização da Barreira"
                             />
 
-                            <div
-                                id="map-blocked-overlay"
-                                class="d-none"
-                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                                background: rgba(255,255,255,0.8); z-index: 1000;
-                                align-items: center; justify-content: center;
-                                font-weight: bold; color: #333; pointer-events: none; border-radius: 0.375rem;"
-                            >
+                            <div id="map-blocked-overlay" class="map-overlay">
+                                <div class="map-overlay-message">
+                                    <i class="fa fa-lock mb-2 d-block"></i>
+                                    <span id="blocked-message" class="fw-bold">
+                                        Selecione uma instituição para liberar o mapa.
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

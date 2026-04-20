@@ -168,7 +168,7 @@
                     description="Visualização da barreira no mapa da instituição."
                 />
 
-                <div style="position: relative;">
+                <div class="map-container {{ $barrier->category?->blocks_map ? 'is-blocked' : '' }}" id="mapWrapper">
                     <x-show.maps.barrier
                         :barrier="$barrier"
                         :institution="$barrier->institution"
@@ -176,20 +176,19 @@
                     />
 
                     @if($barrier->category?->blocks_map)
-                        <div
-                            id="map-blocked-overlay"
-                            style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:bold;"
-                        >
-                            <div class="p-3 rounded shadow-sm text-center">
-                                <i class="fa fa-lock text-danger mb-2 d-block"></i>
-                                Mapa não aplicável para esta categoria
+                        <div id="map-blocked-overlay" class="map-overlay">
+                            <div class="map-overlay-message">
+                                <i class="fa fa-lock mb-2 d-block"></i>
+                                <span id="blocked-message" class="fw-bold">
+                                    Mapa não aplicável para categoria {{ $barrier->category->name }}
+                                </span>
                             </div>
                         </div>
                     @endif
                 </div>
+
                 <div class="show-field show-field--stacked mt-3">
                     <span class="show-label">Histórico de Vistorias</span>
-
                     <div class="show-value" id="inspections-table-wrapper-barrier">
                         @include('pages.barriers.partials.inspections-table')
                     </div>

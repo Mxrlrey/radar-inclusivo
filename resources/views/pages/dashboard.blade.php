@@ -92,20 +92,11 @@
                 </div>
             </div>
 
-            {{-- Mapa com Overlay de Bloqueio e Switches --}}
             <div class="kpi-chart-large card card-custom border-0 shadow-sm d-flex flex-column">
-
-                {{-- Container do Mapa --}}
-                <div style="position: relative; flex-grow: 1; min-height: 400px;">
-                    <div id="mapDashboard" style="height: 100%; border-radius: 15px 15px 0 0;"></div>
-
-                    {{-- Overlay de bloqueio --}}
-                    <div id="map-blocked-overlay" class="d-none"
-                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                                background: rgba(255,255,255,0.8); z-index: 1000;
-                                display: flex; align-items: center; justify-content: center;
-                                border-radius: 15px 15px 0 0; cursor: not-allowed;">
-                        <span class="p-3 rounded shadow-sm border text-center">
+                <div class="map-container" id="mapWrapper">
+                    <div id="mapDashboard"></div>
+                    <div id="map-blocked-overlay" class="map-overlay">
+                        <span class="map-overlay-message">
                             <i class="fa fa-lock text-danger mb-2 d-block"></i>
                             <span id="blocked-message" class="fw-bold text-muted">
                                 Mapa não se aplica aos filtros selecionados.
@@ -114,7 +105,6 @@
                     </div>
                 </div>
 
-                {{-- Barra de Filtros --}}
                 <div class="checkbox-group-wrapper p-3 border-top d-flex flex-wrap justify-content-center gap-3"
                      style="border-radius: 0 0 15px 15px;">
                     <span class="small fw-bold text-muted w-100 text-center mb-1">VISUALIZAR NO MAPA:</span>
