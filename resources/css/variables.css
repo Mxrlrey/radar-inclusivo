@@ -266,6 +266,63 @@
     background: var(--color-primary) !important;
 }
 
+/* =========================================
+   TEMA ALTO CONTRASTE
+   ========================================= */
+.high-contrast {
+
+    /* fundo e texto base */
+    --bg-body: #000000;
+    --bg-surface: #000000;
+    --bg-surface-secondary: #000000;
+    --bg-sidebar: #000000;
+    --bg-sidebar-header: #000000;
+
+    --text-primary: #ffffff;
+    --text-secondary: #ffffff;
+    --text-muted: #ffffff;
+    --text-title: #ffffff;
+    --text-sidebar: #ffffff;
+    --text-sidebar-hover: #ffff00;
+
+    /* cores fortes (acessibilidade) */
+    --color-primary: #ffff00;
+    --color-primary-dark: #ffff00;
+    --color-primary-light: #ffff00;
+
+    --color-success: #00ff00;
+    --color-warning: #ffff00;
+    --color-danger: #ff0000;
+    --color-info: #00ffff;
+
+    /* bordas bem visíveis */
+    --border-color: #ffffff;
+    --border-color-light: #ffffff;
+
+    /* inputs */
+    --input-bg: #000000;
+    --input-border: #ffffff;
+    --input-focus-border: #ffff00;
+
+    /* cards e tabelas */
+    --card-bg: #000000;
+    --table-header-bg: #000000;
+    --table-striped-bg: #000000;
+    --table-hover-bg: #111111;
+
+    /* sidebar ativo */
+    --sidebar-active-bg: #111111;
+
+    /* sombras removidas */
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+
+    /* bootstrap overrides */
+    --bs-body-bg: #000000;
+    --bs-body-color: #ffffff;
+}
+
 /* ===== VARIÁVEIS BOOTSTRAP (sobrescritas para seguir o tema) ===== */
 :root {
     --bs-primary: var(--color-primary);

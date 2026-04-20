@@ -39,11 +39,11 @@
                 <i class="fa fa-moon-o" id="themeIcon" aria-hidden="true"></i>
             </button>
 
-            <button id="fullscreenToggle"
+            <button id="contrastToggle"
                     class="btn-theme-toggle waves-effect"
                     type="button"
-                    title="Alternar tela cheia">
-                <i class="ion-arrow-expand" id="fullscreenIcon" aria-hidden="true"></i>
+                    title="Alternar alto contraste">
+                <i class="fa fa-low-vision" id="contrastIcon" aria-hidden="true"></i>
             </button>
 
             <div role="region" aria-label="Menu do usuário">
@@ -83,25 +83,27 @@
                 html.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
             };
 
-            // 4. Fullscreen (Independente)
-            const fullscreenToggle = document.getElementById('fullscreenToggle');
-            const fullscreenIcon = document.getElementById('fullscreenIcon');
+            // 4. Alto contraste
+            const contrastToggle = document.getElementById('contrastToggle');
+            const contrastIcon = document.getElementById('contrastIcon');
 
-            if (fullscreenToggle && fullscreenIcon) {
-                fullscreenToggle.onclick = function() {
-                    if (!document.fullscreenElement) {
-                        document.documentElement.requestFullscreen().catch(err => {
-                            console.warn(`Erro ao tentar modo tela cheia: ${err.message}`);
-                        });
-                    } else {
-                        document.exitFullscreen();
-                    }
-                };
+            if (contrastToggle && contrastIcon) {
 
-                document.onfullscreenchange = function() {
-                    fullscreenIcon.className = document.fullscreenElement
-                        ? 'ion-arrow-shrink'
-                        : 'ion-arrow-expand';
+                const html = document.documentElement;
+
+                const enabled = localStorage.getItem('contrast') === 'high';
+
+                if (enabled) {
+                    html.classList.add('high-contrast');
+                    contrastIcon.className = 'fa fa-eye';
+                }
+
+                contrastToggle.onclick = function () {
+                    const isOn = html.classList.toggle('high-contrast');
+
+                    contrastIcon.className = isOn ? 'fa fa-eye' : 'fa fa-adjust';
+
+                    localStorage.setItem('contrast', isOn ? 'high' : 'normal');
                 };
             }
         };
