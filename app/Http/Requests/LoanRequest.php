@@ -82,6 +82,7 @@ class LoanRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'loanable_type.required' => 'Selecione o tipo de recurso.',
             'loanable_id.required' => 'O item para empréstimo não foi identificado.',
             'loanable_type.in' => 'O tipo de item selecionado é inválido.',
             'due_date.required' => 'A data de previsão de entrega é obrigatória.',

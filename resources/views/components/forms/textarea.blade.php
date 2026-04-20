@@ -14,7 +14,7 @@
         @if($label)
             <label for="{{ $name }}" class="control-label">
                 {{ $label }}
-                @if($required)<span class="text-danger">*</span>@endif
+                @if($required)<i class="text-danger">*</i>@endif
             </label>
         @endif
         <div class="field-wrapper">
@@ -37,7 +37,7 @@
         @if($label)
             <label for="{{ $name }}" class="form-label fw-bold text-primary">
                 {{ $label }}
-                @if($required)<span class="text-danger">*</span>@endif
+                @if($required)<i class="text-danger">*</i>@endif
             </label>
         @endif
         <textarea

@@ -4,7 +4,7 @@
         $formMethod = in_array($method, ['GET', 'POST']) ? $method : 'POST';
     @endphp
 
-    <form {{ $attributes->merge(['method' => $formMethod]) }} class="p-0">
+    <form {{ $attributes->merge(['method' => $formMethod, 'novalidate' => true]) }} class="p-0">
 
         @if($formMethod !== 'GET')
             @csrf

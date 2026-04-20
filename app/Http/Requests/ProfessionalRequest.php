@@ -65,11 +65,21 @@ class ProfessionalRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'document.unique' => 'Este CPF já está cadastrado no sistema.',
-            'registration.unique' => 'Esta matrícula já está em uso.',
-            'position_id.required' => 'Selecione o cargo do profissional.',
-            'entry_date.required' => 'A data de ingresso é obrigatória.',
-            'gender.Illuminate\Validation\Rules\Enum' => 'O gênero selecionado é inválido.',
+            'name.required'         => 'Informe o nome do profissional.',
+            'document.required'     => 'Informe o CPF do profissional.',
+            'document.unique'       => 'Este CPF já está cadastrado no sistema.',
+            'birth_date.required'   => 'Informe a data de nascimento.',
+            'birth_date.before_or_equal' => 'A data de nascimento não pode ser no futuro.',
+            'gender.required'       => 'Selecione o gênero.',
+            'email.required'        => 'Informe o e-mail do profissional.',
+            'email.email'           => 'Informe um e-mail válido.',
+            'email.unique'          => 'Este e-mail já está cadastrado no sistema.',
+            'registration.required' => 'Informe a matrícula do profissional.',
+            'registration.unique'   => 'Esta matrícula já está em uso.',
+            'position_id.required'  => 'Selecione o cargo do profissional.',
+            'entry_date.required'   => 'A data de ingresso é obrigatória.',
+            'photo.image'           => 'O arquivo deve ser uma imagem.',
+            'photo.max'             => 'A foto não pode ser maior que 2MB.',
         ];
     }
 }

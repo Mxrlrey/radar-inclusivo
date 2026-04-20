@@ -27,7 +27,7 @@
                 <label class="form-check-label" for="{{ $checkboxId }}">
                     <span class="fw-bold text-primary">
                         {{ $label }}
-                        @if($required)<span class="text-danger">*</span>@endif
+                        @if($required)<i class="text-danger">*</i>@endif
                     </span>
                     @if($description)
                         <small class="d-block text-muted" style="font-size: 0.75rem;">{{ $description }}</small>
@@ -49,7 +49,7 @@
         <label class="form-check-label" for="{{ $checkboxId }}">
             <span class="fw-bold text-primary">
                 {{ $label }}
-                @if($required)<span class="text-danger">*</span>@endif
+                @if($required)<i class="text-danger">*</i>@endif
             </span>
             @if($description)
                 <small class="d-block text-muted" style="font-size: 0.75rem;">{{ $description }}</small>
