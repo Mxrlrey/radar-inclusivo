@@ -22,7 +22,7 @@ class InstitutionalEventUpcomingNotification extends Notification
             'event_id'   => $this->event->id,
             'title'      => 'Lembrete de Evento',
             'message'    => "O evento \"{$this->event->title}\" acontece amanhã, {$this->event->start_date->format('d/m/Y')} às {$this->event->start_time->format('H:i')}. Local: {$this->event->location}.",
-            'url'        => route('institutional-events.show', $this->event->id),
+            'url'        => route('agenda-institucional.visualizar', $this->event->id),
             'created_at' => now()->toDateTimeString(),
         ];
     }

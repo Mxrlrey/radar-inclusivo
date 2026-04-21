@@ -59,6 +59,7 @@ services:
     image: mysql:8.0
     container_name: radar_db
     restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
     env_file:
       - .env
     environment:

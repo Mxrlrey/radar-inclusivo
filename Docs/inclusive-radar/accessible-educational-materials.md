@@ -1,6 +1,6 @@
 ## 📚 Materiais Pedagógicos Acessíveis (AccessibleEducationalMaterial)
 
-> Gestão de recursos didáticos adaptados, controlando desde a disponibilidade física e licenças digitais até os recursos de acessibilidade específicos e treinamentos para educadores.
+> Gestão de recursos didáticos adaptados, controlando desde a disponibilidade física e licenças digitais até os recursos de acessibilidade específicos, conservação, inspeção e disponibilidade para empréstimo.
 
 ---
 
@@ -15,7 +15,6 @@
 | `RF-MPA-03` | **Configuração de Empréstimo:** Permitir definir se o material é passível de empréstimo externo (`is_loanable`). |
 | `RF-MPA-04` | **Recursos Extras:** Possibilidade de associar recursos de acessibilidade específicos ao material (ex: Braille, audiodescrição). |
 | `RF-MPA-07` | **Patrimônio:** Registro opcional de código patrimonial (`asset_code`) para itens físicos. |
-| `RF-MPA-15` | **Treinamentos:** Gestão de capacitações associadas. Na edição, os dados antigos são substituídos integralmente pelos novos. |
 
 #### **2. Controle de Disponibilidade**
 
@@ -39,7 +38,7 @@
 | --- | --- |
 | `RF-MPA-12` | **Bloqueio de Status:** Impedir mudança de status (ex: "Arquivado") enquanto houver empréstimos pendentes. |
 | `RF-MPA-14` | **Exclusão Restrita:** O material só pode ser removido do sistema se não possuir nenhum vínculo de empréstimo ativo. |
-| `RF-MPA-16` | **AuditLog Detalhado:** Rastrear alterações em deficiências, recursos de acessibilidade e treinamentos, registrando "De:" e "Para:". |
+| `RF-MPA-16` | **AuditLog Detalhado:** Rastrear alterações em deficiências, recursos de acessibilidade, estado de conservação e atributos críticos do material. |
 
 ---
 

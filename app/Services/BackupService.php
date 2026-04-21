@@ -6,6 +6,7 @@ use App\Models\Backup;
 use Exception;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use RecursiveDirectoryIterator;
@@ -24,7 +25,17 @@ class BackupService
     public function generate(): Backup
     {
         try {
-            Artisan::call('backup:run', ['--disable-notifications' => true]);
+            $exitCode = Artisan::call('backup:run', ['--disable-notifications' => true]);
+
+            if ($exitCode !== 0) {
+                $output = trim(Artisan::output());
+
+                throw new Exception(
+                    $output !== ''
+                        ? "Falha ao executar backup: {$output}"
+                        : "Falha ao executar backup: comando backup:run retornou código {$exitCode}."
+                );
+            }
 
             $backupFolder = config('backup.backup.name');
             $files        = $this->disk->allFiles($backupFolder);
@@ -55,7 +66,16 @@ class BackupService
     public function storeUploadedFile($file): Backup
     {
         try {
-            $fileName = $file->getClientOriginalName();
+            $zip = new ZipArchive();
+
+            if ($zip->open($file->getRealPath()) !== true) {
+                throw new Exception('O arquivo enviado não é um backup ZIP válido.');
+            }
+
+            $this->assertSafeZipEntries($zip);
+            $zip->close();
+
+            $fileName = basename($file->getClientOriginalName());
             $path     = $this->disk->putFileAs('GNAIbackups', $file, $fileName);
 
             return Backup::create([
@@ -120,6 +140,7 @@ class BackupService
     public function restore($id): bool
     {
         $backup = Backup::findOrFail($id);
+        $maintenanceModeEnabled = false;
 
         // ------------------------------------------------------------------
         // ETAPA 1: LOCALIZAÇÃO DO ARQUIVO — lê o caminho base do .env
@@ -163,19 +184,39 @@ class BackupService
             throw new Exception("Arquivo físico não encontrado: {$fileName}");
         }
 
+        $zipPath = $this->assertValidBackupZipPath($zipPath);
+
         set_time_limit(300);
 
         $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'restore-temp-' . time());
         $zip      = new ZipArchive();
 
         try {
+            $preRestoreBackupExitCode = Artisan::call('backup:run', ['--disable-notifications' => true]);
+
+            if ($preRestoreBackupExitCode !== 0) {
+                $output = trim(Artisan::output());
+
+                throw new Exception(
+                    $output !== ''
+                        ? "Falha ao gerar cópia de segurança pré-restauração: {$output}"
+                        : "Falha ao gerar cópia de segurança pré-restauração."
+                );
+            }
+
+            Artisan::call('down');
+            $maintenanceModeEnabled = true;
+
             // ------------------------------------------------------------------
             // ETAPA 2: EXTRAÇÃO
             // ------------------------------------------------------------------
             if ($zip->open($zipPath) !== true) {
                 throw new Exception("Falha ao abrir o ZIP: {$zipPath}");
             }
-            $zip->extractTo($tempPath);
+
+            $this->assertSafeZipEntries($zip);
+            $this->extractZipSafely($zip, $tempPath);
+
             $zip->close();
 
             // ------------------------------------------------------------------
@@ -187,34 +228,16 @@ class BackupService
             if ($sqlFile) {
                 $dbConfig  = config('database.connections.mysql');
                 $mysqlBin  = $this->resolveMysqlBinary();
-                $optFile   = null;
-
-                if ($this->isWindows()) {
-                    // No Windows não existe VAR=value na frente do comando,
-                    // então usamos um arquivo .cnf temporário com a senha
-                    $optFile  = $this->writeMysqlOptionsFile($dbConfig);
-                    $command  = sprintf(
-                        '"%s" --defaults-extra-file=%s -h %s -P %s %s < %s 2>&1',
-                        $mysqlBin,
-                        escapeshellarg($optFile),
-                        escapeshellarg($dbConfig['host']),
-                        escapeshellarg($dbConfig['port']),
-                        escapeshellarg($dbConfig['database']),
-                        escapeshellarg($sqlFile)
-                    );
-                } else {
-                    // Linux/Mac: injeta a senha via variável de ambiente
-                    $command = sprintf(
-                        'MYSQL_PWD=%s %s -h %s -P %s -u %s %s < %s 2>&1',
-                        escapeshellarg($dbConfig['password']),
-                        escapeshellarg($mysqlBin),
-                        escapeshellarg($dbConfig['host']),
-                        escapeshellarg($dbConfig['port']),
-                        escapeshellarg($dbConfig['username']),
-                        escapeshellarg($dbConfig['database']),
-                        escapeshellarg($sqlFile)
-                    );
-                }
+                $optFile   = $this->writeMysqlOptionsFile($dbConfig);
+                $extraOptions = trim((string) config('database.connections.mysql.dump.add_extra_option', ''));
+                $command   = sprintf(
+                    '%s --defaults-extra-file=%s %s %s < %s 2>&1',
+                    escapeshellarg($mysqlBin),
+                    escapeshellarg($optFile),
+                    $extraOptions,
+                    escapeshellarg($dbConfig['database']),
+                    escapeshellarg($sqlFile)
+                );
 
                 exec($command, $output, $returnCode);
 
@@ -226,11 +249,11 @@ class BackupService
                     $error = collect($output)
                         ->reject(fn($l) => str_contains($l, 'Warning') || str_contains($l, 'Deprecated'))
                         ->first();
+                    $error ??= trim(implode("\n", $output));
+                    $error = $error !== '' ? $error : "comando mysql retornou código {$returnCode}";
 
-                    if ($error) {
-                        Log::error("BackupService@restore — erro SQL: {$error}");
-                        throw new Exception("Erro ao importar SQL: {$error}");
-                    }
+                    Log::error("BackupService@restore — erro SQL: {$error}");
+                    throw new Exception("Erro ao importar SQL: {$error}");
                 }
             }
 
@@ -243,15 +266,7 @@ class BackupService
 
             if ($sourceStorage && is_dir($sourceStorage)) {
                 $destination = storage_path('app');
-
-                if ($this->isWindows()) {
-                    exec('xcopy /E /I /Y /H '
-                        . escapeshellarg($sourceStorage) . ' '
-                        . escapeshellarg($destination));
-                } else {
-                    exec('cp -R ' . escapeshellarg($sourceStorage) . '/. '
-                        . escapeshellarg($destination) . '/');
-                }
+                $this->copyDirectoryContents($sourceStorage, $destination);
             }
 
             return true;
@@ -260,6 +275,10 @@ class BackupService
             Log::error("BackupService@restore — falha crítica: " . $e->getMessage());
             throw $e;
         } finally {
+            if ($maintenanceModeEnabled) {
+                Artisan::call('up');
+            }
+
             // ------------------------------------------------------------------
             // ETAPA 5: GARBAGE COLLECTION
             // ------------------------------------------------------------------
@@ -300,7 +319,11 @@ class BackupService
     private function writeMysqlOptionsFile(array $dbConfig): string
     {
         $path    = storage_path('app' . DIRECTORY_SEPARATOR . 'mysql-opts-' . time() . '.cnf');
-        $content = "[client]\nuser={$dbConfig['username']}\npassword={$dbConfig['password']}\n";
+        $content = "[client]\n"
+            . "host={$dbConfig['host']}\n"
+            . "port={$dbConfig['port']}\n"
+            . "user={$dbConfig['username']}\n"
+            . "password={$dbConfig['password']}\n";
         file_put_contents($path, $content);
         return $path;
     }
@@ -310,15 +333,25 @@ class BackupService
      */
     private function findSqlFile(string $directory): ?string
     {
+        $matches = [];
         $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($directory)
+            new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS)
         );
         foreach ($iterator as $file) {
             if ($file->getExtension() === 'sql') {
-                return $file->getRealPath();
+                $matches[] = $file->getRealPath();
             }
         }
-        return null;
+
+        if (count($matches) === 0) {
+            return null;
+        }
+
+        if (count($matches) > 1) {
+            throw new Exception('O backup contém mais de um arquivo SQL. A restauração foi bloqueada por segurança.');
+        }
+
+        return $matches[0];
     }
 
     /**
@@ -350,10 +383,128 @@ class BackupService
     {
         if (!is_dir($path)) return;
 
-        if ($this->isWindows()) {
-            exec('rd /s /q ' . escapeshellarg($path));
-        } else {
-            exec('rm -rf ' . escapeshellarg($path));
+        File::deleteDirectory($path);
+    }
+
+    private function assertValidBackupZipPath(string $path): string
+    {
+        $realPath    = realpath($path);
+        $storageRoot = realpath(storage_path('app/private'));
+
+        if ($realPath === false || $storageRoot === false) {
+            throw new Exception('Não foi possível validar o caminho físico do backup.');
+        }
+
+        if (!str_starts_with($realPath, $storageRoot . DIRECTORY_SEPARATOR)) {
+            throw new Exception('O arquivo informado está fora do diretório permitido de backups.');
+        }
+
+        if (strtolower(pathinfo($realPath, PATHINFO_EXTENSION)) !== 'zip') {
+            throw new Exception('Somente arquivos ZIP podem ser restaurados.');
+        }
+
+        return $realPath;
+    }
+
+    private function assertSafeZipEntries(ZipArchive $zip): void
+    {
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $name = $zip->getNameIndex($i);
+
+            if ($name === false || $name === '') {
+                throw new Exception('O ZIP contém entradas inválidas.');
+            }
+
+            $normalizedName = str_replace('\\', '/', $name);
+
+            if (
+                str_starts_with($normalizedName, '/')
+                || preg_match('/^[A-Za-z]:\//', $normalizedName)
+                || str_contains($normalizedName, '../')
+                || str_contains($normalizedName, '..\\')
+            ) {
+                throw new Exception("O ZIP contém caminho inseguro: {$name}");
+            }
+
+            $stat = $zip->statIndex($i);
+            $mode = ($stat['external_attributes'] ?? 0) >> 16;
+
+            if (($mode & 0xF000) === 0xA000) {
+                throw new Exception("O ZIP contém link simbólico não permitido: {$name}");
+            }
+        }
+    }
+
+    private function extractZipSafely(ZipArchive $zip, string $destination): void
+    {
+        File::ensureDirectoryExists($destination);
+
+        $destinationRoot = realpath($destination);
+
+        if ($destinationRoot === false) {
+            throw new Exception('Não foi possível resolver o diretório temporário de restauração.');
+        }
+
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $name = str_replace('\\', '/', $zip->getNameIndex($i));
+            $target = $destinationRoot . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $name);
+            $targetDirectory = str_ends_with($name, '/')
+                ? $target
+                : dirname($target);
+
+            File::ensureDirectoryExists($targetDirectory);
+
+            $resolvedDir = realpath($targetDirectory);
+
+            if ($resolvedDir === false || !str_starts_with($resolvedDir, $destinationRoot)) {
+                throw new Exception("Falha ao extrair entrada do ZIP com segurança: {$name}");
+            }
+
+            if (str_ends_with($name, '/')) {
+                continue;
+            }
+
+            $stream = $zip->getStream($zip->getNameIndex($i));
+
+            if ($stream === false) {
+                throw new Exception("Não foi possível ler a entrada do ZIP: {$name}");
+            }
+
+            $targetHandle = fopen($target, 'wb');
+
+            if ($targetHandle === false) {
+                fclose($stream);
+                throw new Exception("Não foi possível criar o arquivo extraído: {$name}");
+            }
+
+            stream_copy_to_stream($stream, $targetHandle);
+            fclose($stream);
+            fclose($targetHandle);
+        }
+    }
+
+    private function copyDirectoryContents(string $source, string $destination): void
+    {
+        File::ensureDirectoryExists($destination);
+
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
+
+        foreach ($iterator as $item) {
+            $targetPath = $destination . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
+
+            if ($item->isDir()) {
+                File::ensureDirectoryExists($targetPath);
+                continue;
+            }
+
+            File::ensureDirectoryExists(dirname($targetPath));
+
+            if (!copy($item->getRealPath(), $targetPath)) {
+                throw new Exception("Falha ao restaurar arquivo de mídia: {$targetPath}");
+            }
         }
     }
 

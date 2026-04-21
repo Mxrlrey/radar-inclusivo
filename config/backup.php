@@ -1,5 +1,7 @@
 <?php
 
+$backupArchivePassword = env('BACKUP_ARCHIVE_PASSWORD');
+
 return [
 
     'backup' => [
@@ -48,7 +50,7 @@ return [
         ],
 
         'temporary_directory' => storage_path('app/backup-temp'),
-        'password' => env('BACKUP_ARCHIVE_PASSWORD'),
+        'password' => filled($backupArchivePassword) ? $backupArchivePassword : null,
         'encryption' => 'default',
         'tries' => 1,
         'retry_delay' => 0,

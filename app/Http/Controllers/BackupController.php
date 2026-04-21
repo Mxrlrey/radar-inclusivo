@@ -77,7 +77,9 @@ class BackupController extends Controller
             return redirect()->back()->with('error', 'Erro no upload do PHP: ' . $file->getErrorMessage());
         }
 
-        $request->validate(['backup_file' => 'required|file|max:102400']);
+        $request->validate([
+            'backup_file' => 'required|file|mimes:zip|max:102400',
+        ]);
 
         $this->service->storeUploadedFile($file);
 

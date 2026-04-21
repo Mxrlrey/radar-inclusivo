@@ -20,11 +20,13 @@
         <tr>
             <x-table.td scope="row" class="font-weight-medium">
                 <div class="d-flex align-items-center gap-2">
-                    <img
-                        src="{{ $professional->person->photo_url }}"
-                        class="avatar-table"
-                        alt="Foto de {{ $professional->person->name }}"
-                    >
+                    @if ($professional->person->photo_url)
+                        <img
+                            src="{{ $professional->person->photo_url }}"
+                            class="avatar-table"
+                            alt="Foto de {{ $professional->person->name }}"
+                        >
+                    @endif
 
                     <span>{{ $professional->person->name }}</span>
                 </div>

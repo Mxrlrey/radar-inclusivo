@@ -171,23 +171,12 @@ Route::middleware(['auth'])->group(function () {
 // ============================================================
 
 use App\Http\Controllers\DeficiencyController;
-use App\Http\Controllers\PersonController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\StudentController;
 
 // --- Administracao ---
 Route::middleware(['auth', 'admin'])->prefix('administracao')->group(function () {
-
-    // Pessoas
-    Route::prefix('pessoas')->name('pessoas.')->group(function () {
-        Route::get('/', [PersonController::class, 'index'])->name('index')->middleware('can:people.view');
-        Route::get('/criar', [PersonController::class, 'create'])->name('criar')->middleware('can:people.create');
-        Route::post('/salvar', [PersonController::class, 'store'])->name('salvar')->middleware('can:people.create');
-        Route::get('/{person}/editar', [PersonController::class, 'edit'])->name('editar')->middleware('can:people.update');
-        Route::put('/{person}', [PersonController::class, 'update'])->name('atualizar')->middleware('can:people.update');
-        Route::delete('/{person}', [PersonController::class, 'destroy'])->name('excluir')->middleware('can:people.delete');
-    });
 
     // Deficiencias
     Route::prefix('deficiencias')->name('deficiencias.')->group(function () {

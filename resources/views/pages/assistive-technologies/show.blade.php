@@ -13,7 +13,7 @@
 
             <h1>Detalhes da Tecnologia Assistiva</h1>
             <p class="text-muted mb-0">
-                Visualize informações cadastrais, histórico de vistorias, treinamentos e gestão do item.
+                Visualize informações cadastrais, histórico de vistorias e gestão do item.
             </p>
         </div>
 

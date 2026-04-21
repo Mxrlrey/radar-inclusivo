@@ -39,8 +39,8 @@
 
             <x-table.td class="align-middle col-hide-md">
                 @php
-                    $variant = $student->status === 'active' ? 'success' : 'danger';
-                    $label = $student->status === 'active' ? 'Ativo' : 'Inativo';
+                    $variant = $student->is_active ? 'success' : 'danger';
+                    $label = $student->is_active ? 'Ativo' : 'Inativo';
                 @endphp
 
                 <span class="badge bg-{{ $variant }}">

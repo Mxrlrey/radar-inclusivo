@@ -23,7 +23,7 @@ class InstitutionalEventStartingNotification extends Notification
             'event_id'   => $this->event->id,
             'title'      => 'Evento Iniciando Agora',
             'message'    => "O evento \"{$this->event->title}\" está começando agora! Local: {$this->event->location}.",
-            'url'        => route('institutional-events.show', $this->event->id),
+            'url'        => route('agenda-institucional.visualizar', $this->event->id),
             'created_at' => now()->toDateTimeString(),
         ];
     }

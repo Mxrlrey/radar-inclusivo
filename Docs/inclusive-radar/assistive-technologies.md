@@ -13,7 +13,6 @@
 | `RF-TA-01` | **Estrutura Obrigatória:** Nome, tipo (digital/físico), status, estado de conservação, inspeção e vínculo com ao menos uma deficiência. |
 | `RF-TA-02` | **Tipificação:** Diferenciar itens físicos de licenças digitais, herdando as regras de estoque de materiais comuns. |
 | `RF-TA-05` | **Patrimônio:** Permitir o registro opcional de um código patrimonial único (UUID/Tag). |
-| `RF-TA-12` | **Treinamentos:** Gerenciar treinamentos de uso. Em edições, a lista de treinamentos deve ser substituída integralmente pela nova seleção. |
 
 #### **2. Controle de Estoque e Integridade**
 
@@ -37,7 +36,7 @@
 | --- | --- |
 | `RF-TA-09` | **Trava de Status:** Impedir a alteração de status (ex: "Em Manutenção") se o item estiver com um usuário. |
 | `RF-TA-11` | **Exclusão Segura:** Só permitir a deleção do registro se não houver histórico de empréstimos pendentes. |
-| `RF-TA-13` | **AuditLog:** Rastrear quem alterou relações de deficiências e treinamentos associados. |
+| `RF-TA-13` | **AuditLog:** Rastrear quem alterou relações de deficiências, disponibilidade, status e estado de conservação do item. |
 
 ---
 

@@ -14,14 +14,6 @@ class PermissionSeeder extends Seeder
         $permissions = [
 
             // ============================================================
-            // PESSOAS
-            // ============================================================
-            ['name' => 'Visualizar Pessoas', 'slug' => 'people.view'],
-            ['name' => 'Criar Pessoa',       'slug' => 'people.create'],
-            ['name' => 'Editar Pessoa',      'slug' => 'people.update'],
-            ['name' => 'Excluir Pessoa',     'slug' => 'people.delete'],
-
-            // ============================================================
             // DEFICIÊNCIAS
             // ============================================================
             ['name' => 'Visualizar Deficiências', 'slug' => 'deficiency.view'],
