@@ -8,24 +8,25 @@ services:
     container_name: radar_app
     restart: unless-stopped
     env_file:
-      - .env.dev
+      - .env
     volumes:
       - .:/var/www
       - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./docker/php/opcache.dev.ini:/usr/local/etc/php/conf.d/opcache.ini
+    command: sh /var/www/docker/php/entrypoint.dev.sh app
     ports:
       - "9000:9000"
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "php -r '$$fp = @fsockopen(\"127.0.0.1\", 9000); if ($$fp) { fclose($$fp); exit(0); } exit(1);'"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
     environment:
       - TZ=America/Sao_Paulo
-      - DB_CONNECTION=${DB_CONNECTION}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
     deploy:
       resources:
         limits:
@@ -40,7 +41,7 @@ services:
     container_name: radar_scheduler
     restart: unless-stopped
     env_file:
-      - .env.dev
+      - .env
     volumes:
       - .:/var/www
     depends_on:
@@ -48,7 +49,7 @@ services:
         condition: service_healthy
     environment:
       - TZ=America/Sao_Paulo
-    command: php artisan schedule:work
+    command: sh /var/www/docker/php/entrypoint.dev.sh scheduler
     deploy:
       resources:
         limits:
@@ -56,11 +57,10 @@ services:
 
   db:
     image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
     container_name: radar_db
     restart: unless-stopped
     env_file:
-      - .env.dev
+      - .env
     environment:
       - TZ=America/Sao_Paulo
       - MYSQL_DATABASE=${DB_DATABASE}
@@ -107,7 +107,8 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - app
+      app:
+        condition: service_healthy
     environment:
       - TZ=America/Sao_Paulo
     deploy:
@@ -128,10 +129,10 @@ services:
     stdin_open: true
     tty: true
     env_file:
-      - .env.dev
+      - .env
     environment:
       - TZ=America/Sao_Paulo
-    command: sh -c "npm install && npm run dev -- --host"
+    command: sh -c "if [ ! -d node_modules/vite ]; then npm ci; fi && npm run dev -- --host 0.0.0.0"
     deploy:
       resources:
         limits:

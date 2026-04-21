@@ -44,9 +44,10 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         // --- SISTEMA DE PERMISSÕES ---
-        // Verifica se a tabela existe para evitar erros em novas instalações/migrations
-        if (Schema::hasTable('permissions')) {
-            try {
+        // O provider não pode depender do banco no bootstrap inicial
+        // porque comandos como package:discover podem rodar antes do MySQL existir.
+        try {
+            if (Schema::hasTable('permissions')) {
 
                 // ADMIN TEM TODAS PERMISSÕES
                 Gate::before(function ($user, $ability) {
@@ -62,15 +63,20 @@ class AppServiceProvider extends ServiceProvider
                         return $user->hasPermission($permission->slug);
                     });
                 }
-
-            } catch (\Exception $e) {
-                // Silencia erros
             }
+        } catch (\Throwable $e) {
+            // Silencia durante bootstrap sem banco / migrate / package discovery
         }
 
         // View Composer para a Navbar (INSTITUIÇÃO)
         View::composer('layouts.master', function ($view) {
-            $view->with('institution', Institution::first());
+            try {
+                $institution = Schema::hasTable('institutions') ? Institution::first() : null;
+            } catch (\Throwable $e) {
+                $institution = null;
+            }
+
+            $view->with('institution', $institution);
         });
     }
 }
