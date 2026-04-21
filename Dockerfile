@@ -99,6 +99,10 @@ COPY --from=node_builder /var/www/public/build ./public/build
 
 RUN mkdir -p storage/app/private/GNAIbackups \
     && mkdir -p storage/app/backup-temp \
+    && mkdir -p storage/framework/cache \
+    && mkdir -p storage/framework/sessions \
+    && mkdir -p storage/framework/views \
+    && mkdir -p bootstrap/cache \
     && chown -R www-data:www-data /var/www \
     && chmod -R 775 storage bootstrap/cache \
     && composer dump-autoload --optimize --no-scripts \
