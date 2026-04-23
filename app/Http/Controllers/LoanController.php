@@ -126,7 +126,7 @@ class LoanController extends Controller
 
     public function generatePdf(Loan $loan): Response
     {
-        $loan->load(['loanable', 'student.person', 'professional.person']);
+        $loan->load(['loanable', 'student.person', 'professional.person', 'user']);
 
         $pdf = Pdf::loadView('pages.loans.pdf', compact('loan'))
             ->setPaper('a4', 'portrait')

@@ -59,11 +59,15 @@ class ReportController extends Controller
     public function exportPdf(Request $request)
     {
         try {
-            $data = $this->service->exportData($request->all(), 1000);
+            $payload = $request->filled('payload')
+                ? json_decode($request->input('payload'), true, 512, JSON_THROW_ON_ERROR)
+                : $request->all();
+
+            $data = $this->service->exportData($payload, 1000);
 
             $pdf = Pdf::loadView('pages.reports.pdf', [
                 'data' => $data['rows'] ?? [],
-                'headers' => $request->input('labels', []),
+                'headers' => $payload['headers'] ?? [],
             ]);
 
             return $pdf->download('relatorio.pdf');

@@ -18,7 +18,6 @@ export default defineConfig({
                 'resources/js/pages/accessible-educational-materials.js',
                 'resources/js/pages/loans.js',
                 'resources/js/components/dynamicFilters.js',
-                'resources/js/pages/file-uploader.js',
                 'resources/js/pages/waitlists.js',
                 'resources/js/effects/timeline-animation.js'
             ],

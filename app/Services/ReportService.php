@@ -577,6 +577,13 @@ class ReportService
             return json_encode($value);
         }
 
+        if (is_string($value)) {
+            $value = html_entity_decode(strip_tags($value), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $value = preg_replace('/\s+/u', ' ', str_replace("\xc2\xa0", ' ', $value));
+
+            return trim($value);
+        }
+
         return $value;
     }
 }

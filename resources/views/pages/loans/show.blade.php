@@ -108,9 +108,13 @@
                 Voltar
             </x-buttons.link-button>
 
-            <x-buttons.pdf-button
+            <x-buttons.link-button
                 :href="route('emprestimos.pdf', $loan)"
-            />
+                variant="danger"
+            >
+                <span class="btn-label"><i class="fa fa-file-pdf-o"></i></span>
+                PDF
+            </x-buttons.link-button>
 
             @if($loan->status->value === 'active')
                 <x-buttons.submit-button

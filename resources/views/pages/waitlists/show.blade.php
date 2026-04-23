@@ -92,7 +92,13 @@
                 <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
 
-            <x-buttons.pdf-button :href="route('filas-de-espera.pdf', $waitlist)" />
+            <x-buttons.link-button
+                :href="route('filas-de-espera.pdf', $waitlist)"
+                variant="danger"
+            >
+                <span class="btn-label"><i class="fa fa-file-pdf-o"></i></span>
+                PDF
+            </x-buttons.link-button>
 
             @if($canCancel)
                 <x-buttons.submit-button

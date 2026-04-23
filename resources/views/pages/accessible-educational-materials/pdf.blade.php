@@ -149,6 +149,17 @@
     <x-pdf.text-area label="Última Vistoria" :value="'Nenhuma vistoria registrada.'" />
 @endif
 
+<x-pdf.section-title title="4. Registro do Sistema" />
+
+<x-pdf.table>
+    <x-pdf.row>
+        <x-pdf.info-item label="ID no Sistema" :value="'#' . $material->id" />
+        <x-pdf.info-item label="Status no Sistema" :value="$material->is_active ? 'Ativo' : 'Inativo'" />
+        <x-pdf.info-item label="Criado em" :value="$material->created_at?->format('d/m/Y \\à\\s H:i') ?? '---'" />
+        <x-pdf.info-item label="Última atualização" :value="$material->updated_at?->format('d/m/Y \\à\\s H:i') ?? '---'" />
+    </x-pdf.row>
+</x-pdf.table>
+
 <x-pdf.pages />
 </body>
 </html>

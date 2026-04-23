@@ -209,12 +209,20 @@
                         Voltar
                     </x-buttons.link-button>
 
+                    <x-buttons.link-button
+                        :href="route('barreiras.pdf', $barrier)"
+                        variant="danger"
+                    >
+                        <x-slot:icon><i class="fa fa-file-pdf-o"></i></x-slot:icon>
+                        PDF
+                    </x-buttons.link-button>
+
                     <x-buttons.submit-button
                         variant="danger"
                         type="button"
                         onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
                     >
-                        <x-slot:icon><i class="fa fa-trash"></i></x-slot:icon>
+                        <x-slot:icon><i class="fa fa-eraser"></i></x-slot:icon>
                         Excluir
                     </x-buttons.submit-button>
                 </div>

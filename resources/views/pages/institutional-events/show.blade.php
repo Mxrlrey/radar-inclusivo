@@ -103,9 +103,13 @@
                 Voltar
             </x-buttons.link-button>
 
-            <x-buttons.pdf-button
+            <x-buttons.link-button
                 :href="route('agenda-institucional.pdf', $event)"
-            />
+                variant="danger"
+            >
+                <span class="btn-label"><i class="fa fa-file-pdf-o"></i></span>
+                PDF
+            </x-buttons.link-button>
 
             <x-buttons.submit-button
                 variant="danger"

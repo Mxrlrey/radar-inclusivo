@@ -213,6 +213,32 @@
 
 @endif
 
+<x-pdf.section-title title="4. Registro do Sistema" />
+
+<x-pdf.table>
+    <x-pdf.row>
+        <x-pdf.info-item
+            label="ID no Sistema"
+            :value="'#' . $assistiveTechnology->id"
+        />
+
+        <x-pdf.info-item
+            label="Status no Sistema"
+            :value="$assistiveTechnology->is_active ? 'Ativo' : 'Inativo'"
+        />
+
+        <x-pdf.info-item
+            label="Criado em"
+            :value="$assistiveTechnology->created_at?->format('d/m/Y \\à\\s H:i') ?? '---'"
+        />
+
+        <x-pdf.info-item
+            label="Última atualização"
+            :value="$assistiveTechnology->updated_at?->format('d/m/Y \\à\\s H:i') ?? '---'"
+        />
+    </x-pdf.row>
+</x-pdf.table>
+
 <x-pdf.pages />
 
 </body>

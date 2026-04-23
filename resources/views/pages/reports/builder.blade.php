@@ -197,10 +197,17 @@
 
                     <div class="report-builder-preview-footer">
                         <small class="text-muted" id="preview-footer-info"></small>
-                        <x-buttons.submit-button type="button" variant="secondary" onclick="copyTable()">
-                            <span class="btn-label"><i class="fa fa-copy"></i></span>
-                            Copiar
-                        </x-buttons.submit-button>
+                        <div class="d-flex flex-wrap gap-2">
+                            <x-buttons.submit-button type="button" variant="danger" onclick="exportPdf()">
+                                <span class="btn-label"><i class="fa fa-file-pdf-o"></i></span>
+                                Exportar PDF
+                            </x-buttons.submit-button>
+
+                            <x-buttons.submit-button type="button" variant="secondary" onclick="copyTable()">
+                                <span class="btn-label"><i class="fa fa-copy"></i></span>
+                                Copiar
+                            </x-buttons.submit-button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -505,13 +512,17 @@
 
             function renderAddedRelations () {
                 const area = document.getElementById('added-relations-area')
+                const selectedColumns = new Set(
+                    Array.from(document.querySelectorAll('input[name="cols"]:checked'))
+                        .map(input => input.value)
+                )
                 area.innerHTML = ''
 
                 addedRelations.forEach(rel => {
                     const colsHtml = Object.entries(rel.columns ?? {}).map(([ck, cLabel]) => `
                         <div class="report-builder-check">
                             <div class="custom-checkbox-wrapper">
-                                <input type="checkbox" name="cols" value="${rel.name}.${ck}" id="col-${sanitizeId(`${rel.name}.${ck}`)}" class="form-check-input custom-checkbox">
+                                <input type="checkbox" name="cols" value="${rel.name}.${ck}" id="col-${sanitizeId(`${rel.name}.${ck}`)}" class="form-check-input custom-checkbox" ${selectedColumns.has(`${rel.name}.${ck}`) ? 'checked' : ''}>
                                 <label class="form-check-label" for="col-${sanitizeId(`${rel.name}.${ck}`)}">
                                     <span class="fw-bold">${cLabel}</span>
                                 </label>
@@ -525,7 +536,7 @@
                                    ${Object.entries(rel.pivot.columns).map(([pk, pl]) => `
                                        <div class="report-builder-check">
                                            <div class="custom-checkbox-wrapper">
-                                               <input type="checkbox" name="cols" value="${rel.name}.pivot.${pk}" id="col-${sanitizeId(`${rel.name}.pivot.${pk}`)}" class="form-check-input custom-checkbox">
+                                               <input type="checkbox" name="cols" value="${rel.name}.pivot.${pk}" id="col-${sanitizeId(`${rel.name}.pivot.${pk}`)}" class="form-check-input custom-checkbox" ${selectedColumns.has(`${rel.name}.pivot.${pk}`) ? 'checked' : ''}>
                                                <label class="form-check-label" for="col-${sanitizeId(`${rel.name}.pivot.${pk}`)}">
                                                    <span class="fw-bold">${pl}</span>
                                                </label>
@@ -763,6 +774,42 @@
 
             function sanitizeId (value) {
                 return String(value).replace(/[^a-zA-Z0-9_-]/g, '-')
+            }
+
+            function exportPdf () {
+                if (!meta) return toast('Selecione o tipo de dado.', 'warning')
+
+                const cols = Array.from(document.querySelectorAll('input[name="cols"]:checked')).map(i => i.value)
+                if (!cols.length) return toast('Marque pelo menos uma coluna.', 'warning')
+
+                const filters = Array.from(document.querySelectorAll('#filters-list .report-builder-filter-row')).map(row => ({
+                    column: row.querySelector('.f-col').value,
+                    operator: row.querySelector('.f-op').value,
+                    value: row.querySelector('.f-val').value,
+                })).filter(f => f.value !== '')
+
+                const headers = cols.map(col => getLabelForKey(col))
+                const payload = {
+                    model: meta.class,
+                    columns: cols,
+                    filters,
+                    limit: 1000,
+                    headers,
+                }
+
+                const form = document.createElement('form')
+                form.method = 'POST'
+                form.action = '/relatorios/exportar-pdf'
+                form.style.display = 'none'
+
+                form.innerHTML = `
+                    <input type="hidden" name="_token" value="${esc(csrf)}">
+                    <input type="hidden" name="payload" value="${esc(JSON.stringify(payload))}">
+                `
+
+                document.body.appendChild(form)
+                form.submit()
+                form.remove()
             }
 
             async function copyTable () {
