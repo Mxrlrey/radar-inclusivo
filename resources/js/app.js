@@ -17,7 +17,6 @@ class App {
     init() {
         this.initSidebar();
         this.initActiveMenu();
-        this.initDropdowns();
         this.initBootstrapDropdowns();
     }
 
@@ -96,26 +95,6 @@ class App {
                 item.classList.add('active');
                 const parentGroup = item.closest('.menu-group');
                 if (parentGroup) parentGroup.classList.add('expanded');
-            }
-        });
-    }
-
-    initDropdowns() {
-        document.querySelectorAll('.dropdown-toggle').forEach(dropdown => {
-            dropdown.addEventListener('click', function(e) {
-                if (window.innerWidth < 769) {
-                    e.preventDefault();
-                    const menu = this.nextElementSibling;
-                    if (menu) menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-                }
-            });
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!e.target.matches('.dropdown-toggle')) {
-                document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                    if (window.innerWidth < 769) menu.style.display = 'none';
-                });
             }
         });
     }

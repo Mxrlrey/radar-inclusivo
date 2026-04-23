@@ -50,6 +50,13 @@
     border-radius: var(--border-radius);
     box-shadow: 0 12px 32px rgba(54, 64, 74, 0.14);
     padding: 0;
+    position: fixed !important;
+    top: calc(var(--topbar-height) + var(--spacing-3)) !important;
+    right: var(--spacing-4) !important;
+    left: auto !important;
+    transform: none !important;
+    margin-top: 0 !important;
+    max-height: calc(100vh - var(--topbar-height) - var(--spacing-6)) !important;
 }
 
 /* Cabeçalho do dropdown */
@@ -158,9 +165,8 @@
 /* Desktop e tablet: alinha à direita normalmente */
 .notification-dropdown {
     left: auto !important;
-    right: 0 !important;
+    right: var(--spacing-4) !important;
     transform: none !important;
-    margin-top: 0.25rem !important;
 }
 
 .notification-card {
@@ -214,18 +220,25 @@
 /* Tablet portrait (iPad em pé, etc.) */
 @media (min-width: 769px) and (max-width: 1024px) {
     .notification-dropdown {
-        right: 0 !important;
+        position: fixed !important;
+        top: calc(var(--topbar-height) + var(--spacing-3)) !important;
+        right: var(--spacing-4) !important;
+        left: auto !important;
         transform: none !important;
+        max-height: calc(100vh - var(--topbar-height) - var(--spacing-6)) !important;
     }
 }
 
 /* Mobile: centraliza abaixo do ícone */
 @media (max-width: 768px) {
     .notification-dropdown {
-        right: auto !important;
-        left: 23% !important;
-        transform: translateX(-56%) !important;
-        margin-top: 0.25rem !important;
-        width: 290px;
+        position: fixed !important;
+        top: calc(var(--topbar-height) + var(--spacing-3)) !important;
+        right: var(--spacing-3) !important;
+        left: var(--spacing-3) !important;
+        transform: none !important;
+        margin-top: 0 !important;
+        width: auto;
+        max-height: calc(100vh - var(--topbar-height) - var(--spacing-6)) !important;
     }
 }
