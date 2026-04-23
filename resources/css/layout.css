@@ -139,10 +139,6 @@
     display: block;
 }
 
-.button-menu-mobile {
-    border-right: 1px solid var(--topbar-border);
-}
-
 #sidebarToggle i {
     font-size: 1.85rem;
     width: 1.85rem;

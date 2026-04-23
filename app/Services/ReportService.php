@@ -194,10 +194,13 @@ class ReportService
 
         $query = $modelClass::query();
         $relationsToLoad = $this->relationsToLoadFor($modelClass, $selected, $filters);
+        $polymorphicSelections = $this->selectedPolymorphicRelationsFor($modelClass, $selected, $filters);
 
         if ($relationsToLoad) {
             $query->with($relationsToLoad);
         }
+
+        $this->applyPolymorphicSelectionConstraints($query, $polymorphicSelections);
 
         foreach ($filters as $filter) {
             $column = $filter['column'] ?? null;
@@ -486,6 +489,55 @@ class ReportService
         }
 
         return array_values(array_unique(array_filter($relationsToLoad)));
+    }
+
+    /**
+     * RF: identifica quais relações polimórficas concretas foram usadas na seleção ou nos filtros.
+     * Uso: permite restringir a consulta ao tipo correto quando o builder pede dados concretos.
+     */
+    private function selectedPolymorphicRelationsFor(string $modelClass, array $selected, array $filters): array
+    {
+        $relations = [];
+
+        foreach (array_merge($selected, array_column($filters, 'column')) as $column) {
+            if (!str_contains($column ?? '', '.')) {
+                continue;
+            }
+
+            $relationName = explode('.', $column, 2)[0];
+            $meta = $this->reportRelationMeta($modelClass, $relationName);
+
+            if ($meta) {
+                $relations[$relationName] = $meta;
+            }
+        }
+
+        return array_values($relations);
+    }
+
+    /**
+     * RF: restringe a consulta ao tipo morfológico concreto quando o relatório pede uma relação específica.
+     * Uso: evita linhas vazias em relatórios de inspeções, empréstimos e listas de espera.
+     */
+    private function applyPolymorphicSelectionConstraints($query, array $polymorphicSelections): void
+    {
+        if (empty($polymorphicSelections)) {
+            return;
+        }
+
+        $typeColumn = $polymorphicSelections[0]['type_column'];
+        $morphTypes = collect($polymorphicSelections)
+            ->map(fn (array $selection) => $this->morphTypeFor($selection['class']))
+            ->unique()
+            ->values()
+            ->all();
+
+        if (count($morphTypes) === 1) {
+            $query->where($typeColumn, $morphTypes[0]);
+            return;
+        }
+
+        $query->whereIn($typeColumn, $morphTypes);
     }
 
     /**
