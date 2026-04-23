@@ -92,6 +92,60 @@ body.theme-dark input:-webkit-autofill:active {
     outline: 0;
 }
 
+/* ===== INPUTS DE DATA E HORA COM LABEL DE ÍCONE ===== */
+.picker-input-group {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    cursor: pointer;
+}
+
+.picker-input-control {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    position: relative;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 0;
+}
+
+.picker-input-control:focus {
+    border-right: 0;
+}
+
+.picker-input-group-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--input-height);
+    padding: 0 var(--spacing-4);
+    background-color: var(--bg-surface-secondary);
+    border: var(--border-width) solid var(--input-border);
+    border-left: 0;
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    color: var(--color-primary);
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.picker-input-group:focus-within .picker-input-group-label {
+    border-color: var(--input-focus-border);
+}
+
+.picker-input-control::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
+}
+
+.picker-input-control::-webkit-inner-spin-button,
+.picker-input-control::-webkit-clear-button {
+    display: none;
+}
+
 /* Placeholder */
 ::placeholder {
     color: var(--input-placeholder);
@@ -585,5 +639,17 @@ input:-webkit-autofill:active {
     .form-horizontal .form-group-horizontal {
         padding-left: var(--spacing-10);
         padding-right: var(--spacing-4);
+    }
+}
+
+@media (max-width: 767px) {
+    .form-horizontal .form-group-horizontal {
+        padding-left: var(--spacing-4);
+        padding-right: var(--spacing-4);
+    }
+
+    .form-horizontal .form-group-horizontal .field-wrapper {
+        width: 100%;
+        max-width: 100%;
     }
 }

@@ -99,7 +99,7 @@
                 <x-slot:icon>
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </x-slot:icon>
-                Salvar Alterações
+                Salvar
             </x-buttons.submit-button>
         </x-forms.form-footer>
     </x-forms.form-card>

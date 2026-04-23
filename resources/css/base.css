@@ -203,6 +203,7 @@ a:focus, a:active { outline: 0; }
     .page-header-actions {
         width: 100%;
         flex-wrap: wrap;
+        justify-content: flex-end;
         padding-bottom: 0;
     }
 

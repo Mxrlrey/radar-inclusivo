@@ -24,7 +24,7 @@
         <div class="card-custom report-builder-card overflow-hidden">
             <div class="row g-0">
 
-            <x-forms.section class="col-12 report-builder-section" title="1. Escolha o tipo de relatório" />
+            <x-forms.section class="col-12 report-builder-section" title="Escolha o tipo de relatório" />
             <div class="col-12 p-4 border-bottom report-builder-panel">
                 <div class="report-builder-banner d-flex gap-3 align-items-start mb-0">
                     <i class="fas fa-circle-info mt-1 fs-5"></i>
@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            <x-forms.section class="col-12 report-builder-section" title="2. Selecione os campos que deseja exibir" />
+            <x-forms.section class="col-12 report-builder-section" title="Selecione os campos que deseja exibir" />
             <div class="col-12 p-4 border-bottom report-builder-panel">
                 <div class="report-builder-banner d-flex gap-3 align-items-start mb-4">
                     <i class="fas fa-lightbulb mt-1 fs-5"></i>
@@ -117,7 +117,7 @@
                 </div>
             </div>
 
-            <x-forms.section class="col-12 report-builder-section" title="3. Refine os resultados com filtros" />
+            <x-forms.section class="col-12 report-builder-section" title="Refine os resultados com filtros" />
             <div class="col-12 p-4 border-bottom report-builder-panel">
                 <div class="report-builder-banner success d-flex gap-3 align-items-start mb-4">
                     <i class="fa fa-filter mt-1 fs-5"></i>
@@ -157,7 +157,7 @@
                 </div>
             </div>
 
-            <x-forms.section class="col-12 report-builder-section" title="4. Prévia do relatório" />
+            <x-forms.section class="col-12 report-builder-section" title="Prévia do relatório" />
             <div class="col-12 p-4 report-builder-panel">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
@@ -622,17 +622,15 @@
                             <input class="form-control form-control-sm f-val" placeholder="Digite o valor...">
                         </div>
 
-                        <div class="col-12 col-lg-1 d-grid">
-                            <x-buttons.submit-button
+                        <div class="col-12 col-lg-auto">
+                            <button
                                 type="button"
-                                variant="danger"
-                                size="xs"
-                                class="w-100"
+                                class="btn-action danger waves-effect waves-light"
                                 onclick="this.closest('.report-builder-filter-row').remove()"
                             >
-                                <span class="btn-label"><i class="fa fa-trash"></i></span>
-                                Limpar
-                            </x-buttons.submit-button>
+                                <span class="btn-label"><i class="fa fa-times"></i></span>
+                                Remover
+                            </button>
                         </div>
                     </div>`
                 document.getElementById('filters-list').appendChild(div)

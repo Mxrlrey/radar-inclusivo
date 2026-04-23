@@ -12,7 +12,8 @@
             --color-primary-dark: #2a374a;
             --color-primary-light: #6c7a8e;
             --color-accent: #e63946;
-            --color-blue: #7fb3ef;
+            --color-blue: #5fbeaa;
+            --color-blue-rgb: 95, 190, 170;
             --bg-body: #f3f3f4;
             --bg-dark: #4a515b;
             --text-primary: #262626;
@@ -60,7 +61,7 @@
 
         /* HERO */
         .hero { background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 60%, var(--color-primary-light) 100%); min-height: 320px; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; }
-        .hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 50%, rgba(127,179,239,0.15) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(127,179,239,0.1) 0%, transparent 50%); }
+        .hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 50%, rgba(var(--color-blue-rgb),0.15) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(var(--color-blue-rgb),0.1) 0%, transparent 50%); }
         .hero-dots { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='1' fill='rgba(255,255,255,0.05)'/%3E%3C/svg%3E"); }
         .hero-content { position: relative; z-index: 2; padding: 3rem 1rem; }
         .hero-content h1 { font-family: var(--font-heading); font-size: 3.5rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 3px; line-height: 1.1; }
@@ -118,7 +119,7 @@
         .credito-foto { width: 160px; height: 160px; background: var(--bg-body); margin: 0 auto 1.2rem; display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--text-light); font-size: 0.78rem; gap: 6px; }
         .credito-foto i { font-size: 2rem; color: var(--color-blue); opacity: 0.5; }
         .credito-foto img {width: 100%;height: 100%;object-fit: cover;}
-        .credito-role { display: inline-block; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--color-blue); background: rgba(127,179,239,0.1); padding: 3px 10px; margin-bottom: 0.6rem; }
+        .credito-role { display: inline-block; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--color-blue); background: rgba(var(--color-blue-rgb),0.1); padding: 3px 10px; margin-bottom: 0.6rem; }
         .credito-name { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; color: var(--color-primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; }
         .credito-desc { font-size: 0.88rem; color: var(--text-light); }
         .credito-email { margin-top: 0.5rem; }
