@@ -7,12 +7,14 @@ use App\Models\Traits\Reportable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Person extends Model
 {
     use HasFactory, SoftDeletes, Reportable;
 
+    /** Estrutura base da model. */
     protected $table = 'people';
 
     protected $fillable = [
@@ -31,6 +33,7 @@ class Person extends Model
         'gender'     => Gender::class,
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Pessoas';
@@ -55,20 +58,29 @@ class Person extends Model
         ];
     }
 
+    /** Atributos derivados e regras auxiliares. */
     public function getPhotoUrlAttribute(): ?string
     {
         return $this->photo ? asset('storage/' . $this->photo) : null;
     }
 
-    /**
-     * Retorna o label amigável do Gênero
-     */
     public function getGenderLabelAttribute(): string
     {
-        // Como o campo está no $casts, $this->gender já é uma instância do Enum
         return $this->gender->label();
     }
 
+    /** Relacionamentos. */
+    public function student(): HasOne
+    {
+        return $this->hasOne(Student::class);
+    }
+
+    public function professional(): HasOne
+    {
+        return $this->hasOne(Professional::class);
+    }
+
+    /** Scopes e filtros. */
     public function scopeName(Builder $query, ?string $term): Builder
     {
         return $term ? $query->where('name', 'like', "%{$term}%") : $query;
@@ -89,7 +101,6 @@ class Person extends Model
     {
         $doc = preg_replace('/\D/', '', $this->document);
 
-        // CPF (11 dígitos)
         if (strlen($doc) === 11) {
             return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $doc);
         }

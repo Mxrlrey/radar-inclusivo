@@ -13,6 +13,7 @@ class Institution extends Model
 {
     use HasFactory, SoftDeletes, Reportable;
 
+    /** Estrutura base da model. */
     protected $table = 'institutions';
 
     protected $fillable = [
@@ -35,6 +36,7 @@ class Institution extends Model
         'is_active' => 'boolean',
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Instituições';
@@ -70,6 +72,7 @@ class Institution extends Model
         ];
     }
 
+    /** Relacionamentos. */
     public function latestInspection(): MorphOne
     {
         return $this->morphOne(Inspection::class, 'inspectable')
@@ -86,6 +89,7 @@ class Institution extends Model
         return $this->hasMany(Barrier::class);
     }
 
+    /** Scopes e filtros. */
     public function scopeFilterName($query, ?string $name)
     {
         if ($name) {

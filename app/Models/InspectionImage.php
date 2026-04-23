@@ -11,6 +11,7 @@ class InspectionImage extends Model
 {
     use HasFactory;
 
+    /** Estrutura base da model. */
     protected $fillable = [
         'inspection_id',
         'path',
@@ -19,6 +20,7 @@ class InspectionImage extends Model
         'size'
     ];
 
+    /** Eventos e regras auxiliares da model. */
     protected static function booted()
     {
         static::deleted(function ($image) {
@@ -28,6 +30,7 @@ class InspectionImage extends Model
         });
     }
 
+    /** Relacionamentos. */
     public function inspection(): BelongsTo
     {
         return $this->belongsTo(Inspection::class, 'inspection_id');

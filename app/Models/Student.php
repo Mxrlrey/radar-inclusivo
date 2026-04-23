@@ -14,6 +14,7 @@ class Student extends Model
 {
     use HasFactory, SoftDeletes, Reportable;
 
+    /** Estrutura base da model. */
     protected $table = 'students';
 
     protected $fillable = [
@@ -28,6 +29,7 @@ class Student extends Model
         'is_active' => 'boolean',
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Alunos';
@@ -61,11 +63,13 @@ class Student extends Model
         ];
     }
 
+    /** Relacionamentos. */
     public function person(): BelongsTo
     {
         return $this->belongsTo(Person::class);
     }
 
+    /** Scopes e filtros. */
     public function scopeName(Builder $query, ?string $term): Builder
     {
         return $term ? $query->whereHas('person', fn($q) => $q->where('name', 'like', "%{$term}%")) : $query;

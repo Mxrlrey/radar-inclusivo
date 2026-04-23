@@ -14,6 +14,7 @@ class Position extends Model
 {
     use HasFactory, SoftDeletes, Reportable;
 
+    /** Estrutura base da model. */
     protected $table = 'positions';
 
     protected $fillable = [
@@ -26,6 +27,7 @@ class Position extends Model
         'is_active' => 'boolean',
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Cargos e Funções';
@@ -53,22 +55,18 @@ class Position extends Model
         ];
     }
 
-    /**
-     * Profissionais associados a este cargo
-     */
+    /** Relacionamentos. */
     public function professionals(): HasMany
     {
         return $this->hasMany(Professional::class);
     }
 
-    /**
-     * Permissões atreladas a este cargo (ACL)
-     */
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class, 'permission_position');
     }
 
+    /** Scopes e filtros. */
     public function scopeName(Builder $query, ?string $term): Builder
     {
         return $term ? $query->where('name', 'like', "{$term}%") : $query;

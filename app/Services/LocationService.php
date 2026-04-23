@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class LocationService
 {
+    /**
+     * RF: cria um ponto de referência com persistência transacional.
+     * Uso: cadastro de locais vinculados à instituição e ao mapa de barreiras.
+     */
     public function store(array $data): Location
     {
         return DB::transaction(
@@ -15,16 +19,17 @@ class LocationService
         );
     }
 
+    /**
+     * RF: atualiza um ponto de referência validando pendências antes de desativá-lo.
+     * Uso: manutenção de locais usados no radar institucional.
+     */
     public function update(Location $location, array $data): Location
     {
         return DB::transaction(function () use ($location, $data) {
-
             $wasActive = $location->is_active;
             $willDeactivate = $wasActive && isset($data['is_active']) && !$data['is_active'];
 
             if ($willDeactivate) {
-                /* Bloqueamos a desativação do local para evitar que barreiras fiquem
-                   "escondidas" em locais inativos no radar antes de serem resolvidas. */
                 $hasUnresolvedBarriers = $location
                     ->barriers()
                     ->whereNull('resolved_at')
@@ -41,12 +46,13 @@ class LocationService
         });
     }
 
+    /**
+     * RF: exclui um ponto de referência apenas quando não houver barreiras pendentes.
+     * Uso: protege o histórico do mapa antes de remover locais do sistema.
+     */
     public function delete(Location $location): void
     {
         DB::transaction(function () use ($location) {
-
-            /* Diferente da atualização, a exclusão física exige que o local esteja
-               completamente livre de pendências para manter a integridade do mapa histórico. */
             $hasActiveBarriers = $location
                 ->barriers()
                 ->whereNull('resolved_at')

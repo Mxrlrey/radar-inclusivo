@@ -17,11 +17,19 @@ class BackupService
 {
     protected $disk;
 
+    /**
+     * RF: inicializa o disco local usado para armazenar e recuperar backups.
+     * Uso: prepara o serviço para operações de geração, sincronização e restauração.
+     */
     public function __construct()
     {
         $this->disk = Storage::disk('local');
     }
 
+    /**
+     * RF: executa a rotina de backup da aplicação e registra o arquivo gerado no banco.
+     * Uso: criação manual de cópias de segurança pelo módulo administrativo.
+     */
     public function generate(): Backup
     {
         try {
@@ -63,6 +71,10 @@ class BackupService
         }
     }
 
+    /**
+     * RF: valida e armazena um arquivo de backup enviado manualmente pelo usuário.
+     * Uso: importação de backups externos para controle interno do sistema.
+     */
     public function storeUploadedFile($file): Backup
     {
         try {
@@ -91,6 +103,10 @@ class BackupService
         }
     }
 
+    /**
+     * RF: remove o backup físico e seu registro persistido.
+     * Uso: limpeza administrativa de arquivos de backup já descartados.
+     */
     public function delete($id): ?bool
     {
         $backup = Backup::findOrFail($id);
@@ -102,6 +118,10 @@ class BackupService
         return $backup->delete();
     }
 
+    /**
+     * RF: sincroniza os arquivos de backup existentes no disco com a tabela de controle.
+     * Uso: reconciliação de backups gerados fora do fluxo direto da interface.
+     */
     public function sync(): bool
     {
         try {
@@ -137,20 +157,18 @@ class BackupService
         }
     }
 
+    /**
+     * RF: restaura banco e arquivos de mídia a partir de um backup validado.
+     * Uso: recuperação operacional do sistema em cenários de contingência.
+     */
     public function restore($id): bool
     {
         $backup = Backup::findOrFail($id);
         $maintenanceModeEnabled = false;
 
-        // ------------------------------------------------------------------
-        // ETAPA 1: LOCALIZAÇÃO DO ARQUIVO — lê o caminho base do .env
-        // O disco 'local' tem raiz em storage/app/private, então os paths
-        // salvos no banco são relativos a essa raiz (ex: GNAIbackups/arq.zip)
-        // ------------------------------------------------------------------
         $fileName   = $backup->file_name;
         $relativePath = str_replace('\\', '/', $backup->file_path);
 
-        // Remove prefixos absolutos legados que possam ter vindo de outros ambientes
         $stripPrefixes = [
             'storage/app/private/',
             'storage/app/',
@@ -163,7 +181,6 @@ class BackupService
             }
         }
 
-        // Monta candidatos de caminho absoluto sem assumir nenhum OS ou estrutura
         $storageRoot = storage_path('app/private');
         $candidates  = [
             $storageRoot . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativePath),
@@ -207,9 +224,6 @@ class BackupService
             Artisan::call('down');
             $maintenanceModeEnabled = true;
 
-            // ------------------------------------------------------------------
-            // ETAPA 2: EXTRAÇÃO
-            // ------------------------------------------------------------------
             if ($zip->open($zipPath) !== true) {
                 throw new Exception("Falha ao abrir o ZIP: {$zipPath}");
             }
@@ -219,10 +233,6 @@ class BackupService
 
             $zip->close();
 
-            // ------------------------------------------------------------------
-            // ETAPA 3: RESTAURAÇÃO DO BANCO
-            // Binário lido do .env via database.php — sem hardcode de OS
-            // ------------------------------------------------------------------
             $sqlFile = $this->findSqlFile($tempPath);
 
             if ($sqlFile) {
@@ -257,11 +267,6 @@ class BackupService
                 }
             }
 
-            // ------------------------------------------------------------------
-            // ETAPA 4: RESTAURAÇÃO DE ARQUIVOS DE MÍDIA
-            // Varre o ZIP extraído procurando a pasta storage/app
-            // independente de qual era o path absoluto na máquina de origem
-            // ------------------------------------------------------------------
             $sourceStorage = $this->findStorageDir($tempPath);
 
             if ($sourceStorage && is_dir($sourceStorage)) {
@@ -279,22 +284,13 @@ class BackupService
                 Artisan::call('up');
             }
 
-            // ------------------------------------------------------------------
-            // ETAPA 5: GARBAGE COLLECTION
-            // ------------------------------------------------------------------
             $this->removeDirectory($tempPath);
         }
     }
 
-    // -----------------------------------------------------------------------
-    // HELPERS PRIVADOS
-    // -----------------------------------------------------------------------
-
     /**
-     * Resolve o caminho absoluto do binário mysql.
-     * Lê de database.connections.mysql.dump.dump_binary_path,
-     * que por sua vez lê de BACKUP_MYSQL_BINARY_PATH no .env.
-     * Fallback para 'mysql' no PATH do sistema.
+     * RF: resolve o binário do MySQL configurado para restauração do dump.
+     * Uso: monta o comando de importação sem fixar caminho por sistema operacional.
      */
     private function resolveMysqlBinary(): string
     {
@@ -308,13 +304,12 @@ class BackupService
             }
         }
 
-        // Fallback: depende do PATH global do sistema operacional
         return $binaryName;
     }
 
     /**
-     * Cria arquivo temporário de opções MySQL (.cnf) para evitar
-     * expor a senha como argumento de linha de comando no Windows.
+     * RF: gera um arquivo temporário de opções do MySQL com as credenciais da conexão.
+     * Uso: evita expor senha em linha de comando durante a restauração do banco.
      */
     private function writeMysqlOptionsFile(array $dbConfig): string
     {
@@ -329,7 +324,8 @@ class BackupService
     }
 
     /**
-     * Localiza recursivamente o primeiro arquivo .sql na pasta extraída.
+     * RF: localiza o arquivo SQL único dentro do backup extraído.
+     * Uso: identifica o dump que será importado durante a restauração.
      */
     private function findSqlFile(string $directory): ?string
     {
@@ -355,8 +351,8 @@ class BackupService
     }
 
     /**
-     * Localiza a pasta "app" dentro de "storage" no conteúdo extraído do ZIP,
-     * independente do path absoluto que tinha na máquina de origem.
+     * RF: encontra a pasta de arquivos de mídia dentro da estrutura extraída do backup.
+     * Uso: permite restaurar `storage/app` sem depender do caminho da máquina de origem.
      */
     private function findStorageDir(string $tempPath): ?string
     {
@@ -377,7 +373,8 @@ class BackupService
     }
 
     /**
-     * Remove um diretório recursivamente, compatível com Windows e Linux.
+     * RF: remove diretórios temporários usados no processo de restauração.
+     * Uso: limpeza final do workspace temporário criado para extrair o backup.
      */
     private function removeDirectory(string $path): void
     {
@@ -386,6 +383,10 @@ class BackupService
         File::deleteDirectory($path);
     }
 
+    /**
+     * RF: valida se o caminho físico do backup aponta para um ZIP permitido.
+     * Uso: protege a restauração contra arquivos externos ou formatos inválidos.
+     */
     private function assertValidBackupZipPath(string $path): string
     {
         $realPath    = realpath($path);
@@ -406,6 +407,10 @@ class BackupService
         return $realPath;
     }
 
+    /**
+     * RF: valida entradas do ZIP antes da extração para bloquear caminhos inseguros.
+     * Uso: protege a restauração contra traversal e links simbólicos maliciosos.
+     */
     private function assertSafeZipEntries(ZipArchive $zip): void
     {
         for ($i = 0; $i < $zip->numFiles; $i++) {
@@ -435,6 +440,10 @@ class BackupService
         }
     }
 
+    /**
+     * RF: extrai o ZIP garantindo que todos os arquivos permaneçam dentro do destino temporário.
+     * Uso: restauração segura do conteúdo compactado antes da importação do backup.
+     */
     private function extractZipSafely(ZipArchive $zip, string $destination): void
     {
         File::ensureDirectoryExists($destination);
@@ -483,6 +492,10 @@ class BackupService
         }
     }
 
+    /**
+     * RF: replica os arquivos restaurados da mídia para o storage da aplicação.
+     * Uso: recompõe imagens e anexos após a importação do backup.
+     */
     private function copyDirectoryContents(string $source, string $destination): void
     {
         File::ensureDirectoryExists($destination);
@@ -508,11 +521,19 @@ class BackupService
         }
     }
 
+    /**
+     * RF: identifica se a aplicação está executando em ambiente Windows.
+     * Uso: ajusta resolução de binários e compatibilidade do processo de restauração.
+     */
     private function isWindows(): bool
     {
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
 
+    /**
+     * RF: converte bytes para uma representação legível de tamanho.
+     * Uso: preenche metadados amigáveis de tamanho nos registros de backup.
+     */
     private function formatBytes(int|float $bytes, int $precision = 2): string
     {
         $units  = ['B', 'KB', 'MB', 'GB', 'TB'];

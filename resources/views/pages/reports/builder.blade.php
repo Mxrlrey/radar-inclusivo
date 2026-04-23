@@ -4,28 +4,29 @@
 
 @section('content')
 
-    <div class="mb-5">
-        <x-breadcrumb :items="[
-            'Home' => route('dashboard'),
-            'Relatórios' => null,
-        ]" />
-    </div>
-
-    <div class="d-flex justify-content-between align-items-start mb-4">
-        <div>
-            <h2 class="text-title">Gerador de Relatórios e Consultas</h2>
-            <p class="text-muted mb-0">
-                Monte seu relatório de forma simples, escolhendo os dados, os campos e os filtros que deseja visualizar.
-            </p>
+    <div class="report-builder-page">
+        <div class="mb-5">
+            <x-breadcrumb :items="[
+                'Home' => route('dashboard'),
+                'Relatórios' => null,
+            ]" />
         </div>
-    </div>
 
-    <div class="custom-table-card shadow-sm border rounded-3 overflow-hidden">
-        <div class="row g-0">
+        <div class="d-flex justify-content-between align-items-start mb-4">
+            <div>
+                <h2 class="text-title">Gerador de Relatórios e Consultas</h2>
+                <p class="text-muted mb-0">
+                    Monte seu relatório de forma simples, escolhendo os dados, os campos e os filtros que deseja visualizar.
+                </p>
+            </div>
+        </div>
 
-            <x-forms.section title="1. Escolha o tipo de relatório" />
-            <div class="col-12 p-4 border-bottom">
-                <div class="alert alert-info border-0 shadow-sm d-flex gap-3 align-items-start mb-0">
+        <div class="card-custom report-builder-card overflow-hidden">
+            <div class="row g-0">
+
+            <x-forms.section class="col-12 report-builder-section" title="1. Escolha o tipo de relatório" />
+            <div class="col-12 p-4 border-bottom report-builder-panel">
+                <div class="report-builder-banner d-flex gap-3 align-items-start mb-0">
                     <i class="fas fa-circle-info mt-1 fs-5"></i>
                     <div>
                         <strong class="d-block mb-1">Comece por aqui</strong>
@@ -48,9 +49,9 @@
                 </div>
             </div>
 
-            <x-forms.section title="2. Selecione os campos que deseja exibir" />
-            <div class="col-12 p-4 border-bottom">
-                <div class="alert alert-primary border-0 shadow-sm d-flex gap-3 align-items-start mb-4">
+            <x-forms.section class="col-12 report-builder-section" title="2. Selecione os campos que deseja exibir" />
+            <div class="col-12 p-4 border-bottom report-builder-panel">
+                <div class="report-builder-banner d-flex gap-3 align-items-start mb-4">
                     <i class="fas fa-lightbulb mt-1 fs-5"></i>
                     <div>
                         <strong class="d-block mb-1">Dica rápida</strong>
@@ -62,7 +63,7 @@
 
                 <div class="mb-4">
                     <p class="small fw-semibold text-muted mb-2">Dados principais</p>
-                    <div id="columns-container" class="d-flex flex-wrap gap-2">
+                    <div id="columns-container" class="report-builder-option-grid">
                         <span class="text-muted small fst-italic">
                             Selecione o tipo de dado acima para ver as opções.
                         </span>
@@ -77,7 +78,7 @@
                         <span class="badge bg-secondary">opcional</span>
                     </div>
 
-                    <div class="alert alert-warning border-0 shadow-sm d-flex gap-3 align-items-start mb-4">
+                    <div class="report-builder-banner warning d-flex gap-3 align-items-start mb-4">
                         <i class="fas fa-triangle-exclamation mt-1 fs-5"></i>
                         <div>
                             <strong class="d-block mb-1">Use somente se precisar</strong>
@@ -105,7 +106,8 @@
                                     variant="new"
                                     class=" mb-4"
                                 >
-                                    <i class="fas fa-plus"></i> Adicionar
+                                    <span class="btn-label"><i class="fa fa-plus"></i></span>
+                                    Adicionar
                                 </x-buttons.submit-button>
                             </div>
                         </div>
@@ -115,10 +117,10 @@
                 </div>
             </div>
 
-            <x-forms.section title="3. Refine os resultados com filtros" />
-            <div class="col-12 p-4 border-bottom">
-                <div class="alert alert-success border-0 shadow-sm d-flex gap-3 align-items-start mb-4">
-                    <i class="fas fa-filter mt-1 fs-5"></i>
+            <x-forms.section class="col-12 report-builder-section" title="3. Refine os resultados com filtros" />
+            <div class="col-12 p-4 border-bottom report-builder-panel">
+                <div class="report-builder-banner success d-flex gap-3 align-items-start mb-4">
+                    <i class="fa fa-filter mt-1 fs-5"></i>
                     <div>
                         <strong class="d-block mb-1">Filtragem opcional</strong>
                         <small>
@@ -131,12 +133,13 @@
 
                 <div class="mt-3">
                     <x-buttons.submit-button type="button" variant="secondary" onclick="addFilterRow()">
-                        <i class="fas fa-plus"></i> Adicionar filtro
+                        <span class="btn-label"><i class="fa fa-plus"></i></span>
+                        Adicionar filtro
                     </x-buttons.submit-button>
                 </div>
             </div>
 
-            <div class="col-12 p-4 border-bottom bg-light">
+            <div class="col-12 p-4 border-bottom report-builder-actions">
                 <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
                     <div>
                         <p class="mb-0 fw-semibold">Pronto para visualizar?</p>
@@ -147,18 +150,15 @@
 
                     <div class="d-flex flex-wrap gap-2">
                         <x-buttons.submit-button type="button" id="btn-run" variant="new" onclick="runReport()" disabled>
-                            <i class="fas fa-table"></i> Gerar prévia
-                        </x-buttons.submit-button>
-
-                        <x-buttons.submit-button type="button" id="btn-pdf" variant="secondary" onclick="exportPdf()" disabled>
-                            <i class="fas fa-file-pdf"></i> Exportar PDF
+                            <span class="btn-label"><i class="fa fa-table"></i></span>
+                            Gerar prévia
                         </x-buttons.submit-button>
                     </div>
                 </div>
             </div>
 
-            <x-forms.section title="4. Prévia do relatório" />
-            <div class="col-12 p-4">
+            <x-forms.section class="col-12 report-builder-section" title="4. Prévia do relatório" />
+            <div class="col-12 p-4 report-builder-panel">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <p class="fw-semibold mb-1">Resultado gerado</p>
@@ -169,7 +169,7 @@
                     <span id="preview-count-badge" class="badge bg-secondary d-none"></span>
                 </div>
 
-                <div id="preview-empty" class="text-center py-5 px-4 border rounded-3 bg-light">
+                <div id="preview-empty" class="report-builder-empty text-center py-5 px-4">
                     <i class="fas fa-chart-bar text-muted mb-3 d-block" style="font-size:2.5rem;opacity:.2"></i>
                     <p class="text-muted mb-0">Nenhum relatório gerado ainda.</p>
                     <small class="text-muted">Escolha as opções acima e clique em “Gerar prévia”.</small>
@@ -180,32 +180,210 @@
                     <p class="text-muted small mb-0">Buscando dados...</p>
                 </div>
 
-                <div id="preview-error" class="d-none">
+                <div id="preview-error" class="d-none report-builder-error">
                     <div class="alert alert-danger mb-0">
                         <i class="fas fa-exclamation-circle me-2"></i>
                         <span id="preview-error-msg"></span>
                     </div>
                 </div>
 
-                <div id="preview-section" class="d-none border rounded-3 overflow-hidden">
+                <div id="preview-section" class="d-none report-builder-preview overflow-hidden">
                     <div class="table-responsive">
-                        <table class="table table-sm table-hover mb-0" style="font-size:13px">
+                        <table class="table table-sm table-hover mb-0 report-builder-preview-table" style="font-size:13px">
                             <thead class="table-light" id="preview-head"></thead>
                             <tbody id="preview-body"></tbody>
                         </table>
                     </div>
 
-                    <div class="px-4 py-2 border-top bg-light d-flex justify-content-between align-items-center">
+                    <div class="report-builder-preview-footer">
                         <small class="text-muted" id="preview-footer-info"></small>
                         <x-buttons.submit-button type="button" variant="secondary" onclick="copyTable()">
-                            <i class="fas fa-copy"></i> Copiar
+                            <span class="btn-label"><i class="fa fa-copy"></i></span>
+                            Copiar
                         </x-buttons.submit-button>
                     </div>
                 </div>
             </div>
 
+            </div>
         </div>
     </div>
+
+    @push('styles')
+        <style>
+            .report-builder-page {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .report-builder-card {
+                width: 100%;
+                max-width: 100%;
+                background: var(--card-bg);
+                border-color: var(--card-border) !important;
+                margin-bottom: 0;
+            }
+
+            .report-builder-card .row {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .report-builder-section {
+                padding: 1.5rem 1.5rem 0;
+                margin-top: 0;
+                background: var(--card-bg);
+                border-top: 1px solid var(--border-color-light);
+            }
+
+            .report-builder-section .form-section-title,
+            .report-builder-section .form-section-description {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .report-builder-section .form-section-title {
+                margin-bottom: .5rem;
+            }
+
+            .report-builder-panel {
+                background: var(--card-bg);
+            }
+
+            .report-builder-banner {
+                padding: 1rem 1.25rem;
+                border-left: 4px solid var(--color-primary);
+                background: var(--bg-surface-secondary);
+            }
+
+            .report-builder-banner.warning {
+                border-left-color: var(--color-warning);
+            }
+
+            .report-builder-banner.success {
+                border-left-color: var(--color-success);
+            }
+
+            .report-builder-option-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: .75rem 1rem;
+                min-width: 0;
+            }
+
+            .report-builder-check {
+                display: flex;
+                align-items: flex-start;
+                min-width: 220px;
+                max-width: 100%;
+                flex: 1 1 260px;
+                padding: .75rem 1rem;
+                border: 1px solid var(--border-color);
+                background: var(--bg-surface);
+            }
+
+            .report-builder-check .custom-checkbox-wrapper {
+                width: 100%;
+                margin-bottom: 0;
+                align-items: flex-start;
+            }
+
+            .report-builder-check .form-check-label {
+                font-weight: var(--font-weight-medium);
+                color: var(--text-primary);
+            }
+
+            .report-builder-relation {
+                border: 1px solid var(--border-color);
+                background: var(--bg-surface-secondary);
+            }
+
+            .report-builder-relation-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1rem;
+                padding: .9rem 1rem;
+                border-bottom: 1px solid var(--border-color);
+                background: var(--bg-surface);
+            }
+
+            .report-builder-relation-body {
+                padding: 1rem;
+            }
+
+            .report-builder-filter-row {
+                border: 1px solid var(--border-color);
+                background: var(--bg-surface-secondary);
+                padding: 1rem;
+            }
+
+            .report-builder-actions {
+                background: var(--bg-surface-secondary) !important;
+            }
+
+            .report-builder-empty,
+            .report-builder-preview,
+            .report-builder-error {
+                border: 1px solid var(--border-color);
+                background: var(--bg-surface);
+            }
+
+            .report-builder-preview-table thead th {
+                background: var(--table-header-bg);
+                color: var(--table-header-color);
+                white-space: nowrap;
+            }
+
+            .report-builder-preview-table tbody td {
+                white-space: nowrap;
+                vertical-align: middle;
+            }
+
+            .report-builder-preview-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1rem;
+                padding: .9rem 1rem;
+                border-top: 1px solid var(--border-color);
+                background: var(--bg-surface-secondary);
+            }
+
+            .report-builder-card .alert,
+            .report-builder-card .table-responsive,
+            .report-builder-card #preview-section {
+                max-width: 100%;
+            }
+
+            .report-builder-card #columns-container,
+            .report-builder-card #added-relations-area,
+            .report-builder-card #filters-list {
+                min-width: 0;
+            }
+
+            .report-builder-card .table-responsive table {
+                min-width: 100%;
+            }
+
+            @media (max-width: 768px) {
+                .report-builder-section {
+                    padding: 1.25rem 1rem 0;
+                }
+
+                .report-builder-check {
+                    min-width: 100%;
+                    flex-basis: 100%;
+                }
+
+                .report-builder-relation-header,
+                .report-builder-preview-footer {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+            }
+        </style>
+    @endpush
 
     @push('scripts')
         <script>
@@ -293,7 +471,6 @@
                     populateRelationSelect()
                     document.getElementById('relations-section').classList.remove('d-none')
                     document.getElementById('btn-run').removeAttribute('disabled')
-                    document.getElementById('btn-pdf').removeAttribute('disabled')
                     updateFilterOptions()
                 } catch {
                     toast('Falha ao carregar os dados da entidade.', 'danger')
@@ -306,11 +483,14 @@
 
                 Object.entries(meta.columns ?? {}).forEach(([k, label]) => {
                     c.innerHTML += `
-                        <label class="border rounded-3 px-3 py-2 d-inline-flex align-items-center gap-2 shadow-sm"
-                               style="font-size:13px;cursor:pointer;user-select:none">
-                            <input type="checkbox" name="cols" value="${k}" class="form-check-input mt-0">
-                            <span>${label}</span>
-                        </label>`
+                        <div class="report-builder-check">
+                            <div class="custom-checkbox-wrapper">
+                                <input type="checkbox" name="cols" value="${k}" id="col-${sanitizeId(k)}" class="form-check-input custom-checkbox">
+                                <label class="form-check-label" for="col-${sanitizeId(k)}">
+                                    <span class="fw-bold">${label}</span>
+                                </label>
+                            </div>
+                        </div>`
                 })
             }
 
@@ -329,41 +509,47 @@
 
                 addedRelations.forEach(rel => {
                     const colsHtml = Object.entries(rel.columns ?? {}).map(([ck, cLabel]) => `
-                        <label class="border rounded-3 px-3 py-2 d-inline-flex align-items-center gap-2 shadow-sm"
-                               style="font-size:13px;cursor:pointer;user-select:none">
-                            <input type="checkbox" name="cols" value="${rel.name}.${ck}" class="form-check-input mt-0">
-                            <span>${cLabel}</span>
-                        </label>`).join('')
+                        <div class="report-builder-check">
+                            <div class="custom-checkbox-wrapper">
+                                <input type="checkbox" name="cols" value="${rel.name}.${ck}" id="col-${sanitizeId(`${rel.name}.${ck}`)}" class="form-check-input custom-checkbox">
+                                <label class="form-check-label" for="col-${sanitizeId(`${rel.name}.${ck}`)}">
+                                    <span class="fw-bold">${cLabel}</span>
+                                </label>
+                            </div>
+                        </div>`).join('')
 
                     const pivotHtml = rel.pivot?.columns
                         ? `<div class="mt-3 pt-3 border-top">
                                <small class="text-muted d-block mb-2">Campos do vínculo</small>
-                               <div class="d-flex flex-wrap gap-2">
+                               <div class="report-builder-option-grid">
                                    ${Object.entries(rel.pivot.columns).map(([pk, pl]) => `
-                                       <label class="border rounded-3 px-3 py-2 d-inline-flex align-items-center gap-2 shadow-sm"
-                                              style="font-size:13px;cursor:pointer;user-select:none">
-                                           <input type="checkbox" name="cols" value="${rel.name}.pivot.${pk}" class="form-check-input mt-0">
-                                           <span>${pl}</span>
-                                       </label>`).join('')}
+                                       <div class="report-builder-check">
+                                           <div class="custom-checkbox-wrapper">
+                                               <input type="checkbox" name="cols" value="${rel.name}.pivot.${pk}" id="col-${sanitizeId(`${rel.name}.pivot.${pk}`)}" class="form-check-input custom-checkbox">
+                                               <label class="form-check-label" for="col-${sanitizeId(`${rel.name}.pivot.${pk}`)}">
+                                                   <span class="fw-bold">${pl}</span>
+                                               </label>
+                                           </div>
+                                       </div>`).join('')}
                                </div>
                            </div>`
                         : ''
 
                     area.innerHTML += `
-                        <div class="border rounded-3 overflow-hidden mb-3 bg-light">
-                            <div class="px-3 py-2 border-bottom d-flex justify-content-between align-items-center">
-                                <strong style="font-size:13px">${rel.label}</strong>
-                                <x-buttons.submit-button
+                        <div class="report-builder-relation overflow-hidden mb-3">
+                            <div class="report-builder-relation-header">
+                                <strong class="text-title mb-0" style="font-size:13px">${rel.label}</strong>
+                                <button
                                     type="button"
-                                    variant="danger"
-                                    class="btn btn-sm py-1 px-4"
+                                    class="btn-action danger waves-effect waves-light"
                                     onclick="removeRelation('${rel.name}')"
                                 >
-                                    <i class="fas fa-times"></i>
-                                </x-buttons.submit-button>
+                                    <span class="btn-label"><i class="fa fa-times"></i></span>
+                                    Remover
+                                </button>
                             </div>
-                            <div class="p-3">
-                                <div class="d-flex flex-wrap gap-2">${colsHtml}</div>
+                            <div class="report-builder-relation-body">
+                                <div class="report-builder-option-grid">${colsHtml}</div>
                                 ${pivotHtml}
                             </div>
                         </div>`
@@ -410,7 +596,7 @@
                 const opts = window.__filterOpts ?? []
 
                 const div = document.createElement('div')
-                div.className = 'border rounded-3 p-3 bg-light'
+                div.className = 'report-builder-filter-row'
                 div.innerHTML = `
                     <div class="row g-2 align-items-end">
                         <div class="col-12 col-lg-5">
@@ -440,10 +626,12 @@
                             <x-buttons.submit-button
                                 type="button"
                                 variant="danger"
+                                size="xs"
                                 class="w-100"
-                                onclick="this.closest('.border').remove()"
+                                onclick="this.closest('.report-builder-filter-row').remove()"
                             >
-                                <i class="fas fa-trash-alt"></i>
+                                <span class="btn-label"><i class="fa fa-trash"></i></span>
+                                Limpar
                             </x-buttons.submit-button>
                         </div>
                     </div>`
@@ -456,7 +644,7 @@
                 if (!meta) return toast('Selecione o tipo de dado.', 'warning')
                 if (!cols.length) return toast('Marque pelo menos uma coluna.', 'warning')
 
-                const filters = Array.from(document.querySelectorAll('#filters-list .border')).map(row => ({
+                const filters = Array.from(document.querySelectorAll('#filters-list .report-builder-filter-row')).map(row => ({
                     column: row.querySelector('.f-col').value,
                     operator: row.querySelector('.f-op').value,
                     value: row.querySelector('.f-val').value,
@@ -536,43 +724,6 @@
                 document.getElementById('preview-count-badge').classList.add('d-none')
             }
 
-            async function exportPdf () {
-                const cols = Array.from(document.querySelectorAll('input[name="cols"]:checked')).map(i => i.value)
-
-                if (!meta || !cols.length) {
-                    return toast('Selecione pelo menos uma coluna para exportar.', 'warning')
-                }
-
-                const filters = Array.from(document.querySelectorAll('#filters-list .border')).map(row => ({
-                    column: row.querySelector('.f-col').value,
-                    operator: row.querySelector('.f-op').value,
-                    value: row.querySelector('.f-val').value,
-                })).filter(f => f.value !== '')
-
-                try {
-                    const res = await fetch('/relatorios/exportar-pdf', {
-                        method: 'POST',
-                        credentials: 'same-origin',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': csrf
-                        },
-                        body: JSON.stringify({
-                            model: meta.class,
-                            columns: cols,
-                            filters,
-                            labels: cols.map(getLabelForKey),
-                        }),
-                    })
-
-                    if (!res.ok) throw new Error('HTTP ' + res.status)
-
-                    window.open(URL.createObjectURL(await res.blob()), '_blank')
-                } catch {
-                    toast('Erro ao gerar PDF.', 'danger')
-                }
-            }
-
             function getLabelForKey (key) {
                 if (!meta) return key
 
@@ -608,9 +759,12 @@
                 document.getElementById('filters-list').innerHTML = ''
                 window.__filterOpts = []
                 document.getElementById('btn-run').setAttribute('disabled', true)
-                document.getElementById('btn-pdf').setAttribute('disabled', true)
                 hideStates()
                 document.getElementById('preview-empty').classList.remove('d-none')
+            }
+
+            function sanitizeId (value) {
+                return String(value).replace(/[^a-zA-Z0-9_-]/g, '-')
             }
 
             async function copyTable () {
@@ -651,19 +805,67 @@
                     })
                     html += '</tbody></table>'
 
-                    await navigator.clipboard.write([
-                        new ClipboardItem({
-                            'text/html': new Blob([html], { type: 'text/html' }),
-                            'text/plain': new Blob([textLines], { type: 'text/plain' })
-                        })
-                    ])
+                    const supportsRichClipboard =
+                        typeof navigator !== 'undefined' &&
+                        !!navigator.clipboard &&
+                        typeof navigator.clipboard.write === 'function' &&
+                        typeof window.ClipboardItem !== 'undefined'
+
+                    if (supportsRichClipboard) {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({
+                                'text/html': new Blob([html], { type: 'text/html' }),
+                                'text/plain': new Blob([textLines], { type: 'text/plain' })
+                            })
+                        ])
+                    } else if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                        await navigator.clipboard.writeText(textLines)
+                    } else {
+                        legacyCopyText(textLines)
+                    }
 
                     toast('Tabela copiada!', 'success')
 
                 } catch (err) {
-                    console.error(err)
-                    toast('Não foi possível copiar.', 'warning')
+                    try {
+                        const headCells = Array.from(
+                            document.querySelectorAll('#preview-head th')
+                        ).map(th => th.textContent.trim())
+
+                        const rows = Array.from(
+                            document.querySelectorAll('#preview-body tr')
+                        ).map(tr =>
+                            Array.from(tr.querySelectorAll('td'))
+                                .map(td => td.textContent.trim())
+                        )
+
+                        const textLines = [
+                            headCells.join('\t'),
+                            ...rows.map(r => r.join('\t'))
+                        ].join('\n')
+
+                        legacyCopyText(textLines)
+                        toast('Tabela copiada!', 'success')
+                    } catch (fallbackErr) {
+                        console.error(err, fallbackErr)
+                        toast('Não foi possível copiar.', 'warning')
+                    }
                 }
+            }
+
+            function legacyCopyText (text) {
+                const textarea = document.createElement('textarea')
+                textarea.value = text
+                textarea.setAttribute('readonly', '')
+                textarea.style.position = 'fixed'
+                textarea.style.top = '-9999px'
+                textarea.style.left = '-9999px'
+                document.body.appendChild(textarea)
+                textarea.focus()
+                textarea.select()
+                textarea.setSelectionRange(0, textarea.value.length)
+                document.execCommand('copy')
+                document.body.removeChild(textarea)
             }
 
             function esc (str) {

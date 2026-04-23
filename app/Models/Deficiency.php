@@ -13,6 +13,7 @@ class Deficiency extends Model
 {
     use HasFactory, SoftDeletes, Reportable;
 
+    /** Estrutura base da model. */
     protected $table = 'deficiencies';
 
     protected $fillable = [
@@ -26,6 +27,7 @@ class Deficiency extends Model
         'is_active' => 'boolean',
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Deficiências';
@@ -55,9 +57,7 @@ class Deficiency extends Model
         ];
     }
 
-    /**
-     * Alunos que possuem esta deficiência
-     */
+    /** Relacionamentos. */
     public function students(): BelongsToMany
     {
         return $this->belongsToMany(Student::class, 'students_deficiencies')
@@ -69,6 +69,37 @@ class Deficiency extends Model
             ->withTimestamps();
     }
 
+    public function barriers(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Barrier::class,
+            'barrier_deficiency',
+            'deficiency_id',
+            'barrier_id'
+        )->withTimestamps();
+    }
+
+    public function assistiveTechnologies(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            AssistiveTechnology::class,
+            'assistive_technology_deficiency',
+            'deficiency_id',
+            'assistive_technology_id'
+        );
+    }
+
+    public function accessibleEducationalMaterials(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            AccessibleEducationalMaterial::class,
+            'accessible_educational_material_deficiency',
+            'deficiency_id',
+            'accessible_educational_material_id'
+        );
+    }
+
+    /** Scopes e filtros. */
     public function scopeName(Builder $query, ?string $term): Builder
     {
         return $term ? $query->where('name', 'like', "{$term}%") : $query;

@@ -10,12 +10,20 @@ use Illuminate\Support\Facades\DB;
 
 class AssistiveTechnologyService
 {
+    /**
+     * RF: injeta os serviços necessários para inspeção, estoque e auditoria de tecnologias assistivas.
+     * Uso: orquestra regras complementares no ciclo de vida dos recursos assistivos.
+     */
     public function __construct(
         protected InspectionService $inspectionService,
         protected LoanService $loanService,
         protected AuditLogger $auditLogger,
     ) {}
 
+    /**
+     * RF: cria uma tecnologia assistiva com validação, estoque e relações obrigatórias.
+     * Uso: cadastro inicial de recursos assistivos físicos ou digitais.
+     */
     public function store(array $data): AssistiveTechnology
     {
         return DB::transaction(function () use ($data) {
@@ -38,6 +46,10 @@ class AssistiveTechnologyService
         });
     }
 
+    /**
+     * RF: atualiza uma tecnologia assistiva preservando regras de estoque e auditoria.
+     * Uso: edição de itens já registrados no catálogo de tecnologias assistivas.
+     */
     public function update(AssistiveTechnology $at, array $data): AssistiveTechnology
     {
         return DB::transaction(function () use ($at, $data) {
@@ -71,11 +83,13 @@ class AssistiveTechnologyService
         });
     }
 
+    /**
+     * RF: exclui uma tecnologia assistiva apenas quando não houver empréstimos ativos.
+     * Uso: protege o histórico de circulação antes da remoção do item.
+     */
     public function delete(AssistiveTechnology $assistiveTechnology): void
     {
         DB::transaction(function () use ($assistiveTechnology) {
-            /* Impedimos a exclusão para manter a integridade histórica dos
-               empréstimos ativos e evitar órfãos no sistema de rastreio. */
             if ($assistiveTechnology->loans()->whereNull('return_date')->exists()) {
                 throw new BusinessRuleException("Não é possível excluir um item com empréstimos ativos.");
             }
@@ -84,6 +98,10 @@ class AssistiveTechnologyService
         });
     }
 
+    /**
+     * RF: valida regras de negócio da tecnologia assistiva quanto a público e estoque.
+     * Uso: bloqueia persistência de dados inconsistentes no cadastro do recurso.
+     */
     private function validateBusinessRules(AssistiveTechnology $at, array $data): void
     {
         $isDigital = $data['is_digital'] ?? $at->is_digital  ?? false;
@@ -108,12 +126,14 @@ class AssistiveTechnologyService
         }
     }
 
+    /**
+     * RF: impede mudança de status quando a tecnologia ainda está vinculada a empréstimos ativos.
+     * Uso: mantém coerência entre inventário, circulação e disponibilidade do recurso.
+     */
     private function validateStatusChangeWithActiveLoans(AssistiveTechnology $at, array $data): void
     {
         if (!isset($data['status'])) return;
 
-        /* Bloqueamos a mudança de status (ex: para Manutenção) se houver
-           empréstimos em aberto para evitar inconsistência no inventário. */
         if ($at->loans()->whereNull('return_date')->exists() && $at->status->value !== $data['status']) {
             throw new BusinessRuleException("Não é possível alterar o status do item enquanto houver empréstimos ativos.");
         }

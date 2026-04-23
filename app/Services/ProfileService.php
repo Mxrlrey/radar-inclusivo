@@ -10,17 +10,19 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileService
 {
+    /**
+     * RF: atualiza o perfil do usuário autenticado e sua pessoa vinculada em transação única.
+     * Uso: edição de dados pessoais, foto e credenciais no módulo de perfil.
+     */
     public function updateProfile(User $user, array $data): void
     {
         DB::transaction(function () use ($user, $data) {
-            // 1. Identifica a Person vinculada
             $person = $user->professional?->person;
 
             if (!$person) {
                 throw new BusinessRuleException("Vínculo de pessoa não encontrado para o seu usuário.");
             }
 
-            // 2. Gerenciamento de Foto (Upload/Remoção)
             if (!empty($data['remove_photo']) || isset($data['photo'])) {
                 if ($person->photo) {
                     Storage::disk('public')->delete($person->photo);
@@ -31,7 +33,6 @@ class ProfileService
                     : null;
             }
 
-            // 3. Persistência dos Dados
             $person->fill($data)->save();
 
             $userData = [

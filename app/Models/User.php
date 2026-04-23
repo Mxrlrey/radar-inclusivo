@@ -11,6 +11,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    /** Estrutura base da model. */
     protected $fillable = [
         'name',
         'email',
@@ -25,11 +26,13 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /** Relacionamentos. */
     public function professional()
     {
         return $this->belongsTo(Professional::class);
     }
-    // Atalho para pegar o nome da Person vinculada
+
+    /** Atributos derivados e regras auxiliares. */
     public function getNameAttribute()
     {
         return $this->professional?->person?->name
@@ -73,6 +76,7 @@ class User extends Authenticatable
         return session()->has('impersonator_id');
     }
 
+    /** Configuração de casts. */
     protected function casts(): array
     {
         return [

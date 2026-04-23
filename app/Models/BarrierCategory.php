@@ -13,6 +13,7 @@ class BarrierCategory extends Model
 {
     use HasFactory, SoftDeletes, Reportable;
 
+    /** Estrutura base da model. */
     protected $table = 'barrier_categories';
 
     protected $fillable = [
@@ -27,6 +28,7 @@ class BarrierCategory extends Model
         'blocks_map' => 'boolean'
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Categorias de Barreira';
@@ -56,11 +58,13 @@ class BarrierCategory extends Model
         ];
     }
 
+    /** Relacionamentos. */
     public function barriers(): HasMany
     {
         return $this->hasMany(Barrier::class);
     }
 
+    /** Scopes e filtros. */
     public function scopeFilterName($query, ?string $name): Builder
     {
         return $name ? $query->where('name', 'like', "%{$name}%") : $query;

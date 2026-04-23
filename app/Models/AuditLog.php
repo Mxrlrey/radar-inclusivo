@@ -12,9 +12,8 @@ class AuditLog extends Model
 {
     use HasFactory;
 
+    /** Estrutura base da model. */
     protected $table = 'audit_logs';
-
-    // Campos que podem ser preenchidos via create()
     protected $fillable = [
         'user_id',
         'action',
@@ -26,14 +25,12 @@ class AuditLog extends Model
         'user_agent',
     ];
 
-    // Casts para transformar JSON em array automaticamente
     protected $casts = [
         'old_values' => 'array',
         'new_values' => 'array',
     ];
 
-    // RELACIONAMENTOS
-
+    /** Relacionamentos. */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -44,6 +41,7 @@ class AuditLog extends Model
         return $this->morphTo();
     }
 
+    /** Scopes e filtros. */
     public function scopeForModel(Builder $query, Model $model): Builder
     {
         return $query

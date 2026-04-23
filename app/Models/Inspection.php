@@ -8,6 +8,7 @@ use App\Enums\InspectionType;
 use App\Models\Traits\Reportable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -15,6 +16,7 @@ class Inspection extends Model
 {
     use HasFactory, Reportable;
 
+    /** Estrutura base da model. */
     protected $fillable = [
         'inspectable_id',
         'inspectable_type',
@@ -33,11 +35,13 @@ class Inspection extends Model
         'type' => InspectionType::class,
     ];
 
+    /** Atributos derivados e regras auxiliares. */
     public function getInspectableNameAttribute(): ?string
     {
         return $this->inspectable?->name ?? null;
     }
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Inspeções';
@@ -71,14 +75,51 @@ class Inspection extends Model
         ];
     }
 
+    /** Contrato de relações especiais para relatórios. */
+    public static function getReportRelations(): array
+    {
+        return [
+            'barrier' => [
+                'relation' => 'inspectable',
+                'type_column' => 'inspectable_type',
+                'target' => Barrier::class,
+            ],
+            'assistiveTechnology' => [
+                'relation' => 'inspectable',
+                'type_column' => 'inspectable_type',
+                'target' => AssistiveTechnology::class,
+            ],
+            'accessibleEducationalMaterial' => [
+                'relation' => 'inspectable',
+                'type_column' => 'inspectable_type',
+                'target' => AccessibleEducationalMaterial::class,
+            ],
+        ];
+    }
+
+    /** Relacionamentos. */
     public function inspectable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function barrier(): BelongsTo
+    {
+        return $this->belongsTo(Barrier::class, 'inspectable_id');
+    }
+
+    public function assistiveTechnology(): BelongsTo
+    {
+        return $this->belongsTo(AssistiveTechnology::class, 'inspectable_id');
+    }
+
+    public function accessibleEducationalMaterial(): BelongsTo
+    {
+        return $this->belongsTo(AccessibleEducationalMaterial::class, 'inspectable_id');
     }
 
     public function images(): HasMany
     {
         return $this->hasMany(InspectionImage::class, 'inspection_id');
     }
-
 }

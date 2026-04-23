@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class BarrierCategoryService
 {
+    /**
+     * RF: cria uma categoria de barreira com persistência transacional.
+     * Uso: cadastro de classificações usadas no fluxo de barreiras do radar.
+     */
     public function store(array $data): BarrierCategory
     {
         return DB::transaction(
@@ -15,6 +19,10 @@ class BarrierCategoryService
         );
     }
 
+    /**
+     * RF: atualiza uma categoria de barreira preservando consistência transacional.
+     * Uso: manutenção de categorias exibidas em formulários e filtros do módulo.
+     */
     public function update(BarrierCategory $category, array $data): BarrierCategory
     {
         return DB::transaction(function () use ($category, $data) {
@@ -23,19 +31,19 @@ class BarrierCategoryService
         });
     }
 
+    /**
+     * RF: exclui uma categoria apenas quando não houver barreiras em estado impeditivo.
+     * Uso: protege o histórico classificatório antes de remover categorias do sistema.
+     */
     public function delete(BarrierCategory $category): void
     {
         DB::transaction(function () use ($category) {
-
             $hasActiveBarrier = $category
                 ->barriers()
                 ->get()
                 ->contains(function ($barrier) {
                     $status = $barrier->latestStatus();
 
-                    /* Assumimos que a ausência de status ou um status impeditivo impossibilita
-                       a exclusão da categoria, evitando que dados históricos fiquem sem
-                       classificação e dificultem auditorias futuras. */
                     if (!$status) {
                         return true;
                     }

@@ -122,4 +122,13 @@ trait Reportable
     {
         return [];
     }
+
+    /**
+     * Lista opcional de relações especiais expostas ao builder.
+     * Ex: return ['barrier' => ['relation' => 'inspectable', 'type_column' => 'inspectable_type', 'target' => Barrier::class]];
+     */
+    public static function getReportRelations(): array
+    {
+        return [];
+    }
 }

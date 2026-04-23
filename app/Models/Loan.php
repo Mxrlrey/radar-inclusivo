@@ -13,6 +13,7 @@ class Loan extends Model
 {
     use HasFactory, Reportable;
 
+    /** Estrutura base da model. */
     protected $table = 'loans';
 
     protected $fillable = [
@@ -35,6 +36,7 @@ class Loan extends Model
         'status'      => LoanStatus::class,
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Empréstimos';
@@ -66,9 +68,37 @@ class Loan extends Model
         ];
     }
 
+    /** Contrato de relações especiais para relatórios. */
+    public static function getReportRelations(): array
+    {
+        return [
+            'assistiveTechnology' => [
+                'relation' => 'loanable',
+                'type_column' => 'loanable_type',
+                'target' => AssistiveTechnology::class,
+            ],
+            'accessibleEducationalMaterial' => [
+                'relation' => 'loanable',
+                'type_column' => 'loanable_type',
+                'target' => AccessibleEducationalMaterial::class,
+            ],
+        ];
+    }
+
+    /** Relacionamentos. */
     public function loanable(): MorphTo
     {
         return $this->morphTo()->withTrashed();
+    }
+
+    public function assistiveTechnology(): BelongsTo
+    {
+        return $this->belongsTo(AssistiveTechnology::class, 'loanable_id');
+    }
+
+    public function accessibleEducationalMaterial(): BelongsTo
+    {
+        return $this->belongsTo(AccessibleEducationalMaterial::class, 'loanable_id');
     }
 
     public function student(): BelongsTo
@@ -86,6 +116,7 @@ class Loan extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /** Scopes e filtros. */
     public function scopeByStatus($query, ?LoanStatus $status)
     {
         if (!is_null($status)) {

@@ -1,15 +1,21 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 
-class Backup extends Model {
+class Backup extends Model
+{
+    /** Estrutura base da model. */
     protected $fillable = ['file_name', 'file_path', 'size', 'status', 'user_id'];
 
-    public function user() {
+    /** Relacionamentos. */
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
+    /** Scopes e filtros. */
     public function scopeFilterName($query, $name)
     {
         if ($name) {

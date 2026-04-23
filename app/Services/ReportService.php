@@ -1,243 +1,530 @@
 <?php
-// app/Services/ReportService.php
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Traits\Reportable;
+use BackedEnum;
+use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
+use InvalidArgumentException;
+use ReflectionClass;
+use ReflectionMethod;
 use Throwable;
 
 class ReportService
 {
-    protected array $config;
-
-    public function __construct()
+    /**
+     * RF: lista as entidades habilitadas para o builder de relatórios.
+     * Uso: popula o seletor inicial com os models reportáveis do sistema.
+     */
+    public function availableEntities(): array
     {
-        $this->config = config('reportables');
-    }
+        $modelsPath = app_path('Models');
+        $files = collect(File::allFiles($modelsPath));
 
-    protected function isAllowedTable(string $table): bool
-    {
-        return array_key_exists($table, $this->config['tables']);
-    }
+        return $files
+            ->map(function ($file) use ($modelsPath) {
+                $relative = str_replace(
+                    [$modelsPath . DIRECTORY_SEPARATOR, '.php'],
+                    '',
+                    $file->getPathname()
+                );
 
-    protected function isAllowedColumn(string $table, string $column): bool
-    {
-        return in_array($column, $this->config['tables'][$table]['columns'] ?? [], true);
-    }
+                $class = 'App\\Models\\' . str_replace(DIRECTORY_SEPARATOR, '\\', $relative);
 
-    // retorna relação entre duas tabelas (considera ordem)
-    protected function getRelationBetween(string $a, string $b): ?array
-    {
-        $k1 = "{$a}.{$b}";
-        $k2 = "{$b}.{$a}";
-        if (isset($this->config['relations'][$k1])) return $this->config['relations'][$k1];
-        if (isset($this->config['relations'][$k2])) return $this->config['relations'][$k2];
-        return null;
-    }
-
-    // encontra caminho mínimo (BFS) entre base e target nas relações
-    protected function findPath(string $base, string $target): ?array
-    {
-        $adj = [];
-        foreach ($this->config['relations'] as $k => $rel) {
-            [$x, $y] = explode('.', $k);
-            $adj[$x][] = $y;
-            $adj[$y][] = $x;
-        }
-
-        $queue = [[$base]];
-        $visited = [$base => true];
-
-        while (!empty($queue)) {
-            $path = array_shift($queue);
-            $last = end($path);
-            if ($last === $target) return $path;
-
-            foreach ($adj[$last] ?? [] as $nei) {
-                if (!isset($visited[$nei])) {
-                    $visited[$nei] = true;
-                    $new = $path;
-                    $new[] = $nei;
-                    $queue[] = $new;
+                if (!class_exists($class) || !$this->isReportable($class)) {
+                    return null;
                 }
-            }
-        }
-        return null;
-    }
 
-    // cria selects com alias table__column para evitar colisões
-    protected function prepareSelects(array $selects, string $base): array
-    {
-        if (empty($selects)) {
-            return ["{$base}.*"];
-        }
-
-        $out = [];
-        foreach ($selects as $s) {
-            $parts = preg_split('/\s+as\s+/i', $s);
-            $col = trim($parts[0]);
-            $alias = $parts[1] ?? null;
-
-            if (strpos($col, '.') === false) {
-                $table = $base;
-                $column = $col;
-            } else {
-                [$table, $column] = explode('.', $col, 2);
-            }
-
-            if (!$this->isAllowedTable($table) || !$this->isAllowedColumn($table, $column)) {
-                throw new \InvalidArgumentException("Coluna não permitida: {$col}");
-            }
-
-            if ($alias) {
-                $out[] = "{$table}.{$column} as {$alias}";
-            } else {
-                $safe = "{$table}__{$column}";
-                $out[] = "{$table}.{$column} as {$safe}";
-            }
-        }
-        return $out;
-    }
-
-    // coleta tabelas pedidas pelo select + joins explicitados (para montar caminho)
-    protected function collectRequestedTables(array $payload, string $base): array
-    {
-        $tables = [$base];
-        foreach ($payload['select'] ?? [] as $s) {
-            $col = preg_split('/\s+as\s+/i', $s)[0];
-            if (strpos($col, '.') !== false) {
-                [$t] = explode('.', $col, 2);
-                $tables[] = $t;
-            }
-        }
-
-        // adiciona joins explicitos (select de UI pode enviar joins[] com as tabelas selecionadas)
-        foreach ($payload['joins'] ?? [] as $j) {
-            $tables[] = $j;
-        }
-
-        return array_values(array_unique($tables));
+                return [
+                    'class' => $class,
+                    'label' => $class::getReportLabel(),
+                ];
+            })
+            ->filter()
+            ->sortBy('label')
+            ->values()
+            ->all();
     }
 
     /**
-     * run(payload, $limit)
-     * $limit: number (per page) | 'all'
+     * RF: monta os metadados de uma entidade com colunas e relações disponíveis.
+     * Uso: carrega o builder após o usuário escolher o tipo base do relatório.
      */
-    public function run(array $payload, $limit = null)
-{
-    $base = $payload['base'];
-    if (!$this->isAllowedTable($base)) abort(403, 'Tabela base não permitida');
+    public function meta(string $modelClass): array
+    {
+        $this->assertValidReportableModel($modelClass);
 
-    // preparar selects básicos (sem alias ainda)
-    $rawSelects = $payload['select'] ?? [];
-    // se vazio => lista todas as colunas base
-    if (empty($rawSelects)) {
-        $rawSelects = array_map(fn($c) => "{$base}.{$c}", $this->config['tables'][$base]['columns'] ?? []);
-    }
+        $model = new $modelClass();
+        $table = $model->getTable();
+        $columns = $modelClass::getTranslatedColumns()->toArray();
 
-    // coletar tabelas necessárias
-    $needed = $this->collectRequestedTables($payload, $base);
+        $declaredColumns = method_exists($modelClass, 'getReportColumns')
+            ? $modelClass::getReportColumns()
+            : null;
 
-    $qb = DB::table($base);
-    $joined = [$base];
+        $hasDeclaredColumns = is_array($declaredColumns) && !empty($declaredColumns);
 
-    // aplicar joins em cadeia (mesma lógica findPath que já temos)
-    foreach ($needed as $t) {
-        if ($t === $base || in_array($t, $joined)) continue;
-        $path = $this->findPath($base, $t);
-        if (!$path) abort(403, "Relação não definida entre {$base} e {$t}");
-        for ($i = 0; $i < count($path) - 1; $i++) {
-            $left = $path[$i];
-            $right = $path[$i+1];
-            if (in_array($right, $joined)) continue;
-            $rel = $this->getRelationBetween($left, $right);
-            if (!$rel) abort(500, "Relação mal definida entre {$left} e {$right}");
-            [$onLeft, $onRight] = $rel['on'];
-            $type = $rel['type'] ?? 'inner';
-            if ($type === 'left') $qb->leftJoin($right, $onLeft, '=', $onRight);
-            else $qb->join($right, $onLeft, '=', $onRight);
-            $joined[] = $right;
-        }
-    }
+        $allowedEmbedded = (!$hasDeclaredColumns && is_callable([$modelClass, 'getEmbeddedRelations']))
+            ? (array) $modelClass::getEmbeddedRelations()
+            : [];
+        $configuredRelations = $this->reportRelationsFor($modelClass);
 
-    // filtros (mantém lógica anterior)
-    foreach ($payload['filters'] ?? [] as $f) {
-        if (empty($f['column'])) continue;
-        $col = $f['column'];
-        $op = strtolower($f['operator'] ?? '=');
-        $val = $f['value'] ?? null;
-        [$t, $c] = explode('.', $col, 2);
-        if (!$this->isAllowedTable($t) || !$this->isAllowedColumn($t, $c)) abort(403, "Filtro em coluna não permitida: {$col}");
-        if ($op === 'in' && is_array($val)) $qb->whereIn($col, $val);
-        elseif ($op === 'like') $qb->where($col, 'like', "%{$val}%");
-        else {
-            if (!in_array($op, ['=','!=','>','<','>=','<='], true)) abort(403, 'Operador inválido');
-            $qb->where($col, $op, $val);
-        }
-    }
+        $relations = [];
+        $reflector = new ReflectionClass($modelClass);
 
-    // decide se vamos agrupar por base (true por padrão para evitar duplicados)
-    $groupByBase = $payload['group_by_base'] ?? true;
-
-    // prepara selects: se agrupando por base, transformar selects em agregados ANY_VALUE(...) as alias
-    $selectsSql = [];
-    foreach ($rawSelects as $s) {
-        // já pode vir com alias "table.column as alias"
-        $parts = preg_split('/\s+as\s+/i', $s);
-        $col = trim($parts[0]);
-        $alias = $parts[1] ?? null;
-
-        // tratar se o usuário já passou função agregada (COUNT/SUM/AVG/GROUP_CONCAT/ANY_VALUE etc.)
-        $isAggregated = preg_match('/\b(COUNT|SUM|AVG|MIN|MAX|GROUP_CONCAT|ANY_VALUE)\s*\(/i', $col);
-
-        if ($groupByBase && !$isAggregated) {
-            // construir ANY_VALUE(table.column) as table__column (ou alias)
-            if (strpos($col, '.') === false) {
-                $col = "{$base}.{$col}";
+        foreach ($reflector->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            if ($method->class !== $reflector->getName() || $method->getNumberOfParameters() > 0) {
+                continue;
             }
-            $safeAlias = $alias ?? str_replace('.', '__', $col);
-            $selectsSql[] = DB::raw("ANY_VALUE({$col}) as `{$safeAlias}`");
-        } else {
-            // não agrupa, simplesmente usar select normal (respeita alias)
-            if (strpos($col, '.') === false) $col = "{$base}.{$col}";
-            if ($alias) $selectsSql[] = DB::raw("{$col} as {$alias}");
-            else {
-                $safeAlias = str_replace('.', '__', $col);
-                $selectsSql[] = DB::raw("{$col} as `{$safeAlias}`");
+
+            try {
+                $return = $method->invoke($model);
+            } catch (Throwable) {
+                continue;
             }
+
+            if (!$return instanceof Relation) {
+                continue;
+            }
+
+            $relationName = $method->getName();
+
+            if ($this->isIgnoredRelation($relationName) || array_key_exists($relationName, $configuredRelations)) {
+                continue;
+            }
+
+            $relation = $model->$relationName();
+            $related = $relation->getRelated();
+            $relatedClass = get_class($related);
+
+            if (!$this->isReportable($relatedClass)) {
+                continue;
+            }
+
+            $relCols = $this->translatedColumnsForRelatedModel($relatedClass, $related->getTable());
+
+            $relData = [
+                'name' => $relationName,
+                'type' => class_basename(get_class($relation)),
+                'related_class' => $relatedClass,
+                'label' => is_callable([$relatedClass, 'getReportLabel'])
+                    ? $relatedClass::getReportLabel()
+                    : class_basename($relatedClass),
+                'table' => $related->getTable(),
+                'columns' => $relCols,
+            ];
+
+            if ($relation instanceof BelongsToMany) {
+                $pivotColumns = $this->resolvePivotColumns($relation);
+
+                if (!empty($pivotColumns)) {
+                    $relData['pivot'] = [
+                        'table' => $relation->getTable(),
+                        'columns' => $pivotColumns,
+                    ];
+                }
+            }
+
+            $isSingular = $relation instanceof BelongsTo
+                || $relation instanceof HasOne
+                || $relation instanceof MorphOne;
+
+            $shouldEmbed = !$hasDeclaredColumns
+                && $isSingular
+                && in_array($relationName, $allowedEmbedded, true);
+
+            if ($shouldEmbed) {
+                foreach ($relCols as $colKey => $colLabel) {
+                    $composedKey = "{$relationName}.{$colKey}";
+
+                    if (!array_key_exists($composedKey, $columns)) {
+                        $columns[$composedKey] = $colLabel;
+                    }
+                }
+            }
+
+            $relations[] = $relData;
+        }
+
+        foreach ($configuredRelations as $relationName => $relationMeta) {
+            $relatedClass = $relationMeta['target'];
+            $related = new $relatedClass();
+            $relCols = $this->translatedColumnsForRelatedModel($relatedClass, $related->getTable());
+
+            $relations[] = [
+                'name' => $relationName,
+                'type' => 'MorphTo',
+                'related_class' => $relatedClass,
+                'label' => $relationMeta['label'] ?? $relatedClass::getReportLabel(),
+                'table' => $related->getTable(),
+                'columns' => $relCols,
+            ];
+        }
+
+        return [
+            'class' => $modelClass,
+            'label' => $modelClass::getReportLabel(),
+            'table' => $table,
+            'columns' => $columns,
+            'relations' => array_values($relations),
+        ];
+    }
+
+    /**
+     * RF: executa um relatório dinâmico com colunas, filtros e relações selecionadas.
+     * Uso: gera a prévia tabular exibida na tela de relatórios.
+     */
+    public function run(array $payload): array
+    {
+        $modelClass = $payload['model'] ?? null;
+        $selected = $payload['columns'] ?? [];
+        $filters = $payload['filters'] ?? [];
+        $limit = (int) ($payload['limit'] ?? 200);
+
+        $this->assertValidReportableModel($modelClass);
+
+        $query = $modelClass::query();
+        $relationsToLoad = $this->relationsToLoadFor($modelClass, $selected, $filters);
+
+        if ($relationsToLoad) {
+            $query->with($relationsToLoad);
+        }
+
+        foreach ($filters as $filter) {
+            $column = $filter['column'] ?? null;
+            $operator = strtolower($filter['operator'] ?? '=');
+            $value = $filter['value'] ?? null;
+
+            if (!$column || $value === null || $value === '') {
+                continue;
+            }
+
+            if (str_contains($column, '.')) {
+                [$relation, $relationColumn] = explode('.', $column, 2);
+                $polymorphicMeta = $this->reportRelationMeta($modelClass, $relation);
+
+                if ($polymorphicMeta) {
+                    $targetClass = $polymorphicMeta['class'];
+                    $morphType = $this->morphTypeFor($targetClass);
+
+                    $query
+                        ->where($polymorphicMeta['type_column'], $morphType)
+                        ->whereHasMorph(
+                            $polymorphicMeta['relation'],
+                            [$targetClass],
+                            function ($q) use ($relationColumn, $operator, $value) {
+                                strtolower($operator) === 'like'
+                                    ? $q->where($relationColumn, 'like', "%{$value}%")
+                                    : $q->where($relationColumn, $operator, $value);
+                            }
+                        );
+
+                    continue;
+                }
+
+                $query->whereHas($relation, function ($q) use ($relationColumn, $operator, $value) {
+                    strtolower($operator) === 'like'
+                        ? $q->where($relationColumn, 'like', "%{$value}%")
+                        : $q->where($relationColumn, $operator, $value);
+                });
+
+                continue;
+            }
+
+            strtolower($operator) === 'like'
+                ? $query->where($column, 'like', "%{$value}%")
+                : $query->where($column, $operator, $value);
+        }
+
+        $rows = $query->limit($limit)->get();
+        $result = [];
+
+        foreach ($rows as $row) {
+            $out = [];
+
+            foreach ($selected as $columnKey) {
+                $alias = str_replace('.', '__', $columnKey);
+                $value = data_get($row, $columnKey);
+
+                if (str_contains($columnKey, '.')) {
+                    [$relationName, $relationColumn] = explode('.', $columnKey, 2);
+                    $polymorphicMeta = $this->reportRelationMeta($modelClass, $relationName);
+
+                    if ($polymorphicMeta) {
+                        $targetClass = $polymorphicMeta['class'];
+                        $morphType = $this->morphTypeFor($targetClass);
+
+                        $value = $row->{$polymorphicMeta['type_column']} === $morphType
+                            ? data_get($row->{$polymorphicMeta['relation']}, $relationColumn)
+                            : null;
+                    }
+                }
+
+                if ($value === null && str_contains($columnKey, '.')) {
+                    [$relationName, $relationColumn] = explode('.', $columnKey, 2);
+                    $relationValue = $row->$relationName ?? null;
+
+                    if ($relationValue instanceof Collection) {
+                        $value = $relationValue
+                            ->map(fn ($item) => data_get($item, $relationColumn))
+                            ->filter()
+                            ->unique()
+                            ->values()
+                            ->implode(', ');
+                    }
+                }
+
+                $out[$alias] = $this->normalizeValue($value);
+            }
+
+            $result[] = $out;
+        }
+
+        return [
+            'rows' => $result,
+            'total' => $rows->count(),
+        ];
+    }
+
+    /**
+     * RF: reaproveita a execução do relatório com limite ampliado para exportação.
+     * Uso: entrega os dados normalizados para saídas externas como PDF.
+     */
+    public function exportData(array $payload, int $limit = 1000): array
+    {
+        $payload['limit'] = $limit;
+
+        return $this->run($payload);
+    }
+
+    /**
+     * RF: valida se um model participa do módulo de relatórios via trait reportável.
+     * Uso: protege metadata e consultas contra entidades fora do escopo do builder.
+     */
+    private function isReportable(string $class): bool
+    {
+        return in_array(Reportable::class, class_uses_recursive($class), true);
+    }
+
+    /**
+     * RF: garante que o model informado exista e seja aceito pelo motor de relatórios.
+     * Uso: valida a entrada antes de montar metadata ou consultar dados.
+     */
+    private function assertValidReportableModel(?string $modelClass): void
+    {
+        if (!$modelClass || !class_exists($modelClass)) {
+            throw new InvalidArgumentException('Modelo inválido');
+        }
+
+        if (!$this->isReportable($modelClass)) {
+            throw new InvalidArgumentException('Modelo não reportável');
         }
     }
 
-    // aplicar selects
-    $qb->select($selectsSql);
+    /**
+     * RF: resolve relações especiais declaradas pelo próprio model para o builder.
+     * Uso: permite que cada entidade defina seu contrato de relações de relatório.
+     */
+    private function reportRelationsFor(string $modelClass): array
+    {
+        if (!is_callable([$modelClass, 'getReportRelations'])) {
+            return [];
+        }
 
-    // calcular total_count com base.distinct
-    $clone = clone $qb;
-    try {
-        $total_count = $clone->distinct()->count("{$base}.id");
-    } catch (Throwable $e) {
-        // fallback
-        $total_count = $clone->get()->count();
+        $relations = $modelClass::getReportRelations();
+
+        return is_array($relations) ? $relations : [];
     }
 
-    // se o usuário pediu 'all' retorna coleção completa (sem paginação)
-    if ($limit === 'all') {
-        $items = $qb->get();
-        // adicionar total_count em metadados não é necessário — controller calcula
-        return $items;
+    /**
+     * RF: resolve os metadados normalizados de uma relação especial declarada no model.
+     * Uso: orienta filtros e leitura de colunas para relações polimórficas do builder.
+     */
+    private function reportRelationMeta(string $modelClass, string $relationName): ?array
+    {
+        $relations = $this->reportRelationsFor($modelClass);
+        $relation = $relations[$relationName] ?? null;
+
+        if (!$relation) {
+            return null;
+        }
+
+        return [
+            'relation' => $relation['relation'],
+            'type_column' => $relation['type_column'],
+            'class' => $relation['target'],
+            'label' => $relation['label'] ?? null,
+        ];
     }
 
-    // paginação simples
-    $perPage = is_numeric($limit) ? intval($limit) : ($payload['limit'] ?? $this->config['default_limit']);
-    $page = (int) request()->get('page', 1);
-    $offset = ($page - 1) * $perPage;
-    $items = $qb->offset($offset)->limit($perPage)->get();
+    /**
+     * RF: oculta relações técnicas que não devem aparecer como opção direta no builder.
+     * Uso: evita exposição de nomes genéricos usados apenas pela infraestrutura polimórfica.
+     */
+    private function isIgnoredRelation(string $relationName): bool
+    {
+        return in_array($relationName, ['inspectable', 'loanable', 'waitlistable'], true);
+    }
 
-    return new LengthAwarePaginator($items->values(), $total_count, $perPage, $page, [
-        'path' => request()->url(),
-        'query' => request()->query(),
-    ]);
-}
+    /**
+     * RF: resolve labels amigáveis das colunas de um model relacionado.
+     * Uso: apresenta campos compreensíveis no seletor de dados relacionados.
+     */
+    private function translatedColumnsForRelatedModel(string $relatedClass, string $table): array
+    {
+        if (is_callable([$relatedClass, 'getTranslatedColumns'])) {
+            try {
+                $columns = $relatedClass::getTranslatedColumns()->toArray();
+                if (!empty($columns)) {
+                    return $columns;
+                }
+            } catch (Throwable) {
+            }
+        }
+
+        $blacklist = method_exists($relatedClass, 'getBlacklist')
+            ? $relatedClass::getBlacklist()
+            : ['password', 'remember_token', 'deleted_at'];
+
+        return collect(Schema::getColumnListing($table))
+            ->reject(fn ($column) => in_array($column, $blacklist, true))
+            ->mapWithKeys(function ($column) use ($table) {
+                $translationKey = "database.columns.{$table}.{$column}";
+                $translation = __($translationKey);
+
+                $label = $translation === $translationKey
+                    ? Str::title(str_replace('_', ' ', $column))
+                    : $translation;
+
+                return [$column => $label];
+            })
+            ->toArray();
+    }
+
+    /**
+     * RF: identifica colunas úteis da tabela pivô em relações muitos-para-muitos.
+     * Uso: expõe campos do vínculo quando a relação relacionada possui pivot.
+     */
+    private function resolvePivotColumns(BelongsToMany $relation): array
+    {
+        $pivotTable = $relation->getTable();
+        $pivotColumns = [];
+
+        if (method_exists($relation, 'getPivotColumns')) {
+            try {
+                $pivotColumns = $relation->getPivotColumns();
+            } catch (Throwable) {
+                $pivotColumns = [];
+            }
+        }
+
+        if (empty($pivotColumns)) {
+            $allPivotColumns = Schema::getColumnListing($pivotTable);
+            $foreign1 = method_exists($relation, 'getForeignPivotKeyName')
+                ? $relation->getForeignPivotKeyName()
+                : null;
+            $foreign2 = method_exists($relation, 'getRelatedPivotKeyName')
+                ? $relation->getRelatedPivotKeyName()
+                : null;
+
+            $exclude = array_filter([$foreign1, $foreign2, 'id', 'created_at', 'updated_at']);
+
+            $pivotColumns = array_values(
+                array_filter($allPivotColumns, fn ($column) => !in_array($column, $exclude, true))
+            );
+        }
+
+        $pivotColumns = array_values(
+            array_filter($pivotColumns, fn ($column) => !in_array($column, ['created_at', 'updated_at'], true))
+        );
+
+        $labels = [];
+
+        foreach ($pivotColumns as $column) {
+            $translationKey = "database.columns.{$pivotTable}.{$column}";
+            $translation = __($translationKey);
+
+            $labels[$column] = $translation === $translationKey
+                ? Str::title(str_replace('_', ' ', $column))
+                : $translation;
+        }
+
+        return $labels;
+    }
+
+    /**
+     * RF: identifica quais relações precisam ser carregadas para executar o relatório.
+     * Uso: prepara o acesso às colunas relacionais na prévia sem consultas redundantes.
+     */
+    private function relationsToLoadFor(string $modelClass, array $selected, array $filters): array
+    {
+        $relationsToLoad = [];
+
+        foreach (array_merge($selected, array_column($filters, 'column')) as $column) {
+            if (!str_contains($column ?? '', '.')) {
+                continue;
+            }
+
+            $relationName = explode('.', $column)[0];
+            $polymorphicMeta = $this->reportRelationMeta($modelClass, $relationName);
+
+            if ($polymorphicMeta) {
+                $relationsToLoad[] = $polymorphicMeta['relation'];
+                continue;
+            }
+
+            $relationsToLoad[] = $relationName;
+        }
+
+        return array_values(array_unique(array_filter($relationsToLoad)));
+    }
+
+    /**
+     * RF: resolve o tipo morfológico persistido para um model polimórfico.
+     * Uso: compatibiliza filtros com o morph map global definido pela aplicação.
+     */
+    private function morphTypeFor(string $modelClass): string
+    {
+        return (new $modelClass())->getMorphClass();
+    }
+
+    /**
+     * RF: normaliza valores brutos para apresentação consistente no relatório.
+     * Uso: converte enums, datas, coleções e booleanos antes da resposta do builder.
+     */
+    private function normalizeValue(mixed $value): mixed
+    {
+        if ($value instanceof Collection) {
+            $value = $value->filter()->unique()->values()->implode(', ');
+        }
+
+        if (is_bool($value)) {
+            return $value ? 'Sim' : 'Não';
+        }
+
+        if ($value instanceof BackedEnum) {
+            return method_exists($value, 'label') ? $value->label() : $value->value;
+        }
+
+        if ($value instanceof CarbonInterface) {
+            $hasTime = $value->hour > 0 || $value->minute > 0 || $value->second > 0;
+
+            return $value->format($hasTime ? 'd/m/Y H:i' : 'd/m/Y');
+        }
+
+        if (is_object($value) && !method_exists($value, '__toString')) {
+            return json_encode($value);
+        }
+
+        return $value;
+    }
 }

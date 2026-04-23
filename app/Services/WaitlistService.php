@@ -11,21 +11,18 @@ use Illuminate\Support\Facades\DB;
 
 class WaitlistService
 {
+    /**
+     * RF: cria uma solicitação de fila resolvendo o morph type e validando indisponibilidade.
+     * Uso: cadastro de reservas para itens sem estoque disponível no momento.
+     */
     public function store(array $data): Waitlist
     {
         return DB::transaction(function () use ($data) {
-            /* Resolvemos o nome vindo do request (alias) para a classe real da Model.
-               Se o MorphMap tiver 'assistive_technology', ele retornará o namespace completo.
-            */
             $modelClass = Relation::getMorphedModel($data['waitlistable_type'])
                 ?? $data['waitlistable_type'];
 
-            /* Utilizamos o $modelClass resolvido para o lockForUpdate */
             $item = $modelClass::lockForUpdate()->findOrFail($data['waitlistable_id']);
 
-            /* Garantimos que o waitlistable_type seja o alias (ex: 'assistive_technology')
-               para salvar corretamente no banco de acordo com o Morph Map.
-            */
             $data['waitlistable_type'] = $item->getMorphClass();
 
             $this->validateNewWaitlist($item, $data);
@@ -43,6 +40,10 @@ class WaitlistService
         });
     }
 
+    /**
+     * RF: atualiza uma solicitação de fila somente com campos permitidos e estado válido.
+     * Uso: manutenção operacional de observações e status do atendimento.
+     */
     public function update(Waitlist $waitlist, array $data): Waitlist
     {
         $this->validateStatusModification($waitlist, $data);
@@ -52,12 +53,20 @@ class WaitlistService
         return $waitlist->fresh();
     }
 
+    /**
+     * RF: remove uma solicitação de fila quando o estado permitir exclusão.
+     * Uso: correção administrativa de reservas registradas indevidamente.
+     */
     public function delete(Waitlist $waitlist): void
     {
         $this->validateDeletion($waitlist);
         $waitlist->delete();
     }
 
+    /**
+     * RF: cancela uma solicitação ainda em espera.
+     * Uso: fluxo manual de desistência do beneficiário na lista de espera.
+     */
     public function cancel(Waitlist $waitlist): Waitlist
     {
         $currentStatus = WaitlistStatus::tryFrom($waitlist->status);
@@ -71,11 +80,12 @@ class WaitlistService
         return $waitlist->fresh();
     }
 
+    /**
+     * RF: notifica a próxima solicitação elegível de um item e altera seu status.
+     * Uso: integração com devoluções e liberações de estoque no acervo.
+     */
     public function notifyNext($item): ?Waitlist
     {
-        /* Aqui o $item->getMorphClass() já retornará o alias correto
-           porque o objeto $item já é uma instância da Model.
-        */
         $next = Waitlist::where('waitlistable_id', $item->id)
             ->where('waitlistable_type', $item->getMorphClass())
             ->where('status', WaitlistStatus::WAITING->value)
@@ -89,21 +99,26 @@ class WaitlistService
         return $next->fresh();
     }
 
+    /**
+     * RF: centraliza as validações de criação de uma nova solicitação de fila.
+     * Uso: protege o cadastro contra inconsistências de beneficiário, estoque e duplicidade.
+     */
     private function validateNewWaitlist($item, array $data): void
     {
-        /* Centralizamos as validações de integridade de beneficiário e disponibilidade. */
         $this->validateBeneficiary($data);
         $this->ensureNoStockAvailable($item);
         $this->ensureNoDuplicateEntry($item, $data);
     }
 
+    /**
+     * RF: valida que a solicitação tenha exatamente um beneficiário elegível.
+     * Uso: impede reservas sem destinatário ou com aluno e profissional simultaneamente.
+     */
     private function validateBeneficiary(array $data): void
     {
         $student = $data['student_id'] ?? null;
         $professional = $data['professional_id'] ?? null;
 
-        /* Regra de Negócio: O registro na lista de espera deve estar obrigatoriamente
-           vinculado a um único beneficiário para evitar ambiguidades no atendimento. */
         if (empty($student) && empty($professional)) {
             throw new BusinessRuleException('É necessário informar um aluno ou um profissional.');
         }
@@ -113,17 +128,23 @@ class WaitlistService
         }
     }
 
+    /**
+     * RF: impede entrada na fila quando o item ainda pode ser emprestado diretamente.
+     * Uso: força o uso do fluxo de empréstimo enquanto houver disponibilidade real.
+     */
     private function ensureNoStockAvailable($item): void
     {
         $status = $item->status;
 
-        /* A fila de espera só é permitida se o recurso estiver de fato indisponível.
-           Isso força o fluxo de empréstimo direto enquanto houver unidades em estoque. */
         if (!$status->blocksLoan() && $item->quantity_available > 0) {
             throw new BusinessRuleException('Este recurso ainda possui unidades disponíveis e pode ser emprestado, portanto não é possível criar uma fila de espera.');
         }
     }
 
+    /**
+     * RF: impede duplicidade de fila ou empréstimo ativo para o mesmo beneficiário e item.
+     * Uso: mantém a lista de espera coerente com o histórico de atendimento.
+     */
     private function ensureNoDuplicateEntry($item, array $data): void
     {
         $student = $data['student_id'] ?? null;
@@ -155,6 +176,10 @@ class WaitlistService
         }
     }
 
+    /**
+     * RF: valida alterações de status respeitando a imutabilidade de registros finalizados.
+     * Uso: protege o histórico da fila, permitindo apenas ajustes compatíveis com o estado atual.
+     */
     private function validateStatusModification(Waitlist $waitlist, array $data): void
     {
         if (!isset($data['status'])) return;
@@ -164,13 +189,15 @@ class WaitlistService
         $updatableKeys = array_keys($data);
         $onlyObservation = count($updatableKeys) === 1 && in_array('observation', $updatableKeys);
 
-        /* Travamos estados finalizados para garantir a imutabilidade do histórico
-           de atendimento, permitindo apenas correções textuais em observações. */
         if (!$onlyObservation && in_array($currentStatus, [WaitlistStatus::FULFILLED, WaitlistStatus::CANCELLED], true)) {
             throw new BusinessRuleException('Solicitação já finalizada não pode ser alterada, exceto observações.');
         }
     }
 
+    /**
+     * RF: bloqueia exclusão de solicitações já atendidas.
+     * Uso: preserva o histórico operacional de reservas concluídas.
+     */
     private function validateDeletion(Waitlist $waitlist): void
     {
         $currentStatus = WaitlistStatus::tryFrom($waitlist->status);
@@ -180,6 +207,10 @@ class WaitlistService
         }
     }
 
+    /**
+     * RF: filtra os campos que podem ser alterados após a criação da solicitação.
+     * Uso: restringe updates a status e observação no fluxo de manutenção da fila.
+     */
     private function filterUpdatableFields(array $data): array
     {
         return collect($data)

@@ -12,6 +12,7 @@ class Waitlist extends Model
 {
     use HasFactory, Reportable;
 
+    /** Estrutura base da model. */
     protected $fillable = [
         'waitlistable_id',
         'waitlistable_type',
@@ -29,6 +30,7 @@ class Waitlist extends Model
         'updated_at'   => 'datetime',
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Lista de Espera';
@@ -56,9 +58,37 @@ class Waitlist extends Model
         ];
     }
 
+    /** Contrato de relações especiais para relatórios. */
+    public static function getReportRelations(): array
+    {
+        return [
+            'assistiveTechnology' => [
+                'relation' => 'waitlistable',
+                'type_column' => 'waitlistable_type',
+                'target' => AssistiveTechnology::class,
+            ],
+            'accessibleEducationalMaterial' => [
+                'relation' => 'waitlistable',
+                'type_column' => 'waitlistable_type',
+                'target' => AccessibleEducationalMaterial::class,
+            ],
+        ];
+    }
+
+    /** Relacionamentos. */
     public function waitlistable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function assistiveTechnology(): BelongsTo
+    {
+        return $this->belongsTo(AssistiveTechnology::class, 'waitlistable_id');
+    }
+
+    public function accessibleEducationalMaterial(): BelongsTo
+    {
+        return $this->belongsTo(AccessibleEducationalMaterial::class, 'waitlistable_id');
     }
 
     public function student(): BelongsTo
@@ -76,6 +106,7 @@ class Waitlist extends Model
         return $this->belongsTo(User::class);
     }
 
+    /** Scopes e filtros. */
     public function scopeItem($query, $name = null)
     {
         if (!$name) return $query;

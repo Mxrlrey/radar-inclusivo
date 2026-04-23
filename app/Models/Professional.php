@@ -14,6 +14,7 @@ class Professional extends Model
 {
     use HasFactory, SoftDeletes, Reportable;
 
+    /** Estrutura base da model. */
     protected $table = 'professionals';
 
     protected $fillable = [
@@ -29,6 +30,7 @@ class Professional extends Model
         'is_active' => 'boolean',
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Profissionais';
@@ -64,6 +66,7 @@ class Professional extends Model
         ];
     }
 
+    /** Relacionamentos. */
     public function person(): BelongsTo
     {
         return $this->belongsTo(Person::class);
@@ -79,6 +82,7 @@ class Professional extends Model
         return $this->hasOne(User::class);
     }
 
+    /** Scopes e filtros. */
     public function scopeName(Builder $query, ?string $term): Builder
     {
         return $term ? $query->whereHas('person', fn($q) => $q->where('name', 'like', "%{$term}%")) : $query;

@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class StudentService
 {
+    /**
+     * RF: cria um aluno e sua pessoa vinculada em transação única.
+     * Uso: cadastro inicial de estudantes atendidos pelo sistema.
+     */
     public function store(array $data): Student
     {
         return DB::transaction(function () use ($data) {
-
             $person = Person::create(
                 $this->makePersonData($data)
             );
@@ -25,6 +28,10 @@ class StudentService
         });
     }
 
+    /**
+     * RF: atualiza aluno e pessoa vinculada preservando consistência transacional.
+     * Uso: edição cadastral de estudantes já registrados no sistema.
+     */
     public function update(Student $student, array $data): Student
     {
         return DB::transaction(function () use ($student, $data) {
@@ -40,6 +47,10 @@ class StudentService
         });
     }
 
+    /**
+     * RF: remove aluno e pessoa vinculada com limpeza do arquivo de foto quando existir.
+     * Uso: exclusão administrativa de cadastros estudantis.
+     */
     public function delete(Student $student): void
     {
         DB::transaction(function () use ($student) {
@@ -54,7 +65,10 @@ class StudentService
         });
     }
 
-
+    /**
+     * RF: monta os dados da pessoa do aluno com tratamento de foto e remoção.
+     * Uso: reutiliza a preparação do payload entre criação e edição de estudantes.
+     */
     private function makePersonData(array $data, ?Person $person = null): array
     {
         $personData = [
@@ -67,7 +81,6 @@ class StudentService
             'address' => $data['address'] ?? $person?->address,
         ];
 
-        // upload de foto
         if (!empty($data['photo'])) {
             if ($person?->photo) {
                 Storage::disk('public')->delete($person->photo);
@@ -87,6 +100,10 @@ class StudentService
         return $personData;
     }
 
+    /**
+     * RF: monta os dados específicos do aluno com defaults coerentes de cadastro.
+     * Uso: concentra o payload persistido na tabela de estudantes.
+     */
     private function makeStudentData(array $data, Person $person, ?Student $student = null): array
     {
         return [

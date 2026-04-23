@@ -8,8 +8,19 @@ if (sidebar && toggleBtn) {
     const ANIMATION_TIME = 300;
     const STATE_KEY = 'sidebar-state';
     const SCROLL_KEY = 'sidebar-scroll';
+    const DESKTOP_BREAKPOINT = 1024;
+
+    function isDesktop() {
+        return window.innerWidth > DESKTOP_BREAKPOINT;
+    }
 
     function restoreState() {
+        if (!isDesktop()) {
+            body.classList.remove('sidebar-collapsed');
+            sidebar.classList.remove('hover-open');
+            return;
+        }
+
         const saved = localStorage.getItem(STATE_KEY);
         if (!saved || saved === 'collapsed') {
             body.classList.add('sidebar-collapsed');
@@ -24,6 +35,7 @@ if (sidebar && toggleBtn) {
     }
 
     toggleBtn.addEventListener('click', () => {
+        if (!isDesktop()) return;
         if (isAnimating) return;
 
         isAnimating = true;
@@ -55,6 +67,8 @@ if (sidebar && toggleBtn) {
 
         smoothScrollSidebar(parseInt(saved, 10), 400);
     });
+
+    window.addEventListener('resize', restoreState);
 
     function smoothScrollSidebar(target, duration) {
         const start = sidebar.scrollTop;

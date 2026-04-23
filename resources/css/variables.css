@@ -6,10 +6,10 @@
 :root {
 
     /* --- CORES PRIMÁRIAS --- */
-    --color-primary: #4c5667;
-    --color-primary-dark: #2a374a;
-    --color-primary-light: #6c7a8e;
-    --color-primary-rgb: 54, 71, 96;
+    --color-primary: #5fbeaa;
+    --color-primary-dark: #4aa894;
+    --color-primary-light: #7acbb9;
+    --color-primary-rgb: 95, 190, 170;
 
     /* --- CORES DE ESTADO --- */
     --color-success: #81c868;
@@ -22,12 +22,13 @@
     --color-info-rgb: 27, 132, 231;
 
     /* --- FUNDOS --- */
-    --bg-body: #f3f3f4;
+    --bg-body: #f4f8fb;
     --bg-surface: #ffffff;
     --bg-surface-secondary: #f4f8fb;
-    --bg-sidebar: #2c3a47;
-    --bg-sidebar-header: #334150;
+    --bg-sidebar: #36404a;
+    --bg-sidebar-header: #36404a;
     --bg-input: #ffffff;
+    --bg-topbar: #ffffff;
 
     /* --- FUNDOS SUAVES --- */
     --bg-soft-primary: #eef2f6;
@@ -37,18 +38,18 @@
     --bg-soft-info: #e0f7fa;
 
     /* --- TEXTOS --- */
-    --text-title: #2b2d2f;
-    --text-primary: #505458;
-    --text-secondary: #666666;
+    --text-title: #36404a;
+    --text-primary: #36404a;
+    --text-secondary: #4c5667;
     --text-muted: #98a6ad;
     --text-light: #98a6b5;
     --text-on-primary: #ffffff;
-    --text-sidebar: #e0e6ed;
+    --text-sidebar: #a2acb3;
     --text-sidebar-hover: #ffffff;
 
     /* --- BORDAS --- */
-    --border-color: #abaeb0;
-    --border-color-light: #f3f3f4;
+    --border-color: #e3e7ec;
+    --border-color-light: #edf0f0;
     --border-width: 1px;
     --border-radius: 0;
     --border-radius-sm: 0;
@@ -57,7 +58,7 @@
     /* --- SOMBRAS (removidas globalmente) --- */
     --shadow-none: none;
     --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-    --shadow-md: 0 2px 6px rgba(0,0,0,0.1);
+    --shadow-md: 0 2px 3px -2px rgba(0,0,0,0.15);
     --shadow-lg: 0 4px 12px rgba(0,0,0,0.15);
 
     /* --- TIPOGRAFIA --- */
@@ -87,9 +88,12 @@
     /* --- DIMENSÕES ESTRUTURAIS --- */
     --sidebar-width: 260px;
     --sidebar-collapsed-width: 70px;
-    --sidebar-active-bg: rgba(255, 255, 255, 0.08);
+    --sidebar-active-bg: rgba(244, 248, 251, 0.25);
     --topbar-height: 60px;
     --footer-height: 50px;
+    --topbar-icon-hover: #7a8c9a;
+    --topbar-border: #edf0f0;
+    --topbar-hover-bg: rgba(244, 248, 251, 0.7);
 
     /* --- COMPONENTES: INPUTS --- */
     --input-height: 38px;
@@ -176,6 +180,7 @@
     --bg-sidebar: #121213;
     --bg-sidebar-header: #181818;
     --bg-input: #2a2a2a;
+    --bg-topbar: #1a1a1b;
 
     --bg-soft-primary: #2d2d2d;
     --bg-soft-success: #2a3a2e;
@@ -194,6 +199,9 @@
 
     --border-color: #abaeb0;
     --border-color-light: #2e2e2e;
+    --topbar-border: #2e2e2e;
+    --topbar-icon-hover: #ffffff;
+    --topbar-hover-bg: rgba(255, 255, 255, 0.08);
 
     --input-bg: #2a2a2a;
     --input-border: #444444;
@@ -277,6 +285,7 @@
     --bg-surface-secondary: #000000;
     --bg-sidebar: #000000;
     --bg-sidebar-header: #000000;
+    --bg-topbar: #000000;
 
     --text-primary: #ffffff;
     --text-secondary: #ffffff;
@@ -298,6 +307,9 @@
     /* bordas bem visíveis */
     --border-color: #ffffff;
     --border-color-light: #ffffff;
+    --topbar-border: #ffffff;
+    --topbar-icon-hover: #ffff00;
+    --topbar-hover-bg: #111111;
 
     /* inputs */
     --input-bg: #000000;

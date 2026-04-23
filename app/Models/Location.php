@@ -14,6 +14,7 @@ class Location extends Model
 {
     use HasFactory, SoftDeletes, Reportable;
 
+    /** Estrutura base da model. */
     protected $table = 'locations';
 
     protected $fillable = [
@@ -33,6 +34,7 @@ class Location extends Model
         'is_active' => 'boolean',
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Locais';
@@ -62,6 +64,7 @@ class Location extends Model
         ];
     }
 
+    /** Relacionamentos. */
     public function institution(): BelongsTo
     {
         return $this->belongsTo(Institution::class);
@@ -72,6 +75,7 @@ class Location extends Model
         return $this->hasMany(Barrier::class);
     }
 
+    /** Scopes e filtros. */
     public function scopeFilterName(Builder $query, ?string $name): Builder
     {
         return $name ? $query->where('name', 'like', "%{$name}%") : $query;

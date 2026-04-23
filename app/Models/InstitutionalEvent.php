@@ -11,6 +11,7 @@ class InstitutionalEvent extends Model
 {
     use HasFactory, Reportable;
 
+    /** Estrutura base da model. */
     protected $table = 'institutional_events';
 
     protected $fillable = [
@@ -34,6 +35,7 @@ class InstitutionalEvent extends Model
         'is_active' => 'boolean',
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Eventos Institucionais';
@@ -71,9 +73,7 @@ class InstitutionalEvent extends Model
         ];
     }
 
-    /**
-     * Scope para buscar por título
-     */
+    /** Scopes e filtros. */
     public function scopeSearchTitle(Builder $query, ?string $title): Builder
     {
         if ($title) {
@@ -82,9 +82,6 @@ class InstitutionalEvent extends Model
         return $query;
     }
 
-    /**
-     * Scope para eventos ativos
-     */
     public function scopeActive(Builder $query, bool $active = true): Builder
     {
         return $query->where('is_active', $active);

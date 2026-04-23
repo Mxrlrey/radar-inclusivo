@@ -20,6 +20,7 @@ class AccessibleEducationalMaterial extends Model implements AuditableContract
 {
     use HasFactory, SoftDeletes, Auditable, Reportable;
 
+    /** Estrutura base da model. */
     protected $table = 'accessible_educational_materials';
 
     protected $fillable = [
@@ -45,6 +46,7 @@ class AccessibleEducationalMaterial extends Model implements AuditableContract
 
     protected array $auditExclude = ['quantity_available'];
 
+    /** Configuração de auditoria. */
     public static function auditLabels(): array
     {
         return [
@@ -67,6 +69,7 @@ class AccessibleEducationalMaterial extends Model implements AuditableContract
         return AccessibleEducationalMaterialFormatter::class;
     }
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Materiais Educacionais Acessíveis';
@@ -108,6 +111,7 @@ class AccessibleEducationalMaterial extends Model implements AuditableContract
         ];
     }
 
+    /** Relacionamentos. */
     public function deficiencies(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -157,7 +161,7 @@ class AccessibleEducationalMaterial extends Model implements AuditableContract
         return $this->morphMany(AuditLog::class, 'auditable');
     }
 
-
+    /** Scopes e filtros. */
     public function scopeFilterName(Builder $query, ?string $name): Builder
     {
         return $name

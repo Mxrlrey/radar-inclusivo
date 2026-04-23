@@ -5,20 +5,27 @@
 /* Menu do usuário na navbar */
 .nav-user-dropdown {
     overflow: visible !important;
-    padding: 0 !important; /* O padding agora vai pro span interno */
+    padding: 0 !important;
     border: none;
     background: transparent;
     display: flex;
     align-items: center;
     height: var(--topbar-height);
+    color: var(--text-primary);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-user-dropdown:hover {
+    background-color: var(--topbar-hover-bg);
+    color: var(--topbar-icon-hover);
 }
 
 .nav-user-dropdown .ion-android-user-menu {
-    font-size: 28px;
+    font-size: 1.55rem;
     color: var(--text-primary);
     line-height: 1;
     vertical-align: middle;
-    margin-left: var(--spacing-1);
+    margin-left: var(--spacing-2);
 }
 
 .user-info-text {
@@ -31,6 +38,7 @@
     font-size: var(--font-size-sm);
     display: block;
     color: var(--text-primary);
+    text-transform: capitalize;
 }
 
 .user-role {
@@ -60,4 +68,10 @@
     width: 1rem;
     text-align: center;
     flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .nav-user-dropdown .ion-android-user-menu {
+        margin-left: 0;
+    }
 }

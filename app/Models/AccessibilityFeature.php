@@ -11,6 +11,7 @@ class AccessibilityFeature extends Model
 {
     use HasFactory, Reportable;
 
+    /** Estrutura base da model. */
     protected $table = 'accessibility_features';
 
     protected $fillable = [
@@ -23,6 +24,7 @@ class AccessibilityFeature extends Model
         'is_active' => 'boolean',
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Recursos de Acessibilidade';
@@ -48,6 +50,7 @@ class AccessibilityFeature extends Model
         ];
     }
 
+    /** Relacionamentos. */
     public function materials(): BelongsToMany
     {
         return $this->BelongsToMany(
@@ -56,6 +59,7 @@ class AccessibilityFeature extends Model
         );
     }
 
+    /** Scopes e filtros. */
     public function scopeFilterName($query, ?string $name)
     {
         if ($name) {

@@ -18,6 +18,7 @@ class Barrier extends Model
 {
     use HasFactory, Reportable;
 
+    /** Estrutura base da model. */
     protected $fillable = [
         'name',
         'description',
@@ -51,6 +52,7 @@ class Barrier extends Model
         'longitude' => 'decimal:8',
     ];
 
+    /** Configuração do builder de relatórios. */
     public static function getReportLabel(): string
     {
         return 'Barreiras';
@@ -94,6 +96,7 @@ class Barrier extends Model
         ];
     }
 
+    /** Atributos derivados e regras auxiliares. */
     public function getReporterDisplayNameAttribute(): string
     {
         if ($this->is_anonymous) {
@@ -103,6 +106,7 @@ class Barrier extends Model
         return $this->registeredBy?->name ?? 'Usuário não identificado';
     }
 
+    /** Relacionamentos. */
     public function registeredBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'registered_by_user_id');
@@ -178,6 +182,7 @@ class Barrier extends Model
         )->where('inspectable_type', static::class);
     }
 
+    /** Scopes e filtros. */
     public function scopeName(Builder $query, ?string $value): Builder
     {
         return $query->when($value, function (Builder $q) use ($value) {

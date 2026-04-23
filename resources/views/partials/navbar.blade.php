@@ -1,29 +1,30 @@
 <nav class="navbar-custom" role="navigation" aria-label="Navegação Principal">
     <div class="navbar-inner">
-        {{-- Lado esquerdo --}}
         <div class="navbar-left">
             <button id="sidebarToggle"
-                    class="btn-theme-toggle waves-effect"
+                    class="btn-theme-toggle button-menu-mobile waves-effect"
                     type="button"
                     title="Abrir ou fechar menu lateral">
                 <i class="ion-navicon" aria-hidden="true"></i>
             </button>
 
             <div class="navbar-left-content">
+                <div class="navbar-heading">
+                    <a class="navbar-brand"
+                       href="{{ route('instituicoes.index') }}"
+                       title="Gerenciar Instituição: {{ $institution?->name ?? 'GNAI' }}">
+                        {{ $institution?->name ?? 'GNAI' }}
+                    </a>
+                </div>
+
                 @if(session()->has('impersonator_id'))
-                    <div class="alert alert-warning py-1 px-3 mb-0 me-3 d-flex align-items-center">
+                    <div class="alert alert-warning py-1 px-3 mb-0 d-flex align-items-center navbar-impersonation">
                         <i class="bi bi-exclamation-triangle me-2"></i>
                         <small>
                             Você está navegando como <strong>{{ auth()->user()->name }}</strong>
                         </small>
                     </div>
                 @endif
-
-                <a class="navbar-brand d-none d-md-flex align-items-center text-primary fw-bold"
-                   href="{{ route('instituicoes.index') }}"
-                   title="Gerenciar Instituição: {{ $institution?->name ?? 'GNAI' }}">
-                    {{ $institution?->name ?? 'GNAI' }}
-                </a>
             </div>
         </div>
 

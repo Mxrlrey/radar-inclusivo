@@ -14,15 +14,21 @@ use Illuminate\Support\Facades\DB;
 
 class LoanService
 {
+    /**
+     * RF: injeta o serviço responsável por integrar o fluxo de empréstimos com lista de espera.
+     * Uso: permite notificar e atualizar reservas ao criar ou finalizar empréstimos.
+     */
     public function __construct(
         protected WaitlistService $waitlistService
     ) {}
 
+    /**
+     * RF: cria um empréstimo com lock de estoque, validações e baixa automática na fila.
+     * Uso: registro operacional de saída de materiais e tecnologias assistivas.
+     */
     public function store(array $data): Loan
     {
         return DB::transaction(function () use ($data) {
-            /* Usamos lockForUpdate para evitar condições de corrida (race conditions)
-               onde dois empréstimos simultâneos poderiam ignorar o limite de estoque. */
             $item = $data['loanable_type']::lockForUpdate()
                 ->findOrFail($data['loanable_id']);
 
@@ -49,12 +55,13 @@ class LoanService
         });
     }
 
+    /**
+     * RF: atualiza apenas campos seguros do empréstimo para preservar o histórico.
+     * Uso: edição restrita de observações em registros já lançados.
+     */
     public function update(Loan $loan, array $data): Loan
     {
         return DB::transaction(function () use ($loan, $data) {
-
-            /* Garantimos a imutabilidade do histórico do empréstimo permitindo
-               apenas a edição de campos que não afetam a auditoria do item. */
             $safeData = array_intersect_key($data, array_flip(['observation']));
 
             if (array_key_exists('observation', $safeData)) {
@@ -67,17 +74,18 @@ class LoanService
         });
     }
 
+    /**
+     * RF: exclui um empréstimo restaurando estoque e notificando a fila quando aplicável.
+     * Uso: correção administrativa de registros lançados indevidamente.
+     */
     public function delete(Loan $loan): void
     {
         DB::transaction(function () use ($loan) {
-            /* Se um empréstimo ativo for deletado (ex: erro operacional), o estoque
-               deve ser restaurado imediatamente para refletir a disponibilidade real. */
             if ($loan->return_date === null) {
                 $item = $loan->loanable()->lockForUpdate()->first();
 
                 $this->handleStockIncrement($item, LoanStatus::RETURNED);
 
-                // Verifica se há alguém na fila esperando por este item que acabou de ser liberado
                 $nextWaitlist = $this->waitlistService->notifyNext($item);
 
                 if ($nextWaitlist) {
@@ -89,6 +97,10 @@ class LoanService
         });
     }
 
+    /**
+     * RF: finaliza um empréstimo calculando status de devolução e reposição de estoque.
+     * Uso: fluxo de devolução de itens emprestados a alunos e profissionais.
+     */
     public function markAsReturned(Loan $loan, array $data = []): Loan
     {
         return DB::transaction(function () use ($loan, $data) {
@@ -128,6 +140,10 @@ class LoanService
         });
     }
 
+    /**
+     * RF: reduz o estoque disponível do item emprestado quando ele não é digital.
+     * Uso: mantém o inventário sincronizado no momento da retirada.
+     */
     private function handleStockDecrement($item): void
     {
         if ($item->is_digital) return;
@@ -148,6 +164,10 @@ class LoanService
         $item->refresh();
     }
 
+    /**
+     * RF: recompõe o estoque do item devolvido e ajusta seu status operacional.
+     * Uso: atualização de inventário ao devolver ou cancelar empréstimos ativos.
+     */
     private function handleStockIncrement($item, LoanStatus $status): void
     {
         if (!$item || $item->is_digital) return;
@@ -161,10 +181,13 @@ class LoanService
             'status'             => $newStatus,
         ]);
 
-        // Mantém o objeto em memória sincronizado
         $item->refresh();
     }
 
+    /**
+     * RF: valida se a nova quantidade total suporta os empréstimos em aberto.
+     * Uso: protege edições de estoque em materiais e tecnologias emprestáveis.
+     */
     public function validateStockAvailability($item, int $quantity): void
     {
         if ($item->is_digital) return;
@@ -175,13 +198,15 @@ class LoanService
                 ->count()
             : 0;
 
-        /* Impede que a edição de um material reduza a quantidade total abaixo
-           do número de itens que estão fisicamente na rua com alunos/profissionais. */
         if ($quantity < $activeLoans) {
             throw new BusinessRuleException("Impossível reduzir estoque: existem {$activeLoans} unidades emprestadas.");
         }
     }
 
+    /**
+     * RF: recalcula a quantidade disponível do item com base no total e nos empréstimos ativos.
+     * Uso: sustenta cadastros e edições de recursos emprestáveis no acervo.
+     */
     public function calculateStockForLoan($item, array $data): array
     {
         $isDigital = $data['is_digital'] ?? $item->is_digital ?? false;
@@ -204,6 +229,10 @@ class LoanService
         return $data;
     }
 
+    /**
+     * RF: centraliza as validações necessárias antes de criar um novo empréstimo.
+     * Uso: protege o fluxo de retirada contra inconsistências de beneficiário e disponibilidade.
+     */
     private function validateNewLoan($item, array $data): void
     {
         $this->validateBeneficiary($data);
@@ -211,6 +240,10 @@ class LoanService
         $this->validateResourceAvailability($item);
     }
 
+    /**
+     * RF: valida se o recurso está em condição de ser emprestado.
+     * Uso: bloqueia empréstimos de itens indisponíveis por status ou conservação.
+     */
     private function validateResourceAvailability($item): void
     {
         if ($item->is_digital) return;
@@ -224,6 +257,10 @@ class LoanService
         }
     }
 
+    /**
+     * RF: impede empréstimos duplicados do mesmo item para o mesmo beneficiário.
+     * Uso: preserva rotatividade e evita duplicidade de posse simultânea.
+     */
     private function checkActiveLoanPendency(array $data): void
     {
         $exists = Loan::where('loanable_id', $data['loanable_id'])
@@ -238,13 +275,15 @@ class LoanService
             })
             ->exists();
 
-        /* Regra de negócio: Um mesmo beneficiário não pode ter duas unidades do
-           mesmo recurso simultaneamente para garantir a rotatividade do acervo. */
         if ($exists) {
             throw new BusinessRuleException('Este beneficiário já possui um empréstimo ativo deste recurso.');
         }
     }
 
+    /**
+     * RF: valida que o empréstimo tenha exatamente um beneficiário elegível.
+     * Uso: impede registros sem destinatário ou com aluno e profissional ao mesmo tempo.
+     */
     private function validateBeneficiary(array $data, ?Loan $loan = null): void
     {
         if ($loan && $loan->status !== LoanStatus::ACTIVE) {
@@ -263,6 +302,10 @@ class LoanService
         }
     }
 
+    /**
+     * RF: consulta os empréstimos vencidos ainda em aberto no sistema.
+     * Uso: painéis, alertas e rotinas operacionais de cobrança de devolução.
+     */
     public function getOverdueLoans(): Collection
     {
         return Loan::where('status', LoanStatus::ACTIVE)
@@ -271,6 +314,10 @@ class LoanService
             ->get();
     }
 
+    /**
+     * RF: marca como atendida a reserva correspondente ao empréstimo efetivado.
+     * Uso: mantém a lista de espera coerente quando o item é liberado ao beneficiário.
+     */
     private function fulfillWaitlistIfExists($item, ?int $studentId, ?int $professionalId): void
     {
         $query = Waitlist::where('waitlistable_id', $item->id)
@@ -288,8 +335,6 @@ class LoanService
 
         $waitlist = $query->first();
 
-        /* Ao efetivar o empréstimo, damos baixa automática na intenção de reserva
-           do usuário mudando o status para Atendido. */
         if ($waitlist) {
             $waitlist->update([
                 'status' => WaitlistStatus::FULFILLED->value
