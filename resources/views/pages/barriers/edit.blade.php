@@ -47,7 +47,7 @@
 
                 <div class="px-4">
                     <div class="row g-3">
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <x-forms.input
                                 name="name"
                                 label="Título do Relato"
@@ -57,7 +57,7 @@
                             />
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <x-forms.input
                                 type="date"
                                 name="identified_at"
