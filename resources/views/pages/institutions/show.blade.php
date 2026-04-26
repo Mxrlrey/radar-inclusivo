@@ -22,7 +22,7 @@
                 :href="route('instituicoes.editar', $institution)"
                 variant="info"
             >
-                <x-slot:icon><i class="fa fa-pencil"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-pencil" aria-hidden="true"></i></x-slot:icon>
                 Editar
             </x-buttons.link-button>
 
@@ -30,7 +30,7 @@
                 :href="route('instituicoes.index')"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-arrow-left" aria-hidden="true"></i></x-slot:icon>
                 Voltar
             </x-buttons.link-button>
         </div>
@@ -135,7 +135,7 @@
                     :href="route('instituicoes.index')"
                     variant="secondary"
                 >
-                    <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
+                    <x-slot:icon><i class="fa fa-arrow-left" aria-hidden="true"></i></x-slot:icon>
                     Voltar
                 </x-buttons.link-button>
 
@@ -145,7 +145,7 @@
                     label="Excluir instituição"
                     onclick="new bootstrap.Modal(document.getElementById('modal-delete-institution-{{ $institution->id }}')).show();"
                 >
-                    <x-slot:icon><i class="fa fa-eraser"></i></x-slot:icon>
+                    <x-slot:icon><i class="fa fa-eraser" aria-hidden="true"></i></x-slot:icon>
                     Excluir
                 </x-buttons.submit-button>
             </x-show.footer>

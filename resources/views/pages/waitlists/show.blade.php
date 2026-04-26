@@ -21,13 +21,13 @@
             <x-buttons.link-button
                 :href="route('filas-de-espera.editar', $waitlist)"
                 variant="info">
-                <span class="btn-label" aria-hidden="true"><i class="fa fa-pencil"></i></span> Editar
+                <span class="btn-label"><i class="fa fa-pencil" aria-hidden="true"></i></span> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
                 :href="route('filas-de-espera.index')"
                 variant="secondary">
-                <span class="btn-label" aria-hidden="true"><i class="fa fa-arrow-left"></i></span> Voltar
+                <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span> Voltar
             </x-buttons.link-button>
         </div>
     </div>
@@ -94,14 +94,14 @@
 
         <x-show.footer>
             <x-buttons.link-button :href="route('filas-de-espera.index')" variant="secondary">
-                <span class="btn-label" aria-hidden="true"><i class="fa fa-arrow-left"></i></span> Voltar
+                <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span> Voltar
             </x-buttons.link-button>
 
             <x-buttons.link-button
                 :href="route('filas-de-espera.pdf', $waitlist)"
                 variant="danger"
             >
-                <span class="btn-label" aria-hidden="true"><i class="fa fa-file-pdf-o"></i></span>
+                <span class="btn-label"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
                 PDF
             </x-buttons.link-button>
 
@@ -112,7 +112,7 @@
                     label="Cancelar solicitação da fila de espera"
                     onclick="new bootstrap.Modal(document.getElementById('{{ $modalCancelId }}')).show();"
                 >
-                    <span class="btn-label" aria-hidden="true"><i class="fa fa-chain-broken"></i></span> Cancelar
+                    <span class="btn-label"><i class="fa fa-chain-broken" aria-hidden="true"></i></span> Cancelar
                 </x-buttons.submit-button>
             @endif
 
@@ -122,7 +122,7 @@
                 label="Excluir solicitação da fila de espera"
                 onclick="new bootstrap.Modal(document.getElementById('{{ $modalDeleteId }}')).show();"
             >
-                <span class="btn-label" aria-hidden="true"><i class="fa fa-eraser"></i></span> Excluir
+                <span class="btn-label"><i class="fa fa-eraser" aria-hidden="true"></i></span> Excluir
             </x-buttons.submit-button>
         </x-show.footer>
     </div>

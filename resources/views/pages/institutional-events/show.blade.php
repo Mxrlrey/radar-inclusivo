@@ -21,13 +21,13 @@
             <x-buttons.link-button
                 :href="route('agenda-institucional.editar', $event)"
                 variant="info">
-                <span class="btn-label" aria-hidden="true"><i class="fa fa-pencil"></i></span> Editar
+                <span class="btn-label"><i class="fa fa-pencil" aria-hidden="true"></i></span> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
                 :href="route('agenda-institucional.index')"
                 variant="secondary">
-                <span class="btn-label" aria-hidden="true"><i class="fa fa-arrow-left"></i></span> Voltar
+                <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span> Voltar
             </x-buttons.link-button>
         </div>
     </div>
@@ -102,7 +102,7 @@
                 :href="route('agenda-institucional.index')"
                 variant="secondary"
             >
-                <span class="btn-label" aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
+                <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
                 Voltar
             </x-buttons.link-button>
 
@@ -110,7 +110,7 @@
                 :href="route('agenda-institucional.pdf', $event)"
                 variant="danger"
             >
-                <span class="btn-label" aria-hidden="true"><i class="fa fa-file-pdf-o"></i></span>
+                <span class="btn-label"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
                 PDF
             </x-buttons.link-button>
 
@@ -120,7 +120,7 @@
                 label="Excluir evento institucional"
                 onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
             >
-                <span class="btn-label" aria-hidden="true"><i class="fa fa-eraser"></i></span>
+                <span class="btn-label"><i class="fa fa-eraser" aria-hidden="true"></i></span>
                 Excluir
             </x-buttons.submit-button>
         </x-show.footer>

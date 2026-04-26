@@ -25,7 +25,7 @@
                 variant="info"
             >
                 <span class="btn-label">
-                    <i class="fa fa-pencil"></i>
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
                 </span>
                 Editar
             </x-buttons.link-button>
@@ -35,7 +35,7 @@
                 variant="secondary"
             >
                 <span class="btn-label">
-                    <i class="fa fa-arrow-left"></i>
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
                 </span>
                 Voltar
             </x-buttons.link-button>
@@ -99,7 +99,7 @@
                 variant="secondary"
             >
                 <span class="btn-label">
-                    <i class="fa fa-arrow-left"></i>
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
                 </span>
                 Voltar
             </x-buttons.link-button>
@@ -111,7 +111,7 @@
                 onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
             >
                 <span class="btn-label">
-                    <i class="fa fa-eraser"></i>
+                    <i class="fa fa-eraser" aria-hidden="true"></i>
                 </span>
                 Excluir
             </x-buttons.submit-button>

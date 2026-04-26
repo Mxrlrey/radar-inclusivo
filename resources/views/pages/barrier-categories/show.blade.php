@@ -22,7 +22,7 @@
                 :href="route('categorias-de-barreiras.editar', $barrierCategory)"
                 variant="info"
             >
-                <x-slot:icon><i class="fa fa-pencil"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-pencil" aria-hidden="true"></i></x-slot:icon>
                 Editar
             </x-buttons.link-button>
 
@@ -30,7 +30,7 @@
                 :href="route('categorias-de-barreiras.index')"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-arrow-left" aria-hidden="true"></i></x-slot:icon>
                 Voltar
             </x-buttons.link-button>
         </div>
@@ -87,7 +87,7 @@
                 :href="route('categorias-de-barreiras.index')"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-arrow-left" aria-hidden="true"></i></x-slot:icon>
                 Voltar
             </x-buttons.link-button>
 
@@ -97,7 +97,7 @@
                 label="Excluir categoria de barreira"
                 onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
             >
-                <x-slot:icon><i class="fa fa-eraser"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-eraser" aria-hidden="true"></i></x-slot:icon>
                 Excluir
             </x-buttons.submit-button>
         </x-show.footer>
