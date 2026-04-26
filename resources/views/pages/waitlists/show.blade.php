@@ -76,10 +76,15 @@
         @can('system.audit.view')
             <x-forms.separator/>
 
-            <x-forms.section title="Registro do Sistema" description="Informações de auditoria." />
-            <x-show.info-item label="ID no Sistema" :value="'#' . $waitlist->id" />
-            <x-show.info-item label="Criado em" :value="$waitlist->created_at?->format('d/m/Y \à\s H:i')" />
-            <x-show.info-item label="Atualizado em" :value="$waitlist->updated_at?->format('d/m/Y \à\s H:i')" />
+            <x-forms.section title="Informações do Registro" />
+            <x-show.info-item label="ID" :value="'#' . $waitlist->id" />
+            <x-show.info-item label="Status no Sistema">
+                <span class="badge bg-{{ $waitlist->status->value === 'active' ? 'success' : ($waitlist->status->value === 'cancelled' ? 'danger' : 'warning') }}">
+                    {{ $waitlist->status->label() }}
+                </span>
+            </x-show.info-item>
+            <x-show.info-item label="Cadastrado em" :value="$waitlist->created_at?->format('d/m/Y H:i')" />
+            <x-show.info-item label="Atualizado em" :value="$waitlist->updated_at?->format('d/m/Y H:i')" />
         @endcan
 
         @php

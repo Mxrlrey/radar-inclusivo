@@ -62,6 +62,28 @@
             @endif
         </x-show.info-item>
 
+        <x-forms.separator />
+
+        <x-forms.section title="Informações do Registro" />
+
+        <x-show.info-item label="ID">
+            #{{ $position->id }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Status no Sistema">
+            <span class="badge bg-{{ $position->is_active ? 'success' : 'danger' }}">
+                {{ $position->is_active ? 'Ativo' : 'Inativo' }}
+            </span>
+        </x-show.info-item>
+
+        <x-show.info-item label="Cadastrado em">
+            {{ $position->created_at?->format('d/m/Y H:i') ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Atualizado em">
+            {{ $position->updated_at?->format('d/m/Y H:i') ?? '---' }}
+        </x-show.info-item>
+
         @php
             $modalId = "modal-delete-position-" . $position->id;
         @endphp

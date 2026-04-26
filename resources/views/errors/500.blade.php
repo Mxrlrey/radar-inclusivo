@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Página Não Encontrada</title>
+    <title>500 | Erro Interno</title>
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +31,6 @@
             --error-hero-mid: #4c5667;
             --error-hero-end: #6c7a8e;
         }
-
         * { box-sizing: border-box; }
         html, body { min-height: 100%; }
         body {
@@ -184,12 +183,6 @@
             background: linear-gradient(180deg, var(--bg-surface-secondary) 0%, rgba(var(--color-primary-rgb), 0.06) 100%);
             border-left: 1px solid var(--border-color);
         }
-        .error-kicker,
-        .error-stat-label,
-        .error-footer {
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-        }
         .error-kicker {
             display: inline-flex;
             align-items: center;
@@ -199,6 +192,7 @@
             font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.18em;
+            text-transform: uppercase;
         }
         .error-display {
             display: flex;
@@ -299,6 +293,8 @@
             font-size: 0.76rem;
             font-weight: 700;
             color: var(--text-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
         }
         .error-sidebar-title {
             margin: 0 0 0.65rem;
@@ -340,10 +336,14 @@
             animation: errorFadeUp 0.6s ease-out 0.5s both;
         }
         .error-footer {
+            position: relative;
+            z-index: 1;
             padding: 0 1.5rem 2rem;
             color: var(--text-muted);
             font-size: 0.82rem;
             text-align: center;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             animation: errorFadeUp 0.55s ease-out 0.58s both;
         }
         @keyframes errorBodyFade {
@@ -452,30 +452,28 @@
         <section class="error-panel" aria-labelledby="error-title">
             <div class="error-content">
                 <div class="error-kicker">
-                    <i class="bi bi-search"></i>
-                    Erro de navegação
+                    <i class="bi bi-exclamation-octagon"></i>
+                    Erro interno
                 </div>
 
                 <div class="error-display">
                     <div class="error-icon-frame" aria-hidden="true">
                         <svg viewBox="0 0 200 200" fill="none">
-                            <path d="M140 80C155 80 155 60 140 60V40C140 33 135 30 130 30H110C110 20 104 15 100 15C96 15 90 20 90 30H70C65 30 60 33 60 40V60C45 60 45 80 60 80V100C60 107 65 110 70 110H130C135 110 140 107 140 100V80Z" stroke="currentColor" stroke-width="5" />
-                            <circle cx="100" cy="70" r="16" fill="currentColor" opacity="0.15" />
-                            <path d="M100 58V78" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
-                            <circle cx="100" cy="88" r="3.5" fill="currentColor" />
+                            <path d="M100 28L168 150H32L100 28Z" stroke="currentColor" stroke-width="5" />
+                            <path d="M100 74V112" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+                            <circle cx="100" cy="128" r="4" fill="currentColor" />
                         </svg>
                     </div>
 
                     <div>
-                        <h1 class="error-code">404</h1>
-                        <h2 class="error-title" id="error-title">Página não encontrada</h2>
+                        <h1 class="error-code">500</h1>
+                        <h2 class="error-title" id="error-title">Falha ao processar a solicitação</h2>
                     </div>
                 </div>
 
                 <p class="error-description">
-                    A rota solicitada não foi localizada. O endereço pode ter sido alterado, removido ou acessado
-                    por um link desatualizado. O sistema continua disponível, mas este ponto específico não existe
-                    mais no mapa atual da aplicação.
+                    {{ $message ?? 'Ocorreu um erro inesperado.' }}
+                    O problema foi interrompido antes da conclusão da resposta para preservar a estabilidade da aplicação.
                 </p>
 
                 <div class="error-actions">
@@ -485,57 +483,57 @@
                     </a>
 
                     <a href="/sobre-nos" class="error-button error-button--secondary">
-                        <i class="bi bi-compass"></i>
+                        <i class="bi bi-info-circle"></i>
                         Ver sobre o sistema
                     </a>
                 </div>
 
                 <div class="error-stats" aria-hidden="true">
                     <div class="error-stat">
-                        <span class="error-stat-value">404</span>
+                        <span class="error-stat-value">500</span>
                         <span class="error-stat-label">Código HTTP</span>
                     </div>
                     <div class="error-stat">
-                        <span class="error-stat-value">Link</span>
-                        <span class="error-stat-label">Rota indisponível</span>
+                        <span class="error-stat-value">Servidor</span>
+                        <span class="error-stat-label">Processamento interrompido</span>
                     </div>
                     <div class="error-stat">
-                        <span class="error-stat-value">Mapa</span>
-                        <span class="error-stat-label">Destino ausente</span>
+                        <span class="error-stat-value">Seguro</span>
+                        <span class="error-stat-label">Resposta controlada</span>
                     </div>
                 </div>
             </div>
 
             <aside class="error-sidebar">
-                <h3 class="error-sidebar-title">Sugestões rápidas</h3>
+                <h3 class="error-sidebar-title">O que fazer agora</h3>
                 <p class="error-sidebar-text">
-                    Você pode retomar a navegação por um ponto seguro e reencontrar o conteúdo desejado.
+                    Esse tipo de falha costuma ser temporário ou depender de um fluxo específico que gerou exceção.
                 </p>
 
                 <ul class="error-list">
                     <li>
                         <i class="bi bi-check2-circle"></i>
-                        Revise o endereço digitado e confirme se não houve erro de digitação na URL.
+                        Retorne ao painel e tente repetir a ação a partir da navegação principal do sistema.
                     </li>
                     <li>
                         <i class="bi bi-check2-circle"></i>
-                        Retorne ao painel principal para acessar os módulos usando a navegação oficial do sistema.
+                        Caso o erro persista sempre no mesmo ponto, o ideal é revisar logs e tratamento da exceção correspondente.
                     </li>
                     <li>
                         <i class="bi bi-check2-circle"></i>
-                        Se o link veio de um favorito antigo, substitua-o por uma rota atualizada após reencontrar a página.
+                        Se o problema envolver dados específicos, valide permissões, parâmetros e estado do registro acessado.
                     </li>
                 </ul>
 
                 <div class="error-note">
-                    Quando uma página muda de lugar, o restante da plataforma continua preservado e pronto para uso.
+                    A resposta foi encerrada com tratamento controlado para evitar páginas quebradas ou redirecionamentos inconsistentes.
                 </div>
             </aside>
         </section>
     </main>
 
     <footer class="error-footer">
-        Radar Inclusivo • navegação orientada por acessibilidade e contexto
+        Radar Inclusivo • monitoramento e tratamento centralizado de exceções
     </footer>
 </div>
 </body>

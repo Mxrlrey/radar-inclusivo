@@ -72,21 +72,24 @@
         <x-forms.separator/>
 
         @can('system.audit.view')
-            <x-forms.section
-                title="Registro do Sistema"
-                description="Informações automáticas de auditoria."
-            />
+            <x-forms.section title="Informações do Registro" />
 
-            <x-show.info-item label="ID no Sistema">
+            <x-show.info-item label="ID">
                 #{{ $event->id }}
             </x-show.info-item>
 
-            <x-show.info-item label="Criado em">
-                {{ $event->created_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            <x-show.info-item label="Status no Sistema">
+                <span class="badge bg-{{ $event->is_active ? 'success' : 'danger' }}">
+                    {{ $event->is_active ? 'Ativo' : 'Inativo' }}
+                </span>
             </x-show.info-item>
 
-            <x-show.info-item label="Última atualização">
-                {{ $event->updated_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            <x-show.info-item label="Cadastrado em">
+                {{ $event->created_at?->format('d/m/Y H:i') ?? '---' }}
+            </x-show.info-item>
+
+            <x-show.info-item label="Atualizado em">
+                {{ $event->updated_at?->format('d/m/Y H:i') ?? '---' }}
             </x-show.info-item>
         @endcan
 

@@ -12,7 +12,7 @@
     $cleanId = str_replace(['[', ']'], '', $name);
     $wrapperClasses = $attributes->get('class', 'mb-4');
     $inputAttributes = $attributes->except(['class']);
-    $hasPickerAddon = in_array($type, ['date', 'time'], true);
+    $hasPickerAddon = in_array($type, ['date', 'time', 'datetime-local'], true);
     $pickerIcon = $type === 'time' ? 'fa-clock-o' : 'fa-calendar';
 @endphp
 

@@ -67,6 +67,28 @@
             </span>
         </x-show.info-item>
 
+        <x-forms.separator />
+
+        <x-forms.section title="Informações do Registro" />
+
+        <x-show.info-item label="ID">
+            #{{ $deficiency->id }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Status no Sistema">
+            <span class="badge bg-{{ $deficiency->is_active ? 'success' : 'danger' }}">
+                {{ $deficiency->is_active ? 'Ativa' : 'Inativa' }}
+            </span>
+        </x-show.info-item>
+
+        <x-show.info-item label="Cadastrado em">
+            {{ $deficiency->created_at?->format('d/m/Y H:i') ?? '---' }}
+        </x-show.info-item>
+
+        <x-show.info-item label="Atualizado em">
+            {{ $deficiency->updated_at?->format('d/m/Y H:i') ?? '---' }}
+        </x-show.info-item>
+
         @php
             $modalId = "modal-delete-deficiency-{$deficiency->id}";
         @endphp

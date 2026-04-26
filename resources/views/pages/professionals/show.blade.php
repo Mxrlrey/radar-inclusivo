@@ -106,10 +106,7 @@
         </x-show.info-item>
 
         @can('system.audit.view')
-            <x-forms.section
-                title="Registro do Sistema"
-                description="Informações automáticas de auditoria do sistema."
-            />
+            <x-forms.section title="Informações do Registro" />
 
             <x-show.info-item label="Tempo de Instituição">
                 {{ $professional->entry_date
@@ -131,16 +128,16 @@
                 </x-show.info-item>
             @endif
 
-            <x-show.info-item label="ID no Sistema">
+            <x-show.info-item label="ID">
                 #{{ $professional->id }}
             </x-show.info-item>
 
-            <x-show.info-item label="Criado em">
-                {{ $professional->created_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            <x-show.info-item label="Cadastrado em">
+                {{ $professional->created_at?->format('d/m/Y H:i') ?? '---' }}
             </x-show.info-item>
 
-            <x-show.info-item label="Última atualização">
-                {{ $professional->updated_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+            <x-show.info-item label="Atualizado em">
+                {{ $professional->updated_at?->format('d/m/Y H:i') ?? '---' }}
             </x-show.info-item>
         @endcan
 

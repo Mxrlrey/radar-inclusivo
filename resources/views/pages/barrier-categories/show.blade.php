@@ -52,18 +52,15 @@
 
         <x-forms.separator />
 
-        <x-forms.section
-            title="Registro do Sistema"
-            description="Informações automáticas de auditoria do sistema."
-        />
+        <x-forms.section title="Informações do Registro" />
 
-        <x-show.info-item label="ID no Sistema">
+        <x-show.info-item label="ID">
             #{{ $barrierCategory->id }}
         </x-show.info-item>
 
-        <x-show.info-item label="Ativo no Sistema">
+        <x-show.info-item label="Status no Sistema">
             <span class="badge bg-{{ $barrierCategory->is_active ? 'success' : 'danger' }}">
-                {{ $barrierCategory->is_active ? 'Sim' : 'Não' }}
+                {{ $barrierCategory->is_active ? 'Ativo' : 'Inativo' }}
             </span>
         </x-show.info-item>
 
@@ -73,12 +70,12 @@
             </span>
         </x-show.info-item>
 
-        <x-show.info-item label="Criado em">
-            {{ $barrierCategory->created_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+        <x-show.info-item label="Cadastrado em">
+            {{ $barrierCategory->created_at?->format('d/m/Y H:i') ?? '---' }}
         </x-show.info-item>
 
-        <x-show.info-item label="Última atualização">
-            {{ $barrierCategory->updated_at?->format('d/m/Y \à\s H:i') ?? '---' }}
+        <x-show.info-item label="Atualizado em">
+            {{ $barrierCategory->updated_at?->format('d/m/Y H:i') ?? '---' }}
         </x-show.info-item>
 
         @php

@@ -85,13 +85,15 @@
         @can('system.audit.view')
             <x-forms.separator/>
 
-            <x-forms.section
-                title="Registro do Sistema"
-                description="Informações automáticas de auditoria."
-            />
-            <x-show.info-item label="ID no Sistema" :value="'#' . $loan->id" />
-            <x-show.info-item label="Criado em" :value="$loan->created_at?->format('d/m/Y \à\s H:i')" />
-            <x-show.info-item label="Atualizado em" :value="$loan->updated_at?->format('d/m/Y \à\s H:i')" />
+            <x-forms.section title="Informações do Registro" />
+            <x-show.info-item label="ID" :value="'#' . $loan->id" />
+            <x-show.info-item label="Status no Sistema">
+                <span class="badge bg-{{ $statusColor }}">
+                    {{ $statusLabel }}
+                </span>
+            </x-show.info-item>
+            <x-show.info-item label="Cadastrado em" :value="$loan->created_at?->format('d/m/Y H:i')" />
+            <x-show.info-item label="Atualizado em" :value="$loan->updated_at?->format('d/m/Y H:i')" />
         @endcan
 
         @php
