@@ -39,7 +39,9 @@ class LoginController extends Controller
 
 
             Auth::logout();
-            return back()->with('error', 'Usuário sem permissão de acesso.');
+            return back()
+                ->withInput($request->only('email'))
+                ->with('error', 'Usuário sem permissão de acesso.');
         }
 
         return back()->withErrors([
@@ -118,4 +120,3 @@ class LoginController extends Controller
         return redirect()->route('login');
     }
 }
-
