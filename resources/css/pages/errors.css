@@ -28,6 +28,7 @@ body {
         radial-gradient(circle at top left, rgba(var(--color-primary-rgb), 0.12), transparent 35%),
         linear-gradient(180deg, #eef3f7 0%, var(--bg-body) 100%);
     color: var(--text-secondary);
+    animation: errorBodyFade 0.35s ease-out;
 }
 
 .error-shell {
@@ -50,6 +51,7 @@ body {
     height: 26rem;
     top: -11rem;
     right: -8rem;
+    animation: errorOrbFloat 10s ease-in-out infinite alternate;
 }
 
 .error-shell::after {
@@ -57,6 +59,7 @@ body {
     height: 20rem;
     bottom: -9rem;
     left: -7rem;
+    animation: errorOrbFloat 12s ease-in-out infinite alternate-reverse;
 }
 
 .error-hero {
@@ -71,7 +74,7 @@ body {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(circle at 18% 24%, rgba(var(--color-primary-rgb), 0.20), transparent 30%),
+        radial-gradient(circle at 18% 24%, rgba(var(--color-primary-rgb), 0.2), transparent 30%),
         radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.08), transparent 28%);
 }
 
@@ -84,15 +87,22 @@ body {
     opacity: 0.25;
 }
 
-.error-hero-inner {
+.error-hero-inner,
+.error-main,
+.error-footer {
     position: relative;
     z-index: 1;
     max-width: 1180px;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.error-hero-inner {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 1rem;
+    animation: errorSlideDown 0.5s ease-out;
 }
 
 .error-brand {
@@ -118,13 +128,8 @@ body {
     font-size: 1.25rem;
 }
 
-.error-brand-text {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-}
-
 .error-brand-name {
+    display: block;
     font-family: "Rajdhani", var(--font-family-heading);
     font-size: 1.5rem;
     font-weight: 700;
@@ -134,26 +139,32 @@ body {
 }
 
 .error-brand-subtitle {
+    display: block;
+    margin-top: 0.15rem;
     font-size: 0.78rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.72);
 }
 
-.error-hero-link {
+.error-hero-link,
+.error-button {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.error-hero-link {
     padding: 0.8rem 1.2rem;
     border: 1px solid rgba(255, 255, 255, 0.25);
     color: #ffffff;
-    text-decoration: none;
-    font-size: 0.86rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
 }
 
 .error-hero-link:hover {
@@ -162,11 +173,9 @@ body {
 }
 
 .error-main {
-    position: relative;
-    z-index: 1;
-    max-width: 1180px;
-    margin: -3.5rem auto 0;
+    margin-top: -3.5rem;
     padding: 0 1.5rem 2.5rem;
+    animation: errorSlideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .error-panel {
@@ -175,11 +184,11 @@ body {
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-lg);
+    transform-origin: center top;
 }
 
 .error-content,
 .error-sidebar {
-    position: relative;
     padding: 2.5rem;
 }
 
@@ -192,6 +201,13 @@ body {
     border-left: 1px solid var(--border-color);
 }
 
+.error-kicker,
+.error-stat-label,
+.error-footer {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
 .error-kicker {
     display: inline-flex;
     align-items: center;
@@ -201,7 +217,6 @@ body {
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.18em;
-    text-transform: uppercase;
 }
 
 .error-display {
@@ -221,6 +236,7 @@ body {
     background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.12), rgba(var(--color-primary-rgb), 0.04));
     border-left: 4px solid var(--color-primary);
     color: var(--color-primary);
+    animation: errorIconPulse 1.8s ease-out 0.2s both;
 }
 
 .error-icon-frame svg {
@@ -228,34 +244,42 @@ body {
     height: 4rem;
 }
 
+.error-code,
+.error-title,
+.error-sidebar-title,
+.error-stat-value {
+    font-family: "Rajdhani", var(--font-family-heading);
+    color: var(--text-title);
+}
+
 .error-code {
     margin: 0;
-    font-family: "Rajdhani", var(--font-family-heading);
     font-size: clamp(4.5rem, 10vw, 8rem);
     line-height: 0.9;
     font-weight: 700;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    color: var(--text-title);
+    animation: errorCodeReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
 }
 
 .error-title {
     margin: 0.35rem 0 0;
-    font-family: "Rajdhani", var(--font-family-heading);
     font-size: clamp(1.7rem, 4vw, 2.6rem);
     line-height: 1;
-    font-weight: 700;
-    letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--text-primary);
+    animation: errorFadeUp 0.5s ease-out 0.22s both;
+}
+
+.error-description,
+.error-sidebar-text,
+.error-list li,
+.error-note {
+    line-height: 1.8;
 }
 
 .error-description {
     max-width: 44rem;
     margin: 0 0 2rem;
     font-size: 1rem;
-    line-height: 1.8;
-    color: var(--text-secondary);
+    animation: errorFadeUp 0.55s ease-out 0.3s both;
 }
 
 .error-actions {
@@ -263,22 +287,13 @@ body {
     flex-wrap: wrap;
     gap: 0.9rem;
     margin-bottom: 2rem;
+    animation: errorFadeUp 0.55s ease-out 0.38s both;
 }
 
 .error-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.65rem;
     min-height: 2.9rem;
     padding: 0.85rem 1.35rem;
     border: 1px solid transparent;
-    text-decoration: none;
-    font-size: 0.88rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .error-button--primary {
@@ -306,6 +321,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
+    animation: errorFadeUp 0.6s ease-out 0.48s both;
 }
 
 .error-stat {
@@ -316,11 +332,9 @@ body {
 
 .error-stat-value {
     display: block;
-    font-family: "Rajdhani", var(--font-family-heading);
     font-size: 1.75rem;
     line-height: 1;
     font-weight: 700;
-    color: var(--text-title);
 }
 
 .error-stat-label {
@@ -329,25 +343,17 @@ body {
     font-size: 0.76rem;
     font-weight: 700;
     color: var(--text-muted);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
 }
 
 .error-sidebar-title {
     margin: 0 0 0.65rem;
-    font-family: "Rajdhani", var(--font-family-heading);
     font-size: 1.45rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--text-title);
 }
 
 .error-sidebar-text {
     margin: 0 0 1.5rem;
-    font-size: 0.95rem;
-    line-height: 1.8;
-    color: var(--text-secondary);
+    animation: errorFadeUp 0.55s ease-out 0.34s both;
 }
 
 .error-list {
@@ -363,8 +369,6 @@ body {
     padding: 0.9rem 0;
     border-top: 1px solid var(--border-color-light);
     font-size: 0.92rem;
-    line-height: 1.65;
-    color: var(--text-secondary);
 }
 
 .error-list li:first-child {
@@ -383,20 +387,62 @@ body {
     padding: 1rem 1.1rem;
     background: rgba(var(--color-primary-rgb), 0.08);
     border-left: 4px solid var(--color-primary);
-    color: var(--text-secondary);
     font-size: 0.88rem;
-    line-height: 1.7;
+    animation: errorFadeUp 0.6s ease-out 0.5s both;
 }
 
 .error-footer {
-    max-width: 1180px;
-    margin: 0 auto;
     padding: 0 1.5rem 2rem;
     color: var(--text-muted);
     font-size: 0.82rem;
     text-align: center;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    animation: errorFadeUp 0.55s ease-out 0.58s both;
+}
+
+@keyframes errorBodyFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes errorSlideDown {
+    from { opacity: 0; transform: translateY(-18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes errorSlideUp {
+    from { opacity: 0; transform: translateY(28px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes errorFadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes errorCodeReveal {
+    from { opacity: 0; transform: translateY(14px) scale(0.92); letter-spacing: 0.12em; }
+    to { opacity: 1; transform: translateY(0) scale(1); letter-spacing: 0; }
+}
+
+@keyframes errorIconPulse {
+    0% { opacity: 0; transform: scale(0.9) rotate(-6deg); }
+    60% { opacity: 1; transform: scale(1.04) rotate(0deg); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes errorOrbFloat {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(0, 16px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
 }
 
 @media (max-width: 992px) {
@@ -420,9 +466,9 @@ body {
         align-items: stretch;
     }
 
-    .error-hero-link {
+    .error-hero-link,
+    .error-button {
         width: 100%;
-        justify-content: center;
     }
 
     .error-main {
@@ -448,7 +494,7 @@ body {
         flex-direction: column;
     }
 
-    .error-button {
-        width: 100%;
+    .error-footer {
+        padding: 0 1rem 1.5rem;
     }
 }
