@@ -78,27 +78,27 @@ class Waitlist extends Model
     /** Relacionamentos. */
     public function waitlistable(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo()->withTrashed();
     }
 
     public function assistiveTechnology(): BelongsTo
     {
-        return $this->belongsTo(AssistiveTechnology::class, 'waitlistable_id');
+        return $this->belongsTo(AssistiveTechnology::class, 'waitlistable_id')->withTrashed();
     }
 
     public function accessibleEducationalMaterial(): BelongsTo
     {
-        return $this->belongsTo(AccessibleEducationalMaterial::class, 'waitlistable_id');
+        return $this->belongsTo(AccessibleEducationalMaterial::class, 'waitlistable_id')->withTrashed();
     }
 
     public function student(): BelongsTo
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Student::class)->withTrashed();
     }
 
     public function professional(): BelongsTo
     {
-        return $this->belongsTo(Professional::class);
+        return $this->belongsTo(Professional::class)->withTrashed();
     }
 
     public function user(): BelongsTo

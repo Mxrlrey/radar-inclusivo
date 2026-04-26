@@ -93,22 +93,22 @@ class Loan extends Model
 
     public function assistiveTechnology(): BelongsTo
     {
-        return $this->belongsTo(AssistiveTechnology::class, 'loanable_id');
+        return $this->belongsTo(AssistiveTechnology::class, 'loanable_id')->withTrashed();
     }
 
     public function accessibleEducationalMaterial(): BelongsTo
     {
-        return $this->belongsTo(AccessibleEducationalMaterial::class, 'loanable_id');
+        return $this->belongsTo(AccessibleEducationalMaterial::class, 'loanable_id')->withTrashed();
     }
 
     public function student(): BelongsTo
     {
-        return $this->belongsTo(Student::class, 'student_id');
+        return $this->belongsTo(Student::class, 'student_id')->withTrashed();
     }
 
     public function professional(): BelongsTo
     {
-        return $this->belongsTo(Professional::class, 'professional_id');
+        return $this->belongsTo(Professional::class, 'professional_id')->withTrashed();
     }
 
     public function user(): BelongsTo

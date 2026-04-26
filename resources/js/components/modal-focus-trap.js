@@ -14,6 +14,23 @@ const FOCUSABLE_SELECTOR = [
 
 const modalOpeners = new WeakMap();
 
+function enhanceModalTriggers() {
+    const modalTriggerPattern = /bootstrap\.Modal\(document\.getElementById\('([^']+)'\)\)\.show\(\)/;
+
+    document.querySelectorAll('[onclick]').forEach((element) => {
+        const onclick = element.getAttribute('onclick') || '';
+        const match = onclick.match(modalTriggerPattern);
+
+        if (!match) {
+            return;
+        }
+
+        const modalId = match[1];
+        element.setAttribute('aria-haspopup', 'dialog');
+        element.setAttribute('aria-controls', modalId);
+    });
+}
+
 function isVisible(element) {
     return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
 }
@@ -105,3 +122,9 @@ document.addEventListener('hidden.bs.modal', (event) => {
 
     modalOpeners.delete(modal);
 });
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', enhanceModalTriggers);
+} else {
+    enhanceModalTriggers();
+}

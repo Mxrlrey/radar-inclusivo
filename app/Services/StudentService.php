@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\WaitlistStatus;
+use App\Exceptions\BusinessRuleException;
 use App\Models\Person;
 use App\Models\Student;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +56,21 @@ class StudentService
     public function delete(Student $student): void
     {
         DB::transaction(function () use ($student) {
+            if ($student->loans()->whereNull('return_date')->exists()) {
+                throw new BusinessRuleException('Não é possível excluir um aluno com empréstimos ativos.');
+            }
+
+            if ($student->waitlists()->whereIn('status', [
+                WaitlistStatus::WAITING->value,
+                WaitlistStatus::NOTIFIED->value,
+            ])->exists()) {
+                throw new BusinessRuleException('Não é possível excluir um aluno com solicitações ativas na fila de espera.');
+            }
+
+            if ($student->affectedBarriers()->whereNull('resolved_at')->exists()) {
+                throw new BusinessRuleException('Não é possível excluir um aluno com barreiras ainda pendentes.');
+            }
+
             $person = $student->person;
 
             if ($person->photo) {

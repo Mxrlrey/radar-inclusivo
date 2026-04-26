@@ -29,7 +29,7 @@ class User extends Authenticatable
     /** Relacionamentos. */
     public function professional()
     {
-        return $this->belongsTo(Professional::class);
+        return $this->belongsTo(Professional::class)->withTrashed();
     }
 
     /** Atributos derivados e regras auxiliares. */

@@ -34,12 +34,13 @@
             </a>
         </li>
         <li>
-            <a class="dropdown-item text-danger waves-effect" href="{{ route('logout') }}"
-               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="ion-log-out" aria-hidden="true"></i> Sair
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            <form action="{{ route('logout') }}" method="POST" class="m-0">
                 @csrf
+                <button type="submit"
+                        class="dropdown-item text-danger waves-effect w-100 text-start border-0 bg-transparent"
+                        aria-label="Sair da conta">
+                    <i class="ion-log-out" aria-hidden="true"></i> Sair
+                </button>
             </form>
         </li>
     </ul>

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -69,17 +70,32 @@ class Professional extends Model
     /** Relacionamentos. */
     public function person(): BelongsTo
     {
-        return $this->belongsTo(Person::class);
+        return $this->belongsTo(Person::class)->withTrashed();
     }
 
     public function position(): BelongsTo
     {
-        return $this->belongsTo(Position::class);
+        return $this->belongsTo(Position::class)->withTrashed();
     }
 
     public function user(): HasOne
     {
         return $this->hasOne(User::class);
+    }
+
+    public function loans(): HasMany
+    {
+        return $this->hasMany(Loan::class, 'professional_id');
+    }
+
+    public function waitlists(): HasMany
+    {
+        return $this->hasMany(Waitlist::class, 'professional_id');
+    }
+
+    public function affectedBarriers(): HasMany
+    {
+        return $this->hasMany(Barrier::class, 'affected_professional_id');
     }
 
     /** Scopes e filtros. */

@@ -67,7 +67,7 @@ class Location extends Model
     /** Relacionamentos. */
     public function institution(): BelongsTo
     {
-        return $this->belongsTo(Institution::class);
+        return $this->belongsTo(Institution::class)->withTrashed();
     }
 
     public function barriers(): HasMany

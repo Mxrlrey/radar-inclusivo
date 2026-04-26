@@ -38,7 +38,7 @@ class AuditLog extends Model
 
     public function auditable(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo()->withTrashed();
     }
 
     /** Scopes e filtros. */

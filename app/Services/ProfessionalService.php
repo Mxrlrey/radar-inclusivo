@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\WaitlistStatus;
+use App\Exceptions\BusinessRuleException;
 use App\Models\Person;
 use App\Models\Professional;
 use App\Models\User;
@@ -36,6 +38,21 @@ class ProfessionalService
     public function delete(Professional $professional): void
     {
         DB::transaction(function () use ($professional) {
+            if ($professional->loans()->whereNull('return_date')->exists()) {
+                throw new BusinessRuleException('Não é possível excluir um profissional com empréstimos ativos.');
+            }
+
+            if ($professional->waitlists()->whereIn('status', [
+                WaitlistStatus::WAITING->value,
+                WaitlistStatus::NOTIFIED->value,
+            ])->exists()) {
+                throw new BusinessRuleException('Não é possível excluir um profissional com solicitações ativas na fila de espera.');
+            }
+
+            if ($professional->affectedBarriers()->whereNull('resolved_at')->exists()) {
+                throw new BusinessRuleException('Não é possível excluir um profissional com barreiras ainda pendentes.');
+            }
+
             $person = $professional->person;
 
             if ($person && $person->photo) {

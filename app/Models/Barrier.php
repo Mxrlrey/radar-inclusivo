@@ -119,7 +119,7 @@ class Barrier extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(BarrierCategory::class, 'barrier_category_id');
+        return $this->belongsTo(BarrierCategory::class, 'barrier_category_id')->withTrashed();
     }
 
     public function location() {
@@ -128,12 +128,12 @@ class Barrier extends Model
 
     public function affectedStudent(): BelongsTo
     {
-        return $this->belongsTo(Student::class, 'affected_student_id');
+        return $this->belongsTo(Student::class, 'affected_student_id')->withTrashed();
     }
 
     public function affectedProfessional(): BelongsTo
     {
-        return $this->belongsTo(Professional::class, 'affected_professional_id');
+        return $this->belongsTo(Professional::class, 'affected_professional_id')->withTrashed();
     }
 
     public function deficiencies(): BelongsToMany

@@ -100,7 +100,7 @@ class Inspection extends Model
     /** Relacionamentos. */
     public function inspectable(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo()->withTrashed();
     }
 
     public function barrier(): BelongsTo
@@ -110,12 +110,12 @@ class Inspection extends Model
 
     public function assistiveTechnology(): BelongsTo
     {
-        return $this->belongsTo(AssistiveTechnology::class, 'inspectable_id');
+        return $this->belongsTo(AssistiveTechnology::class, 'inspectable_id')->withTrashed();
     }
 
     public function accessibleEducationalMaterial(): BelongsTo
     {
-        return $this->belongsTo(AccessibleEducationalMaterial::class, 'inspectable_id');
+        return $this->belongsTo(AccessibleEducationalMaterial::class, 'inspectable_id')->withTrashed();
     }
 
     public function images(): HasMany
