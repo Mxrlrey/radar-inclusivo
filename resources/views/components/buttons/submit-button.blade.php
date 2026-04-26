@@ -4,6 +4,7 @@
     'label' => null,
     'disabled' => false,
     'icon' => null,
+    'type' => 'submit',
 ])
 
 @php
@@ -21,10 +22,10 @@
 @endphp
 
 <button
-    type="submit"
+    type="{{ $type }}"
     {{ $attributes->merge([
         'class' => $classes,
-        'aria-label' => $label ?? 'Enviar formulário',
+        'aria-label' => $label ?? ($hasText ? trim(strip_tags((string) $slot)) : 'Enviar formulário'),
         'disabled' => $disabled,
     ]) }}
 >

@@ -27,6 +27,11 @@
     margin-bottom: 0;
 }
 
+.show-field dt,
+.show-field dd {
+    margin: 0;
+}
+
 /* Label */
 .show-field .show-label {
     width: 18%;

@@ -9,7 +9,20 @@
     'lngId' => 'lng',
     'label' => 'Localização no Mapa',
     'showLegend' => true,
+    'helpText' => null,
+    'interactive' => true,
+    'showInputs' => true,
+    'summaryText' => null,
 ])
+
+@php
+    $helpMessage = $helpText ?? ($interactive ? 'Clique no mapa para definir o ponto' : 'Mapa apenas para visualização.');
+    $summaryId = $summaryText ? "map-summary-{$mapId}" : null;
+    $describedBy = trim(implode(' ', array_filter([
+        "map-help-{$mapId}",
+        $summaryId,
+    ])));
+@endphp
 
 <div {{ $attributes->merge(['class' => 'leaflet-map-container']) }}
      id="leaflet-container-{{ $mapId }}"
@@ -17,7 +30,8 @@
      data-lng="{{ old('longitude', $lng) }}"
      data-zoom="{{ old('default_zoom', $zoom) }}"
      data-lat-id="{{ $latId }}"
-     data-lng-id="{{ $lngId }}">
+     data-lng-id="{{ $lngId }}"
+     data-interactive="{{ $interactive ? 'true' : 'false' }}">
 
     {{-- Título --}}
     <div class="d-flex justify-content-between align-items-center mb-1">
@@ -32,9 +46,13 @@
             class="text-muted italic"
             style="font-size: var(--font-size-sm);"
         >
-            Clique no mapa para definir o ponto
+            {{ $helpMessage }}
         </small>
     </div>
+
+    @if($summaryText)
+        <div id="{{ $summaryId }}" class="visually-hidden">{{ $summaryText }}</div>
+    @endif
 
     {{-- Mapa --}}
     <div class="map-wrapper">
@@ -42,7 +60,8 @@
             id="{{ $mapId }}"
             style="height: {{ $height }};"
             aria-labelledby="map-label-{{ $mapId }}"
-            aria-describedby="map-help-{{ $mapId }}">
+            aria-describedby="{{ $describedBy }}"
+            @if(!$interactive) aria-readonly="true" tabindex="-1" @endif>
         </div>
     </div>
 
@@ -59,8 +78,10 @@
     </div>
 
     {{-- Inputs ocultos --}}
-    <input type="hidden" name="latitude" id="{{ $latId }}" value="{{ old('latitude', $lat) }}">
-    <input type="hidden" name="longitude" id="{{ $lngId }}" value="{{ old('longitude', $lng) }}">
+    @if($showInputs)
+        <input type="hidden" name="latitude" id="{{ $latId }}" value="{{ old('latitude', $lat) }}">
+        <input type="hidden" name="longitude" id="{{ $lngId }}" value="{{ old('longitude', $lng) }}">
+    @endif
 
     {{-- Legenda --}}
     @if($showLegend)

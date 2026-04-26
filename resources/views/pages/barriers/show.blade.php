@@ -175,7 +175,7 @@
                     @if($barrier->category?->blocks_map)
                         <div id="map-blocked-overlay" class="map-overlay">
                             <div class="map-overlay-message">
-                                <i class="fa fa-lock mb-2 d-block"></i>
+                                <i class="fa fa-lock mb-2 d-block" aria-hidden="true"></i>
                                 <span id="blocked-message" class="fw-bold">
                                     Mapa não aplicável para categoria {{ $barrier->category->name }}
                                 </span>
@@ -202,7 +202,7 @@
                         :href="route('barreiras.index')"
                         variant="secondary"
                     >
-                        <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
+                        <x-slot:icon><i class="fa fa-arrow-left" aria-hidden="true"></i></x-slot:icon>
                         Voltar
                     </x-buttons.link-button>
 
@@ -210,16 +210,17 @@
                         :href="route('barreiras.pdf', $barrier)"
                         variant="danger"
                     >
-                        <x-slot:icon><i class="fa fa-file-pdf-o"></i></x-slot:icon>
+                        <x-slot:icon><i class="fa fa-file-pdf-o" aria-hidden="true"></i></x-slot:icon>
                         PDF
                     </x-buttons.link-button>
 
                     <x-buttons.submit-button
                         variant="danger"
                         type="button"
+                        label="Excluir barreira"
                         onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
                     >
-                        <x-slot:icon><i class="fa fa-eraser"></i></x-slot:icon>
+                        <x-slot:icon><i class="fa fa-eraser" aria-hidden="true"></i></x-slot:icon>
                         Excluir
                     </x-buttons.submit-button>
                 </div>
@@ -245,8 +246,8 @@
 
         <x-slot:footer>
             <x-buttons.link-button
-                href="javascript:void(0)"
                 variant="secondary"
+                type="button"
                 onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
             >
                 Cancelar
@@ -256,7 +257,7 @@
                 @csrf
                 @method('DELETE')
 
-                <x-buttons.submit-button variant="danger">
+                <x-buttons.submit-button variant="danger" label="Confirmar exclusão da barreira">
                     Excluir
                 </x-buttons.submit-button>
             </form>

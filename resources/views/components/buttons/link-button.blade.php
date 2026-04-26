@@ -23,7 +23,7 @@
 @endphp
 
 <{{ $tag }}
-    {{ $href ? "href=$href role=button" : "type=$type" }}
+    {{ $href ? "href=$href" : "type=$type" }}
     {{ $attributes->merge([
         'class' => $classes,
     ]) }}

@@ -4,13 +4,13 @@
     'column' => null,
 ])
 
-<div class="show-field {{ $column }}">
-    <span class="show-label">{{ $label }}</span>
-    <div class="show-value">
+<dl class="show-field {{ $column }}">
+    <dt class="show-label">{{ $label }}</dt>
+    <dd class="show-value">
         @if($slot->isNotEmpty())
             {{ $slot }}
         @else
             {{ $value ?? '---' }}
         @endif
-    </div>
-</div>
+    </dd>
+</dl>

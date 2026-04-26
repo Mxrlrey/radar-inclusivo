@@ -5,14 +5,14 @@
     'rich' => true,
 ])
 
-<div class="show-field {{ $column }}">
-    <span class="show-label">{{ $label }}</span>
-    <div class="show-value">
+<dl class="show-field {{ $column }}">
+    <dt class="show-label">{{ $label }}</dt>
+    <dd class="show-value">
         @php $content = $slot->isNotEmpty() ? $slot : ($value ?? '---'); @endphp
         @if($rich)
             {!! $content !!}
         @else
             {!! nl2br(e($content)) !!}
         @endif
-    </div>
-</div>
+    </dd>
+</dl>

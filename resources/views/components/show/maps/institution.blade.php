@@ -11,6 +11,7 @@
 @php
     $lat = $lat ?? $institution->latitude ?? -14.2350;
     $lng = $lng ?? $institution->longitude ?? -51.9253;
+    $summaryText = "{$label}. Latitude {$lat} e longitude {$lng}.";
 @endphp
 
 <x-forms.maps.base
@@ -21,6 +22,10 @@
     :height="$height"
     :label="$label"
     :showLegend="false"
+    :interactive="false"
+    :showInputs="false"
+    helpText="Mapa apenas para visualização da instituição."
+    :summaryText="$summaryText"
 />
 
 @push('scripts')
@@ -32,6 +37,7 @@
             const lat = parseFloat(container.dataset.lat);
             const lng = parseFloat(container.dataset.lng);
             const zoom = parseInt(container.dataset.zoom || {{ $zoom }});
+            const interactive = container.dataset.interactive === 'true';
 
             const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap',
@@ -49,7 +55,14 @@
             const map = L.map('map-institution-show', {
                 center: [lat, lng],
                 zoom: zoom,
-                layers: [streetLayer]
+                layers: [streetLayer],
+                dragging: interactive,
+                touchZoom: interactive,
+                doubleClickZoom: interactive,
+                scrollWheelZoom: interactive,
+                boxZoom: interactive,
+                keyboard: interactive,
+                tap: interactive
             });
 
             const baseMaps = {
@@ -57,9 +70,22 @@
                 "Satélite": satelliteLayer
             };
 
-            L.control.layers(baseMaps).addTo(map);
+            const disableControl = (control) => {
+                const controlContainer = control?.getContainer?.();
+                if (controlContainer && !interactive) {
+                    controlContainer.setAttribute('aria-hidden', 'true');
+                    controlContainer.style.pointerEvents = 'none';
+                    controlContainer.querySelectorAll('a, button, input, select').forEach(element => {
+                        element.setAttribute('tabindex', '-1');
+                    });
+                }
+            };
 
-            L.marker([lat, lng])
+            disableControl(map.zoomControl);
+            const layersControl = L.control.layers(baseMaps).addTo(map);
+            disableControl(layersControl);
+
+            L.marker([lat, lng], { keyboard: interactive, interactive: interactive })
                 .addTo(map)
                 .bindTooltip('{{ $label }}', {
                     permanent: true,

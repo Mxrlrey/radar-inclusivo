@@ -1,4 +1,4 @@
-<div {{ $attributes->merge(['class' => 'mt-2']) }}>
+<div {{ $attributes->merge(['class' => 'mt-2']) }} role="group" aria-label="Ações da visualização">
 
     <x-forms.separator />
 

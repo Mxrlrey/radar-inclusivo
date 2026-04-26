@@ -3,6 +3,7 @@
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
+            aria-label="Abrir menu do usuário"
             id="userMenuButton"
             style="overflow: visible !important;"
             title="Menu do usuário: {{ Auth::user()->name }}">
@@ -22,20 +23,20 @@
                 </span>
             </div>
 
-            <i class="ion-android-user-menu"></i>
+            <i class="ion-android-user-menu" aria-hidden="true"></i>
         </span>
     </button>
 
     <ul class="dropdown-menu" aria-labelledby="userMenuButton">
         <li>
             <a class="dropdown-item waves-effect" href="{{ route('profile.edit') }}">
-                <i class="ion-ios7-person"></i> Perfil
+                <i class="ion-ios7-person" aria-hidden="true"></i> Perfil
             </a>
         </li>
         <li>
             <a class="dropdown-item text-danger waves-effect" href="{{ route('logout') }}"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="ion-log-out"></i> Sair
+                <i class="ion-log-out" aria-hidden="true"></i> Sair
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
