@@ -2,12 +2,16 @@
     'headers' => [],
     'tableClass' => 'table table-hover mb-0',
     'records' => null,
-    'label' => 'Listagem'
+    'label' => 'Listagem',
+    'caption' => null
 ])
 
 <div class="table-container">
     <div class="table-responsive">
         <table {{ $attributes->merge(['class' => $tableClass . ' w-100']) }} aria-label="{{ $label }}">
+            @if($caption)
+                <caption class="visually-hidden">{{ $caption }}</caption>
+            @endif
             <thead>
             <tr>
                 @foreach($headers as $header)
@@ -24,7 +28,7 @@
     </div>
 
     @if($records instanceof \Illuminate\Pagination\LengthAwarePaginator && $records->hasPages())
-        <div class="px-4 py-3 border-top d-flex justify-content-between align-items-center custom-pagination-container" role="status">
+        <div class="px-4 py-3 border-top d-flex justify-content-between align-items-center custom-pagination-container">
             <div class="text-muted small fw-medium">
                 Mostrando <span class="text-primary">{{ $records->firstItem() }}</span>
                 - <span class="text-primary">{{ $records->lastItem() }}</span>

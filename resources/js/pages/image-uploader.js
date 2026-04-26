@@ -1,9 +1,17 @@
 document.querySelectorAll('.image-uploader').forEach(wrapper => {
     const input = wrapper.querySelector('input[type="file"]');
     const previewContainer = wrapper.querySelector('.preview-container');
+    const status = wrapper.querySelector('[data-upload-status]');
+
+    if (!input || !previewContainer) return;
 
     // DataTransfer para manter todos os arquivos selecionados
     const dt = new DataTransfer();
+    const setStatus = (message) => {
+        if (status) {
+            status.textContent = message;
+        }
+    };
 
     input.addEventListener('change', function() {
         Array.from(this.files).forEach((file) => {
@@ -23,7 +31,7 @@ document.querySelectorAll('.image-uploader').forEach(wrapper => {
                 const blobUrl = URL.createObjectURL(blob);
 
                 div.innerHTML = `
-                    <a href="${blobUrl}" target="_blank" aria-label="Visualizar ${file.name}">
+                    <a href="${blobUrl}" target="_blank" rel="noopener noreferrer" aria-label="Visualizar ${file.name}">
                         <img src="${e.target.result}" alt="Pré-visualização da imagem ${file.name}"
                              class="rounded border" style="width: 100%; height: 100%; object-fit: cover;">
                     </a>
@@ -50,10 +58,13 @@ document.querySelectorAll('.image-uploader').forEach(wrapper => {
 
                     // Libera Blob URL
                     URL.revokeObjectURL(blobUrl);
+
+                    setStatus(`Imagem ${file.name} removida.`);
                 });
 
                 // Atualiza input.files sempre
                 input.files = dt.files;
+                setStatus(`Imagem ${file.name} adicionada. ${dt.files.length} arquivo(s) selecionado(s).`);
             };
             reader.readAsDataURL(file);
         });

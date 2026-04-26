@@ -9,10 +9,22 @@
     'horizontal' => false,
 ])
 
+@php
+    $elementId = $attributes->get('id') ?? $name;
+    $hasError = $errors->has($name);
+    $errorId = $elementId . '-error';
+    $textareaAttributes = $attributes->except(['class']);
+    $existingDescribedBy = trim((string) $textareaAttributes->get('aria-describedby', ''));
+    $describedBy = trim(implode(' ', array_filter([
+        $existingDescribedBy,
+        $hasError ? $errorId : null,
+    ])));
+@endphp
+
 @if($horizontal)
     <div class="form-group-horizontal mb-3">
         @if($label)
-            <label for="{{ $name }}" class="control-label">
+            <label for="{{ $elementId }}" class="control-label">
                 {{ $label }}
                 @if($required)<i class="text-danger">*</i>@endif
             </label>
@@ -20,37 +32,45 @@
         <div class="field-wrapper">
             <textarea
                 name="{{ $name }}"
-                id="{{ $name }}"
+                id="{{ $elementId }}"
                 rows="{{ $rows }}"
                 placeholder="{{ $placeholder }}"
-                {{ ($required && !$rich) ? 'required' : '' }}
-                aria-label="{{ $label }}"
-                class="form-control custom-input {{ $errors->has($name) ? 'is-invalid' : '' }} {{ $rich ? 'rich-editor' : '' }}"
+                @if($required && !$rich) required aria-required="true" @endif
+                @if($label) aria-label="{{ $label }}" @endif
+                @if($hasError) aria-invalid="true" @endif
+                @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
+                {{ $textareaAttributes->except(['aria-describedby'])->merge([
+                    'class' => 'form-control custom-input ' . ($hasError ? 'is-invalid ' : '') . ($rich ? 'rich-editor' : '')
+                ]) }}
             >{{ old($name, $value) }}</textarea>
             @error($name)
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback" id="{{ $errorId }}">{{ $message }}</div>
             @enderror
         </div>
     </div>
 @else
-    <div {{ $attributes->merge(['class' => 'mb-3']) }}>
+    <div {{ $attributes->except('id')->merge(['class' => 'mb-3']) }}>
         @if($label)
-            <label for="{{ $name }}" class="form-label fw-bold text-primary">
+            <label for="{{ $elementId }}" class="form-label fw-bold text-primary">
                 {{ $label }}
                 @if($required)<i class="text-danger">*</i>@endif
             </label>
         @endif
         <textarea
             name="{{ $name }}"
-            id="{{ $name }}"
+            id="{{ $elementId }}"
             rows="{{ $rows }}"
             placeholder="{{ $placeholder }}"
-            {{ ($required && !$rich) ? 'required' : '' }}
-            aria-label="{{ $label }}"
-            class="form-control custom-input {{ $errors->has($name) ? 'is-invalid' : '' }} {{ $rich ? 'rich-editor' : '' }}"
+            @if($required && !$rich) required aria-required="true" @endif
+            @if($label) aria-label="{{ $label }}" @endif
+            @if($hasError) aria-invalid="true" @endif
+            @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
+            {{ $textareaAttributes->except(['aria-describedby'])->merge([
+                'class' => 'form-control custom-input ' . ($hasError ? 'is-invalid ' : '') . ($rich ? 'rich-editor' : '')
+            ]) }}
         >{{ old($name, $value) }}</textarea>
         @error($name)
-        <div class="invalid-feedback">{{ $message }}</div>
+        <div class="invalid-feedback" id="{{ $errorId }}">{{ $message }}</div>
         @enderror
     </div>
 @endif

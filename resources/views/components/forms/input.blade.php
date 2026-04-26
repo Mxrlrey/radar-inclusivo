@@ -14,6 +14,13 @@
     $inputAttributes = $attributes->except(['class']);
     $hasPickerAddon = in_array($type, ['date', 'time', 'datetime-local'], true);
     $pickerIcon = $type === 'time' ? 'fa-clock-o' : 'fa-calendar';
+    $hasError = $errors->has($name);
+    $errorId = $cleanId . '-error';
+    $existingDescribedBy = trim((string) $inputAttributes->get('aria-describedby', ''));
+    $describedBy = trim(implode(' ', array_filter([
+        $existingDescribedBy,
+        $hasError ? $errorId : null,
+    ])));
 @endphp
 
 @if($horizontal)
@@ -37,8 +44,10 @@
                         value="{{ old($name, $value) }}"
                         placeholder="{{ $placeholder }}"
                         @if($required) required aria-required="true" @endif
+                        @if($hasError) aria-invalid="true" @endif
+                        @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
                         autocomplete="off"
-                        {{ $inputAttributes->merge(['class' => 'form-control custom-input picker-input-control' . ($errors->has($name) ? ' is-invalid' : '')]) }}
+                        {{ $inputAttributes->except(['aria-describedby'])->merge(['class' => 'form-control custom-input picker-input-control' . ($hasError ? ' is-invalid' : '')]) }}
                     >
                     <span class="picker-input-group-label" aria-hidden="true">
                         <i class="fa {{ $pickerIcon }}"></i>
@@ -52,12 +61,14 @@
                     value="{{ old($name, $value) }}"
                     placeholder="{{ $placeholder }}"
                     @if($required) required aria-required="true" @endif
+                    @if($hasError) aria-invalid="true" @endif
+                    @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
                     autocomplete="off"
-                    {{ $inputAttributes->merge(['class' => 'form-control custom-input' . ($errors->has($name) ? ' is-invalid' : '')]) }}
+                    {{ $inputAttributes->except(['aria-describedby'])->merge(['class' => 'form-control custom-input' . ($hasError ? ' is-invalid' : '')]) }}
                 >
             @endif
             @error($name)
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback" id="{{ $errorId }}">{{ $message }}</div>
             @enderror
         </div>
     </div>
@@ -81,8 +92,10 @@
                     value="{{ old($name, $value) }}"
                     placeholder="{{ $placeholder }}"
                     @if($required) required aria-required="true" @endif
+                    @if($hasError) aria-invalid="true" @endif
+                    @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
                     autocomplete="off"
-                    {{ $inputAttributes->merge(['class' => 'form-control custom-input picker-input-control' . ($errors->has($name) ? ' is-invalid' : '')]) }}
+                    {{ $inputAttributes->except(['aria-describedby'])->merge(['class' => 'form-control custom-input picker-input-control' . ($hasError ? ' is-invalid' : '')]) }}
                 >
                 <span class="picker-input-group-label" aria-hidden="true">
                     <i class="fa {{ $pickerIcon }}"></i>
@@ -96,12 +109,14 @@
                 value="{{ old($name, $value) }}"
                 placeholder="{{ $placeholder }}"
                 @if($required) required aria-required="true" @endif
+                @if($hasError) aria-invalid="true" @endif
+                @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
                 autocomplete="off"
-                {{ $inputAttributes->merge(['class' => 'form-control custom-input' . ($errors->has($name) ? ' is-invalid' : '')]) }}
+                {{ $inputAttributes->except(['aria-describedby'])->merge(['class' => 'form-control custom-input' . ($hasError ? ' is-invalid' : '')]) }}
             >
         @endif
         @error($name)
-        <div class="invalid-feedback">{{ $message }}</div>
+        <div class="invalid-feedback" id="{{ $errorId }}">{{ $message }}</div>
         @enderror
     </div>
 @endif

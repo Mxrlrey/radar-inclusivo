@@ -12,6 +12,14 @@
 @php
     $elementId = $attributes->get('id') ?? $name;
     $wrapperClasses = $attributes->get('class', 'mb-3');
+    $hasError = $errors->has($name);
+    $errorId = $elementId . '-error';
+    $selectAttributes = $attributes->except(['class']);
+    $existingDescribedBy = trim((string) $selectAttributes->get('aria-describedby', ''));
+    $describedBy = trim(implode(' ', array_filter([
+        $existingDescribedBy,
+        $hasError ? $errorId : null,
+    ])));
 @endphp
 
 @if($horizontal)
@@ -27,10 +35,12 @@
                 name="{{ $name }}"
                 id="{{ $elementId }}"
                 @if($required) aria-required="true" @endif
-                {{ $attributes->except(['class'])->merge([
+                @if($hasError) aria-invalid="true" @endif
+                @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
+                {{ $selectAttributes->except(['aria-describedby'])->merge([
                     'class' => 'form-select custom-input ' .
                                ($search ? 'select-search ' : '') .
-                               ($errors->has($name) ? ' is-invalid' : '')
+                               ($hasError ? ' is-invalid' : '')
                 ]) }}
             >
                 <option value="" {{ empty(old($name, $selected)) ? 'selected' : '' }}>
@@ -52,7 +62,7 @@
                 @endforeach
             </select>
             @error($name)
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback" id="{{ $errorId }}">{{ $message }}</div>
             @enderror
         </div>
     </div>
@@ -68,10 +78,12 @@
             name="{{ $name }}"
             id="{{ $elementId }}"
             @if($required) aria-required="true" @endif
-            {{ $attributes->merge([
+            @if($hasError) aria-invalid="true" @endif
+            @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
+            {{ $selectAttributes->except(['aria-describedby'])->merge([
                 'class' => 'form-select custom-input ' .
                            ($search ? 'select-search ' : '') .
-                           ($errors->has($name) ? ' is-invalid' : '')
+                           ($hasError ? ' is-invalid' : '')
             ]) }}
         >
             <option value="" {{ empty(old($name, $selected)) ? 'selected' : '' }}>
@@ -93,7 +105,7 @@
             @endforeach
         </select>
         @error($name)
-        <div class="invalid-feedback">{{ $message }}</div>
+        <div class="invalid-feedback" id="{{ $errorId }}">{{ $message }}</div>
         @enderror
     </div>
 @endif

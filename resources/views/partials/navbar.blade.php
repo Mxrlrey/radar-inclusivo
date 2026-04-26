@@ -4,6 +4,9 @@
             <button id="sidebarToggle"
                     class="btn-theme-toggle button-menu-mobile waves-effect"
                     type="button"
+                    aria-label="Abrir ou fechar menu lateral"
+                    aria-controls="app-sidebar"
+                    aria-expanded="false"
                     title="Abrir ou fechar menu lateral">
                 <i class="ion-navicon" aria-hidden="true"></i>
             </button>
@@ -36,6 +39,8 @@
             <button id="themeToggle"
                     class="btn-theme-toggle waves-effect"
                     type="button"
+                    aria-label="Alternar modo escuro"
+                    aria-pressed="false"
                     title="Alternar modo escuro">
                 <i class="fa fa-moon-o" id="themeIcon" aria-hidden="true"></i>
             </button>
@@ -43,6 +48,8 @@
             <button id="contrastToggle"
                     class="btn-theme-toggle waves-effect"
                     type="button"
+                    aria-label="Alternar alto contraste"
+                    aria-pressed="false"
                     title="Alternar alto contraste">
                 <i class="fa fa-low-vision" id="contrastIcon" aria-hidden="true"></i>
             </button>
@@ -68,6 +75,7 @@
             if (html.classList.contains('theme-dark')) {
                 themeIcon.className = 'fa fa-sun-o';
             }
+            themeToggle.setAttribute('aria-pressed', html.classList.contains('theme-dark') ? 'true' : 'false');
 
             // 3. Evento de Clique do Tema (Sem conflitos)
             themeToggle.onclick = function(e) {
@@ -79,6 +87,7 @@
 
                 // Salva Preferência
                 localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                themeToggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
 
                 // Opcional: Se estiver usando Bootstrap 5.3 nativo também
                 html.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
@@ -98,6 +107,7 @@
                     html.classList.add('high-contrast');
                     contrastIcon.className = 'fa fa-eye';
                 }
+                contrastToggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
 
                 contrastToggle.onclick = function () {
                     const isOn = html.classList.toggle('high-contrast');
@@ -105,6 +115,7 @@
                     contrastIcon.className = isOn ? 'fa fa-eye' : 'fa fa-adjust';
 
                     localStorage.setItem('contrast', isOn ? 'high' : 'normal');
+                    contrastToggle.setAttribute('aria-pressed', isOn ? 'true' : 'false');
                 };
             }
         };

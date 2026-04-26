@@ -41,7 +41,6 @@
         <div
             id="{{ $mapId }}"
             style="height: {{ $height }};"
-            role="application"
             aria-labelledby="map-label-{{ $mapId }}"
             aria-describedby="map-help-{{ $mapId }}">
         </div>

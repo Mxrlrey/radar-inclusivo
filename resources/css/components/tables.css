@@ -32,16 +32,19 @@
 }
 
 /* Células do corpo */
-.table tbody td {
+.table tbody td,
+.table tbody th[scope="row"] {
     padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
     vertical-align: middle;
     border-top: 1px solid var(--border-color);
     color: var(--text-secondary);
     background-color: var(--bg-surface);
+    font-weight: var(--font-weight-normal);
 }
 
 /* Remove hover */
-.table-hover tbody tr:hover td {
+.table-hover tbody tr:hover td,
+.table-hover tbody tr:hover th[scope="row"] {
     background-color: var(--bg-surface) !important;
 }
 
@@ -58,7 +61,8 @@
 }
 
 /* Linha destacada (ex: agendado, atrasado) */
-.table tbody tr.row-highlight td {
+.table tbody tr.row-highlight td,
+.table tbody tr.row-highlight th[scope="row"] {
     background-color: #fef9f0;
 }
 

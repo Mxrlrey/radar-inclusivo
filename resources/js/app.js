@@ -45,10 +45,18 @@ class App {
     toggleSidebar() {
         if (!this.sidebar) return;
 
+        if (this.sidebarToggle && window.innerWidth > 1024) {
+            this.sidebarToggle.setAttribute('aria-expanded', 'false');
+        }
+
         if (window.innerWidth <= 1024) {
             this.sidebar.classList.toggle('show');
+            const isOpen = this.sidebar.classList.contains('show');
+            if (this.sidebarToggle) {
+                this.sidebarToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            }
 
-            if (this.sidebar.classList.contains('show')) {
+            if (isOpen) {
                 this.addOverlay();
                 document.body.style.overflow = 'hidden';
             } else {

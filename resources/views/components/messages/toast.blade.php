@@ -22,13 +22,17 @@
             }
         @endphp
 
-        <div class="toast-custom {{ $type }}" id="toast-element">
+        <div class="toast-custom {{ $type }}"
+             id="toast-element"
+             role="{{ in_array($type, ['danger']) ? 'alert' : 'status' }}"
+             aria-live="{{ in_array($type, ['danger']) ? 'assertive' : 'polite' }}"
+             aria-atomic="true">
             <div class="toast-content">
-                <i class="fa {{ $icon }}"></i>
+                <i class="fa {{ $icon }}" aria-hidden="true"></i>
                 <div class="toast-body-text">
                     {{ $message }}
                 </div>
-                <button type="button" class="btn-close-toast" onclick="window.closeToast()">×</button>
+                <button type="button" class="btn-close-toast" aria-label="Fechar notificação" onclick="window.closeToast()">×</button>
             </div>
             <div class="toast-progress"></div>
         </div>

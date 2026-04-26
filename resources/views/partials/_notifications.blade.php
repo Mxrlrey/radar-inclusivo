@@ -11,6 +11,7 @@
                 id="dropdownNotif"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
+                aria-label="{{ $unreadCount > 0 ? 'Abrir notificações. ' . $unreadCount . ' não lidas.' : 'Abrir notificações. Nenhuma notificação nova.' }}"
                 title="{{ $unreadCount > 0 ? 'Ver ' . $unreadCount . ' notificações não lidas' : 'Nenhuma notificação nova' }}">
         <span class="waves-effect waves-effect-notif d-flex align-items-center justify-content-center w-100 h-100">
             <i class="fa fa-bell" aria-hidden="true"></i>
@@ -36,20 +37,20 @@
                     @php $data = $notification->data; @endphp
                     <a href="{!! $data['url'] ?? '#' !!}" class="notification-item {{ !$notification->read_at ? 'unread' : '' }}">
                         <div class="notification-icon">
-                            <i class="ion-information"></i>
+                            <i class="ion-information" aria-hidden="true"></i>
                         </div>
                         <div class="notification-content">
                             <div class="notification-title">{{ $data['title'] ?? 'Nova atualização' }}</div>
                             <div class="notification-text">{{ $data['message'] ?? '' }}</div>
                             <div class="notification-time">
-                                <i class="fa fa-clock-o me-1"></i>
+                                <i class="fa fa-clock-o me-1" aria-hidden="true"></i>
                                 {{ \Carbon\Carbon::parse($data['created_at'] ?? now())->diffForHumans() }}
                             </div>
                         </div>
                     </a>
                 @empty
                     <div class="text-center py-5">
-                        <i class="fa fa-bell-slash text-muted d-block mb-2 notif-empty-icon"></i>
+                        <i class="fa fa-bell-slash text-muted d-block mb-2 notif-empty-icon" aria-hidden="true"></i>
                         <span class="text-muted small">Você está em dia! Nenhuma notificação.</span>
                     </div>
                 @endforelse

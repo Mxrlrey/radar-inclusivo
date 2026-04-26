@@ -1,4 +1,4 @@
-<aside class="sidebar" aria-label="Menu lateral principal">
+<aside class="sidebar" id="app-sidebar" aria-label="Menu lateral principal">
     <div class="sidebar-header">
         <a href="{{ route('dashboard') }}" class="sidebar-brand">
             <span class="sidebar-brand-icon" aria-hidden="true">
