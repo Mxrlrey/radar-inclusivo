@@ -34,10 +34,5 @@
 @import "./components/maps.css";
 
 
-/* ESTILOS DE PÁGINAS ESPECÍFICAS */
-@import "./auth/auth.css";
-@import "./pages/dashboard.css";
-@import "./pages/errors.css";
-
 /* EFEITOS VISUAIS E ANIMAÇÕES */
 @import "./effects/waves.css";
