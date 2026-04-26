@@ -68,8 +68,8 @@
 
         <x-slot:footer>
             <x-buttons.link-button
-                href="javascript:void(0)"
                 variant="secondary"
+                type="button"
                 onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
             >
                 Cancelar

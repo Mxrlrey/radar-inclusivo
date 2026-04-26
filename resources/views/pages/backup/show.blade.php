@@ -22,7 +22,7 @@
                 :href="route('copias-seguranca.index')"
                 variant="secondary"
             >
-                <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
                 Voltar
             </x-buttons.link-button>
         </div>
@@ -105,7 +105,7 @@
             <x-buttons.link-button
                 :href="route('copias-seguranca.index')"
                 variant="secondary">
-                <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
                 Voltar
             </x-buttons.link-button>
 
@@ -113,16 +113,17 @@
                 :href="route('copias-seguranca.baixar', $backup->id)"
                 variant="success"
             >
-                <span class="btn-label"><i class="fa fa-download"></i></span>
+                <span class="btn-label"><i class="fa fa-download" aria-hidden="true"></i></span>
                 Baixar Backup
             </x-buttons.link-button>
 
             <x-buttons.submit-button
                 variant="danger"
                 type="button"
+                label="Excluir backup"
                 onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
             >
-                <span class="btn-label"><i class="fa fa-eraser"></i></span>
+                <span class="btn-label"><i class="fa fa-eraser" aria-hidden="true"></i></span>
                 Excluir
             </x-buttons.submit-button>
         </x-show.footer>
@@ -143,8 +144,8 @@
 
         <x-slot:footer>
             <x-buttons.link-button
-                href="javascript:void(0)"
                 variant="secondary"
+                type="button"
                 onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
             >
                 Cancelar
@@ -154,7 +155,7 @@
                 @csrf
                 @method('DELETE')
 
-                <x-buttons.submit-button variant="danger">
+                <x-buttons.submit-button variant="danger" label="Confirmar exclusão do backup">
                     Excluir
                 </x-buttons.submit-button>
             </form>

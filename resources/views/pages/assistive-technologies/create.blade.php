@@ -160,11 +160,14 @@
             :checked="old('is_active', true)"
         />
 
-        <div class="form-group-horizontal mb-3">
-            <label class="control-label">Público-Alvo <i class="text-danger">*</i></label>
+        <fieldset class="form-group-horizontal mb-3">
+            <legend class="control-label mb-0">Público-Alvo <i class="text-danger" aria-hidden="true">*</i></legend>
 
             <div class="field-wrapper">
-                <div class="d-flex flex-wrap gap-3 p-3 border checkbox-group-wrapper @error('deficiencies') border-danger @enderror">
+                <div
+                    class="d-flex flex-wrap gap-3 p-3 border checkbox-group-wrapper @error('deficiencies') border-danger @enderror"
+                    @error('deficiencies') aria-describedby="deficiencies-error" @enderror
+                >
                     @foreach($deficiencies as $def)
                         <x-forms.checkbox
                             name="deficiencies[]"
@@ -177,22 +180,22 @@
                 </div>
 
                 @error('deficiencies')
-                <small class="text-danger d-block mt-1">{{ $message }}</small>
+                <small class="text-danger d-block mt-1" id="deficiencies-error">{{ $message }}</small>
                 @enderror
             </div>
-        </div>
+        </fieldset>
 
         <x-forms.form-footer>
             <x-buttons.link-button
                 :href="route('tecnologias-assistivas.index')"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
 
             <x-buttons.submit-button variant="new">
-                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-save" aria-hidden="true"></i></x-slot:icon>
                 Cadastrar
             </x-buttons.submit-button>
         </x-forms.form-footer>

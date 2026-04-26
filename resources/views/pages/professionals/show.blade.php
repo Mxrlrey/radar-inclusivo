@@ -56,7 +56,7 @@
                         alt="Foto de {{ $professional->person->name }}"
                     >
                 @else
-                    <i class="ion-android-social-user mt-5"></i>
+                    <i class="ion-android-social-user mt-5" aria-hidden="true"></i>
                 @endif
             </div>
         </div>
@@ -189,8 +189,8 @@
 
         <x-slot:footer>
             <x-buttons.link-button
-                href="javascript:void(0)"
                 variant="secondary"
+                type="button"
                 onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
             >
                 Cancelar

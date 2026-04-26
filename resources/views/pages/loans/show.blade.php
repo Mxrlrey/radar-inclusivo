@@ -150,7 +150,7 @@
             </div>
         </form>
         <x-slot:footer>
-            <x-buttons.link-button href="javascript:void(0)" variant="secondary" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
+            <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
                 Cancelar
             </x-buttons.link-button>
             <x-buttons.submit-button variant="success" onclick="document.getElementById('form-return-{{ $loan->id }}').submit()">
@@ -165,7 +165,7 @@
             <p class="mb-0 text-muted">Deseja realmente excluir o registro de empréstimo <strong>#{{ $loan->id }}</strong>?</p>
         </div>
         <x-slot:footer>
-            <x-buttons.link-button href="javascript:void(0)" variant="secondary" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
+            <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
                 Cancelar
             </x-buttons.link-button>
             <form action="{{ route('emprestimos.excluir', $loan) }}" method="POST">

@@ -15,8 +15,12 @@ function toggleAssetCodeField() {
     if (isDigital) {
         wrapper.style.display = 'none';
         input.value = '';
+        input.disabled = true;
+        input.setAttribute('aria-hidden', 'true');
     } else {
         wrapper.style.display = 'flex';
+        input.disabled = false;
+        input.removeAttribute('aria-hidden');
     }
 }
 

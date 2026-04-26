@@ -23,7 +23,11 @@
 @endphp
 
 <{{ $tag }}
-    {{ $href ? "href=$href" : "type=$type" }}
+    @if($href)
+        href="{{ $href }}"
+    @else
+        type="{{ $type }}"
+    @endif
     {{ $attributes->merge([
         'class' => $classes,
     ]) }}

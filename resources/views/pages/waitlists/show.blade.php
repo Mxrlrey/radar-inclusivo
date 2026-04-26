@@ -131,7 +131,7 @@
             <p>Deseja realmente <strong>cancelar</strong> esta solicitação na fila de espera?</p>
         </div>
         <x-slot:footer>
-            <x-buttons.link-button href="javascript:void(0)" variant="secondary" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
+            <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
                 Voltar
             </x-buttons.link-button>
             <form action="{{ route('filas-de-espera.cancelar', $waitlist) }}" method="POST">
@@ -148,7 +148,7 @@
             <p class="mb-0 text-muted">Deseja excluir permanentemente o registro de fila <strong>#{{ $waitlist->id }}</strong>?</p>
         </div>
         <x-slot:footer>
-            <x-buttons.link-button href="javascript:void(0)" variant="secondary" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
+            <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
                 Cancelar
             </x-buttons.link-button>
             <form action="{{ route('filas-de-espera.excluir', $waitlist) }}" method="POST">

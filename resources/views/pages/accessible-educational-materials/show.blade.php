@@ -17,14 +17,14 @@
         </div>
         <div class="page-header-actions">
             <x-buttons.link-button :href="route('materiais-pedagogicos-acessiveis.editar', $material)" variant="info">
-                <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
+                <span class="btn-label"><i class="fa fa-pencil" aria-hidden="true"></i></span> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
                 :href="route('materiais-pedagogicos-acessiveis.index')"
                 variant="secondary"
             >
-                <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
+                <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span> Voltar
             </x-buttons.link-button>
         </div>
     </div>
@@ -96,12 +96,12 @@
             </div>
         </x-show.info-item>
 
-        <div class="show-field">
-            <span class="show-label">Histórico de Vistorias</span>
-            <div class="show-value" id="inspections-table-wrapper">
+        <dl class="show-field show-field--stacked">
+            <dt class="show-label">Histórico de Vistorias</dt>
+            <dd class="show-value" id="inspections-table-wrapper">
                 @include('pages.accessible-educational-materials.partials.inspections-table')
-            </div>
-        </div>
+            </dd>
+        </dl>
 
         @can('system.audit.view')
             <x-forms.separator/>
@@ -135,14 +135,14 @@
             <x-buttons.link-button
                 :href="route('materiais-pedagogicos-acessiveis.index')"
                 variant="secondary">
-                <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
                 Voltar
             </x-buttons.link-button>
 
             <x-buttons.link-button
                 :href="route('materiais-pedagogicos-acessiveis.registros', $material)"
                 variant="secondary-outline">
-                <span class="btn-label"><i class="fa fa-history"></i></span>
+                <span class="btn-label"><i class="fa fa-history" aria-hidden="true"></i></span>
                 Logs
             </x-buttons.link-button>
 
@@ -150,16 +150,17 @@
                 :href="route('materiais-pedagogicos-acessiveis.pdf', $material)"
                 variant="danger"
             >
-                <span class="btn-label"><i class="fa fa-file-pdf-o"></i></span>
+                <span class="btn-label"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
                 PDF
             </x-buttons.link-button>
 
             <x-buttons.submit-button
                 variant="danger"
                 type="button"
+                label="Excluir material pedagógico acessível"
                 onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
             >
-                <span class="btn-label"><i class="fa fa-eraser"></i></span>
+                <span class="btn-label"><i class="fa fa-eraser" aria-hidden="true"></i></span>
                 Excluir
             </x-buttons.submit-button>
         </x-show.footer>
@@ -183,8 +184,8 @@
 
         <x-slot:footer>
             <x-buttons.link-button
-                href="javascript:void(0)"
                 variant="secondary"
+                type="button"
                 onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
             >
                 Cancelar
@@ -194,7 +195,7 @@
                 @csrf
                 @method('DELETE')
 
-                <x-buttons.submit-button variant="danger">
+                <x-buttons.submit-button variant="danger" label="Confirmar exclusão do material pedagógico acessível">
                     Excluir
                 </x-buttons.submit-button>
             </form>

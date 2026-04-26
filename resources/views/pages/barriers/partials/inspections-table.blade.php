@@ -29,8 +29,10 @@
 
                         @if($inspection->images->isNotEmpty())
                             <i class="ion-image text-success" aria-hidden="true"></i>
+                            <span class="visually-hidden">Contém imagens anexadas.</span>
                         @else
                             <i class="ion-close text-danger" aria-hidden="true"></i>
+                            <span class="visually-hidden">Sem imagens anexadas.</span>
                         @endif
                     </div>
                 </a>

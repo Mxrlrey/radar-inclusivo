@@ -22,7 +22,7 @@
                 :href="route('barreiras.editar', $barrier)"
                 variant="info"
             >
-                <x-slot:icon><i class="fa fa-pencil"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-pencil" aria-hidden="true"></i></x-slot:icon>
                 Editar
             </x-buttons.link-button>
 
@@ -30,7 +30,7 @@
                 :href="route('barreiras.index')"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-arrow-left"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-arrow-left" aria-hidden="true"></i></x-slot:icon>
                 Voltar
             </x-buttons.link-button>
         </div>
@@ -91,7 +91,7 @@
                 <x-show.info-item label="Tipo de Relato">
                     @if($barrier->is_anonymous)
                         <span class="text-muted fw-bold">
-                            <i class="fa fa-user-secret me-1"></i> Relato Anônimo
+                            <i class="fa fa-user-secret me-1" aria-hidden="true"></i> Relato Anônimo
                         </span>
                     @elseif($barrier->not_applicable)
                         <span class="fw-bold">Relato Geral</span>
@@ -109,7 +109,7 @@
                         <div class="d-flex flex-column gap-2">
                             @if($barrier->affectedStudent)
                                 <div>
-                                    <i class="fa fa-user-graduate text-primary me-1"></i>
+                                    <i class="fa fa-user-graduate text-primary me-1" aria-hidden="true"></i>
                                     <strong>{{ $barrier->affectedStudent->person->name }}</strong>
                                     <small class="text-muted d-block">Estudante</small>
                                 </div>
@@ -117,7 +117,7 @@
 
                             @if($barrier->affectedProfessional)
                                 <div class="{{ $barrier->affectedStudent ? 'border-top pt-2' : '' }}">
-                                    <i class="fa fa-user-tie text-success me-1"></i>
+                                    <i class="fa fa-user-tie text-success me-1" aria-hidden="true"></i>
                                     <strong>{{ $barrier->affectedProfessional->person->name }}</strong>
                                     <small class="text-muted d-block">Profissional</small>
                                 </div>
@@ -184,12 +184,12 @@
                     @endif
                 </div>
 
-                <div class="show-field show-field--stacked mt-3">
-                    <span class="show-label">Histórico de Vistorias</span>
-                    <div class="show-value" id="inspections-table-wrapper-barrier">
+                <dl class="show-field show-field--stacked mt-3">
+                    <dt class="show-label">Histórico de Vistorias</dt>
+                    <dd class="show-value" id="inspections-table-wrapper-barrier">
                         @include('pages.barriers.partials.inspections-table')
-                    </div>
-                </div>
+                    </dd>
+                </dl>
             </div>
 
             @php

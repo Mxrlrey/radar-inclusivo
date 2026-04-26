@@ -131,8 +131,8 @@
         <x-slot:footer>
             <div class="d-flex justify-content-end gap-2 w-100">
                 <x-buttons.link-button
-                    href="javascript:void(0)"
                     variant="secondary"
+                    type="button"
                     data-bs-dismiss="modal"
                 >
                     Cancelar
@@ -167,8 +167,8 @@
         <x-slot:footer>
             <div class="d-flex justify-content-end gap-2 w-100">
                 <x-buttons.link-button
-                    href="javascript:void(0)"
                     variant="secondary"
+                    type="button"
                     data-bs-dismiss="modal"
                 >
                     Cancelar
