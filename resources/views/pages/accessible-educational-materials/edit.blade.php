@@ -24,7 +24,7 @@
                 :href="route('materiais-pedagogicos-acessiveis.visualizar', $material)"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
         </div>
@@ -36,7 +36,6 @@
         enctype="multipart/form-data"
         class="form-horizontal"
     >
-        @csrf
         @method('PUT')
 
         <x-forms.section
@@ -66,7 +65,6 @@
             label="Patrimônio / Tombamento"
             :horizontal="true"
             :value="old('asset_code', $material->asset_code)"
-            id="asset_code_container"
         />
 
         <x-forms.textarea
@@ -84,10 +82,13 @@
             description="Atualize os recursos presentes no material."
         />
 
-        <div class="form-group-horizontal mb-3">
-            <label class="control-label">Recursos do Material</label>
+        <fieldset class="form-group-horizontal mb-3">
+            <legend class="control-label mb-0">Recursos do Material</legend>
             <div class="field-wrapper">
-                <div class="d-flex flex-wrap gap-3 p-3 border checkbox-group-wrapper @error('accessibility_features') border-danger @enderror">
+                <div
+                    class="d-flex flex-wrap gap-3 p-3 border checkbox-group-wrapper @error('accessibility_features') border-danger @enderror"
+                    @error('accessibility_features') aria-describedby="accessibility-features-error" @enderror
+                >
                     @foreach($accessibilityFeatures as $feature)
                         <x-forms.checkbox
                             name="accessibility_features[]"
@@ -100,10 +101,10 @@
                 </div>
 
                 @error('accessibility_features')
-                <small class="text-danger d-block mt-1">{{ $message }}</small>
+                <small class="text-danger d-block mt-1" id="accessibility-features-error" role="alert">{{ $message }}</small>
                 @enderror
             </div>
-        </div>
+        </fieldset>
 
         <x-forms.separator />
 
@@ -178,7 +179,7 @@
                 <div class="field-wrapper">
                     <div class="alert alert-warning py-2 mb-0">
                         <small class="fw-bold">
-                            <i class="fas fa-lock"></i> {{ $activeLoans }} unidades em uso.
+                            <i class="fas fa-lock" aria-hidden="true"></i> {{ $activeLoans }} unidades em uso.
                         </small>
                     </div>
                 </div>
@@ -207,10 +208,13 @@
             :checked="old('is_active', $material->is_active)"
         />
 
-        <div class="form-group-horizontal mb-3">
-            <label class="control-label">Público-Alvo <i class="text-danger">*</i></label>
+        <fieldset class="form-group-horizontal mb-3">
+            <legend class="control-label mb-0">Público-Alvo <i class="text-danger" aria-hidden="true">*</i></legend>
             <div class="field-wrapper">
-                <div class="d-flex flex-wrap gap-4 p-3 border checkbox-group-wrapper @error('deficiencies') border-danger @enderror">
+                <div
+                    class="d-flex flex-wrap gap-4 p-3 border checkbox-group-wrapper @error('deficiencies') border-danger @enderror"
+                    @error('deficiencies') aria-describedby="deficiencies-error" @enderror
+                >
                     @foreach($deficiencies as $def)
                         <x-forms.checkbox
                             name="deficiencies[]"
@@ -224,22 +228,22 @@
                 </div>
 
                 @error('deficiencies')
-                <small class="text-danger d-block mt-1">{{ $message }}</small>
+                <small class="text-danger d-block mt-1" id="deficiencies-error" role="alert">{{ $message }}</small>
                 @enderror
             </div>
-        </div>
+        </fieldset>
 
         <x-forms.form-footer>
             <x-buttons.link-button
                 :href="route('materiais-pedagogicos-acessiveis.visualizar', $material)"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
 
             <x-buttons.submit-button variant="new">
-                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-save" aria-hidden="true"></i></x-slot:icon>
                 Salvar
             </x-buttons.submit-button>
         </x-forms.form-footer>

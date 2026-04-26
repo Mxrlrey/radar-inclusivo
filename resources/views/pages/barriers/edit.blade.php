@@ -23,7 +23,7 @@
                 :href="route('barreiras.visualizar', $barrier)"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
         </div>
@@ -35,7 +35,6 @@
         enctype="multipart/form-data"
         class="form-horizontal"
     >
-        @csrf
         @method('PUT')
 
         <div class="row g-0">
@@ -110,7 +109,11 @@
                             />
                         </div>
 
-                        <div id="location_wrapper" class="{{ old('institution_id', $barrier->institution_id) ? '' : 'd-none' }} col-md-12 mt-3">
+                        <div
+                            id="location_wrapper"
+                            class="{{ old('institution_id', $barrier->institution_id) ? '' : 'd-none' }} col-md-12 mt-3"
+                            @if(!old('institution_id', $barrier->institution_id)) hidden aria-hidden="true" @else aria-hidden="false" @endif
+                        >
                             <x-forms.textarea
                                 name="location_specific_details"
                                 label="Complemento"
@@ -134,9 +137,12 @@
                 </div>
 
                 <div class="px-4 mt-4">
-                    <div class="mb-4">
-                        <label class="form-label fw-bold">Deficiências Relacionadas <i class="text-danger">*</i></label>
-                        <div class="d-flex flex-wrap gap-4 p-3 border checkbox-group-wrapper max-h-40 overflow-y-auto custom-scrollbar">
+                    <fieldset class="mb-4">
+                        <legend class="form-label fw-bold mb-2">Deficiências Relacionadas <i class="text-danger" aria-hidden="true">*</i></legend>
+                        <div
+                            class="d-flex flex-wrap gap-4 p-3 border checkbox-group-wrapper max-h-40 overflow-y-auto custom-scrollbar @error('deficiencies') border-danger @enderror"
+                            @error('deficiencies') aria-describedby="barrier-deficiencies-error" @enderror
+                        >
                             @foreach($deficiencies as $def)
                                 <x-forms.checkbox
                                     name="deficiencies[]"
@@ -148,11 +154,14 @@
                                 />
                             @endforeach
                         </div>
-                    </div>
-                    <div class="checkbox-group-wrapper p-3 rounded mb-4 border shadow-sm">
-                        <label class="fw-bold small text-uppercase mb-3 d-block">
-                            Pessoa Impactada <i class="text-danger">*</i>
-                        </label>
+                        @error('deficiencies')
+                        <small class="text-danger d-block mt-1" id="barrier-deficiencies-error" role="alert">{{ $message }}</small>
+                        @enderror
+                    </fieldset>
+                    <fieldset class="checkbox-group-wrapper p-3 rounded mb-4 border shadow-sm">
+                        <legend class="fw-bold small text-uppercase mb-3 d-block">
+                            Pessoa Impactada <i class="text-danger" aria-hidden="true">*</i>
+                        </legend>
 
                         <div class="d-flex flex-column gap-2">
                             <x-forms.checkbox
@@ -162,7 +171,7 @@
                                 :checked="old('is_anonymous', $barrier->is_anonymous)"
                             />
 
-                            <div id="wrapper_not_applicable">
+                            <div id="wrapper_not_applicable" aria-hidden="false">
                                 <x-forms.checkbox
                                     name="not_applicable"
                                     id="not_applicable"
@@ -172,8 +181,8 @@
                             </div>
                         </div>
 
-                        <div id="identification_fields" class="mt-3">
-                            <div id="person_selects" class="{{ old('not_applicable', $barrier->not_applicable) ? 'd-none' : '' }}">
+                        <div id="identification_fields" class="mt-3" @if(old('is_anonymous', $barrier->is_anonymous)) hidden aria-hidden="true" @else aria-hidden="false" @endif>
+                            <div id="person_selects" class="{{ old('not_applicable', $barrier->not_applicable) ? 'd-none' : '' }}" @if(old('not_applicable', $barrier->not_applicable)) hidden aria-hidden="true" @else aria-hidden="false" @endif>
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <x-forms.select
@@ -195,7 +204,7 @@
                                 </div>
                             </div>
 
-                            <div id="manual_person_data" class="{{ old('not_applicable', $barrier->not_applicable) ? '' : 'd-none' }} mt-2">
+                            <div id="manual_person_data" class="{{ old('not_applicable', $barrier->not_applicable) ? '' : 'd-none' }} mt-2" @if(!old('not_applicable', $barrier->not_applicable)) hidden aria-hidden="true" @else aria-hidden="false" @endif>
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <x-forms.input
@@ -215,7 +224,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </fieldset>
                 </div>
             </div>
 
@@ -254,13 +263,51 @@
                                 label="Localização da Barreira"
                             />
 
-                            <div id="map-blocked-overlay" class="map-overlay">
+                            <div id="map-blocked-overlay" class="map-overlay" role="status" aria-live="polite">
                                 <div class="map-overlay-message">
-                                    <i class="fa fa-lock mb-2 d-block"></i>
+                                    <i class="fa fa-lock mb-2 d-block" aria-hidden="true"></i>
                                     <span id="blocked-message" class="fw-bold">
                                         Selecione uma instituição para liberar o mapa.
                                     </span>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="px-4 mt-3">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="lat_manual" class="form-label fw-bold text-primary">
+                                        Latitude
+                                    </label>
+                                    <input
+                                        type="number"
+                                        id="lat_manual"
+                                        step="any"
+                                        inputmode="decimal"
+                                        class="form-control custom-input"
+                                        value="{{ old('latitude', $barrier->latitude ?? $selectedInstitution?->latitude ?? -14.2350) }}"
+                                        aria-describedby="barrier-map-coordinates-help"
+                                    >
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="lng_manual" class="form-label fw-bold text-primary">
+                                        Longitude
+                                    </label>
+                                    <input
+                                        type="number"
+                                        id="lng_manual"
+                                        step="any"
+                                        inputmode="decimal"
+                                        class="form-control custom-input"
+                                        value="{{ old('longitude', $barrier->longitude ?? $selectedInstitution?->longitude ?? -51.9253) }}"
+                                        aria-describedby="barrier-map-coordinates-help"
+                                    >
+                                </div>
+                            </div>
+
+                            <div id="barrier-map-coordinates-help" class="form-text mt-2">
+                                Você pode informar latitude e longitude manualmente se não quiser marcar o ponto diretamente no mapa.
                             </div>
                         </div>
                     </div>
@@ -321,12 +368,12 @@
                     :href="route('barreiras.visualizar', $barrier)"
                     variant="secondary"
                 >
-                    <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                    <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                     Cancelar
                 </x-buttons.link-button>
 
                 <x-buttons.submit-button variant="new">
-                    <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                    <x-slot:icon><i class="fa fa-save" aria-hidden="true"></i></x-slot:icon>
                     Salvar
                 </x-buttons.submit-button>
             </x-forms.form-footer>

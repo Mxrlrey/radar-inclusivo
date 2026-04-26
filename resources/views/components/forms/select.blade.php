@@ -44,7 +44,11 @@
                                ($hasError ? ' is-invalid' : '')
                 ]) }}
             >
-                <option value="" {{ (string) $currentValue === '' ? 'selected' : '' }}>
+                <option
+                    value=""
+                    @if($required) disabled hidden @endif
+                    {{ (string) $currentValue === '' ? 'selected' : '' }}
+                >
                     Selecione uma opção...
                 </option>
                 @foreach($options as $value => $labelOption)
@@ -87,7 +91,11 @@
                            ($hasError ? ' is-invalid' : '')
             ]) }}
         >
-            <option value="" {{ (string) $currentValue === '' ? 'selected' : '' }}>
+            <option
+                value=""
+                @if($required) disabled hidden @endif
+                {{ (string) $currentValue === '' ? 'selected' : '' }}
+            >
                 Selecione uma opção...
             </option>
             @foreach($options as $value => $labelOption)

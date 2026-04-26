@@ -38,7 +38,6 @@
         method="POST"
         class="form-horizontal"
     >
-        @csrf
         @method('PUT')
 
         <x-forms.section

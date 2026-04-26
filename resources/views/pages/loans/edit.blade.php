@@ -23,7 +23,7 @@
 
         <div class="page-header-actions">
             <x-buttons.link-button :href="route('emprestimos.visualizar', $loan)" variant="secondary">
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
         </div>
@@ -54,7 +54,6 @@
         method="POST"
         class="form-horizontal"
     >
-        @csrf
         @method('PUT')
 
         <input type="hidden" name="loanable_id" value="{{ $loan->loanable_id }}">
@@ -158,12 +157,12 @@
                 :href="route('emprestimos.visualizar', $loan)"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
 
             <x-buttons.submit-button variant="new">
-                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-save" aria-hidden="true"></i></x-slot:icon>
                 Salvar
             </x-buttons.submit-button>
         </x-forms.form-footer>

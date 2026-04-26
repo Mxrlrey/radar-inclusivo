@@ -24,7 +24,7 @@
                 :href="route('estudantes.visualizar', $student)"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
         </div>
@@ -36,7 +36,6 @@
         enctype="multipart/form-data"
         class="form-horizontal"
     >
-        @csrf
         @method('PUT')
 
         <x-forms.section
@@ -152,12 +151,12 @@
                 :href="route('estudantes.visualizar', $student)"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
 
             <x-buttons.submit-button variant="new">
-                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-save" aria-hidden="true"></i></x-slot:icon>
                 Salvar
             </x-buttons.submit-button>
         </x-forms.form-footer>

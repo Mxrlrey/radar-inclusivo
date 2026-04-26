@@ -23,7 +23,7 @@
             <x-buttons.link-button :href="route('tecnologias-assistivas.visualizar', $assistiveTechnology)"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
         </div>
@@ -35,7 +35,6 @@
         enctype="multipart/form-data"
         class="form-horizontal"
     >
-        @csrf
         @method('PUT')
 
         <x-forms.section
@@ -65,7 +64,6 @@
             label="Patrimônio / Tombamento"
             :horizontal="true"
             :value="old('asset_code', $assistiveTechnology->asset_code)"
-            id="asset_code_container"
         />
 
         <x-forms.textarea
@@ -196,7 +194,7 @@
                 </div>
 
                 @error('deficiencies')
-                <small class="text-danger d-block mt-1" id="deficiencies-error">{{ $message }}</small>
+                <small class="text-danger d-block mt-1" id="deficiencies-error" role="alert">{{ $message }}</small>
                 @enderror
             </div>
         </fieldset>
