@@ -179,7 +179,7 @@
                 <div class="field-wrapper">
                     <div class="alert alert-warning py-2 mb-0">
                         <small class="fw-bold">
-                            <i class="fas fa-lock" aria-hidden="true"></i> {{ $activeLoans }} unidades em uso.
+                            <i class="fa fa-lock" aria-hidden="true"></i> {{ $activeLoans }} unidades em uso.
                         </small>
                     </div>
                 </div>
