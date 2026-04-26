@@ -103,7 +103,7 @@ class AssistiveTechnologyController extends Controller
                 'assistiveTechnology' => $assistiveTechnology,
                 'activeLoans' => $assistiveTechnology
                     ->loans()
-                    ->whereIn('status', ['active', 'late'])
+                    ->whereNull('return_date')
                     ->count(),
             ]
         );

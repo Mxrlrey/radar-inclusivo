@@ -105,7 +105,7 @@ class AccessibleEducationalMaterialController extends Controller
             'pages.accessible-educational-materials.edit',
             $this->formData(InspectionType::PERIODIC->value) + [
                 'material'    => $material,
-                'activeLoans' => $material->loans()->whereIn('status', ['active', 'late'])->count(),
+                'activeLoans' => $material->loans()->whereNull('return_date')->count(),
             ]
         );
     }

@@ -188,15 +188,13 @@ class LoanService
      * RF: valida se a nova quantidade total suporta os empréstimos em aberto.
      * Uso: protege edições de estoque em materiais e tecnologias emprestáveis.
      */
-    public function validateStockAvailability($item, int $quantity): void
+    public function validateStockAvailability($item, int $quantity, ?bool $isDigital = null): void
     {
-        if ($item->is_digital) return;
+        $isDigital ??= $item->is_digital;
 
-        $activeLoans = $item->exists
-            ? $item->loans()
-                ->whereIn('status', LoanStatus::openStatuses())
-                ->count()
-            : 0;
+        if ($isDigital) return;
+
+        $activeLoans = $this->countOpenLoans($item);
 
         if ($quantity < $activeLoans) {
             throw new BusinessRuleException("Impossível reduzir estoque: existem {$activeLoans} unidades emprestadas.");
@@ -217,16 +215,26 @@ class LoanService
         }
 
         $total = (int) ($data['quantity'] ?? $item->quantity ?? 0);
-
-        $activeLoans = $item->exists
-            ? $item->loans()
-                ->whereIn('status', LoanStatus::openStatuses())
-                ->count()
-            : 0;
+        $activeLoans = $this->countOpenLoans($item);
 
         $data['quantity_available'] = $total - $activeLoans;
 
         return $data;
+    }
+
+    /**
+     * RF: conta apenas empréstimos realmente em aberto para proteger o estoque.
+     * Uso: evita considerar devoluções concluídas como unidades ainda alocadas.
+     */
+    public function countOpenLoans($item): int
+    {
+        if (!$item->exists) {
+            return 0;
+        }
+
+        return $item->loans()
+            ->whereNull('return_date')
+            ->count();
     }
 
     /**

@@ -57,7 +57,11 @@ class AssistiveTechnologyService
             $this->validateStatusChangeWithActiveLoans($at, $data);
 
             if (isset($data['quantity'])) {
-                $this->loanService->validateStockAvailability($at, (int) $data['quantity']);
+                $this->loanService->validateStockAvailability(
+                    $at,
+                    (int) $data['quantity'],
+                    (bool) ($data['is_digital'] ?? $at->is_digital ?? false)
+                );
             }
 
             $oldDef = $at->deficiencies()->pluck('deficiencies.id')->toArray();

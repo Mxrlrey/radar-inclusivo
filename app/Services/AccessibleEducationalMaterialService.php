@@ -28,6 +28,7 @@ class AccessibleEducationalMaterialService
     {
         return DB::transaction(function () use ($data) {
             $material = new AccessibleEducationalMaterial();
+            $data = $this->normalizeInventoryData($material, $data);
 
             $this->validateBusinessRules($material, $data);
 
@@ -57,11 +58,17 @@ class AccessibleEducationalMaterialService
     public function update(AccessibleEducationalMaterial $material, array $data): AccessibleEducationalMaterial
     {
         return DB::transaction(function () use ($material, $data) {
+            $data = $this->normalizeInventoryData($material, $data);
+
             $this->validateBusinessRules($material, $data);
             $this->validateStatusChangeWithActiveLoans($material, $data);
 
             if (isset($data['quantity'])) {
-                $this->loanService->validateStockAvailability($material, (int) $data['quantity']);
+                $this->loanService->validateStockAvailability(
+                    $material,
+                    (int) $data['quantity'],
+                    (bool) ($data['is_digital'] ?? $material->is_digital ?? false)
+                );
             }
 
             $oldDef = $material->deficiencies()->pluck('deficiencies.id')->toArray();
@@ -153,5 +160,33 @@ class AccessibleEducationalMaterialService
         if ($material->loans()->whereNull('return_date')->exists() && $material->status->value !== $data['status']) {
             throw new BusinessRuleException("Não é possível alterar o status do item enquanto houver empréstimos ativos.");
         }
+    }
+
+    /**
+     * RF: normaliza dados de estoque ao alternar entre material digital e físico.
+     * Uso: remove sentinelas legadas de estoque digital e evita persisti-las como estoque real.
+     */
+    private function normalizeInventoryData(AccessibleEducationalMaterial $material, array $data): array
+    {
+        $isDigital = $data['is_digital'] ?? $material->is_digital ?? false;
+
+        if ($isDigital) {
+            $data['asset_code'] = null;
+            $data['quantity'] = null;
+            $data['quantity_available'] = null;
+
+            return $data;
+        }
+
+        $isLegacyDigitalPlaceholder = ($material->is_digital ?? false)
+            && (int) ($material->quantity ?? 0) === 999
+            && array_key_exists('quantity', $data)
+            && (int) $data['quantity'] === 999;
+
+        if ($isLegacyDigitalPlaceholder) {
+            $data['quantity'] = 1;
+        }
+
+        return $data;
     }
 }

@@ -24,6 +24,36 @@ function toggleAssetCodeField() {
     }
 }
 
+function toggleQuantityField() {
+    const select = document.querySelector('[name="is_digital"]');
+    const input = document.getElementById('quantity');
+    const wrapper = input?.closest('.form-group-horizontal');
+
+    if (!select || !input || !wrapper) return;
+
+    const isDigital = select.value == "1";
+    const legacyDigitalPlaceholder = input.dataset.legacyDigitalPlaceholder === "1";
+
+    if (isDigital) {
+        if (input.value && input.value !== "999") {
+            input.dataset.lastPhysicalQuantity = input.value;
+        }
+
+        wrapper.style.display = 'none';
+        input.disabled = true;
+        input.required = false;
+        return;
+    }
+
+    wrapper.style.display = 'flex';
+    input.disabled = false;
+    input.required = true;
+
+    if (legacyDigitalPlaceholder || input.value === "" || input.value === "999") {
+        input.value = input.dataset.lastPhysicalQuantity || "1";
+    }
+}
+
 function initInspectionPagination() {
     const wrapper = document.getElementById('inspections-table-wrapper');
     if (!wrapper) return;
@@ -83,10 +113,14 @@ function initInspectionRedirects() {
 // Inicialização Geral
 document.addEventListener('DOMContentLoaded', function () {
     toggleAssetCodeField();
+    toggleQuantityField();
 
     const selectDigital = document.querySelector('[name="is_digital"]');
     if (selectDigital) {
-        selectDigital.addEventListener('change', toggleAssetCodeField);
+        selectDigital.addEventListener('change', function () {
+            toggleAssetCodeField();
+            toggleQuantityField();
+        });
     }
 
     initInspectionRedirects();

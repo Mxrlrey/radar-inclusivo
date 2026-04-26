@@ -137,7 +137,9 @@
             type="number"
             :horizontal="true"
             :min="$activeLoans"
+            :required="!old('is_digital', $assistiveTechnology->is_digital ? 1 : 0)"
             :value="old('quantity', $assistiveTechnology->quantity)"
+            :data-legacy-digital-placeholder="$assistiveTechnology->is_digital && (int) $assistiveTechnology->quantity === 999 ? 1 : 0"
         />
 
         @if($activeLoans > 0)
