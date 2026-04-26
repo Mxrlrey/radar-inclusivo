@@ -96,7 +96,7 @@
             </div>
         </x-show.info-item>
 
-        <dl class="show-field show-field--stacked">
+        <dl class="show-field">
             <dt class="show-label">Histórico de Vistorias</dt>
             <dd class="show-value" id="inspections-table-wrapper">
                 @include('pages.accessible-educational-materials.partials.inspections-table')
