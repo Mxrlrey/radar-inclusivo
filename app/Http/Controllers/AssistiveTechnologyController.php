@@ -31,6 +31,7 @@ class AssistiveTechnologyController extends Controller
             ->filterName($name ?: null)
             ->active($request->is_active)
             ->digital($request->is_digital)
+            ->available($request->available)
             ->when($status, fn($q) => $q->where('status', $status->value))
             ->orderBy('name')
             ->paginate(10)

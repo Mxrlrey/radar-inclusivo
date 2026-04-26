@@ -32,8 +32,8 @@ class AccessibleEducationalMaterialController extends Controller
             ->filterName($name ?: null)
             ->active($request->is_active)
             ->digital($request->is_digital)
+            ->available($request->available)
             ->when($status, fn($q) => $q->where('status', $status->value))
-            ->when($request->filled('available'), fn($q) => $q->where('status', ResourceStatus::AVAILABLE->value))
             ->orderBy('name')
             ->paginate(10)
             ->withQueryString();

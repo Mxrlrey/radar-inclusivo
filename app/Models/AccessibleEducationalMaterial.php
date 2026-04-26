@@ -182,8 +182,15 @@ class AccessibleEducationalMaterial extends Model implements AuditableContract
     {
         if (!is_null($available) && $available !== '') {
             $available == '1'
-                ? $query->where('quantity_available', '>', 0)
-                : $query->where('quantity_available', '<=', 0);
+                ? $query->where(function (Builder $q) {
+                    $q->where('is_digital', true)
+                        ->orWhere('quantity_available', '>', 0);
+                })
+                : $query->where('is_digital', false)
+                    ->where(function (Builder $q) {
+                        $q->whereNull('quantity_available')
+                            ->orWhere('quantity_available', '<=', 0);
+                    });
         }
         return $query;
     }

@@ -67,8 +67,8 @@
     background-color: var(--input-bg);
     font-family: var(--font-family-base);
     font-size: var(--font-size-base);
-    color: var(--color-primary);
-    transition: border-color 0.15s;
+    color: var(--text-muted);
+    transition: border-color 0.15s, color 0.15s, background-color 0.15s;
     box-shadow: var(--shadow-none);
 
     background-image: url("../images/icons/select-down.svg");
@@ -81,8 +81,17 @@
     white-space: nowrap;
 }
 
+.filter-select:hover {
+    color: var(--text-primary);
+}
+
 .filter-select:focus {
     border-color: var(--input-focus-border);
+    color: var(--color-primary);
+}
+
+.filter-select.is-active {
+    color: var(--color-primary);
 }
 
 /* ===== BOTÃO LIMPAR ===== */

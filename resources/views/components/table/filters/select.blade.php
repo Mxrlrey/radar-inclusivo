@@ -7,7 +7,7 @@
 <select
     name="{{ $name }}"
     id="{{ $name }}"
-    class="filter-select"
+    class="filter-select {{ filled(request()->query($name)) ? 'is-active' : '' }}"
     data-filter-input
     aria-label="{{ $ariaLabel }}"
 >

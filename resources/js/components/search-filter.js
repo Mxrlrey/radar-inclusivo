@@ -1,5 +1,13 @@
 let debounceTimer;
 
+function syncFilterState(input) {
+    if (!input.classList.contains("filter-select")) {
+        return;
+    }
+
+    input.classList.toggle("is-active", input.value !== "");
+}
+
 async function fetchFilteredResults(element) {
     const wrapper = element.closest(".search-wrapper");
     if (!wrapper) return;
@@ -65,6 +73,11 @@ document.addEventListener("input", (e) => {
 
 document.addEventListener("change", (e) => {
     if (e.target.tagName === "SELECT" && e.target.hasAttribute("data-filter-input")) {
+        syncFilterState(e.target);
         fetchFilteredResults(e.target);
     }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".filter-select[data-filter-input]").forEach(syncFilterState);
 });
