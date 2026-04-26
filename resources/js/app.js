@@ -6,6 +6,7 @@ import './utils/cpf.js';
 import './utils/phone.js';
 import './partials/sidebar.js';
 import './components/collapsible-section';
+import './components/modal-focus-trap.js';
 import './effects/waves.js';
 import './effects/modal-blur.js';
 

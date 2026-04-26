@@ -107,6 +107,7 @@
             <x-buttons.submit-button
                 variant="danger"
                 type="button"
+                label="Excluir deficiência"
                 onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
             >
                 <span class="btn-label">
@@ -146,7 +147,7 @@
                 @csrf
                 @method('DELETE')
 
-                <x-buttons.submit-button variant="danger">
+                <x-buttons.submit-button variant="danger" label="Confirmar exclusão da deficiência">
                     Excluir
                 </x-buttons.submit-button>
             </form>

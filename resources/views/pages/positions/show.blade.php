@@ -21,13 +21,13 @@
             <x-buttons.link-button
                 :href="route('cargos.editar', $position)"
                 variant="info">
-                <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
+                <span class="btn-label" aria-hidden="true"><i class="fa fa-pencil"></i></span> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
                 :href="route('cargos.index')"
                 variant="secondary">
-                <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
+                <span class="btn-label" aria-hidden="true"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
         </div>
     </div>
@@ -93,16 +93,17 @@
                 :href="route('cargos.index')"
                 variant="secondary"
             >
-                <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                <span class="btn-label" aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
                 Voltar
             </x-buttons.link-button>
 
             <x-buttons.submit-button
                 variant="danger"
                 type="button"
+                label="Excluir cargo"
                 onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
             >
-                <span class="btn-label"><i class="fa fa-eraser"></i></span>
+                <span class="btn-label" aria-hidden="true"><i class="fa fa-eraser"></i></span>
                 Excluir
             </x-buttons.submit-button>
         </x-show.footer>
@@ -134,7 +135,7 @@
             <form action="{{ route('cargos.excluir', $position) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <x-buttons.submit-button variant="danger">
+                <x-buttons.submit-button variant="danger" label="Confirmar exclusão do cargo">
                     Excluir
                 </x-buttons.submit-button>
             </form>

@@ -21,20 +21,20 @@
             <x-buttons.link-button
                 :href="route('emprestimos.editar', $loan)"
                 variant="info">
-                <span class="btn-label"><i class="fa fa-pencil"></i></span> Editar
+                <span class="btn-label" aria-hidden="true"><i class="fa fa-pencil"></i></span> Editar
             </x-buttons.link-button>
 
             <x-buttons.link-button
                 :href="route('emprestimos.index')"
                 variant="secondary">
-                <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Voltar
+                <span class="btn-label" aria-hidden="true"><i class="fa fa-arrow-left"></i></span> Voltar
             </x-buttons.link-button>
         </div>
     </div>
 
     @if($isOverdue)
         <div class="alert alert-warning border-0 shadow-sm mb-4 d-flex align-items-center gap-3">
-            <i class="fa fa-clock-o fs-4"></i>
+            <i class="fa fa-clock-o fs-4" aria-hidden="true"></i>
             <div>
                 <p class="mb-0 fw-bold">Atenção: Este item está com a devolução atrasada!</p>
                 <small>O prazo encerrou em {{ $loan->due_date->format('d/m/Y') }}.</small>
@@ -106,7 +106,7 @@
                 :href="route('emprestimos.index')"
                 variant="secondary"
             >
-                <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                <span class="btn-label" aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
                 Voltar
             </x-buttons.link-button>
 
@@ -114,7 +114,7 @@
                 :href="route('emprestimos.pdf', $loan)"
                 variant="danger"
             >
-                <span class="btn-label"><i class="fa fa-file-pdf-o"></i></span>
+                <span class="btn-label" aria-hidden="true"><i class="fa fa-file-pdf-o"></i></span>
                 PDF
             </x-buttons.link-button>
 
@@ -122,9 +122,10 @@
                 <x-buttons.submit-button
                     variant="success"
                     type="button"
+                    label="Registrar devolução do empréstimo"
                     onclick="new bootstrap.Modal(document.getElementById('{{ $modalReturnId }}')).show();"
                 >
-                    <span class="btn-label"><i class="fa fa-undo"></i></span>
+                    <span class="btn-label" aria-hidden="true"><i class="fa fa-undo"></i></span>
                     Devolver
                 </x-buttons.submit-button>
             @endif
@@ -132,9 +133,10 @@
             <x-buttons.submit-button
                 variant="danger"
                 type="button"
+                label="Excluir empréstimo"
                 onclick="new bootstrap.Modal(document.getElementById('{{ $modalDeleteId }}')).show();"
             >
-                <span class="btn-label"><i class="fa fa-eraser"></i></span>
+                <span class="btn-label" aria-hidden="true"><i class="fa fa-eraser"></i></span>
                 Excluir
             </x-buttons.submit-button>
         </x-show.footer>
@@ -153,7 +155,7 @@
             <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
                 Cancelar
             </x-buttons.link-button>
-            <x-buttons.submit-button variant="success" onclick="document.getElementById('form-return-{{ $loan->id }}').submit()">
+            <x-buttons.submit-button variant="success" label="Confirmar devolução do empréstimo" onclick="document.getElementById('form-return-{{ $loan->id }}').submit()">
                 Devolver
             </x-buttons.submit-button>
         </x-slot:footer>
@@ -171,7 +173,7 @@
             <form action="{{ route('emprestimos.excluir', $loan) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <x-buttons.submit-button variant="danger">Excluir</x-buttons.submit-button>
+                <x-buttons.submit-button variant="danger" label="Confirmar exclusão do empréstimo">Excluir</x-buttons.submit-button>
             </form>
         </x-slot:footer>
     </x-modal.modal>

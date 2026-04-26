@@ -89,6 +89,7 @@
             <x-buttons.submit-button
                 variant="danger"
                 type="button"
+                label="Excluir recurso de acessibilidade"
                 onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
             >
                 <x-slot:icon><i class="fa fa-eraser"></i></x-slot:icon>
@@ -126,7 +127,7 @@
                 @csrf
                 @method('DELETE')
 
-                <x-buttons.submit-button variant="danger">
+                <x-buttons.submit-button variant="danger" label="Confirmar exclusão do recurso de acessibilidade">
                     Excluir
                 </x-buttons.submit-button>
             </form>

@@ -53,7 +53,7 @@
                         alt="Foto de {{ $student->person->name }}"
                     >
                 @else
-                    <i class="ion-android-contact mt-5"></i>
+                    <i class="ion-android-contact mt-5" aria-hidden="true"></i>
                 @endif
             </div>
         </div>
@@ -137,6 +137,7 @@
                 <x-buttons.submit-button
                     variant="danger"
                     type="button"
+                    label="Excluir aluno"
                     onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
                 >
                     <span class="btn-label"><i class="fa fa-eraser" aria-hidden="true"></i></span>
@@ -175,7 +176,7 @@
                 @csrf
                 @method('DELETE')
 
-                <x-buttons.submit-button variant="danger">
+                <x-buttons.submit-button variant="danger" label="Confirmar exclusão do aluno">
                     Excluir
                 </x-buttons.submit-button>
             </form>

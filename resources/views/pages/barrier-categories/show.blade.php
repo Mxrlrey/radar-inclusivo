@@ -94,6 +94,7 @@
             <x-buttons.submit-button
                 variant="danger"
                 type="button"
+                label="Excluir categoria de barreira"
                 onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
             >
                 <x-slot:icon><i class="fa fa-eraser"></i></x-slot:icon>
@@ -131,7 +132,7 @@
                 @csrf
                 @method('DELETE')
 
-                <x-buttons.submit-button variant="danger">
+                <x-buttons.submit-button variant="danger" label="Confirmar exclusão da categoria de barreira">
                     Excluir
                 </x-buttons.submit-button>
             </form>

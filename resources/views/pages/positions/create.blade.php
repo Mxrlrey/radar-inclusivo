@@ -64,10 +64,9 @@
             description="Selecione as permissões que este cargo terá no sistema."
         />
 
-        <div class="form-group-horizontal mb-4">
-            <label class="control-label">Permissões</label>
+        <fieldset class="form-group-horizontal mb-4">
+            <legend class="control-label mb-0">Permissões</legend>
             <div class="field-wrapper">
-
                 <div class="mb-3 p-3 bg-surface-secondary border d-flex align-items-center justify-content-between">
                     <span class="text-muted small fw-bold text-uppercase">Controle de Acesso Global</span>
                     <x-forms.checkbox
@@ -78,7 +77,10 @@
                     />
                 </div>
 
-                <div class="permissions-container border">
+                <div
+                    class="permissions-container border @error('permissions') border-danger @enderror"
+                    @error('permissions') aria-describedby="permissions-error" @enderror
+                >
                     @foreach($permissions as $group => $groupPermissions)
                         <div class="permission-group-block border-bottom">
                             <div class="px-3 py-2 bg-light border-bottom">
@@ -106,8 +108,12 @@
                         </div>
                     @endforeach
                 </div>
+
+                @error('permissions')
+                <small class="text-danger d-block mt-1" id="permissions-error">{{ $message }}</small>
+                @enderror
             </div>
-        </div>
+        </fieldset>
 
         <x-forms.form-footer>
             <x-buttons.link-button

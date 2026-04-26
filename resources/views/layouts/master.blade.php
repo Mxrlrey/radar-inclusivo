@@ -44,11 +44,12 @@
     @stack('styles')
 </head>
 <body>
+<a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
 @include('partials.navbar')
 <x-messages.toast />
 @include('partials.sidebar')
 
-<main class="main-content">
+<main id="main-content" class="main-content" tabindex="-1">
     <div class="page-transition">
         @yield('content')
     </div>

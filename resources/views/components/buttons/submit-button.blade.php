@@ -31,7 +31,7 @@
 >
     @if($hasIcon)
         @if($hasText)
-            <span class="btn-label">{{ $icon }}</span>
+            <span class="btn-label" aria-hidden="true">{{ $icon }}</span>
         @else
             {{ $icon }}
         @endif
