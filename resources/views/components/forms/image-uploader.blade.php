@@ -69,4 +69,6 @@
     </div>
 </div>
 
-@vite('resources/js/pages/image-uploader.js')
+@once
+    @vite('resources/js/pages/image-uploader.js')
+@endonce

@@ -13,7 +13,7 @@
     $elementId = $attributes->get('id') ?? $name;
     $hasError = $errors->has($name);
     $errorId = $elementId . '-error';
-    $textareaAttributes = $attributes->except(['class']);
+    $textareaAttributes = $attributes->except(['class', 'id']);
     $existingDescribedBy = trim((string) $textareaAttributes->get('aria-describedby', ''));
     $describedBy = trim(implode(' ', array_filter([
         $existingDescribedBy,
@@ -26,7 +26,7 @@
         @if($label)
             <label for="{{ $elementId }}" class="control-label">
                 {{ $label }}
-                @if($required)<i class="text-danger">*</i>@endif
+                @if($required)<i class="text-danger" aria-hidden="true">*</i>@endif
             </label>
         @endif
         <div class="field-wrapper">
@@ -35,8 +35,7 @@
                 id="{{ $elementId }}"
                 rows="{{ $rows }}"
                 placeholder="{{ $placeholder }}"
-                @if($required && !$rich) required aria-required="true" @endif
-                @if($label) aria-label="{{ $label }}" @endif
+                @if($required) required aria-required="true" @endif
                 @if($hasError) aria-invalid="true" @endif
                 @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
                 {{ $textareaAttributes->except(['aria-describedby'])->merge([
@@ -44,7 +43,7 @@
                 ]) }}
             >{{ old($name, $value) }}</textarea>
             @error($name)
-            <div class="invalid-feedback" id="{{ $errorId }}">{{ $message }}</div>
+            <div class="invalid-feedback" id="{{ $errorId }}" role="alert">{{ $message }}</div>
             @enderror
         </div>
     </div>
@@ -53,7 +52,7 @@
         @if($label)
             <label for="{{ $elementId }}" class="form-label fw-bold text-primary">
                 {{ $label }}
-                @if($required)<i class="text-danger">*</i>@endif
+                @if($required)<i class="text-danger" aria-hidden="true">*</i>@endif
             </label>
         @endif
         <textarea
@@ -61,8 +60,7 @@
             id="{{ $elementId }}"
             rows="{{ $rows }}"
             placeholder="{{ $placeholder }}"
-            @if($required && !$rich) required aria-required="true" @endif
-            @if($label) aria-label="{{ $label }}" @endif
+            @if($required) required aria-required="true" @endif
             @if($hasError) aria-invalid="true" @endif
             @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
             {{ $textareaAttributes->except(['aria-describedby'])->merge([
@@ -70,7 +68,7 @@
             ]) }}
         >{{ old($name, $value) }}</textarea>
         @error($name)
-        <div class="invalid-feedback" id="{{ $errorId }}">{{ $message }}</div>
+        <div class="invalid-feedback" id="{{ $errorId }}" role="alert">{{ $message }}</div>
         @enderror
     </div>
 @endif

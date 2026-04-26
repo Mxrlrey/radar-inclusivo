@@ -23,7 +23,7 @@
                 :href="route('categorias-de-barreiras.index')"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
         </div>
@@ -34,8 +34,6 @@
         method="POST"
         class="form-horizontal"
     >
-        @csrf
-
         <x-forms.section
             title="Informações da Categoria"
             description="Informe os dados principais da categoria de barreira."
@@ -87,12 +85,12 @@
                 :href="route('categorias-de-barreiras.index')"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
 
             <x-buttons.submit-button variant="new">
-                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-save" aria-hidden="true"></i></x-slot:icon>
                 Salvar
             </x-buttons.submit-button>
         </x-forms.form-footer>

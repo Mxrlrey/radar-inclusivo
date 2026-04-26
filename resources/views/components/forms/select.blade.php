@@ -14,7 +14,8 @@
     $wrapperClasses = $attributes->get('class', 'mb-3');
     $hasError = $errors->has($name);
     $errorId = $elementId . '-error';
-    $selectAttributes = $attributes->except(['class']);
+    $selectAttributes = $attributes->except(['class', 'id']);
+    $currentValue = old($name, $selected);
     $existingDescribedBy = trim((string) $selectAttributes->get('aria-describedby', ''));
     $describedBy = trim(implode(' ', array_filter([
         $existingDescribedBy,
@@ -34,7 +35,7 @@
             <select
                 name="{{ $name }}"
                 id="{{ $elementId }}"
-                @if($required) aria-required="true" @endif
+                @if($required) required aria-required="true" @endif
                 @if($hasError) aria-invalid="true" @endif
                 @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
                 {{ $selectAttributes->except(['aria-describedby'])->merge([
@@ -43,7 +44,7 @@
                                ($hasError ? ' is-invalid' : '')
                 ]) }}
             >
-                <option value="" {{ empty(old($name, $selected)) ? 'selected' : '' }}>
+                <option value="" {{ (string) $currentValue === '' ? 'selected' : '' }}>
                     Selecione uma opção...
                 </option>
                 @foreach($options as $value => $labelOption)
@@ -57,12 +58,12 @@
                     <option
                         value="{{ $value }}"
                         data-digital="{{ $isDigital ? '1' : '0' }}"
-                        {{ (string) old($name, $selected) === (string) $value ? 'selected' : '' }}
+                        {{ (string) $currentValue === (string) $value ? 'selected' : '' }}
                     >{{ $labelOption }}</option>
                 @endforeach
             </select>
             @error($name)
-            <div class="invalid-feedback" id="{{ $errorId }}">{{ $message }}</div>
+            <div class="invalid-feedback" id="{{ $errorId }}" role="alert">{{ $message }}</div>
             @enderror
         </div>
     </div>
@@ -77,7 +78,7 @@
         <select
             name="{{ $name }}"
             id="{{ $elementId }}"
-            @if($required) aria-required="true" @endif
+            @if($required) required aria-required="true" @endif
             @if($hasError) aria-invalid="true" @endif
             @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
             {{ $selectAttributes->except(['aria-describedby'])->merge([
@@ -86,7 +87,7 @@
                            ($hasError ? ' is-invalid' : '')
             ]) }}
         >
-            <option value="" {{ empty(old($name, $selected)) ? 'selected' : '' }}>
+            <option value="" {{ (string) $currentValue === '' ? 'selected' : '' }}>
                 Selecione uma opção...
             </option>
             @foreach($options as $value => $labelOption)
@@ -100,12 +101,12 @@
                 <option
                     value="{{ $value }}"
                     data-digital="{{ $isDigital ? '1' : '0' }}"
-                    {{ (string) old($name, $selected) === (string) $value ? 'selected' : '' }}
+                    {{ (string) $currentValue === (string) $value ? 'selected' : '' }}
                 >{{ $labelOption }}</option>
             @endforeach
         </select>
         @error($name)
-        <div class="invalid-feedback" id="{{ $errorId }}">{{ $message }}</div>
+        <div class="invalid-feedback" id="{{ $errorId }}" role="alert">{{ $message }}</div>
         @enderror
     </div>
 @endif

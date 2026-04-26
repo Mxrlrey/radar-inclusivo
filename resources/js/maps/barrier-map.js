@@ -62,6 +62,9 @@ class BarrierMap extends BaseMap {
             const { lat, lng } = this._resolveInitialCoords();
             this._setupMainMarker(lat, lng);
         }
+
+        this._setupManualInputEvents();
+        this._syncBlockedAccessibility();
     }
 
     /* ---------------------------
@@ -216,6 +219,52 @@ class BarrierMap extends BaseMap {
         } else {
             mapWrapper?.classList.remove('is-blocked');
         }
+
+        this._syncBlockedAccessibility();
+    }
+
+    _syncBlockedAccessibility() {
+        if (!this.mapContainer) return;
+
+        const focusableSelectors = [
+            'a[href]',
+            'button',
+            'input',
+            'select',
+            'textarea',
+            '[tabindex]',
+        ].join(',');
+
+        this.mapContainer.querySelectorAll(focusableSelectors).forEach((element) => {
+            if (this.isBlocked) {
+                if (!element.hasAttribute('data-prev-tabindex')) {
+                    const previousTabindex = element.getAttribute('tabindex');
+                    element.setAttribute('data-prev-tabindex', previousTabindex ?? '');
+                }
+
+                element.setAttribute('tabindex', '-1');
+            } else if (element.hasAttribute('data-prev-tabindex')) {
+                const previousTabindex = element.getAttribute('data-prev-tabindex');
+
+                if (previousTabindex === '') {
+                    element.removeAttribute('tabindex');
+                } else {
+                    element.setAttribute('tabindex', previousTabindex);
+                }
+
+                element.removeAttribute('data-prev-tabindex');
+            }
+        });
+
+        if (this.isBlocked) {
+            this.mapContainer.setAttribute('aria-hidden', 'true');
+            this.mapContainer.inert = true;
+            this.map.keyboard?.disable();
+        } else {
+            this.mapContainer.removeAttribute('aria-hidden');
+            this.mapContainer.inert = false;
+            this.map.keyboard?.enable();
+        }
     }
 
     /* ---------------------------
@@ -329,13 +378,13 @@ class FormManager {
         const val = this.institutionSelect?.value;
 
         if (!val) {
-            this.locationWrapper?.classList.add('d-none');
+            this._setVisibilityState(this.locationWrapper, false);
             if (this.locationSelect) this.locationSelect.innerHTML = '<option value="">Selecione um local...</option>';
             this._validateMapLock();
             return;
         }
 
-        this.locationWrapper?.classList.remove('d-none');
+        this._setVisibilityState(this.locationWrapper, true);
         this._loadInstitutionLocations(val);
 
         if (window.barrierMapInstance && Array.isArray(window.institutionsData)) {
@@ -429,24 +478,43 @@ class FormManager {
         const notApplicable = this.notApplicableCheck?.checked ?? false;
 
         if (isAnonymous) {
-            this.wrapperNotApplicable?.classList.add('d-none');
-            this.identificationFields?.classList.add('d-none');
+            this._setVisibilityState(this.wrapperNotApplicable, false);
+            this._setVisibilityState(this.identificationFields, false);
             if (this.notApplicableCheck) this.notApplicableCheck.checked = false;
             this._clearPersonFields();
             return;
         }
 
-        this.wrapperNotApplicable?.classList.remove('d-none');
-        this.identificationFields?.classList.remove('d-none');
+        this._setVisibilityState(this.wrapperNotApplicable, true);
+        this._setVisibilityState(this.identificationFields, true);
 
         if (notApplicable) {
-            this.personSelects?.classList.add('d-none');
-            this.manualPersonData?.classList.remove('d-none');
+            this._setVisibilityState(this.personSelects, false);
+            this._setVisibilityState(this.manualPersonData, true);
         } else {
-            this.personSelects?.classList.remove('d-none');
-            this.manualPersonData?.classList.add('d-none');
+            this._setVisibilityState(this.personSelects, true);
+            this._setVisibilityState(this.manualPersonData, false);
             this._clearPersonFields();
         }
+    }
+
+    _setVisibilityState(element, isVisible) {
+        if (!element) return;
+
+        const activeElement = document.activeElement;
+        if (!isVisible && activeElement && element.contains(activeElement)) {
+            if (this.isAnonymousCheck && this.identificationFields?.contains(activeElement)) {
+                this.isAnonymousCheck.focus();
+            } else if (this.notApplicableCheck && this.manualPersonData?.contains(activeElement)) {
+                this.notApplicableCheck.focus();
+            } else if (this.institutionSelect && this.locationWrapper?.contains(activeElement)) {
+                this.institutionSelect.focus();
+            }
+        }
+
+        element.classList.toggle('d-none', !isVisible);
+        element.toggleAttribute('hidden', !isVisible);
+        element.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
     }
 
     _clearPersonFields() {

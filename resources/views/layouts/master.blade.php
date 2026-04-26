@@ -93,10 +93,25 @@
             if (typeof ClassicEditor !== 'undefined') {
                 const allEditors = {};
                 document.querySelectorAll('.rich-editor').forEach(element => {
+                    const label = document.querySelector(`label[for="${element.id}"]`);
+                    const labelText = label ? label.textContent.replace('*', '').trim() : null;
+                    const describedBy = element.getAttribute('aria-describedby');
+
                     ClassicEditor.create(element, {
                         toolbar: ['heading', '|', 'bold', 'italic', '|', 'link', '|', 'bulletedList', 'numberedList', '|', 'undo', 'redo']
                     })
-                        .then(editor => { allEditors[element.name] = editor; })
+                        .then(editor => {
+                            allEditors[element.name] = editor;
+
+                            const editable = editor.ui.view.editable.element;
+                            if (labelText) {
+                                editable.setAttribute('aria-label', labelText);
+                            }
+
+                            if (describedBy) {
+                                editable.setAttribute('aria-describedby', describedBy);
+                            }
+                        })
                         .catch(err => console.error(err));
                 });
 

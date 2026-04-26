@@ -23,7 +23,7 @@
                 :href="route('profissionais.index')"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
         </div>
@@ -35,7 +35,6 @@
         enctype="multipart/form-data"
         class="form-horizontal"
     >
-        @csrf
         <x-forms.section
             title="Dados Pessoais"
             description="Informações básicas de identificação do profissional."
@@ -169,12 +168,12 @@
                 :href="route('profissionais.index')"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
 
             <x-buttons.submit-button variant="new">
-                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-save" aria-hidden="true"></i></x-slot:icon>
                 Cadastrar
             </x-buttons.submit-button>
         </x-forms.form-footer>

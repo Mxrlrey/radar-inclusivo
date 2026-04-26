@@ -9,13 +9,13 @@
 ])
 
 @php
-    $cleanId = str_replace(['[', ']'], '', $name);
+    $elementId = $attributes->get('id') ?? str_replace(['[', ']'], '', $name);
     $wrapperClasses = $attributes->get('class', 'mb-4');
-    $inputAttributes = $attributes->except(['class']);
+    $inputAttributes = $attributes->except(['class', 'id']);
     $hasPickerAddon = in_array($type, ['date', 'time', 'datetime-local'], true);
     $pickerIcon = $type === 'time' ? 'fa-clock-o' : 'fa-calendar';
     $hasError = $errors->has($name);
-    $errorId = $cleanId . '-error';
+    $errorId = $elementId . '-error';
     $existingDescribedBy = trim((string) $inputAttributes->get('aria-describedby', ''));
     $describedBy = trim(implode(' ', array_filter([
         $existingDescribedBy,
@@ -26,9 +26,9 @@
 @if($horizontal)
     <div class="form-group-horizontal {{ $wrapperClasses }}">
         @if($label)
-            <label for="{{ $cleanId }}" class="control-label">
+            <label for="{{ $elementId }}" class="control-label">
                 {{ $label }}
-                @if($required)<i class="text-danger">*</i>@endif
+                @if($required)<i class="text-danger" aria-hidden="true">*</i>@endif
             </label>
         @endif
         <div class="field-wrapper">
@@ -40,7 +40,7 @@
                     <input
                         type="{{ $type }}"
                         name="{{ $name }}"
-                        id="{{ $cleanId }}"
+                        id="{{ $elementId }}"
                         value="{{ old($name, $value) }}"
                         placeholder="{{ $placeholder }}"
                         @if($required) required aria-required="true" @endif
@@ -57,7 +57,7 @@
                 <input
                     type="{{ $type }}"
                     name="{{ $name }}"
-                    id="{{ $cleanId }}"
+                    id="{{ $elementId }}"
                     value="{{ old($name, $value) }}"
                     placeholder="{{ $placeholder }}"
                     @if($required) required aria-required="true" @endif
@@ -68,16 +68,16 @@
                 >
             @endif
             @error($name)
-            <div class="invalid-feedback" id="{{ $errorId }}">{{ $message }}</div>
+            <div class="invalid-feedback" id="{{ $errorId }}" role="alert">{{ $message }}</div>
             @enderror
         </div>
     </div>
 @else
     <div class="{{ $wrapperClasses }}">
         @if($label)
-            <label for="{{ $cleanId }}" class="form-label fw-bold text-primary">
+            <label for="{{ $elementId }}" class="form-label fw-bold text-primary">
                 {{ $label }}
-                @if($required)<i class="text-danger">*</i>@endif
+                @if($required)<i class="text-danger" aria-hidden="true">*</i>@endif
             </label>
         @endif
         @if($hasPickerAddon)
@@ -88,7 +88,7 @@
                 <input
                     type="{{ $type }}"
                     name="{{ $name }}"
-                    id="{{ $cleanId }}"
+                    id="{{ $elementId }}"
                     value="{{ old($name, $value) }}"
                     placeholder="{{ $placeholder }}"
                     @if($required) required aria-required="true" @endif
@@ -105,7 +105,7 @@
             <input
                 type="{{ $type }}"
                 name="{{ $name }}"
-                id="{{ $cleanId }}"
+                id="{{ $elementId }}"
                 value="{{ old($name, $value) }}"
                 placeholder="{{ $placeholder }}"
                 @if($required) required aria-required="true" @endif
@@ -116,7 +116,7 @@
             >
         @endif
         @error($name)
-        <div class="invalid-feedback" id="{{ $errorId }}">{{ $message }}</div>
+        <div class="invalid-feedback" id="{{ $errorId }}" role="alert">{{ $message }}</div>
         @enderror
     </div>
 @endif

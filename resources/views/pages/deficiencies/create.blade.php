@@ -36,8 +36,6 @@
         method="POST"
         class="form-horizontal"
     >
-        @csrf
-
         <x-forms.section
             title="Identificação da Deficiência"
             description="Informe os dados básicos da categoria de deficiência."

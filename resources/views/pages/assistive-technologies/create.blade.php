@@ -21,7 +21,7 @@
                 :href="route('tecnologias-assistivas.index')"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
         </div>
@@ -33,8 +33,6 @@
         enctype="multipart/form-data"
         class="form-horizontal"
     >
-        @csrf
-
         <x-forms.section
             title="Identificação do Recurso"
             description="Informe os dados básicos da tecnologia assistiva."

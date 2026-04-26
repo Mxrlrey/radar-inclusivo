@@ -2,9 +2,11 @@
     @php
         $method = strtoupper($attributes->get('method', 'POST'));
         $formMethod = in_array($method, ['GET', 'POST']) ? $method : 'POST';
+        $formAttributes = $attributes->except('class');
+        $formClasses = trim('p-0 ' . $attributes->get('class', ''));
     @endphp
 
-    <form {{ $attributes->merge(['method' => $formMethod, 'novalidate' => true]) }} class="p-0">
+    <form {{ $formAttributes->merge(['method' => $formMethod, 'novalidate' => true, 'class' => $formClasses]) }}>
 
         @if($formMethod !== 'GET')
             @csrf

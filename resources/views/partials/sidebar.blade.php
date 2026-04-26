@@ -15,12 +15,12 @@
     <div class="sidebar-body">
         <div id="sidebar-menu">
             <ul class="sidebar-menu">
-                <li class="menu-divider"><span>Navegação</span></li>
+                <li class="menu-divider" role="presentation"><span>Navegação</span></li>
 
                 <li>
             <a href="{{ route('dashboard') }}"
                class="{{ request()->is('painel') ? 'active' : '' }}">
-                <span class="icon"><i class="ion-speedometer"></i></span>
+                <span class="icon"><i class="ion-speedometer" aria-hidden="true"></i></span>
                 <span class="text">Dashboard</span>
             </a>
                 </li>
@@ -28,18 +28,18 @@
                 <li>
             <a href="{{ route('notificacoes.index') }}"
                class="{{ request()->routeIs('notificacoes.*') ? 'active' : '' }}">
-                <span class="icon"><i class="ion-ios7-bell"></i></span>
+                <span class="icon"><i class="ion-ios7-bell" aria-hidden="true"></i></span>
                 <span class="text">Notificações</span>
             </a>
                 </li>
 
-                <li class="menu-divider"><span>Gestão</span></li>
+                <li class="menu-divider" role="presentation"><span>Gestão</span></li>
 
                 @can('student.view')
                     <li>
                 <a href="{{ route('estudantes.index') }}"
                    class="{{ request()->routeIs('estudantes.*') ? 'active' : '' }}">
-                    <span class="icon"><i class="ion-android-contact"></i></span>
+                    <span class="icon"><i class="ion-android-contact" aria-hidden="true"></i></span>
                     <span class="text">Alunos</span>
                 </a>
                     </li>
@@ -49,7 +49,7 @@
                     <li>
                 <a href="{{ route('profissionais.index') }}"
                    class="{{ request()->routeIs('profissionais.*') ? 'active' : '' }}">
-                    <span class="icon"><i class="ion-android-social"></i></span>
+                    <span class="icon"><i class="ion-android-social" aria-hidden="true"></i></span>
                     <span class="text">Equipe</span>
                 </a>
                     </li>
@@ -59,7 +59,7 @@
                     <li>
                 <a href="{{ route('tecnologias-assistivas.index') }}"
                    class="{{ request()->routeIs('tecnologias-assistivas.*') ? 'active' : '' }}">
-                    <span class="icon"><i class="ion-gear-a"></i></span>
+                    <span class="icon"><i class="ion-gear-a" aria-hidden="true"></i></span>
                     <span class="text">Tecnologias Assistivas</span>
                 </a>
                     </li>
@@ -69,7 +69,7 @@
                     <li>
                 <a href="{{ route('materiais-pedagogicos-acessiveis.index') }}"
                    class="{{ request()->routeIs('materiais-pedagogicos-acessiveis.*') ? 'active' : '' }}">
-                    <span class="icon"><i class="ion-android-book"></i></span>
+                    <span class="icon"><i class="ion-android-book" aria-hidden="true"></i></span>
                     <span class="text">Materiais Pedagógicos</span>
                 </a>
                     </li>
@@ -79,7 +79,7 @@
                     <li>
                 <a href="{{ route('emprestimos.index') }}"
                    class="{{ request()->routeIs('emprestimos.*') ? 'active' : '' }}">
-                    <span class="icon"><i class="ion-arrow-swap"></i></span>
+                    <span class="icon"><i class="ion-arrow-swap" aria-hidden="true"></i></span>
                     <span class="text">Empréstimos</span>
                 </a>
                     </li>
@@ -89,7 +89,7 @@
                     <li>
                 <a href="{{ route('filas-de-espera.index') }}"
                    class="{{ request()->routeIs('filas-de-espera.*') ? 'active' : '' }}">
-                    <span class="icon"><i class="ion-android-timer"></i></span>
+                    <span class="icon"><i class="ion-android-timer" aria-hidden="true"></i></span>
                     <span class="text">Fila de Espera</span>
                 </a>
                     </li>
@@ -99,7 +99,7 @@
                     <li>
                 <a href="{{ route('barreiras.index') }}"
                    class="{{ request()->routeIs('barreiras.*') ? 'active' : '' }}">
-                    <span class="icon"><i class="fa fa-ban"></i></span>
+                    <span class="icon"><i class="fa fa-ban" aria-hidden="true"></i></span>
                     <span class="text">Barreiras</span>
                 </a>
                     </li>
@@ -109,18 +109,18 @@
                     <li>
                 <a href="{{ route('agenda-institucional.index') }}"
                    class="{{ request()->routeIs('agenda-institucional.*') ? 'active' : '' }}">
-                    <span class="icon"><i class="ion-calendar"></i></span>
+                    <span class="icon"><i class="ion-calendar" aria-hidden="true"></i></span>
                     <span class="text">Agenda Institucional</span>
                 </a>
                     </li>
                 @endcan
 
-                <li class="menu-divider"><span>Cadastros</span></li>
+                <li class="menu-divider" role="presentation"><span>Cadastros</span></li>
 
                 <li>
             <a href="{{ route('cargos.index') }}"
                class="{{ request()->routeIs('cargos.*') ? 'active' : '' }}">
-                <span class="icon"><i class="ion-briefcase"></i></span>
+                <span class="icon"><i class="ion-briefcase" aria-hidden="true"></i></span>
                 <span class="text">Cargos</span>
             </a>
                 </li>
@@ -128,7 +128,7 @@
                 <li>
             <a href="{{ route('deficiencias.index') }}"
                class="{{ request()->routeIs('deficiencias.*') ? 'active' : '' }}">
-                <span class="icon"><i class="ion-medkit"></i></span>
+                <span class="icon"><i class="ion-medkit" aria-hidden="true"></i></span>
                 <span class="text">Deficiências</span>
             </a>
                 </li>
@@ -136,7 +136,7 @@
                 <li>
             <a href="{{ route('recursos-de-acessibilidade.index') }}"
                class="{{ request()->routeIs('recursos-de-acessibilidade.*') ? 'active' : '' }}">
-                <span class="icon"><i class="ion-man"></i></span>
+                <span class="icon"><i class="ion-man" aria-hidden="true"></i></span>
                 <span class="text">Recursos de Acessibilidade</span>
             </a>
                 </li>
@@ -144,7 +144,7 @@
                 <li>
             <a href="{{ route('categorias-de-barreiras.index') }}"
                class="{{ request()->routeIs('categorias-de-barreiras.*') ? 'active' : '' }}">
-                <span class="icon"><i class="ion-grid"></i></span>
+                <span class="icon"><i class="ion-grid" aria-hidden="true"></i></span>
                 <span class="text">Categorias de Barreiras</span>
             </a>
                 </li>
@@ -152,7 +152,7 @@
                 <li>
             <a href="{{ route('instituicoes.index') }}"
                class="{{ request()->routeIs('instituicoes.*') ? 'active' : '' }}">
-                <span class="icon"><i class="ion-university"></i></span>
+                <span class="icon"><i class="ion-university" aria-hidden="true"></i></span>
                 <span class="text">Instituições</span>
             </a>
                 </li>
@@ -160,17 +160,17 @@
                 <li>
             <a href="{{ route('localizacoes.index') }}"
                class="{{ request()->routeIs('localizacoes.*') ? 'active' : '' }}">
-                <span class="icon"><i class="ion-location"></i></span>
+                <span class="icon"><i class="ion-location" aria-hidden="true"></i></span>
                 <span class="text">Localizações</span>
             </a>
                 </li>
 
-                <li class="menu-divider"><span>Sistema</span></li>
+                <li class="menu-divider" role="presentation"><span>Sistema</span></li>
 
                 <li>
             <a href="{{ route('relatorios.index') }}"
                class="{{ request()->routeIs('relatorios.*') ? 'active' : '' }}">
-                <span class="icon"><i class="ion-stats-bars"></i></span>
+                <span class="icon"><i class="ion-stats-bars" aria-hidden="true"></i></span>
                 <span class="text">Relatórios</span>
             </a>
                 </li>
@@ -178,14 +178,14 @@
                 <li>
             <a href="{{ route('copias-seguranca.index') }}"
                class="{{ request()->routeIs('copias-seguranca.*') ? 'active' : '' }}">
-                <span class="icon"><i class="ion-ios7-cloud-download"></i></span>
+                <span class="icon"><i class="ion-ios7-cloud-download" aria-hidden="true"></i></span>
                 <span class="text">Backups</span>
             </a>
                 </li>
 
                 <li>
             <a href="{{ route('sobre-nos') }}">
-                <span class="icon"><i class="bi bi-info-circle"></i></span>
+                <span class="icon"><i class="bi bi-info-circle" aria-hidden="true"></i></span>
                 <span class="text">Sobre o Sistema</span>
             </a>
                 </li>

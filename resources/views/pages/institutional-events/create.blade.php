@@ -21,7 +21,7 @@
                 :href="route('agenda-institucional.index')"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
         </div>
@@ -32,8 +32,6 @@
         method="POST"
         class="form-horizontal"
     >
-        @csrf
-
         <x-forms.section
             title="Informações Principais"
             description="Informe os dados básicos e o local do evento."
@@ -143,12 +141,12 @@
                 :href="route('agenda-institucional.index')"
                 variant="secondary"
             >
-                <x-slot:icon><i class="fa fa-times"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-times" aria-hidden="true"></i></x-slot:icon>
                 Cancelar
             </x-buttons.link-button>
 
             <x-buttons.submit-button variant="new">
-                <x-slot:icon><i class="fa fa-save"></i></x-slot:icon>
+                <x-slot:icon><i class="fa fa-save" aria-hidden="true"></i></x-slot:icon>
                 Cadastrar
             </x-buttons.submit-button>
         </x-forms.form-footer>
