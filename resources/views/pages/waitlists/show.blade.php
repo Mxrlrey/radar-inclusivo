@@ -79,8 +79,8 @@
             <x-forms.section title="Informações do Registro" />
             <x-show.info-item label="ID" :value="'#' . $waitlist->id" />
             <x-show.info-item label="Status no Sistema">
-                <span class="badge bg-{{ $waitlist->status->value === 'active' ? 'success' : ($waitlist->status->value === 'cancelled' ? 'danger' : 'warning') }}">
-                    {{ $waitlist->status->label() }}
+                <span class="badge bg-{{ $statusColor }}">
+                    {{ $statusLabel }}
                 </span>
             </x-show.info-item>
             <x-show.info-item label="Cadastrado em" :value="$waitlist->created_at?->format('d/m/Y H:i')" />
