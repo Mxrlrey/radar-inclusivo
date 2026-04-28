@@ -2,6 +2,10 @@ function initDynamicFilters() {
     const forms = document.querySelectorAll('[data-dynamic-filter]');
 
     forms.forEach(form => {
+        if (form.classList.contains('search-wrapper')) {
+            return;
+        }
+
         const targetSelector = form.dataset.target;
         const container = document.querySelector(targetSelector);
         if (!container) return;
