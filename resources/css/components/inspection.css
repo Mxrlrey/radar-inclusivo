@@ -1,5 +1,5 @@
 .inspection-card-container {
-    background: #fff;
+    background: var(--card-bg);
     border: 1px solid var(--border-color, #e0e0e0);
     border-radius: var(--border-radius);
     margin: 0;
@@ -33,7 +33,11 @@
 }
 
 .inspection-tr:hover {
-    background-color: #e6e5e5;
+    background-color: var(--table-hover-bg);
+}
+
+.inspection-tr:hover td {
+    background-color: var(--table-hover-bg);
 }
 
 .inspection-link {
@@ -82,7 +86,7 @@
 
 .inspector-name {
     font-size: 0.8rem;
-    color: #999;
+    color: var(--text-muted);
 }
 
 .col-meta {
@@ -91,7 +95,7 @@
 }
 
 .inspection-date {
-    color: #999;
+    color: var(--text-muted);
     font-size: 0.9rem;
     margin-right: 10px;
 }
@@ -119,24 +123,44 @@
     justify-content: center;
     width: 32px;
     height: 32px;
-    background: #fff;
-    border: 1px solid #eee;
-    color: #888;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
     transition: all 0.2s;
     cursor: pointer;
 }
 
 .inspection-simple-pagination a.page-item:hover .page-link {
-    background-color: #f8f9fa;
-    border-color: #ddd;
+    background-color: var(--table-hover-bg);
+    border-color: var(--border-color);
     color: var(--color-primary, #333);
 }
 
 .inspection-simple-pagination .page-item.disabled .page-link {
-    color: #eee;
-    background-color: #fafafa;
-    border-color: #f0f0f0;
+    color: var(--text-muted);
+    background-color: var(--bg-surface-secondary);
+    border-color: var(--border-color);
     cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.high-contrast .inspection-tr:hover,
+.high-contrast .inspection-tr:hover td {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+}
+
+.high-contrast .inspection-tr:hover .inspection-type,
+.high-contrast .inspection-tr:hover .inspection-date,
+.high-contrast .inspection-tr:hover .inspector-name,
+.high-contrast .inspection-tr:hover .inspection-link {
+    color: #ffff00 !important;
+}
+
+.high-contrast .inspection-simple-pagination a.page-item:hover .page-link {
+    background-color: #ffff00;
+    border-color: #ffff00;
+    color: #000000;
 }
 
 .show-field--stacked {

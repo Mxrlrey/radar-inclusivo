@@ -42,7 +42,6 @@
             label="Título do Evento"
             required
             :horizontal="true"
-            placeholder="Ex: Reunião de Coordenação"
             :value="old('title')"
         />
 
@@ -51,7 +50,6 @@
             label="Descrição"
             :horizontal="true"
             rows="3"
-            placeholder="Detalhes sobre o objetivo do evento"
             :value="old('description')"
         />
 
@@ -59,7 +57,6 @@
             name="location"
             label="Local"
             :horizontal="true"
-            placeholder="Ex: Sala de Reuniões 1 ou Link da videochamada"
             :value="old('location')"
         />
 
@@ -67,7 +64,6 @@
             name="organizer"
             label="Organizador"
             :horizontal="true"
-            placeholder="Ex: Coordenação Pedagógica"
             :value="old('organizer')"
         />
 
@@ -125,7 +121,6 @@
             name="audience"
             label="Ouvintes"
             :horizontal="true"
-            placeholder="Ex: Professores, Equipe Administrativa"
             :value="old('audience')"
         />
 

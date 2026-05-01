@@ -47,7 +47,6 @@
             required
             :horizontal="true"
             :value="old('name')"
-            placeholder="Ex: Deficiência Intelectual"
         />
 
         <x-forms.input
@@ -55,7 +54,6 @@
             label="Código CID"
             :horizontal="true"
             :value="old('cid_code')"
-            placeholder="Ex: F84.0"
         />
 
         <x-forms.textarea

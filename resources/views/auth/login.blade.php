@@ -52,7 +52,6 @@
                         <!-- form-control já aplica altura, borda, foco, bg via forms.css -->
                         <input type="email" name="email"
                                class="form-control"
-                               placeholder="exemplo@ifbaiano.edu.br"
                                required autofocus>
                     </div>
 
@@ -60,7 +59,6 @@
                         <label class="form-label">Senha</label>
                         <input type="password" name="password"
                                class="form-control"
-                               placeholder="••••••••"
                                required>
                     </div>
 

@@ -55,11 +55,18 @@
 }
 
 .modal-header .btn-close {
+    filter: var(--modal-close-filter);
     opacity: 0.6;
-    transition: opacity 0.15s;
+    transition: opacity 0.15s, filter 0.15s;
 }
 .modal-header .btn-close:hover {
     opacity: 1;
+}
+
+.modal-header .btn-close:focus-visible {
+    box-shadow: none;
+    outline: 2px solid var(--input-focus-border);
+    outline-offset: 2px;
 }
 
 .modal-body {

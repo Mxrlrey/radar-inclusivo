@@ -6,7 +6,7 @@
     <div class="search-filters-row">
         @foreach($fields as $field)
             @php
-                $accessibleName = $field['placeholder'] ?? $field['label'] ?? 'Filtrar por ' . $field['name'];
+                $accessibleName = $field['label'] ?? 'Filtrar por ' . $field['name'];
             @endphp
 
             <x-table.filters.group :label="$field['label'] ?? null">
@@ -19,7 +19,6 @@
                 @else
                     <x-table.filters.input
                         :name="$field['name']"
-                        :placeholder="$field['placeholder'] ?? ''"
                         :ariaLabel="$accessibleName"
                     />
                 @endif

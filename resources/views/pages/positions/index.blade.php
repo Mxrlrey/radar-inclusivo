@@ -29,7 +29,7 @@
                 data-dynamic-filter
                 data-target="#positions-table"
                 :fields="[
-                    ['name' => 'name', 'placeholder' => 'Filtrar por nome...', 'label' => 'Nome do cargo'],
+                    ['name' => 'name', 'label' => 'Nome do cargo'],
                     ['name' => 'is_active', 'type' => 'select', 'options' => [
                         '' => 'Status (Todos)',
                         '1' => 'Ativo',

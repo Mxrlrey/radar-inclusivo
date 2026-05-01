@@ -1,6 +1,5 @@
 @props([
     'name',
-    'placeholder' => '',
     'ariaLabel' => null
 ])
 
@@ -9,8 +8,7 @@
     name="{{ $name }}"
     id="{{ $name }}"
     class="search-input"
-    placeholder="{{ $placeholder }}"
-    aria-label="{{ $ariaLabel ?? $placeholder }}"
+    aria-label="{{ $ariaLabel ?? 'Filtro de busca' }}"
     value="{{ request($name) }}"
     data-filter-input
     {{ $attributes }}

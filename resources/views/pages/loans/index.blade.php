@@ -35,23 +35,20 @@
                 :fields="[
                     [
                         'name' => 'item',
-                        'placeholder' => 'Filtrar por item...',
                         'label' => 'Item'
                     ],
                     [
                         'name' => 'student',
-                        'placeholder' => 'Filtrar por aluno...',
                         'label' => 'Aluno'
                     ],
                     [
                         'name' => 'professional',
-                        'placeholder' => 'Filtrar por profissional...',
                         'label' => 'Profissional'
                     ],
                     [
                         'name' => 'status',
                         'type' => 'select',
-                        'placeholder' => 'Status',
+                        'label' => 'Status',
                         'options' => [
                             ''         => 'Status (Todos)',
                             'active'   => 'Ativo (Com o Beneficiário)',

@@ -2,7 +2,6 @@
     'name',
     'label' => null,
     'value' => '',
-    'placeholder' => '',
     'rows' => 3,
     'required' => false,
     'rich' => true,
@@ -34,7 +33,6 @@
                 name="{{ $name }}"
                 id="{{ $elementId }}"
                 rows="{{ $rows }}"
-                placeholder="{{ $placeholder }}"
                 @if($required) required aria-required="true" @endif
                 @if($hasError) aria-invalid="true" @endif
                 @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
@@ -59,7 +57,6 @@
             name="{{ $name }}"
             id="{{ $elementId }}"
             rows="{{ $rows }}"
-            placeholder="{{ $placeholder }}"
             @if($required) required aria-required="true" @endif
             @if($hasError) aria-invalid="true" @endif
             @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif

@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedType = typeSelect.value;
 
         if (!selectedType) {
-            itemSelect.innerHTML = '<option value="">Selecione o tipo primeiro</option>';
+            itemSelect.innerHTML = '<option value=""></option>';
             itemSelect.disabled = true;
             return;
         }
 
         itemSelect.disabled = false;
-        itemSelect.innerHTML = '<option value="">-- Selecione o item --</option>';
+        itemSelect.innerHTML = '<option value=""></option>';
 
         const availableItems = loanData.items[selectedType] || [];
 

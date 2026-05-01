@@ -40,18 +40,16 @@
                 :fields="[
                     [
                         'name' => 'name',
-                        'placeholder' => 'Filtrar por nome...',
                         'label' => 'Nome do profissional'
                     ],
                     [
                         'name' => 'email',
-                        'placeholder' => 'Filtrar por e-mail...',
                         'label' => 'E-mail'
                     ],
                     [
                         'name' => 'position',
                         'type' => 'select',
-                        'placeholder' => 'Cargo',
+                        'label' => 'Cargo',
                         'options' => array_merge(
                             ['' => 'Cargo (Todos)'],
                             collect($positions)
@@ -62,7 +60,7 @@
                     [
                         'name' => 'is_active',
                         'type' => 'select',
-                        'placeholder' => 'Status',
+                        'label' => 'Status',
                         'options' => [
                             '' => 'Status (Todos)',
                             '1' => 'Ativo',

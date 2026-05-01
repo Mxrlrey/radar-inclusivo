@@ -102,8 +102,6 @@
     --input-bg: #ffffff;
     --input-border: #c5c5c5;
     --input-focus-border: #aaaaaa;
-    --input-placeholder: var(--text-muted);
-
     /* --- COMPONENTES: BOTÕES --- */
     --btn-padding-y: 0.45rem;
     --btn-padding-x: 1rem;

@@ -191,7 +191,7 @@ function createColumnHTML(table, column) {
         <input type="text"
                class="form-control form-control-sm col-label-input"
                data-col="${full}"
-               placeholder="rótulo"
+               aria-label="Rótulo da coluna"
                style="width:140px;">
     </div>
     `;

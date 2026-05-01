@@ -178,12 +178,12 @@ class AccessibleEducationalMaterialService
             return $data;
         }
 
-        $isLegacyDigitalPlaceholder = ($material->is_digital ?? false)
+        $isLegacyDigitalQuantitySentinel = ($material->is_digital ?? false)
             && (int) ($material->quantity ?? 0) === 999
             && array_key_exists('quantity', $data)
             && (int) $data['quantity'] === 999;
 
-        if ($isLegacyDigitalPlaceholder) {
+        if ($isLegacyDigitalQuantitySentinel) {
             $data['quantity'] = 1;
         }
 

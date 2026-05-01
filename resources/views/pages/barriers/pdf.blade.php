@@ -31,7 +31,7 @@
             display: block;
         }
 
-        .image-placeholder {
+        .image-fallback {
             padding: 20px;
             text-align: center;
             font-size: 9px;
@@ -159,12 +159,12 @@
                     @if(file_exists($path))
                         <img src="{{ $path }}" alt="Imagem da vistoria">
                     @else
-                        <div class="image-placeholder">Imagem não encontrada</div>
+                        <div class="image-fallback">Imagem não encontrada</div>
                     @endif
                 </div>
             @endforeach
         @else
-            <div class="image-placeholder">Nenhuma imagem registrada.</div>
+            <div class="image-fallback">Nenhuma imagem registrada.</div>
         @endif
     </div>
 @else

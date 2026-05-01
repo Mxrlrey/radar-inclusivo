@@ -45,7 +45,6 @@
             label="Título do Evento"
             required
             :horizontal="true"
-            placeholder="Ex: Reunião de Coordenação"
             :value="old('title', $event->title)"
         />
 
@@ -54,7 +53,6 @@
             label="Descrição"
             :horizontal="true"
             rows="3"
-            placeholder="Detalhes sobre o objetivo do evento"
             :value="old('description', $event->description)"
         />
 
@@ -62,7 +60,6 @@
             name="location"
             label="Local"
             :horizontal="true"
-            placeholder="Ex: Sala de Reuniões 1"
             :value="old('location', $event->location)"
         />
 
@@ -70,7 +67,6 @@
             name="organizer"
             label="Organizador"
             :horizontal="true"
-            placeholder="Ex: Coordenação Pedagógica"
             :value="old('organizer', $event->organizer)"
         />
 
@@ -128,7 +124,6 @@
             name="audience"
             label="Ouvintes"
             :horizontal="true"
-            placeholder="Ex: Professores, Equipe Administrativa"
             :value="old('audience', $event->audience)"
         />
 

@@ -111,7 +111,6 @@
             label="Observações"
             :horizontal="true"
             rows="3"
-            placeholder="Anote detalhes sobre o estado de conservação no momento da entrega..."
             :value="old('observation')"
         />
 

@@ -31,13 +31,12 @@
                 :fields="[
                     [
                         'name' => 'name',
-                        'placeholder' => 'Filtrar por nome...',
                         'label' => 'Nome do material'
                     ],
                     [
                         'name' => 'is_digital',
                         'type' => 'select',
-                        'placeholder' => 'Natureza',
+                        'label' => 'Natureza',
                         'options' => [
                             '' => 'Natureza (Todos)',
                             '1' => 'Digital',
@@ -47,7 +46,7 @@
                     [
                         'name' => 'is_active',
                         'type' => 'select',
-                        'placeholder' => 'Status',
+                        'label' => 'Status',
                         'options' => [
                             '' => 'Status (Todos)',
                             '1' => 'Ativo',
@@ -57,7 +56,7 @@
                     [
                         'name' => 'available',
                         'type' => 'select',
-                        'placeholder' => 'Disponibilidade',
+                        'label' => 'Disponibilidade',
                         'options' => [
                             '' => 'Disponibilidade (Todos)',
                             '1' => 'Disponível',

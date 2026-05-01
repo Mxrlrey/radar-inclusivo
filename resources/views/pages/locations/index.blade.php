@@ -39,16 +39,16 @@
                 :fields="[
                     [
                         'name' => 'name',
-                        'placeholder' => 'Filtrar por nome...'
+                        'label' => 'Filtrar por nome...'
                     ],
                     [
                         'name' => 'institution_name',
-                        'placeholder' => 'Filtrar por instituição...'
+                        'label' => 'Filtrar por instituição...'
                     ],
                     [
                         'name' => 'is_active',
                         'type' => 'select',
-                        'placeholder' => 'Status',
+                        'label' => 'Status',
                         'options' => [
                             '' => 'Status (Todos)',
                             '1' => 'Ativo',

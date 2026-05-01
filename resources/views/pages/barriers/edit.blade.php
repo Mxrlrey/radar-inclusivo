@@ -52,7 +52,6 @@
                                 label="Título do Relato"
                                 required
                                 :value="old('name', $barrier->name)"
-                                placeholder="Ex: Calçada irregular"
                             />
                         </div>
 
@@ -118,7 +117,6 @@
                                 name="location_specific_details"
                                 label="Complemento"
                                 rows="3"
-                                placeholder="Descreva melhor onde a barreira está localizada..."
                                 :value="old('location_specific_details', $barrier->location_specific_details)"
                             />
                         </div>
@@ -129,7 +127,6 @@
                                 label="Descrição Detalhada"
                                 required
                                 rows="3"
-                                placeholder="Explique o problema encontrado..."
                                 :value="old('description', $barrier->description)"
                             />
                         </div>
@@ -354,7 +351,6 @@
                                         id="inspection_description"
                                         label="Parecer Técnico / Notas"
                                         rows="3"
-                                        placeholder="Descreva o estado atual do local..."
                                         :value="old('inspection_description')"
                                     />
                                 </div>

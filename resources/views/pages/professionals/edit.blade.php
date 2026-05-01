@@ -62,7 +62,6 @@
             label="CPF"
             class="cpf-mask"
             maxlength="14"
-            placeholder="000.000.000-00"
             required
             :horizontal="true"
             :value="old('document', $professional->person->document)"
@@ -122,7 +121,6 @@
             label="Telefone"
             class="phone-mask"
             maxlength="15"
-            placeholder="(00) 00000-0000"
             :horizontal="true"
             :value="old('phone', $professional->person->phone)"
         />

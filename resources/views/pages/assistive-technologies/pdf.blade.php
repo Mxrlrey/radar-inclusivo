@@ -34,7 +34,7 @@
             page-break-after: always;
         }
 
-        .image-placeholder {
+        .image-fallback {
             font-size: 10px;
             color: #999;
             padding: 20px;
@@ -191,7 +191,7 @@
                     <div class="image-container {{ $imageClass }}"
                          style="background-image: url('{{ $base64 }}');"></div>
                 @else
-                    <div class="image-placeholder">
+                    <div class="image-fallback">
                         Arquivo não encontrado ou formato inválido.
                     </div>
                 @endif
@@ -199,7 +199,7 @@
             @endforeach
 
         @else
-            <div class="image-placeholder">
+            <div class="image-fallback">
                 Nenhuma imagem registrada.
             </div>
         @endif

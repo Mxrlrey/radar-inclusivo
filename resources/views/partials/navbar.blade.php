@@ -103,10 +103,7 @@
 
                 const enabled = localStorage.getItem('contrast') === 'high';
 
-                if (enabled) {
-                    html.classList.add('high-contrast');
-                    contrastIcon.className = 'fa fa-eye';
-                }
+                contrastIcon.className = enabled ? 'fa fa-eye' : 'fa fa-low-vision';
                 contrastToggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
 
                 contrastToggle.onclick = function () {

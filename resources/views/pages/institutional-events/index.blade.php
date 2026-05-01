@@ -35,13 +35,12 @@
                 :fields="[
                     [
                         'name' => 'title',
-                        'placeholder' => 'Filtrar por nome...',
                         'label' => 'Nome do evento'
                     ],
                     [
                         'name' => 'is_active',
                         'type' => 'select',
-                        'placeholder' => 'Status',
+                        'label' => 'Status',
                         'label' => 'Situação',
                         'options' => [
                             '' => 'Status (Todos)',

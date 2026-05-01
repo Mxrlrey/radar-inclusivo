@@ -58,7 +58,6 @@
             label="Código CID"
             :horizontal="true"
             :value="old('cid_code', $deficiency->cid_code)"
-            placeholder="Ex: F84.0"
         />
 
         <x-forms.textarea

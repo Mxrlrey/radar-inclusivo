@@ -47,7 +47,6 @@
             required
             :horizontal="true"
             :value="old('name', $barrierCategory->name)"
-            placeholder="Ex: Arquitetônica, Atitudinal, Comunicacional..."
         />
 
         <x-forms.textarea
@@ -56,7 +55,6 @@
             :horizontal="true"
             rows="4"
             :value="old('description', $barrierCategory->description)"
-            placeholder="Descreva o que este tipo de barreira engloba..."
         />
 
         <x-forms.separator />

@@ -35,13 +35,12 @@
                 :fields="[
                     [
                         'name' => 'name',
-                        'placeholder' => 'Filtrar por nome...',
                         'label' => 'Nome do recurso'
                     ],
                     [
                         'name' => 'is_active',
                         'type' => 'select',
-                        'placeholder' => 'Status',
+                        'label' => 'Status',
                         'label' => 'Situação',
                         'options' => [
                             '' => 'Status (Todos)',

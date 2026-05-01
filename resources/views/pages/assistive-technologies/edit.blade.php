@@ -137,7 +137,7 @@
             :min="$activeLoans"
             :required="!old('is_digital', $assistiveTechnology->is_digital ? 1 : 0)"
             :value="old('quantity', $assistiveTechnology->quantity)"
-            :data-legacy-digital-placeholder="$assistiveTechnology->is_digital && (int) $assistiveTechnology->quantity === 999 ? 1 : 0"
+            :data-legacy-digital-quantity-sentinel="$assistiveTechnology->is_digital && (int) $assistiveTechnology->quantity === 999 ? 1 : 0"
         />
 
         @if($activeLoans > 0)
@@ -157,6 +157,7 @@
             name="status"
             label="Status do Recurso"
             :horizontal="true"
+            required
             :options="$resourceStatuses"
             :selected="old('status', $assistiveTechnology->status?->value)"
         />

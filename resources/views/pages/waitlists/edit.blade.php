@@ -96,7 +96,6 @@
             :horizontal="true"
             rows="4"
             :value="old('observation', $waitlist->observation)"
-            placeholder="Adicione informações relevantes sobre esta solicitação..."
         />
 
         <x-forms.form-footer>

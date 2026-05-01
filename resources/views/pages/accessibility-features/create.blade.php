@@ -35,7 +35,6 @@
             label="Nome do Recurso"
             required
             :horizontal="true"
-            placeholder="Ex: Intérprete de Libras, Piso Podotátil, etc."
             :value="old('name')"
         />
 

@@ -151,7 +151,6 @@
             label="Parecer Técnico"
             :horizontal="true"
             rows="3"
-            placeholder="Descreva alterações ou detalhes da nova vistoria..."
             :value="old('inspection_description')"
         />
 
@@ -170,7 +169,7 @@
             :min="$activeLoans"
             :required="!old('is_digital', $material->is_digital ? 1 : 0)"
             :value="old('quantity', $material->quantity)"
-            :data-legacy-digital-placeholder="$material->is_digital && (int) $material->quantity === 999 ? 1 : 0"
+            :data-legacy-digital-quantity-sentinel="$material->is_digital && (int) $material->quantity === 999 ? 1 : 0"
         />
 
         @if($activeLoans > 0)
@@ -190,6 +189,7 @@
             name="status"
             label="Status do Recurso"
             :horizontal="true"
+            required
             :options="$resourceStatuses"
             :selected="old('status', $material->status?->value)"
         />

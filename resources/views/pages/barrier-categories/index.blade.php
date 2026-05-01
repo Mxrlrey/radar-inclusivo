@@ -39,13 +39,12 @@
                 :fields="[
                     [
                         'name' => 'name',
-                        'placeholder' => 'Filtrar por nome...',
                         'label' => 'Nome da categoria'
                     ],
                     [
                         'name' => 'is_active',
                         'type' => 'select',
-                        'placeholder' => 'Status',
+                        'label' => 'Status',
                         'options' => [
                             '' => 'Status (Todos)',
                             '1' => 'Ativo',

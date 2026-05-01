@@ -69,7 +69,6 @@
                                 :value="old('document', $person->document)"
                                 class="cpf-mask"
                                 maxlength="14"
-                                placeholder="000.000.000-00"/>
                         </div>
 
                         <div class="col-md-6">
@@ -99,7 +98,6 @@
                                 :value="old('phone', $person->phone)"
                                 class="phone-mask"
                                 maxlength="15"
-                                placeholder="(00) 00000-0000"/>
                         </div>
 
                         <div class="col-md-12">

@@ -69,6 +69,12 @@ body.theme-dark input:-webkit-autofill:active {
     margin-bottom: var(--spacing-2);
 }
 
+.form-label .text-danger,
+.control-label .text-danger,
+legend.form-label .text-danger {
+    font-weight: var(--font-weight-bold) !important;
+}
+
 /* ===== INPUTS E SELECTS ===== */
 .form-control,
 .form-select,
@@ -81,15 +87,18 @@ body.theme-dark input:-webkit-autofill:active {
     padding: var(--input-padding-y) var(--input-padding-x);
     height: var(--input-height);
     box-shadow: var(--shadow-none);
-    transition: border-color 0.15s;
+    max-width: 100%;
+    transition: color 300ms linear, background-color 300ms linear, border-color 300ms linear;
 }
 
 .form-control:focus,
 .form-select:focus,
 .custom-input:focus {
+    color: var(--input-focus-text);
+    background-color: var(--input-bg);
     border-color: var(--input-focus-border);
     box-shadow: var(--shadow-none);
-    outline: 0;
+    outline: 0 !important;
 }
 
 /* ===== INPUTS DE DATA E HORA COM LABEL DE ÍCONE ===== */
@@ -122,16 +131,21 @@ body.theme-dark input:-webkit-autofill:active {
     padding: 0 var(--spacing-4);
     background-color: var(--bg-surface-secondary);
     border: var(--border-width) solid var(--input-border);
-    border-left: 0;
     border-top-right-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
-    color: var(--color-primary-dark);
+    color: var(--picker-icon-color);
     flex-shrink: 0;
     cursor: pointer;
+    transition: color 300ms linear, background-color 300ms linear, border-color 300ms linear;
 }
 
 .picker-input-group:focus-within .picker-input-group-label {
     border-color: var(--input-focus-border);
+    color: var(--input-focus-text);
+}
+
+.picker-input-group-label i {
+    color: inherit;
 }
 
 .picker-input-control::-webkit-calendar-picker-indicator {
@@ -144,12 +158,6 @@ body.theme-dark input:-webkit-autofill:active {
 .picker-input-control::-webkit-inner-spin-button,
 .picker-input-control::-webkit-clear-button {
     display: none;
-}
-
-/* Placeholder */
-::placeholder {
-    color: var(--input-placeholder);
-    opacity: 1;
 }
 
 /* ===== CHECKBOX CUSTOMIZADO ===== */
@@ -386,6 +394,61 @@ form .col-12:not(.mb-4) {
     outline: none !important;
 }
 
+.high-contrast .ck.ck-toolbar,
+.high-contrast .ck.ck-dropdown__panel,
+.high-contrast .ck.ck-balloon-panel,
+.high-contrast .ck.ck-list {
+    background: #000000 !important;
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+}
+
+.high-contrast .ck.ck-toolbar .ck-button,
+.high-contrast .ck.ck-toolbar .ck-dropdown__button,
+.high-contrast .ck.ck-list__item .ck-button,
+.high-contrast .ck.ck-input,
+.high-contrast .ck.ck-labeled-field-view__status {
+    color: #ffffff !important;
+}
+
+.high-contrast .ck.ck-button:hover,
+.high-contrast .ck.ck-button:focus,
+.high-contrast .ck.ck-dropdown__button:hover,
+.high-contrast .ck.ck-dropdown__button:focus,
+.high-contrast .ck.ck-list__item .ck-button:hover,
+.high-contrast .ck.ck-list__item .ck-button:focus {
+    background: #ffff00 !important;
+    color: #000000 !important;
+}
+
+.high-contrast .ck.ck-button.ck-on,
+.high-contrast .ck.ck-button.ck-on:hover,
+.high-contrast .ck.ck-list__item .ck-button.ck-on,
+.high-contrast .ck.ck-list__item .ck-button.ck-on:hover {
+    background: #ffff00 !important;
+    color: #000000 !important;
+}
+
+.high-contrast .ck.ck-button:hover svg,
+.high-contrast .ck.ck-button:focus svg,
+.high-contrast .ck.ck-button.ck-on svg,
+.high-contrast .ck.ck-dropdown__button:hover svg,
+.high-contrast .ck.ck-dropdown__button:focus svg,
+.high-contrast .ck.ck-list__item .ck-button:hover svg,
+.high-contrast .ck.ck-list__item .ck-button:focus svg {
+    color: #000000 !important;
+}
+
+.high-contrast .ck.ck-input {
+    background: #000000 !important;
+    border-color: #ffffff !important;
+}
+
+.high-contrast .ck.ck-input:focus {
+    border-color: #ffff00 !important;
+    box-shadow: none !important;
+}
+
 /* ===== ESPAÇAMENTO INTERNO DE COLUNAS ANINHADAS ===== */
 form .row .row [class*="col-"] {
     padding-left: var(--spacing-2);
@@ -435,6 +498,38 @@ form .row .row [class*="col-"] {
     border-left: none;
 }
 
+.high-contrast .btn-action.switch-sim,
+.high-contrast .btn-action.switch-nao {
+    background-color: #000000 !important;
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+.high-contrast .btn-action.switch-sim.active {
+    background-color: #00ff00 !important;
+    border-color: #00ff00 !important;
+    color: #000000 !important;
+}
+
+.high-contrast .btn-action.switch-nao.active {
+    background-color: #ff0000 !important;
+    border-color: #ff0000 !important;
+    color: #ffffff !important;
+}
+
+.high-contrast .btn-action.switch-sim:hover,
+.high-contrast .btn-action.switch-sim:focus {
+    background-color: #00ff00 !important;
+    color: #000000 !important;
+}
+
+.high-contrast .btn-action.switch-nao:hover,
+.high-contrast .btn-action.switch-nao:focus {
+    background-color: #ff0000 !important;
+    color: #ffffff !important;
+}
+
 
 /* ===== SOBRESCREVE FOCO DO BOOTSTRAP (TEMA CLARO E ESCURO) ===== */
 .form-control:focus,
@@ -449,7 +544,7 @@ input[type="tel"]:focus,
 input[type="url"]:focus,
 select:focus,
 textarea:focus {
-    color: var(--text-secondary) !important;
+    color: var(--input-focus-text) !important;
     background-color: var(--input-bg) !important;
     border-color: var(--input-focus-border) !important;
     outline: 0 !important;
@@ -490,6 +585,25 @@ input:-webkit-autofill:active {
     transition: all 0.3s ease;
     flex-shrink: 0;
     border: 1px solid transparent;
+}
+
+.high-contrast .toggle-input {
+    background-color: #000000;
+    border-color: #ffffff;
+}
+
+.high-contrast .toggle-input::before {
+    background-color: #ffffff;
+    box-shadow: none;
+}
+
+.high-contrast .toggle-input:checked {
+    background-color: #ffff00;
+    border-color: #ffff00;
+}
+
+.high-contrast .toggle-input:checked::before {
+    background-color: #000000;
 }
 
 .toggle-input::before {
@@ -590,6 +704,11 @@ input:-webkit-autofill:active {
 /* Garante que o erro do Laravel ainda vença a cor da borda */
 .checkbox-group-wrapper.border-danger {
     border-color: var(--color-danger) !important;
+}
+
+.high-contrast :is(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid #ffff00 !important;
+    outline-offset: 2px;
 }
 
 /* Responsivo: em mobile vira vertical */

@@ -49,7 +49,6 @@
                     @if($required) disabled hidden @endif
                     {{ (string) $currentValue === '' ? 'selected' : '' }}
                 >
-                    Selecione uma opção...
                 </option>
                 @foreach($options as $value => $labelOption)
                     @php
@@ -96,7 +95,6 @@
                 @if($required) disabled hidden @endif
                 {{ (string) $currentValue === '' ? 'selected' : '' }}
             >
-                Selecione uma opção...
             </option>
             @foreach($options as $value => $labelOption)
                 @php

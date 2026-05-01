@@ -411,11 +411,11 @@ class BarrierSeeder extends Seeder
     private function ensureReporters(): array
     {
         $map = [
-            'joao-santos' => ['name' => 'João Santos', 'email' => 'joao.santos@example.com'],
-            'marcos-palmeira' => ['name' => 'Marcos Palmeira', 'email' => 'marcos.palmeira@example.com'],
+            'joao-santos' => ['name' => 'João Santos', 'email' => 'joao.santos@ifbaiano.edu.br'],
+            'marcos-palmeira' => ['name' => 'Marcos Palmeira', 'email' => 'marcos.palmeira@ifbaiano.edu.br'],
             'admin-gnai' => ['name' => 'Admin GNAI', 'email' => 'admin@gai.local'],
-            'tais-araujo' => ['name' => 'Taís Araújo', 'email' => 'tais.araujo@example.com'],
-            'gloria-pires' => ['name' => 'Glória Pires', 'email' => 'gloria.pires@example.com'],
+            'tais-araujo' => ['name' => 'Taís Araújo', 'email' => 'tais.araujo@ifbaiano.edu.br'],
+            'gloria-pires' => ['name' => 'Glória Pires', 'email' => 'gloria.pires@ifbaiano.edu.br'],
         ];
 
         $result = [];

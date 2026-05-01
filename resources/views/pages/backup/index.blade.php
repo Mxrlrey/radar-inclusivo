@@ -57,13 +57,12 @@
                 :fields="[
                     [
                         'name' => 'name',
-                        'placeholder' => 'Filtrar por nome...',
                         'label' => 'Arquivo'
                     ],
                     [
                         'name' => 'user_id',
                         'type' => 'select',
-                        'placeholder' => 'Responsável',
+                        'label' => 'Responsável',
                         'options' => $users->mapWithKeys(fn($u) => [$u->id => $u->name])->prepend('Todos', '')
                     ]
                 ]"

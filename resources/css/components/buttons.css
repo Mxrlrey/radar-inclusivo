@@ -107,6 +107,49 @@
     background-color: #4a6e56;
 }
 
+.high-contrast .btn-action {
+    border-color: currentColor;
+}
+
+.high-contrast .btn-action.new,
+.high-contrast .btn-action.primary,
+.high-contrast .btn-action.info,
+.high-contrast .btn-action.warning,
+.high-contrast .btn-action.success {
+    color: #000000;
+}
+
+.high-contrast .btn-action.danger {
+    color: #ffffff;
+}
+
+.high-contrast .btn-action.new:hover,
+.high-contrast .btn-action.primary:hover,
+.high-contrast .btn-action.info:hover,
+.high-contrast .btn-action.warning:hover,
+.high-contrast .btn-action.success:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.high-contrast .btn-action.danger:hover {
+    background-color: #ffffff;
+    color: #ff0000;
+}
+
+.high-contrast .btn-action.secondary,
+.high-contrast .btn-action.secondary-outline {
+    background-color: #000000;
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+.high-contrast .btn-action.secondary:hover,
+.high-contrast .btn-action.secondary-outline:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
 /* ===== OUTLINE ===== */
 .btn-action.outline {
     background-color: transparent;

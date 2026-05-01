@@ -28,7 +28,7 @@ function toggleQuantityField() {
     if (!select || !input || !wrapper) return;
 
     const isDigital = select.value == "1";
-    const legacyDigitalPlaceholder = input.dataset.legacyDigitalPlaceholder === "1";
+    const legacyDigitalQuantitySentinel = input.dataset.legacyDigitalQuantitySentinel === "1";
 
     if (isDigital) {
         if (input.value && input.value !== "999") {
@@ -45,7 +45,7 @@ function toggleQuantityField() {
     input.disabled = false;
     input.required = true;
 
-    if (legacyDigitalPlaceholder || input.value === "" || input.value === "999") {
+    if (legacyDigitalQuantitySentinel || input.value === "" || input.value === "999") {
         input.value = input.dataset.lastPhysicalQuantity || "1";
     }
 }

@@ -44,10 +44,6 @@
     box-shadow: var(--shadow-none);
 }
 
-.search-input::placeholder {
-    color: var(--input-placeholder);
-}
-
 .search-input:focus {
     border-color: var(--input-focus-border);
 }

@@ -8,6 +8,10 @@
             if (savedTheme === 'dark') {
                 document.documentElement.classList.add('theme-dark');
             }
+
+            if (localStorage.getItem('contrast') === 'high') {
+                document.documentElement.classList.add('high-contrast');
+            }
         })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,7 +83,6 @@
                 $('.select-search').select2({
                     theme: 'bootstrap-5',
                     width: '100%',
-                    placeholder: 'Selecione uma opção...',
                     allowClear: true,
                     language: { noResults: () => "Nenhum resultado encontrado" }
                 });

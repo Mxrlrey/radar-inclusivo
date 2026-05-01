@@ -39,16 +39,16 @@
                 :fields="[
                     [
                         'name' => 'name',
-                        'placeholder' => 'Filtrar por nome...'
+                        'label' => 'Filtrar por nome...'
                     ],
                     [
                         'name' => 'category',
-                        'placeholder' => 'Filtrar por categoria...'
+                        'label' => 'Filtrar por categoria...'
                     ],
                     [
                         'name' => 'priority',
                         'type' => 'select',
-                        'placeholder' => 'Prioridade',
+                        'label' => 'Prioridade',
                         'options' => collect(\App\Enums\Priority::cases())
                             ->mapWithKeys(fn ($case) => [$case->value => $case->label()])
                             ->prepend('Prioridade (Todas)', '')
@@ -57,7 +57,7 @@
                     [
                         'name' => 'status',
                         'type' => 'select',
-                        'placeholder' => 'Status',
+                        'label' => 'Status',
                         'options' => collect(\App\Enums\BarrierStatus::cases())
                             ->mapWithKeys(fn ($case) => [$case->value => $case->label()])
                             ->prepend('Status (Todos)', '')

@@ -65,7 +65,6 @@
                                 label="Nome do Local"
                                 required
                                 :value="old('name', $location->name)"
-                                placeholder="Ex: Bloco Acadêmico II"
                             />
                         </div>
 
@@ -75,7 +74,6 @@
                                 id="location_type"
                                 label="Tipo de Local"
                                 :value="old('type', $location->type)"
-                                placeholder="Ex: Pavilhão, Bloco, Laboratório..."
                             />
                         </div>
 
@@ -85,7 +83,6 @@
                                 label="Descrição / Observações"
                                 rows="3"
                                 :value="old('description', $location->description)"
-                                placeholder="Detalhes adicionais sobre o local..."
                             />
                         </div>
                     </div>
@@ -133,7 +130,6 @@
                                 id="lat_manual"
                                 name="latitude"
                                 class="form-control"
-                                placeholder="-14.2350"
                                 value="{{ old('latitude', $location->latitude) }}"
                             >
                         </div>
@@ -152,7 +148,6 @@
                                 id="lng_manual"
                                 name="longitude"
                                 class="form-control"
-                                placeholder="-51.9253"
                                 value="{{ old('longitude', $location->longitude) }}"
                             >
                         </div>

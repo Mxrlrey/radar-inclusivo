@@ -3,7 +3,6 @@
     'label' => null,
     'type' => 'text',
     'value' => '',
-    'placeholder' => '',
     'required' => false,
     'horizontal' => false,
 ])
@@ -42,7 +41,6 @@
                         name="{{ $name }}"
                         id="{{ $elementId }}"
                         value="{{ old($name, $value) }}"
-                        placeholder="{{ $placeholder }}"
                         @if($required) required aria-required="true" @endif
                         @if($hasError) aria-invalid="true" @endif
                         @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
@@ -59,7 +57,6 @@
                     name="{{ $name }}"
                     id="{{ $elementId }}"
                     value="{{ old($name, $value) }}"
-                    placeholder="{{ $placeholder }}"
                     @if($required) required aria-required="true" @endif
                     @if($hasError) aria-invalid="true" @endif
                     @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
@@ -90,7 +87,6 @@
                     name="{{ $name }}"
                     id="{{ $elementId }}"
                     value="{{ old($name, $value) }}"
-                    placeholder="{{ $placeholder }}"
                     @if($required) required aria-required="true" @endif
                     @if($hasError) aria-invalid="true" @endif
                     @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
@@ -107,7 +103,6 @@
                 name="{{ $name }}"
                 id="{{ $elementId }}"
                 value="{{ old($name, $value) }}"
-                placeholder="{{ $placeholder }}"
                 @if($required) required aria-required="true" @endif
                 @if($hasError) aria-invalid="true" @endif
                 @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif

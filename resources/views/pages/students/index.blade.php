@@ -37,23 +37,20 @@
                 :fields="[
                     [
                         'name' => 'name',
-                        'placeholder' => 'Filtrar por nome...',
                         'label' => 'Nome do aluno'
                     ],
                     [
                         'name' => 'email',
-                        'placeholder' => 'Filtrar por e-mail...',
                         'label' => 'E-mail'
                     ],
                     [
                         'name' => 'registration',
-                        'placeholder' => 'Filtrar por matrícula...',
                         'label' => 'Matrícula'
                     ],
                     [
                         'name' => 'is_active',
                         'type' => 'select',
-                        'placeholder' => 'Status',
+                        'label' => 'Status',
                         'options' => [
                             '' => 'Status (Todos)',
                             '1' => 'Ativo',

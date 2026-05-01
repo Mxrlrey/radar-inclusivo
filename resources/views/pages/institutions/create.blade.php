@@ -49,7 +49,6 @@
                                 label="Nome da Instituição"
                                 required aria-required="true"
                                 :value="old('name')"
-                                placeholder="Ex: IFBA - Campus Guanambi"
                             />
                         </div>
 
@@ -58,7 +57,6 @@
                                 name="short_name"
                                 label="Sigla / Nome Curto"
                                 :value="old('short_name')"
-                                placeholder="Ex: IFBA-GBI"
                             />
                         </div>
 
@@ -68,7 +66,6 @@
                                 label="Cidade"
                                 required
                                 :value="old('city')"
-                                placeholder="Ex: Guanambi"
                             />
                         </div>
 
@@ -78,7 +75,6 @@
                                 label="Estado"
                                 required
                                 :value="old('state')"
-                                placeholder="Ex: BA"
                             />
                         </div>
 
@@ -87,7 +83,6 @@
                                 name="district_search"
                                 label="Bairro / Distrito"
                                 :value="old('district')"
-                                placeholder="Ex: Zona Rural"
                             />
                         </div>
 
@@ -96,7 +91,6 @@
                                 name="address_search"
                                 label="Rua / Logradouro"
                                 :value="old('address')"
-                                placeholder="Ex: Av. Santos Dumont"
                             />
                         </div>
                     </div>
@@ -170,7 +164,6 @@
                                 name="latitude"
                                 id="latitude"
                                 class="form-control"
-                                placeholder="-14.2350"
                                 value="{{ old('latitude', -14.2350) }}"
                             >
                         </div>
@@ -189,7 +182,6 @@
                                 name="longitude"
                                 id="longitude"
                                 class="form-control"
-                                placeholder="-51.9253"
                                 value="{{ old('longitude', -51.9253) }}"
                             >
                         </div>

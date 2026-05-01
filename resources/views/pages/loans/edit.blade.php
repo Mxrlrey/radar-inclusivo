@@ -149,7 +149,6 @@
             :horizontal="true"
             rows="3"
             :value="old('observation', $loan->observation)"
-            placeholder="Relate o estado do item..."
         />
 
         <x-forms.form-footer>

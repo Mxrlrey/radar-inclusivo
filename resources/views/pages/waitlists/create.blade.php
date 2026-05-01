@@ -93,7 +93,6 @@
             label="Detalhes"
             :horizontal="true"
             rows="3"
-            placeholder="Anote detalhes sobre a solicitação..."
             :value="old('observation')"
         />
 

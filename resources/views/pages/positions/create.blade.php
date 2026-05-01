@@ -42,7 +42,6 @@
             label="Nome do Cargo"
             required
             :horizontal="true"
-            placeholder="Ex: Professor AEE, Psicólogo..."
             :value="old('name')"
         />
 
@@ -51,7 +50,6 @@
             label="Descrição / Atribuições"
             :horizontal="true"
             rows="4"
-            placeholder="Descreva as responsabilidades deste cargo..."
             :value="old('description')"
         />
 

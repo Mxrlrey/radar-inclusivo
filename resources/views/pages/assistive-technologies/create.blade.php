@@ -43,7 +43,6 @@
             label="Tipo da Tecnologia"
             required
             :horizontal="true"
-            placeholder="Ex: Cadeira de Rodas Motorizada"
             :value="old('name')"
         />
 
@@ -140,6 +139,7 @@
             name="status"
             label="Status do Recurso"
             :horizontal="true"
+            required
             :options="$resourceStatuses"
             :selected="old('status', $defaultStatus)"
         />

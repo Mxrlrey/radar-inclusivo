@@ -39,16 +39,16 @@
                 :fields="[
                     [
                         'name' => 'name',
-                        'placeholder' => 'Filtrar por nome...'
+                        'label' => 'Filtrar por nome...'
                     ],
                     [
                         'name' => 'location',
-                        'placeholder' => 'Filtrar por cidade ou estado...'
+                        'label' => 'Filtrar por cidade ou estado...'
                     ],
                     [
                         'name' => 'is_active',
                         'type' => 'select',
-                        'placeholder' => 'Status',
+                        'label' => 'Status',
                         'options' => [
                             '' => 'Status (Todos)',
                             '1' => 'Ativo',

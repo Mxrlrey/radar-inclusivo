@@ -14,8 +14,8 @@ services:
       - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./docker/php/opcache.dev.ini:/usr/local/etc/php/conf.d/opcache.ini
     command: sh /var/www/docker/php/entrypoint.dev.sh app
-    ports:
-      - "9000:9000"
+    expose:
+      - "9000"
     depends_on:
       db:
         condition: service_healthy

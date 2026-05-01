@@ -27,7 +27,7 @@
         .image-container.wide { height: 300px; }
         .image-container.tall { height: 700px; page-break-before: always; page-break-after: always; }
         .image-container.square { height: 400px; }
-        .image-placeholder {
+        .image-fallback {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -138,11 +138,11 @@
                 @if($base64)
                     <div class="image-container {{ $imageClass }}" style="background-image: url('{{ $base64 }}');"></div>
                 @else
-                    <div class="image-placeholder">Arquivo não encontrado ou formato inválido.</div>
+                    <div class="image-fallback">Arquivo não encontrado ou formato inválido.</div>
                 @endif
             @endforeach
         @else
-            <div class="image-placeholder">Nenhuma imagem registrada.</div>
+            <div class="image-fallback">Nenhuma imagem registrada.</div>
         @endif
     </div>
 @else

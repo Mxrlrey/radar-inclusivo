@@ -379,7 +379,7 @@ class FormManager {
 
         if (!val) {
             this._setVisibilityState(this.locationWrapper, false);
-            if (this.locationSelect) this.locationSelect.innerHTML = '<option value="">Selecione um local...</option>';
+            if (this.locationSelect) this.locationSelect.innerHTML = '<option value=""></option>';
             this._validateMapLock();
             return;
         }
@@ -404,10 +404,10 @@ class FormManager {
         this.locationSelect.innerHTML = '';
         const frag = document.createDocumentFragment();
 
-        const placeholder = document.createElement('option');
-        placeholder.value = '';
-        placeholder.textContent = 'Selecione um local...';
-        frag.appendChild(placeholder);
+        const emptyOption = document.createElement('option');
+        emptyOption.value = '';
+        emptyOption.textContent = '';
+        frag.appendChild(emptyOption);
 
         for (const loc of inst.locations ?? []) {
             const opt = document.createElement('option');

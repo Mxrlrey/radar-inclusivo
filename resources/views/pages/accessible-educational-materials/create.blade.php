@@ -40,7 +40,6 @@
             label="Título do Material"
             required
             :horizontal="true"
-            placeholder="Ex: Livro em Braille, Maquete Tátil..."
             :value="old('name')"
         />
 
@@ -165,6 +164,7 @@
         <x-forms.select
             name="status"
             label="Status do Recurso"
+            required
             :horizontal="true"
             :options="$resourceStatuses"
             :selected="old('status', $defaultStatus)"

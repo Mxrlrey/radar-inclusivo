@@ -37,18 +37,16 @@
                 :fields="[
                     [
                         'name' => 'name',
-                        'placeholder' => 'Filtrar por nome...',
                         'label' => 'Nome da deficiência'
                     ],
                     [
                         'name' => 'cid_code',
-                        'placeholder' => 'Filtrar por CID...',
                         'label' => 'Código CID'
                     ],
                     [
                         'name' => 'is_active',
                         'type' => 'select',
-                        'placeholder' => 'Status',
+                        'label' => 'Status',
                         'options' => [
                             '' => 'Status (Todos)',
                             '1' => 'Ativo',

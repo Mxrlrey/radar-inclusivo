@@ -53,7 +53,6 @@
                         <input type="email"
                                name="email"
                                class="form-control"
-                               placeholder="exemplo@ifbaiano.edu.br"
                                required>
                     </div>
 
