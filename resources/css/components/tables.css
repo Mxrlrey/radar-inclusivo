@@ -157,15 +157,19 @@
 }
 
 .custom-pagination-container .page-item.active .page-link {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
+    background-color: var(--table-action-accent);
+    border-color: var(--table-action-accent);
     color: var(--text-on-primary);
 }
 
+.high-contrast .custom-pagination-container .page-item.active .page-link {
+    color: #000000;
+}
+
 .custom-pagination-container .page-item .page-link:hover {
-    background-color: var(--bg-soft-primary);
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+    background-color: var(--table-action-accent-hover-bg);
+    border-color: var(--table-action-accent);
+    color: var(--table-action-accent);
 }
 
 .custom-pagination-container .page-item.disabled .page-link {

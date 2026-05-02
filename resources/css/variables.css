@@ -102,6 +102,18 @@
     --input-bg: #ffffff;
     --input-border: #c5c5c5;
     --input-focus-border: #aaaaaa;
+    --input-text: #565656;
+    --input-focus-text: #333333;
+    --form-label-color: #797979;
+    --picker-addon-bg: #e9ecef;
+    --picker-addon-border: #ced4da;
+    --checkbox-border: #cccccc;
+    --checkbox-checked-bg: #5fbeaa;
+    --checkbox-checked-border: #5fbeaa;
+    --upload-button-bg: #4c5667;
+    --upload-button-hover-bg: #3f4857;
+    --table-action-accent: #4c5667;
+    --table-action-accent-hover-bg: rgba(76, 86, 103, 0.12);
     /* --- COMPONENTES: BOTÕES --- */
     --btn-padding-y: 0.45rem;
     --btn-padding-x: 1rem;
@@ -204,6 +216,18 @@
     --input-bg: #2a2a2a;
     --input-border: #444444;
     --input-focus-border: #666666;
+    --input-text: var(--text-secondary);
+    --input-focus-text: var(--text-primary);
+    --form-label-color: var(--text-secondary);
+    --picker-addon-bg: var(--bg-surface-secondary);
+    --picker-addon-border: var(--input-border);
+    --checkbox-border: var(--input-border);
+    --checkbox-checked-bg: #5fbeaa;
+    --checkbox-checked-border: #5fbeaa;
+    --upload-button-bg: #4c5667;
+    --upload-button-hover-bg: #5b6678;
+    --table-action-accent: #4c5667;
+    --table-action-accent-hover-bg: rgba(76, 86, 103, 0.24);
 
     --table-header-bg: #333333;
     --table-striped-bg: #2e2e2e;
@@ -313,6 +337,18 @@
     --input-bg: #000000;
     --input-border: #ffffff;
     --input-focus-border: #ffff00;
+    --input-text: #ffffff;
+    --input-focus-text: #ffff00;
+    --form-label-color: #ffffff;
+    --picker-addon-bg: #000000;
+    --picker-addon-border: #ffffff;
+    --checkbox-border: #ffffff;
+    --checkbox-checked-bg: #ffff00;
+    --checkbox-checked-border: #ffff00;
+    --upload-button-bg: #ffff00;
+    --upload-button-hover-bg: #ffffff;
+    --table-action-accent: #ffff00;
+    --table-action-accent-hover-bg: #000000;
 
     /* cards e tabelas */
     --card-bg: #000000;

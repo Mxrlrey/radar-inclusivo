@@ -7,7 +7,7 @@ function toggleAssetCodeField() {
 
     const isDigital = select.value == "1";
 
-    const input = document.getElementById('asset_code');
+    const input = document.querySelector('[name="asset_code"]');
     const wrapper = input?.closest('.form-group-horizontal');
 
     if (!wrapper) return;

@@ -50,7 +50,7 @@
 
         <button
             type="button"
-            class="btn-action primary waves-effect waves-light mt-2 mb-1"
+            class="btn-action upload waves-effect waves-light mt-2 mb-1"
             aria-label="{{ $ariaLabel }}"
             aria-controls="input-{{ $cleanId }}"
             aria-describedby="help-{{ $cleanId }} {{ $statusId }}"

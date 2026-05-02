@@ -121,7 +121,7 @@ class AssistiveTechnologyService
             throw new BusinessRuleException("Para recursos físicos, a quantidade deve ser no mínimo 1.");
         }
 
-        if ($isLoanable && $quantity <= 0) {
+        if (!$isDigital && $isLoanable && $quantity <= 0) {
             throw new BusinessRuleException("Recursos marcados como emprestáveis devem ter quantidade maior que zero.");
         }
 

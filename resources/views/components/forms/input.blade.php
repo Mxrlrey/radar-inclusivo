@@ -13,7 +13,28 @@
     $inputAttributes = $attributes->except(['class', 'id']);
     $hasPickerAddon = in_array($type, ['date', 'time', 'datetime-local'], true);
     $pickerIcon = $type === 'time' ? 'fa-clock-o' : 'fa-calendar';
+    $pickerMaxLength = match ($type) {
+        'date' => 10,
+        'time' => 5,
+        'datetime-local' => 16,
+        default => null,
+    };
     $hasError = $errors->has($name);
+    $fieldValue = old($name, $value);
+    $pickerDisplayValue = $fieldValue;
+
+    if ($hasPickerAddon && filled($fieldValue)) {
+        try {
+            $pickerDisplayValue = match ($type) {
+                'date' => \Illuminate\Support\Carbon::parse($fieldValue)->format('d/m/Y'),
+                'datetime-local' => \Illuminate\Support\Carbon::parse($fieldValue)->format('d/m/Y H:i'),
+                default => $fieldValue,
+            };
+        } catch (\Throwable $exception) {
+            $pickerDisplayValue = $fieldValue;
+        }
+    }
+
     $errorId = $elementId . '-error';
     $existingDescribedBy = trim((string) $inputAttributes->get('aria-describedby', ''));
     $describedBy = trim(implode(' ', array_filter([
@@ -37,15 +58,26 @@
                     onclick="const input = this.querySelector('.picker-input-control'); if (!input) return; input.focus(); if (event.target === input) return; if (typeof input.showPicker === 'function') { input.showPicker(); }"
                 >
                     <input
-                        type="{{ $type }}"
-                        name="{{ $name }}"
+                        type="text"
                         id="{{ $elementId }}"
-                        value="{{ old($name, $value) }}"
+                        value="{{ $pickerDisplayValue }}"
                         @if($required) required aria-required="true" @endif
                         @if($hasError) aria-invalid="true" @endif
                         @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
                         autocomplete="off"
+                        inputmode="numeric"
+                        @if($pickerMaxLength) maxlength="{{ $pickerMaxLength }}" @endif
+                        data-picker-display
+                        data-picker-type="{{ $type }}"
+                        data-picker-target="{{ $elementId }}_value"
                         {{ $inputAttributes->except(['aria-describedby'])->merge(['class' => 'form-control custom-input picker-input-control' . ($hasError ? ' is-invalid' : '')]) }}
+                    >
+                    <input
+                        type="hidden"
+                        name="{{ $name }}"
+                        id="{{ $elementId }}_value"
+                        value="{{ $fieldValue }}"
+                        data-picker-value
                     >
                     <span class="picker-input-group-label" aria-hidden="true">
                         <i class="fa {{ $pickerIcon }}"></i>
@@ -83,15 +115,26 @@
                 onclick="const input = this.querySelector('.picker-input-control'); if (!input) return; input.focus(); if (event.target === input) return; if (typeof input.showPicker === 'function') { input.showPicker(); }"
             >
                 <input
-                    type="{{ $type }}"
-                    name="{{ $name }}"
+                    type="text"
                     id="{{ $elementId }}"
-                    value="{{ old($name, $value) }}"
+                    value="{{ $pickerDisplayValue }}"
                     @if($required) required aria-required="true" @endif
                     @if($hasError) aria-invalid="true" @endif
                     @if($describedBy !== '') aria-describedby="{{ $describedBy }}" @endif
                     autocomplete="off"
+                    inputmode="numeric"
+                    @if($pickerMaxLength) maxlength="{{ $pickerMaxLength }}" @endif
+                    data-picker-display
+                    data-picker-type="{{ $type }}"
+                    data-picker-target="{{ $elementId }}_value"
                     {{ $inputAttributes->except(['aria-describedby'])->merge(['class' => 'form-control custom-input picker-input-control' . ($hasError ? ' is-invalid' : '')]) }}
+                >
+                <input
+                    type="hidden"
+                    name="{{ $name }}"
+                    id="{{ $elementId }}_value"
+                    value="{{ $fieldValue }}"
+                    data-picker-value
                 >
                 <span class="picker-input-group-label" aria-hidden="true">
                     <i class="fa {{ $pickerIcon }}"></i>

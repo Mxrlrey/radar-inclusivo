@@ -140,7 +140,7 @@ class AccessibleEducationalMaterialService
             throw new BusinessRuleException("Para materiais físicos, a quantidade deve ser no mínimo 1.");
         }
 
-        if ($isLoanable && $quantity <= 0) {
+        if (!$isDigital && $isLoanable && $quantity <= 0) {
             throw new BusinessRuleException("Materiais marcados como emprestáveis devem ter quantidade maior que zero.");
         }
 

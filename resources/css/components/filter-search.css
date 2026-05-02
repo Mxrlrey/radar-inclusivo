@@ -113,10 +113,14 @@
 }
 
 .filter-clear-btn:hover {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
+    background-color: var(--table-action-accent);
+    border-color: var(--table-action-accent);
     color: var(--text-on-primary);
     text-decoration: none;
+}
+
+.high-contrast .filter-clear-btn:hover {
+    color: #000000;
 }
 
 /* ===== RESPONSIVO ===== */

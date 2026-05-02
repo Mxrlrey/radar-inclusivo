@@ -107,6 +107,14 @@
     background-color: #4a6e56;
 }
 
+.btn-action.upload {
+    background-color: var(--upload-button-bg);
+    color: var(--text-on-primary);
+}
+.btn-action.upload:hover {
+    background-color: var(--upload-button-hover-bg);
+}
+
 .high-contrast .btn-action {
     border-color: currentColor;
 }
@@ -115,7 +123,8 @@
 .high-contrast .btn-action.primary,
 .high-contrast .btn-action.info,
 .high-contrast .btn-action.warning,
-.high-contrast .btn-action.success {
+.high-contrast .btn-action.success,
+.high-contrast .btn-action.upload {
     color: #000000;
 }
 
@@ -127,7 +136,8 @@
 .high-contrast .btn-action.primary:hover,
 .high-contrast .btn-action.info:hover,
 .high-contrast .btn-action.warning:hover,
-.high-contrast .btn-action.success:hover {
+.high-contrast .btn-action.success:hover,
+.high-contrast .btn-action.upload:hover {
     background-color: #ffffff;
     color: #000000;
 }
