@@ -91,6 +91,47 @@ legend.form-label .text-danger {
     transition: color 300ms linear, background-color 300ms linear, border-color 300ms linear;
 }
 
+select.form-control,
+select.form-select,
+select.custom-input {
+    appearance: auto;
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #ced4da;
+    border-radius: 0;
+    color: #565656;
+    font-size: var(--font-size-base);
+    height: 38px;
+    max-width: 100%;
+    padding: 7px 12px;
+    box-shadow: none;
+    transition: all 300ms linear;
+}
+
+select.form-control:focus,
+select.form-select:focus,
+select.custom-input:focus {
+    background-color: #ffffff;
+    border: 1px solid #aaaaaa;
+    color: #333333;
+    box-shadow: none;
+    outline: 0 !important;
+}
+
+.form-control.form-value-animating,
+.form-select.form-value-animating,
+.custom-input.form-value-animating,
+.select2-container.form-value-animating .select2-selection__rendered {
+    animation: formValueFontPulse 620ms linear;
+}
+
+.form-control.form-value-editing,
+.custom-input.form-value-editing {
+    color: var(--text-title) !important;
+}
+
 .form-control:focus,
 .form-select:focus,
 .custom-input:focus {
@@ -99,6 +140,32 @@ legend.form-label .text-danger {
     border-color: var(--input-focus-border);
     box-shadow: var(--shadow-none);
     outline: 0 !important;
+}
+
+@keyframes formValueFontPulse {
+    0% {
+        font-size: var(--font-size-base);
+    }
+    45% {
+        font-size: 11px;
+    }
+    100% {
+        font-size: var(--font-size-base);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .form-control.form-value-animating,
+    .form-select.form-value-animating,
+    .custom-input.form-value-animating,
+    .select2-container.form-value-animating .select2-selection__rendered {
+        animation: none !important;
+    }
+
+    .form-control.form-value-editing,
+    .custom-input.form-value-editing {
+        transition: none !important;
+    }
 }
 
 /* ===== INPUTS DE DATA E HORA COM LABEL DE ÍCONE ===== */
@@ -550,6 +617,23 @@ textarea:focus {
     outline: 0 !important;
     box-shadow: none !important;
     -webkit-box-shadow: none !important;
+}
+
+select.form-control:focus,
+select.form-select:focus,
+select.custom-input:focus {
+    background-color: #ffffff !important;
+    border: 1px solid #aaaaaa !important;
+    color: #333333 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+}
+
+input.form-control.form-value-editing:focus,
+input.custom-input.form-value-editing:focus,
+textarea.form-control.form-value-editing:focus,
+textarea.custom-input.form-value-editing:focus {
+    color: var(--text-title) !important;
 }
 
 /* ===== SOBRESCREVE AUTOFILL (TEMA CLARO E ESCURO) ===== */

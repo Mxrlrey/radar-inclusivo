@@ -20,9 +20,9 @@
     :height="$height"
     :label="$label"
     :showLegend="false"
-    :interactive="false"
+    :interactive="true"
     :showInputs="false"
-    helpText="Mapa apenas para visualização da localização."
+    helpText="Use o zoom, mova o mapa ou alterne as camadas."
     :summaryText="$summaryText"
 />
 
