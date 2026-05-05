@@ -150,12 +150,24 @@
     border-left: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+/* Reforça contraste dos ícones dos KPIs no tema escuro */
+.theme-dark .stat-widget-icon {
+    background: rgba(255, 255, 255, 0.06);
+    border-left-color: rgba(255, 255, 255, 0.12);
+}
+
 /* Variações de cor para o ícone */
 .stat-widget-icon.text-primary { color: var(--color-primary) !important; }
 .stat-widget-icon.text-success { color: var(--color-success) !important; }
 .stat-widget-icon.text-info    { color: var(--color-info) !important; }
 .stat-widget-icon.text-warning { color: var(--color-warning) !important; }
 .stat-widget-icon.text-danger  { color: var(--color-danger) !important; }
+
+.theme-dark .stat-widget-icon.text-primary { color: #aeb7c0 !important; }
+.theme-dark .stat-widget-icon.text-success { color: #8fd39d !important; }
+.theme-dark .stat-widget-icon.text-info    { color: #79c7df !important; }
+.theme-dark .stat-widget-icon.text-warning { color: #ffd166 !important; }
+.theme-dark .stat-widget-icon.text-danger  { color: #ff8a8a !important; }
 
 .stat-widget-icon.bg-primary-subtle { background: rgba(54, 71, 96, 0.08) !important; }
 .stat-widget-icon.bg-success-subtle { background: rgba(129, 200, 104, 0.08) !important; }
