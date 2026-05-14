@@ -29,7 +29,7 @@ class ItemAvailableNotification extends Notification
             'waitlist_id' => $this->waitlist->id,
             'title'       => 'Próximo da fila disponível',
             'message'     => "O item '{$itemName}' está disponível para o beneficiário: {$beneficiaryName}. Realize o empréstimo.",
-            'url' => route('loans.create', [
+            'url' => route('emprestimos.criar', [
                 'item_id'         => $this->waitlist->waitlistable_id,
                 'item_type'       => $this->waitlist->waitlistable_type,
                 'student_id'      => $this->waitlist->student_id,

@@ -127,6 +127,31 @@ class LoanTest extends TestCase
         ]);
     }
 
+    public function test_store_loan_defaults_authenticated_user_and_loan_date()
+    {
+        $student = Student::factory()->create();
+        $item = AssistiveTechnology::factory()->physical()->available()->loanable()->create([
+            'quantity' => 1,
+            'quantity_available' => 1,
+        ]);
+
+        $response = $this->actingAs($this->admin)
+            ->post(route('emprestimos.salvar'), [
+                'loanable_id' => $item->id,
+                'loanable_type' => 'assistive_technology',
+                'student_id' => $student->id,
+                'due_date' => now()->addDays(5)->toDateString(),
+            ]);
+
+        $response->assertRedirect(route('emprestimos.index'));
+        $this->assertDatabaseHas('loans', [
+            'loanable_id' => $item->id,
+            'loanable_type' => $item->getMorphClass(),
+            'student_id' => $student->id,
+            'user_id' => $this->admin->id,
+        ]);
+    }
+
     public function test_admin_can_view_a_loan()
     {
         $loan = Loan::factory()->create([

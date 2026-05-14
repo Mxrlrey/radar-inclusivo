@@ -52,6 +52,16 @@ class AppServiceProvider extends ServiceProvider
         // --- SISTEMA DE PERMISSÕES ---
         // O provider não pode depender do banco no bootstrap inicial
         // porque comandos como package:discover podem rodar antes do MySQL existir.
+        $this->registerDynamicPermissions();
+
+        // View Composer para a Navbar (INSTITUIÇÃO)
+        View::composer('layouts.master', function ($view) {
+            $view->with('institution', $this->resolveInstitutionForLayout());
+        });
+    }
+
+    protected function registerDynamicPermissions(): void
+    {
         try {
             if (Schema::hasTable('permissions')) {
                 $permissions = Permission::all();
@@ -65,16 +75,14 @@ class AppServiceProvider extends ServiceProvider
         } catch (\Throwable $e) {
             // Silencia durante bootstrap sem banco / migrate / package discovery
         }
+    }
 
-        // View Composer para a Navbar (INSTITUIÇÃO)
-        View::composer('layouts.master', function ($view) {
-            try {
-                $institution = Schema::hasTable('institutions') ? Institution::first() : null;
-            } catch (\Throwable $e) {
-                $institution = null;
-            }
-
-            $view->with('institution', $institution);
-        });
+    protected function resolveInstitutionForLayout(): ?Institution
+    {
+        try {
+            return Schema::hasTable('institutions') ? Institution::first() : null;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 }

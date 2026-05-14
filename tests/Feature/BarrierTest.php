@@ -180,6 +180,63 @@ class BarrierTest extends TestCase
         $response->assertSessionHasErrors(['affected_student_id', 'affected_professional_id']);
     }
 
+    public function test_it_fails_to_store_general_barrier_without_person_details()
+    {
+        // Arrange
+        $data = [
+            'name' => 'Barreira geral sem pessoa',
+            'institution_id' => $this->institution->id,
+            'barrier_category_id' => $this->category->id,
+            'priority' => 'medium',
+            'identified_at' => now()->toDateString(),
+            'not_applicable' => true,
+            'deficiencies' => [$this->deficiency->id],
+            'status' => BarrierStatus::IDENTIFIED->value,
+            'inspection_type' => InspectionType::INITIAL->value,
+            'inspection_date' => now()->toDateString(),
+        ];
+
+        // Act
+        $response = $this->actingAs($this->admin)
+            ->from(route('barreiras.criar'))
+            ->post(route('barreiras.salvar'), $data);
+
+        // Assert
+        $response->assertRedirect(route('barreiras.criar'));
+        $response->assertSessionHasErrors('affected_person_name');
+    }
+
+    public function test_admin_can_store_general_barrier_with_person_details()
+    {
+        // Arrange
+        $data = [
+            'name' => 'Barreira geral',
+            'institution_id' => $this->institution->id,
+            'barrier_category_id' => $this->category->id,
+            'priority' => 'medium',
+            'identified_at' => now()->toDateString(),
+            'not_applicable' => true,
+            'affected_person_name' => 'Visitante',
+            'affected_person_role' => 'Responsavel',
+            'deficiencies' => [$this->deficiency->id],
+            'status' => BarrierStatus::IDENTIFIED->value,
+            'inspection_type' => InspectionType::INITIAL->value,
+            'inspection_date' => now()->toDateString(),
+        ];
+
+        // Act
+        $response = $this->actingAs($this->admin)
+            ->post(route('barreiras.salvar'), $data);
+
+        // Assert
+        $response->assertRedirect(route('barreiras.index'));
+        $this->assertDatabaseHas('barriers', [
+            'name' => 'Barreira geral',
+            'affected_person_name' => 'Visitante',
+            'affected_person_role' => 'Responsavel',
+        ]);
+    }
+
     public function test_admin_can_update_a_barrier_to_resolved()
     {
         // Arrange
@@ -226,6 +283,25 @@ class BarrierTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('pages.barriers.show');
         $response->assertViewHas('barrier');
+    }
+
+    public function test_barrier_show_returns_inspections_partial_when_ajax()
+    {
+        // Arrange
+        $barrier = Barrier::factory()->create();
+        Inspection::factory()->forBarrier($barrier)->create();
+
+        // Act
+        $response = $this->actingAs($this->admin)
+            ->get(route('barreiras.visualizar', $barrier), [
+                'X-Requested-With' => 'XMLHttpRequest',
+            ]);
+
+        // Assert
+        $response->assertOk();
+        $response->assertViewIs('pages.barriers.partials.inspections-table');
+        $response->assertViewHas('barrier');
+        $response->assertViewHas('inspections');
     }
 
     public function test_admin_can_access_barrier_edit_page()

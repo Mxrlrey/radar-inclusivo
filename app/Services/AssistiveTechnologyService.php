@@ -112,7 +112,6 @@ class AssistiveTechnologyService
     private function validateBusinessRules(AssistiveTechnology $at, array $data): void
     {
         $isDigital = $data['is_digital'] ?? $at->is_digital  ?? false;
-        $isLoanable = $data['is_loanable'] ?? $at->is_loanable ?? false;
         $quantity = isset($data['quantity']) ? (int) $data['quantity'] : $at->quantity;
         $available = isset($data['quantity_available']) ? (int) $data['quantity_available'] : $at->quantity_available;
 
@@ -122,10 +121,6 @@ class AssistiveTechnologyService
 
         if (!$isDigital && $quantity <= 0) {
             throw new BusinessRuleException("Para recursos físicos, a quantidade deve ser no mínimo 1.");
-        }
-
-        if (!$isDigital && $isLoanable && $quantity <= 0) {
-            throw new BusinessRuleException("Recursos marcados como emprestáveis devem ter quantidade maior que zero.");
         }
 
         if ($available > $quantity) {

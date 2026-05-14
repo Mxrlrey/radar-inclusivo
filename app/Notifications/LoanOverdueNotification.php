@@ -31,7 +31,7 @@ class LoanOverdueNotification extends Notification
             'loan_id' => $this->loan->id,
             'title'   => 'Empréstimo Atrasado',
             'message' => "O item '{$itemName}' está com o beneficiário {$beneficiary} e encontra-se atrasado há {$daysOverdue} dia(s).",
-            'url'     => route('loans.show', $this->loan->id),
+            'url'     => route('emprestimos.visualizar', $this->loan->id),
             'created_at' => now()->toDateTimeString(),
         ];
     }

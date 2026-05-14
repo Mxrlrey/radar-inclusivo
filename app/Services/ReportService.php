@@ -67,9 +67,7 @@ class ReportService
         $table = $model->getTable();
         $columns = $modelClass::getTranslatedColumns()->toArray();
 
-        $declaredColumns = method_exists($modelClass, 'getReportColumns')
-            ? $modelClass::getReportColumns()
-            : null;
+        $declaredColumns = $modelClass::getReportColumns();
 
         $hasDeclaredColumns = is_array($declaredColumns) && !empty($declaredColumns);
 
@@ -432,12 +430,8 @@ class ReportService
 
         if (empty($pivotColumns)) {
             $allPivotColumns = Schema::getColumnListing($pivotTable);
-            $foreign1 = method_exists($relation, 'getForeignPivotKeyName')
-                ? $relation->getForeignPivotKeyName()
-                : null;
-            $foreign2 = method_exists($relation, 'getRelatedPivotKeyName')
-                ? $relation->getRelatedPivotKeyName()
-                : null;
+            $foreign1 = $relation->getForeignPivotKeyName();
+            $foreign2 = $relation->getRelatedPivotKeyName();
 
             $exclude = array_filter([$foreign1, $foreign2, 'id', 'created_at', 'updated_at']);
 

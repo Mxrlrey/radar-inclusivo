@@ -104,15 +104,15 @@ build-assets:
 # PHPUnit / Testes
 # -----------------------------
 test:
-	$(COMPOSE) run --rm app php artisan test
+	$(COMPOSE) run --rm app php -d memory_limit=512M artisan test
 
 coverage:
 	$(COMPOSE) run --rm -e XDEBUG_MODE=coverage \
-	app php artisan test --coverage
+	app php -d memory_limit=512M artisan test --coverage
 
 coverage-html:
 	$(COMPOSE) run --rm -e XDEBUG_MODE=coverage \
-	app php artisan test --coverage-html coverage
+	app php -d memory_limit=512M artisan test --coverage-html coverage
 
 # -----------------------------
 # Banco de dados

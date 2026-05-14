@@ -209,6 +209,51 @@ class AccessibleEducationalMaterialTest extends TestCase
         $response->assertViewHas('inspections');
     }
 
+    public function test_material_show_returns_inspections_partial_when_ajax()
+    {
+        // Arrange
+        $material = AccessibleEducationalMaterial::factory()->create();
+        Inspection::factory()->forAccessibleEducationalMaterial($material)->create();
+
+        // Act
+        $response = $this->actingAs($this->admin)
+            ->get(route('materiais-pedagogicos-acessiveis.visualizar', $material), [
+                'X-Requested-With' => 'XMLHttpRequest',
+            ]);
+
+        // Assert
+        $response->assertOk();
+        $this->assertNotSame('', $response->getContent());
+    }
+
+    public function test_admin_can_store_digital_material_without_quantity()
+    {
+        // Arrange
+        $deficiency = Deficiency::factory()->create();
+
+        $data = [
+            'name' => 'MPA Digital',
+            'is_digital' => true,
+            'is_loanable' => false,
+            'status' => ResourceStatus::AVAILABLE->value,
+            'deficiencies' => [$deficiency->id],
+            'conservation_state' => ConservationState::NOT_APPLICABLE->value,
+            'inspection_type' => InspectionType::INITIAL->value,
+            'inspection_date' => now()->toDateString(),
+        ];
+
+        // Act
+        $response = $this->actingAs($this->admin)
+            ->post(route('materiais-pedagogicos-acessiveis.salvar'), $data);
+
+        // Assert
+        $response->assertRedirect(route('materiais-pedagogicos-acessiveis.index'));
+        $this->assertDatabaseHas('accessible_educational_materials', [
+            'name' => 'MPA Digital',
+            'quantity' => null,
+        ]);
+    }
+
     public function test_admin_can_access_material_edit_page()
     {
         // Arrange

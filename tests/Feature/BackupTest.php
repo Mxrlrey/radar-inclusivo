@@ -169,6 +169,31 @@ class BackupTest extends TestCase
         $response->assertSessionHas('error');
     }
 
+    public function test_upload_reports_php_upload_error_for_invalid_file()
+    {
+        // Arrange
+        $path = tempnam(sys_get_temp_dir(), 'invalid-upload-');
+        file_put_contents($path, 'zip');
+
+        $file = new UploadedFile(
+            $path,
+            'backup-invalid.zip',
+            'application/zip',
+            UPLOAD_ERR_CANT_WRITE,
+            true
+        );
+
+        // Act
+        $response = $this->actingAs($this->admin)
+            ->from(route('copias-seguranca.index'))
+            ->post(route('copias-seguranca.enviar'), ['backup_file' => $file]);
+
+        // Assert
+        $response->assertRedirect(route('copias-seguranca.index'));
+        $response->assertSessionHas('error');
+        $this->assertStringStartsWith('Erro no upload do PHP:', session('error'));
+    }
+
     public function test_authenticated_user_can_upload_backup_file()
     {
         // Arrange

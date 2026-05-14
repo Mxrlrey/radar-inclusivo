@@ -128,7 +128,6 @@ class AccessibleEducationalMaterialService
     private function validateBusinessRules(AccessibleEducationalMaterial $material, array $data): void
     {
         $isDigital = $data['is_digital']  ?? $material->is_digital  ?? false;
-        $isLoanable = $data['is_loanable'] ?? $material->is_loanable ?? false;
         $quantity = isset($data['quantity']) ? (int) $data['quantity'] : $material->quantity;
         $available = isset($data['quantity_available']) ? (int) $data['quantity_available'] : $material->quantity_available;
 
@@ -138,10 +137,6 @@ class AccessibleEducationalMaterialService
 
         if (!$isDigital && $quantity <= 0) {
             throw new BusinessRuleException("Para materiais físicos, a quantidade deve ser no mínimo 1.");
-        }
-
-        if (!$isDigital && $isLoanable && $quantity <= 0) {
-            throw new BusinessRuleException("Materiais marcados como emprestáveis devem ter quantidade maior que zero.");
         }
 
         if ($available > $quantity) {

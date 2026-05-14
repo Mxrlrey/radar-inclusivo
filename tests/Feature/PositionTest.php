@@ -72,13 +72,25 @@ class PositionTest extends TestCase
 
     public function test_admin_can_access_position_create_page()
     {
+        // Arrange
+        Permission::create([
+            'name' => 'Ver estudantes',
+            'slug' => 'student.view',
+        ]);
+        Permission::create([
+            'name' => 'Permissao customizada',
+            'slug' => 'custom.manage',
+        ]);
+
         // Act
         $response = $this->actingAs($this->admin)->get(route('cargos.criar'));
 
         // Assert
         $response->assertOk();
         $response->assertViewIs('pages.positions.create');
-        $response->assertViewHas('permissions');
+        $response->assertViewHas('permissions', function ($permissions) {
+            return $permissions->has('Alunos') && $permissions->has('Custom');
+        });
     }
 
     public function test_admin_can_store_position_with_permissions()

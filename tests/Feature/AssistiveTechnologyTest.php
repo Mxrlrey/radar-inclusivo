@@ -204,6 +204,23 @@ class AssistiveTechnologyTest extends TestCase
         $response->assertViewHas('inspections');
     }
 
+    public function test_assistive_technology_show_returns_inspections_partial_when_ajax()
+    {
+        // Arrange
+        $technology = AssistiveTechnology::factory()->create();
+        Inspection::factory()->forAssistiveTechnology($technology)->create();
+
+        // Act
+        $response = $this->actingAs($this->admin)
+            ->get(route('tecnologias-assistivas.visualizar', $technology), [
+                'X-Requested-With' => 'XMLHttpRequest',
+            ]);
+
+        // Assert
+        $response->assertOk();
+        $this->assertNotSame('', $response->getContent());
+    }
+
     public function test_admin_can_access_assistive_technology_edit_page()
     {
         // Arrange
