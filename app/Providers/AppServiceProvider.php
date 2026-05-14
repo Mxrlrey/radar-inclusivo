@@ -43,19 +43,17 @@ class AppServiceProvider extends ServiceProvider
             'user' => User::class,
         ]);
 
+        Gate::before(function ($user, $ability) {
+            if ($user->is_admin) {
+                return true;
+            }
+        });
+
         // --- SISTEMA DE PERMISSÕES ---
         // O provider não pode depender do banco no bootstrap inicial
         // porque comandos como package:discover podem rodar antes do MySQL existir.
         try {
             if (Schema::hasTable('permissions')) {
-
-                // ADMIN TEM TODAS PERMISSÕES
-                Gate::before(function ($user, $ability) {
-                    if ($user->is_admin) {
-                        return true;
-                    }
-                });
-
                 $permissions = Permission::all();
 
                 foreach ($permissions as $permission) {

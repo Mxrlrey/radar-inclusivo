@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\InclusiveRadar;
+namespace Tests\Feature;
 
 use App\Models\Institution;
 use App\Models\User;
@@ -29,10 +29,10 @@ class InstitutionTest extends TestCase
     public function test_guest_cannot_access_institution_index()
     {
         // Act
-        $response = $this->get(route('inclusive-radar.institutions.index'));
+        $response = $this->get(route('instituicoes.index'));
 
         // Assert
-        $response->assertRedirect('auth/login');
+        $response->assertRedirect(route('login'));
     }
 
     /** * Objetivo: Garantir que usuários logados sem permissão de admin sejam barrados.
@@ -45,7 +45,7 @@ class InstitutionTest extends TestCase
 
         // Act
         $response = $this->actingAs($user)
-            ->get(route('inclusive-radar.institutions.index'));
+            ->get(route('instituicoes.index'));
 
         // Assert
         $response->assertStatus(403);
@@ -61,7 +61,7 @@ class InstitutionTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.institutions.index'));
+            ->get(route('instituicoes.index'));
 
         // Assert
         $response->assertStatus(200);
@@ -85,10 +85,10 @@ class InstitutionTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->post(route('inclusive-radar.institutions.store'), $data);
+            ->post(route('instituicoes.salvar'), $data);
 
         // Assert
-        $response->assertRedirect(route('inclusive-radar.institutions.index'));
+        $response->assertRedirect(route('instituicoes.index'));
         $this->assertDatabaseHas('institutions', ['name' => 'Instituto GNAI']);
     }
 
@@ -105,11 +105,11 @@ class InstitutionTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->from(route('inclusive-radar.institutions.create'))
-            ->post(route('inclusive-radar.institutions.store'), $data);
+            ->from(route('instituicoes.criar'))
+            ->post(route('instituicoes.salvar'), $data);
 
         // Assert
-        $response->assertRedirect(route('inclusive-radar.institutions.create'));
+        $response->assertRedirect(route('instituicoes.criar'));
         $response->assertSessionHasErrors(['name', 'latitude', 'longitude', 'city', 'state']);
     }
 
@@ -130,11 +130,11 @@ class InstitutionTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->from(route('inclusive-radar.institutions.create'))
-            ->post(route('inclusive-radar.institutions.store'), $data);
+            ->from(route('instituicoes.criar'))
+            ->post(route('instituicoes.salvar'), $data);
 
         // Assert
-        $response->assertRedirect(route('inclusive-radar.institutions.create'));
+        $response->assertRedirect(route('instituicoes.criar'));
         $response->assertSessionHas('error', 'Já existe uma instituição cadastrada com esses dados.');
     }
 
@@ -155,10 +155,10 @@ class InstitutionTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->put(route('inclusive-radar.institutions.update', $institution), $newData);
+            ->put(route('instituicoes.atualizar', $institution), $newData);
 
         // Assert
-        $response->assertRedirect(route('inclusive-radar.institutions.index'));
+        $response->assertRedirect(route('instituicoes.index'));
         $this->assertDatabaseHas('institutions', ['id' => $institution->id, 'name' => 'Novo Nome']);
     }
 
@@ -172,10 +172,10 @@ class InstitutionTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->delete(route('inclusive-radar.institutions.destroy', $institution));
+            ->delete(route('instituicoes.excluir', $institution));
 
         // Assert
-        $response->assertRedirect(route('inclusive-radar.institutions.index'));
+        $response->assertRedirect(route('instituicoes.index'));
         $this->assertSoftDeleted('institutions', ['id' => $institution->id]);
     }
 
@@ -186,11 +186,11 @@ class InstitutionTest extends TestCase
     {
         // Arrange
         Institution::factory()->create(['name' => 'IFBA Campus Guanambi']);
-        \App\Models\Institution::factory()->create(['name' => 'UNEB Campus VI']);
+        Institution::factory()->create(['name' => 'UNEB Campus VI']);
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.institutions.index', ['name' => 'IFBA']));
+            ->get(route('instituicoes.index', ['name' => 'IFBA']));
 
         // Assert
         $response->assertStatus(200);
@@ -204,12 +204,12 @@ class InstitutionTest extends TestCase
     public function test_it_filters_institutions_by_status()
     {
         // Arrange
-        \App\Models\Institution::factory()->create(['name' => 'Ativa', 'is_active' => true]);
+        Institution::factory()->create(['name' => 'Ativa', 'is_active' => true]);
         Institution::factory()->create(['name' => 'Inativa', 'is_active' => false]);
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.institutions.index', ['is_active' => '1']));
+            ->get(route('instituicoes.index', ['is_active' => '1']));
 
         // Assert
         $response->assertSee('Ativa');
@@ -227,7 +227,7 @@ class InstitutionTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.institutions.index', ['location' => 'Guanambi']));
+            ->get(route('instituicoes.index', ['location' => 'Guanambi']));
 
         // Assert
         $response->assertSee('Local A');
@@ -242,11 +242,11 @@ class InstitutionTest extends TestCase
     {
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.institutions.create'));
+            ->get(route('instituicoes.criar'));
 
         // Assert
         $response->assertStatus(200);
-        $response->assertViewIs('pages.inclusive-radar.institutions.create');
+        $response->assertViewIs('pages.institutions.create');
     }
 
     /**
@@ -256,15 +256,15 @@ class InstitutionTest extends TestCase
     public function test_it_displays_the_show_view()
     {
         // Arrange
-        $institution = \App\Models\Institution::factory()->create();
+        $institution = Institution::factory()->create();
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.institutions.show', $institution));
+            ->get(route('instituicoes.visualizar', $institution));
 
         // Assert
         $response->assertStatus(200);
-        $response->assertViewIs('pages.inclusive-radar.institutions.show');
+        $response->assertViewIs('pages.institutions.show');
         $response->assertViewHas('institution');
     }
 
@@ -279,11 +279,11 @@ class InstitutionTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.institutions.edit', $institution));
+            ->get(route('instituicoes.editar', $institution));
 
         // Assert
         $response->assertStatus(200);
-        $response->assertViewIs('pages.inclusive-radar.institutions.edit');
+        $response->assertViewIs('pages.institutions.edit');
         $response->assertViewHas('institution');
     }
 
@@ -298,13 +298,13 @@ class InstitutionTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.institutions.index'), [
+            ->get(route('instituicoes.index'), [
                 'HTTP_X-Requested-With' => 'XMLHttpRequest'
             ]);
 
         // Assert
         $response->assertStatus(200);
-        $response->assertViewIs('pages.inclusive-radar.institutions.partials.table');
+        $response->assertViewIs('pages.institutions.partials.table');
         $response->assertViewHas('institutions');
     }
 }

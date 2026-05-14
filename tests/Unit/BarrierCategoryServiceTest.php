@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Unit\InclusiveRadar;
+namespace Tests\Unit;
 
-use App\Exceptions\InclusiveRadar\CannotDeleteLinkedBarrierException;
+use App\Enums\BarrierStatus;
+use App\Exceptions\BusinessRuleException;
 use App\Models\Barrier;
 use App\Models\BarrierCategory;
 use App\Models\Inspection;
@@ -19,7 +20,7 @@ class BarrierCategoryServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = app(\App\Services\BarrierCategoryService::class);
+        $this->service = app(BarrierCategoryService::class);
     }
 
     /**
@@ -72,7 +73,7 @@ class BarrierCategoryServiceTest extends TestCase
     public function test_it_deletes_category_when_no_barriers_exist()
     {
         // Arrange
-        $category = \App\Models\BarrierCategory::factory()->create();
+        $category = BarrierCategory::factory()->create();
 
         // Act
         $this->service->delete($category);
@@ -90,14 +91,14 @@ class BarrierCategoryServiceTest extends TestCase
     public function test_it_throws_exception_when_barrier_has_no_status()
     {
         // Arrange
-        $category = \App\Models\BarrierCategory::factory()->create();
+        $category = BarrierCategory::factory()->create();
 
-        \App\Models\Barrier::factory()->create([
+        Barrier::factory()->create([
             'barrier_category_id' => $category->id
         ]);
 
         // Assert
-        $this->expectException(CannotDeleteLinkedBarrierException::class);
+        $this->expectException(BusinessRuleException::class);
 
         // Act
         $this->service->delete($category);
@@ -119,11 +120,11 @@ class BarrierCategoryServiceTest extends TestCase
         Inspection::factory()
             ->forBarrier($barrier)
             ->create([
-                'status' => \App\Enums\BarrierStatus::IDENTIFIED->value
+                'status' => BarrierStatus::IDENTIFIED->value
             ]);
 
         // Assert
-        $this->expectException(CannotDeleteLinkedBarrierException::class);
+        $this->expectException(BusinessRuleException::class);
 
         // Act
         $this->service->delete($category);
@@ -145,7 +146,7 @@ class BarrierCategoryServiceTest extends TestCase
         Inspection::factory()
             ->forBarrier($barrier)
             ->create([
-                'status' => \App\Enums\BarrierStatus::RESOLVED->value
+                'status' => BarrierStatus::RESOLVED->value
             ]);
 
         // Act

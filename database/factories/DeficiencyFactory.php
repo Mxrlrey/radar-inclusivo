@@ -1,24 +1,27 @@
 <?php
 
-namespace Database\Factories\SpecializedEducationalSupport;
+namespace Database\Factories;
 
+use App\Models\Deficiency;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DeficiencyFactory extends Factory
 {
-    protected $model = \App\Models\Deficiency::class;
+    protected $model = Deficiency::class;
 
     public function definition(): array
     {
+        $baseName = $this->faker->randomElement([
+            'Deficiência Visual',
+            'Deficiência Auditiva',
+            'Deficiência Física',
+            'Deficiência Intelectual',
+            'Transtorno do Espectro Autista',
+            'Altas Habilidades/Superdotação',
+        ]);
+
         return [
-            'name' => $this->faker->unique()->randomElement([
-                'Deficiência Visual',
-                'Deficiência Auditiva',
-                'Deficiência Física',
-                'Deficiência Intelectual',
-                'Transtorno do Espectro Autista',
-                'Altas Habilidades/Superdotação',
-            ]),
+            'name' => sprintf('%s %s', $baseName, $this->faker->unique()->numerify('###')),
 
             'cid_code' => strtoupper(
                     $this->faker->randomLetter()

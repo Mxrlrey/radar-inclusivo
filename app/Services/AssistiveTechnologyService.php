@@ -28,6 +28,7 @@ class AssistiveTechnologyService
     {
         return DB::transaction(function () use ($data) {
             $at = new AssistiveTechnology();
+            $data = $this->normalizeInventoryData($at, $data);
 
             $this->validateBusinessRules($at, $data);
 
@@ -53,6 +54,8 @@ class AssistiveTechnologyService
     public function update(AssistiveTechnology $at, array $data): AssistiveTechnology
     {
         return DB::transaction(function () use ($at, $data) {
+            $data = $this->normalizeInventoryData($at, $data);
+
             $this->validateBusinessRules($at, $data);
             $this->validateStatusChangeWithActiveLoans($at, $data);
 
@@ -141,5 +144,33 @@ class AssistiveTechnologyService
         if ($at->loans()->whereNull('return_date')->exists() && $at->status->value !== $data['status']) {
             throw new BusinessRuleException("Não é possível alterar o status do item enquanto houver empréstimos ativos.");
         }
+    }
+
+    /**
+     * RF: normaliza dados de estoque ao alternar entre tecnologia digital e física.
+     * Uso: evita persistir valores sentinela de estoque em tecnologias digitais.
+     */
+    private function normalizeInventoryData(AssistiveTechnology $at, array $data): array
+    {
+        $isDigital = $data['is_digital'] ?? $at->is_digital ?? false;
+
+        if ($isDigital) {
+            $data['asset_code'] = null;
+            $data['quantity'] = null;
+            $data['quantity_available'] = null;
+
+            return $data;
+        }
+
+        $isLegacyDigitalQuantitySentinel = ($at->is_digital ?? false)
+            && (int) ($at->quantity ?? 0) === 999
+            && array_key_exists('quantity', $data)
+            && (int) $data['quantity'] === 999;
+
+        if ($isLegacyDigitalQuantitySentinel) {
+            $data['quantity'] = 1;
+        }
+
+        return $data;
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace Tests\Feature\InclusiveRadar;
+namespace Tests\Feature;
 
+use App\Models\Institution;
 use App\Models\Location;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,7 +13,7 @@ class LocationTest extends TestCase
     use RefreshDatabase;
 
     protected User $adminUser;
-    protected \App\Models\Institution $institution;
+    protected Institution $institution;
 
     protected function setUp(): void
     {
@@ -20,7 +21,7 @@ class LocationTest extends TestCase
 
         // Arrange
         $this->adminUser = User::factory()->create(['is_admin' => true]);
-        $this->institution = \App\Models\Institution::factory()->create(['is_active' => true]);
+        $this->institution = Institution::factory()->create(['is_active' => true]);
     }
 
     /**
@@ -30,7 +31,7 @@ class LocationTest extends TestCase
     public function test_guest_cannot_access_locations_index()
     {
         // Act
-        $response = $this->get(route('inclusive-radar.locations.index'));
+        $response = $this->get(route('localizacoes.index'));
 
         // Assert
         $response->assertRedirect(route('login'));
@@ -47,7 +48,7 @@ class LocationTest extends TestCase
 
         // Act
         $response = $this->actingAs($user)
-            ->get(route('inclusive-radar.locations.index'));
+            ->get(route('localizacoes.index'));
 
         // Assert
         $response->assertStatus(403);
@@ -60,13 +61,13 @@ class LocationTest extends TestCase
     public function test_it_can_list_locations()
     {
         // Arrange
-        \App\Models\Location::factory()->count(3)->create([
+        Location::factory()->count(3)->create([
             'institution_id' => $this->institution->id
         ]);
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.locations.index'));
+            ->get(route('localizacoes.index'));
 
         // Assert
         $response->assertStatus(200);
@@ -95,10 +96,10 @@ class LocationTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->post(route('inclusive-radar.locations.store'), $data);
+            ->post(route('localizacoes.salvar'), $data);
 
         // Assert
-        $response->assertRedirect(route('inclusive-radar.locations.index'));
+        $response->assertRedirect(route('localizacoes.index'));
 
         $this->assertDatabaseHas('locations', [
             'name'           => 'Rampa de Acesso Bloco A',
@@ -124,8 +125,8 @@ class LocationTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->from(route('inclusive-radar.locations.create'))
-            ->post(route('inclusive-radar.locations.store'), $data);
+            ->from(route('localizacoes.criar'))
+            ->post(route('localizacoes.salvar'), $data);
 
         // Assert
         $response->assertStatus(302);
@@ -149,7 +150,7 @@ class LocationTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->post(route('inclusive-radar.locations.store'), $data);
+            ->post(route('localizacoes.salvar'), $data);
 
         // Assert
         $response->assertSessionHasErrors(['latitude', 'longitude']);
@@ -174,10 +175,10 @@ class LocationTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->put(route('inclusive-radar.locations.update', $location), $newData);
+            ->put(route('localizacoes.atualizar', $location), $newData);
 
         // Assert
-        $response->assertRedirect(route('inclusive-radar.locations.index'));
+        $response->assertRedirect(route('localizacoes.index'));
 
         $this->assertDatabaseHas('locations', [
             'id'   => $location->id,
@@ -199,7 +200,7 @@ class LocationTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->delete(route('inclusive-radar.locations.destroy', $location));
+            ->delete(route('localizacoes.excluir', $location));
 
         // Assert
         $response->assertRedirect();
@@ -214,15 +215,15 @@ class LocationTest extends TestCase
     public function test_it_filters_locations_by_institution_name()
     {
         // Arrange
-        $instA = \App\Models\Institution::factory()->create(['name' => 'Campus Guanambi']);
-        $instB = \App\Models\Institution::factory()->create(['name' => 'Campus Salvador']);
+        $instA = Institution::factory()->create(['name' => 'Campus Guanambi']);
+        $instB = Institution::factory()->create(['name' => 'Campus Salvador']);
 
         Location::factory()->create(['name' => 'Biblioteca', 'institution_id' => $instA->id]);
         Location::factory()->create(['name' => 'Laboratório', 'institution_id' => $instB->id]);
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.locations.index', ['institution_name' => 'Guanambi']));
+            ->get(route('localizacoes.index', ['institution_name' => 'Guanambi']));
 
         // Assert
         $response->assertStatus(200);
@@ -241,7 +242,7 @@ class LocationTest extends TestCase
     {
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.locations.index'), [
+            ->get(route('localizacoes.index'), [
                 'HTTP_X-Requested-With' => 'XMLHttpRequest'
             ]);
 
@@ -268,7 +269,7 @@ class LocationTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->post(route('inclusive-radar.locations.store'), $data);
+            ->post(route('localizacoes.salvar'), $data);
 
         // Assert
         $response->assertSessionHasErrors(['type']);
@@ -291,7 +292,7 @@ class LocationTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->post(route('inclusive-radar.locations.store'), $data);
+            ->post(route('localizacoes.salvar'), $data);
 
         // Assert
         $response->assertRedirect();
@@ -312,7 +313,7 @@ class LocationTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.locations.index', ['is_active' => '1']));
+            ->get(route('localizacoes.index', ['is_active' => '1']));
 
         // Assert
         $response->assertStatus(200);
@@ -321,7 +322,7 @@ class LocationTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.locations.index', ['is_active' => '0']));
+            ->get(route('localizacoes.index', ['is_active' => '0']));
 
         // Assert
         $response->assertSee($inativo->name);
@@ -335,18 +336,18 @@ class LocationTest extends TestCase
     public function test_it_displays_the_create_view_with_active_institutions()
     {
         // Arrange
-        \App\Models\Institution::factory()->create(['is_active' => true, 'name' => 'Campus Ativo']);
-        \App\Models\Institution::factory()->create(['is_active' => false, 'name' => 'Campus Desativado']);
+        Institution::factory()->create(['is_active' => true, 'name' => 'Campus Ativo']);
+        Institution::factory()->create(['is_active' => false, 'name' => 'Campus Desativado']);
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.locations.create'));
+            ->get(route('localizacoes.criar'));
 
         // Assert
         $response->assertStatus(200);
         $institutions = $response->viewData('institutions');
-        $this->assertTrue($institutions->contains('name', 'Campus Ativo'));
-        $this->assertFalse($institutions->contains('name', 'Campus Desativado'));
+        $this->assertTrue($institutions->contains('Campus Ativo'));
+        $this->assertFalse($institutions->contains('Campus Desativado'));
     }
 
     /**
@@ -356,11 +357,11 @@ class LocationTest extends TestCase
     public function test_it_displays_the_show_view()
     {
         // Arrange
-        $location = \App\Models\Location::factory()->create();
+        $location = Location::factory()->create();
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.locations.show', $location));
+            ->get(route('localizacoes.visualizar', $location));
 
         // Assert
         $response->assertStatus(200);
@@ -374,11 +375,11 @@ class LocationTest extends TestCase
     public function test_it_displays_the_edit_view()
     {
         // Arrange
-        $location = \App\Models\Location::factory()->create();
+        $location = Location::factory()->create();
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.locations.edit', $location));
+            ->get(route('localizacoes.editar', $location));
 
         // Assert
         $response->assertStatus(200);
@@ -394,11 +395,11 @@ class LocationTest extends TestCase
     {
         // Arrange
         Location::factory()->create(['name' => 'Biblioteca Central']);
-        \App\Models\Location::factory()->create(['name' => 'Ginásio de Esportes']);
+        Location::factory()->create(['name' => 'Ginásio de Esportes']);
 
         // Act
         $response = $this->actingAs($this->adminUser)
-            ->get(route('inclusive-radar.locations.index', ['name' => 'Biblioteca']));
+            ->get(route('localizacoes.index', ['name' => 'Biblioteca']));
 
         // Assert
         $response->assertSee('Biblioteca Central');

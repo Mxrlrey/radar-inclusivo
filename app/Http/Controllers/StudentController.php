@@ -74,7 +74,7 @@ class StudentController extends Controller
         ));
 
         return redirect()
-            ->route('estudantes.index', $student)
+            ->route('estudantes.index')
             ->with('success', 'Dados do aluno atualizados com sucesso!');
     }
 

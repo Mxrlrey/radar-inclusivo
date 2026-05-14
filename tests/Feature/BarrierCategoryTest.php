@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\InclusiveRadar;
+namespace Tests\Feature;
 
 use App\Models\BarrierCategory;
 use App\Models\User;
@@ -25,7 +25,7 @@ class BarrierCategoryTest extends TestCase
     public function test_guest_cannot_access_index()
     {
         // Act
-        $response = $this->get(route('inclusive-radar.barrier-categories.index'));
+        $response = $this->get(route('categorias-de-barreiras.index'));
         // Assert
         $response->assertRedirect(route('login'));
     }
@@ -33,7 +33,7 @@ class BarrierCategoryTest extends TestCase
     public function test_non_admin_cannot_access_index()
     {
         // Act
-        $response = $this->actingAs($this->regularUser)->get(route('inclusive-radar.barrier-categories.index'));
+        $response = $this->actingAs($this->regularUser)->get(route('categorias-de-barreiras.index'));
         // Assert
         $response->assertForbidden();
     }
@@ -41,10 +41,10 @@ class BarrierCategoryTest extends TestCase
     public function test_admin_can_access_index()
     {
         // Act
-        $response = $this->actingAs($this->admin)->get(route('inclusive-radar.barrier-categories.index'));
+        $response = $this->actingAs($this->admin)->get(route('categorias-de-barreiras.index'));
         // Assert
         $response->assertOk();
-        $response->assertViewIs('pages.inclusive-radar.barrier-categories.index');
+        $response->assertViewIs('pages.barrier-categories.index');
     }
 
     public function test_index_returns_partial_when_ajax()
@@ -52,7 +52,7 @@ class BarrierCategoryTest extends TestCase
         // Arrange
         BarrierCategory::factory()->count(2)->create();
         // Act
-        $response = $this->actingAs($this->admin)->get(route('inclusive-radar.barrier-categories.index'), [
+        $response = $this->actingAs($this->admin)->get(route('categorias-de-barreiras.index'), [
             'HTTP_X-Requested-With' => 'XMLHttpRequest'
         ]);
         // Assert
@@ -66,16 +66,16 @@ class BarrierCategoryTest extends TestCase
         // Arrange
         BarrierCategory::factory()->count(1)->create();
         // Act
-        $response = $this->actingAs($this->admin)->get(route('inclusive-radar.barrier-categories.index'));
+        $response = $this->actingAs($this->admin)->get(route('categorias-de-barreiras.index'));
         // Assert
         $response->assertOk();
-        $response->assertViewIs('pages.inclusive-radar.barrier-categories.index');
+        $response->assertViewIs('pages.barrier-categories.index');
     }
 
     public function test_guest_cannot_access_create()
     {
         // Act
-        $response = $this->get(route('inclusive-radar.barrier-categories.create'));
+        $response = $this->get(route('categorias-de-barreiras.criar'));
         // Assert
         $response->assertRedirect(route('login'));
     }
@@ -83,7 +83,7 @@ class BarrierCategoryTest extends TestCase
     public function test_non_admin_cannot_access_create()
     {
         // Act
-        $response = $this->actingAs($this->regularUser)->get(route('inclusive-radar.barrier-categories.create'));
+        $response = $this->actingAs($this->regularUser)->get(route('categorias-de-barreiras.criar'));
         // Assert
         $response->assertForbidden();
     }
@@ -91,10 +91,10 @@ class BarrierCategoryTest extends TestCase
     public function test_admin_can_access_create_page()
     {
         // Act
-        $response = $this->actingAs($this->admin)->get(route('inclusive-radar.barrier-categories.create'));
+        $response = $this->actingAs($this->admin)->get(route('categorias-de-barreiras.criar'));
         // Assert
         $response->assertOk();
-        $response->assertViewIs('pages.inclusive-radar.barrier-categories.create');
+        $response->assertViewIs('pages.barrier-categories.create');
     }
 
     public function test_guest_cannot_access_edit()
@@ -102,7 +102,7 @@ class BarrierCategoryTest extends TestCase
         // Arrange
         $category = BarrierCategory::factory()->create();
         // Act
-        $response = $this->get(route('inclusive-radar.barrier-categories.edit', $category));
+        $response = $this->get(route('categorias-de-barreiras.editar', $category));
         // Assert
         $response->assertRedirect(route('login'));
     }
@@ -112,7 +112,7 @@ class BarrierCategoryTest extends TestCase
         // Arrange
         $category = BarrierCategory::factory()->create();
         // Act
-        $response = $this->actingAs($this->regularUser)->get(route('inclusive-radar.barrier-categories.edit', $category));
+        $response = $this->actingAs($this->regularUser)->get(route('categorias-de-barreiras.editar', $category));
         // Assert
         $response->assertForbidden();
     }
@@ -120,9 +120,9 @@ class BarrierCategoryTest extends TestCase
     public function test_admin_can_access_edit_page()
     {
         // Arrange
-        $category = \App\Models\BarrierCategory::factory()->create();
+        $category = BarrierCategory::factory()->create();
         // Act
-        $response = $this->actingAs($this->admin)->get(route('inclusive-radar.barrier-categories.edit', $category));
+        $response = $this->actingAs($this->admin)->get(route('categorias-de-barreiras.editar', $category));
         // Assert
         $response->assertOk();
         $response->assertViewHas('barrierCategory', $category);
@@ -131,9 +131,9 @@ class BarrierCategoryTest extends TestCase
     public function test_guest_cannot_view_category()
     {
         // Arrange
-        $category = \App\Models\BarrierCategory::factory()->create();
+        $category = BarrierCategory::factory()->create();
         // Act
-        $response = $this->get(route('inclusive-radar.barrier-categories.show', $category));
+        $response = $this->get(route('categorias-de-barreiras.visualizar', $category));
         // Assert
         $response->assertRedirect(route('login'));
     }
@@ -143,7 +143,7 @@ class BarrierCategoryTest extends TestCase
         // Arrange
         $category = BarrierCategory::factory()->create();
         // Act
-        $response = $this->actingAs($this->regularUser)->get(route('inclusive-radar.barrier-categories.show', $category));
+        $response = $this->actingAs($this->regularUser)->get(route('categorias-de-barreiras.visualizar', $category));
         // Assert
         $response->assertForbidden();
     }
@@ -151,9 +151,9 @@ class BarrierCategoryTest extends TestCase
     public function test_admin_can_view_category_details()
     {
         // Arrange
-        $category = \App\Models\BarrierCategory::factory()->create();
+        $category = BarrierCategory::factory()->create();
         // Act
-        $response = $this->actingAs($this->admin)->get(route('inclusive-radar.barrier-categories.show', $category));
+        $response = $this->actingAs($this->admin)->get(route('categorias-de-barreiras.visualizar', $category));
         // Assert
         $response->assertOk();
         $response->assertViewHas('barrierCategory', $category);
@@ -162,7 +162,7 @@ class BarrierCategoryTest extends TestCase
     public function test_guest_cannot_store()
     {
         // Act
-        $response = $this->post(route('inclusive-radar.barrier-categories.store'), ['name' => 'Teste']);
+        $response = $this->post(route('categorias-de-barreiras.salvar'), ['name' => 'Teste']);
         // Assert
         $response->assertRedirect(route('login'));
     }
@@ -170,7 +170,7 @@ class BarrierCategoryTest extends TestCase
     public function test_non_admin_cannot_store()
     {
         // Act
-        $response = $this->actingAs($this->regularUser)->post(route('inclusive-radar.barrier-categories.store'), ['name' => 'Teste']);
+        $response = $this->actingAs($this->regularUser)->post(route('categorias-de-barreiras.salvar'), ['name' => 'Teste']);
         // Assert
         $response->assertForbidden();
     }
@@ -180,9 +180,9 @@ class BarrierCategoryTest extends TestCase
         // Arrange
         $data = ['name' => 'Nova Categoria'];
         // Act
-        $response = $this->actingAs($this->admin)->post(route('inclusive-radar.barrier-categories.store'), $data);
+        $response = $this->actingAs($this->admin)->post(route('categorias-de-barreiras.salvar'), $data);
         // Assert
-        $response->assertRedirect(route('inclusive-radar.barrier-categories.index'));
+        $response->assertRedirect(route('categorias-de-barreiras.index'));
         $this->assertDatabaseHas('barrier_categories', ['name' => 'Nova Categoria']);
     }
 
@@ -191,7 +191,7 @@ class BarrierCategoryTest extends TestCase
         // Arrange
         BarrierCategory::factory()->create(['name' => 'Existente']);
         // Act
-        $response = $this->actingAs($this->admin)->post(route('inclusive-radar.barrier-categories.store'), ['name' => 'Existente']);
+        $response = $this->actingAs($this->admin)->post(route('categorias-de-barreiras.salvar'), ['name' => 'Existente']);
         // Assert
         $response->assertSessionHasErrors('name');
     }
@@ -199,9 +199,9 @@ class BarrierCategoryTest extends TestCase
     public function test_guest_cannot_update()
     {
         // Arrange
-        $category = \App\Models\BarrierCategory::factory()->create();
+        $category = BarrierCategory::factory()->create();
         // Act
-        $response = $this->put(route('inclusive-radar.barrier-categories.update', $category), ['name' => 'Novo']);
+        $response = $this->put(route('categorias-de-barreiras.atualizar', $category), ['name' => 'Novo']);
         // Assert
         $response->assertRedirect(route('login'));
     }
@@ -211,7 +211,7 @@ class BarrierCategoryTest extends TestCase
         // Arrange
         $category = BarrierCategory::factory()->create();
         // Act
-        $response = $this->actingAs($this->regularUser)->put(route('inclusive-radar.barrier-categories.update', $category), ['name' => 'Novo']);
+        $response = $this->actingAs($this->regularUser)->put(route('categorias-de-barreiras.atualizar', $category), ['name' => 'Novo']);
         // Assert
         $response->assertForbidden();
     }
@@ -219,11 +219,11 @@ class BarrierCategoryTest extends TestCase
     public function test_admin_can_update()
     {
         // Arrange
-        $category = \App\Models\BarrierCategory::factory()->create(['name' => 'Original']);
+        $category = BarrierCategory::factory()->create(['name' => 'Original']);
         // Act
-        $response = $this->actingAs($this->admin)->put(route('inclusive-radar.barrier-categories.update', $category), ['name' => 'Atualizado']);
+        $response = $this->actingAs($this->admin)->put(route('categorias-de-barreiras.atualizar', $category), ['name' => 'Atualizado']);
         // Assert
-        $response->assertRedirect(route('inclusive-radar.barrier-categories.index'));
+        $response->assertRedirect(route('categorias-de-barreiras.index'));
         $this->assertDatabaseHas('barrier_categories', ['id' => $category->id, 'name' => 'Atualizado']);
     }
 
@@ -232,18 +232,18 @@ class BarrierCategoryTest extends TestCase
         // Arrange
         $category = BarrierCategory::factory()->create(['name' => 'NomeUnico']);
         // Act
-        $response = $this->actingAs($this->admin)->put(route('inclusive-radar.barrier-categories.update', $category), ['name' => 'NomeUnico']);
+        $response = $this->actingAs($this->admin)->put(route('categorias-de-barreiras.atualizar', $category), ['name' => 'NomeUnico']);
         // Assert
-        $response->assertRedirect(route('inclusive-radar.barrier-categories.index'));
+        $response->assertRedirect(route('categorias-de-barreiras.index'));
     }
 
     public function test_update_requires_unique_name_excluding_self()
     {
         // Arrange
-        \App\Models\BarrierCategory::factory()->create(['name' => 'Outra']);
+        BarrierCategory::factory()->create(['name' => 'Outra']);
         $category = BarrierCategory::factory()->create(['name' => 'Minha']);
         // Act
-        $response = $this->actingAs($this->admin)->put(route('inclusive-radar.barrier-categories.update', $category), ['name' => 'Outra']);
+        $response = $this->actingAs($this->admin)->put(route('categorias-de-barreiras.atualizar', $category), ['name' => 'Outra']);
         // Assert
         $response->assertSessionHasErrors('name');
     }
@@ -253,7 +253,7 @@ class BarrierCategoryTest extends TestCase
         // Arrange
         $category = BarrierCategory::factory()->create();
         // Act
-        $response = $this->delete(route('inclusive-radar.barrier-categories.destroy', $category));
+        $response = $this->delete(route('categorias-de-barreiras.excluir', $category));
         // Assert
         $response->assertRedirect(route('login'));
     }
@@ -263,7 +263,7 @@ class BarrierCategoryTest extends TestCase
         // Arrange
         $category = BarrierCategory::factory()->create();
         // Act
-        $response = $this->actingAs($this->regularUser)->delete(route('inclusive-radar.barrier-categories.destroy', $category));
+        $response = $this->actingAs($this->regularUser)->delete(route('categorias-de-barreiras.excluir', $category));
         // Assert
         $response->assertForbidden();
     }
@@ -273,21 +273,21 @@ class BarrierCategoryTest extends TestCase
         // Arrange
         $category = BarrierCategory::factory()->create();
         // Act
-        $response = $this->actingAs($this->admin)->delete(route('inclusive-radar.barrier-categories.destroy', $category));
+        $response = $this->actingAs($this->admin)->delete(route('categorias-de-barreiras.excluir', $category));
         // Assert
-        $response->assertRedirect(route('inclusive-radar.barrier-categories.index'));
+        $response->assertRedirect(route('categorias-de-barreiras.index'));
         $this->assertSoftDeleted('barrier_categories', ['id' => $category->id]);
     }
 
     public function test_index_can_filter_by_name()
     {
         // Arrange
-        \App\Models\BarrierCategory::factory()->create(['name' => 'BuscaEspecifica']);
-        \App\Models\BarrierCategory::factory()->create(['name' => 'RegistroInvisivel']);
+        BarrierCategory::factory()->create(['name' => 'BuscaEspecifica']);
+        BarrierCategory::factory()->create(['name' => 'RegistroInvisivel']);
 
         // Act
         $response = $this->actingAs($this->admin)
-            ->get(route('inclusive-radar.barrier-categories.index', ['name' => 'BuscaEspecifica']));
+            ->get(route('categorias-de-barreiras.index', ['name' => 'BuscaEspecifica']));
 
         // Assert
         $response->assertOk();
@@ -304,14 +304,14 @@ class BarrierCategoryTest extends TestCase
 
         // Act & Assert
         $this->actingAs($this->admin)
-            ->get(route('inclusive-radar.barrier-categories.index', ['is_active' => '1']))
+            ->get(route('categorias-de-barreiras.index', ['is_active' => '1']))
             ->assertOk()
             ->assertSee('CategoriaAtiva')
             ->assertDontSee('CategoriaInativa');
 
         // Act & Assert
         $this->actingAs($this->admin)
-            ->get(route('inclusive-radar.barrier-categories.index', ['is_active' => '0']))
+            ->get(route('categorias-de-barreiras.index', ['is_active' => '0']))
             ->assertOk()
             ->assertSee('CategoriaInativa')
             ->assertDontSee('CategoriaAtiva');

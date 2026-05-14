@@ -69,6 +69,11 @@ class Person extends Model
         return $this->gender->label();
     }
 
+    public static function genderOptions(): array
+    {
+        return Gender::options();
+    }
+
     /** Relacionamentos. */
     public function student(): HasOne
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\InclusiveRadar;
+namespace Tests\Unit;
 
 use App\Models\AccessibilityFeature;
 use App\Models\User;
@@ -27,7 +27,7 @@ class AccessibilityFeatureTest extends TestCase
     public function test_guest_cannot_access_index()
     {
         // Act
-        $response = $this->get(route('inclusive-radar.accessibility-features.index'));
+        $response = $this->get(route('recursos-de-acessibilidade.index'));
 
         // Assert
         $response->assertRedirect(route('login'));
@@ -37,7 +37,7 @@ class AccessibilityFeatureTest extends TestCase
     {
         // Act
         $response = $this->actingAs($this->regularUser)
-            ->get(route('inclusive-radar.accessibility-features.index'));
+            ->get(route('recursos-de-acessibilidade.index'));
 
         // Assert
         $response->assertForbidden();
@@ -47,11 +47,11 @@ class AccessibilityFeatureTest extends TestCase
     {
         // Act
         $response = $this->actingAs($this->admin)
-            ->get(route('inclusive-radar.accessibility-features.index'));
+            ->get(route('recursos-de-acessibilidade.index'));
 
         // Assert
         $response->assertOk();
-        $response->assertViewIs('pages.inclusive-radar.accessibility-features.index');
+        $response->assertViewIs('pages.accessibility-features.index');
     }
 
     public function test_index_returns_partial_when_ajax()
@@ -62,19 +62,19 @@ class AccessibilityFeatureTest extends TestCase
         // Act
         $response = $this->actingAs($this->admin)
             ->get(
-                route('inclusive-radar.accessibility-features.index'),
+                route('recursos-de-acessibilidade.index'),
                 ['HTTP_X-Requested-With' => 'XMLHttpRequest']
             );
 
         // Assert
         $response->assertOk();
-        $response->assertViewIs('pages.inclusive-radar.accessibility-features.partials.table');
+        $response->assertViewIs('pages.accessibility-features.partials.table');
     }
 
     public function test_guest_cannot_access_create()
     {
         // Act
-        $response = $this->get(route('inclusive-radar.accessibility-features.create'));
+        $response = $this->get(route('recursos-de-acessibilidade.criar'));
 
         // Assert
         $response->assertRedirect(route('login'));
@@ -84,7 +84,7 @@ class AccessibilityFeatureTest extends TestCase
     {
         // Act
         $response = $this->actingAs($this->regularUser)
-            ->get(route('inclusive-radar.accessibility-features.create'));
+            ->get(route('recursos-de-acessibilidade.criar'));
 
         // Assert
         $response->assertForbidden();
@@ -94,11 +94,11 @@ class AccessibilityFeatureTest extends TestCase
     {
         // Act
         $response = $this->actingAs($this->admin)
-            ->get(route('inclusive-radar.accessibility-features.create'));
+            ->get(route('recursos-de-acessibilidade.criar'));
 
         // Assert
         $response->assertOk();
-        $response->assertViewIs('pages.inclusive-radar.accessibility-features.create');
+        $response->assertViewIs('pages.accessibility-features.create');
     }
 
     public function test_guest_cannot_access_edit()
@@ -107,7 +107,7 @@ class AccessibilityFeatureTest extends TestCase
         $feature = AccessibilityFeature::factory()->create();
 
         // Act
-        $response = $this->get(route('inclusive-radar.accessibility-features.edit', $feature));
+        $response = $this->get(route('recursos-de-acessibilidade.editar', $feature));
 
         // Assert
         $response->assertRedirect(route('login'));
@@ -120,7 +120,7 @@ class AccessibilityFeatureTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->regularUser)
-            ->get(route('inclusive-radar.accessibility-features.edit', $feature));
+            ->get(route('recursos-de-acessibilidade.editar', $feature));
 
         // Assert
         $response->assertForbidden();
@@ -133,11 +133,11 @@ class AccessibilityFeatureTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->admin)
-            ->get(route('inclusive-radar.accessibility-features.edit', $feature));
+            ->get(route('recursos-de-acessibilidade.editar', $feature));
 
         // Assert
         $response->assertOk();
-        $response->assertViewIs('pages.inclusive-radar.accessibility-features.edit');
+        $response->assertViewIs('pages.accessibility-features.edit');
         $response->assertViewHas('accessibilityFeature', $feature);
     }
 
@@ -145,7 +145,7 @@ class AccessibilityFeatureTest extends TestCase
     {
         // Act
         $response = $this->post(
-            route('inclusive-radar.accessibility-features.store'),
+            route('recursos-de-acessibilidade.salvar'),
             ['name' => 'Teste']
         );
 
@@ -157,7 +157,7 @@ class AccessibilityFeatureTest extends TestCase
     {
         // Act
         $response = $this->actingAs($this->regularUser)
-            ->post(route('inclusive-radar.accessibility-features.store'), [
+            ->post(route('recursos-de-acessibilidade.salvar'), [
                 'name' => 'Teste'
             ]);
 
@@ -176,10 +176,10 @@ class AccessibilityFeatureTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->admin)
-            ->post(route('inclusive-radar.accessibility-features.store'), $data);
+            ->post(route('recursos-de-acessibilidade.salvar'), $data);
 
         // Assert
-        $response->assertRedirect(route('inclusive-radar.accessibility-features.index'));
+        $response->assertRedirect(route('recursos-de-acessibilidade.index'));
         $this->assertDatabaseHas('accessibility_features', ['name' => 'Audiodescrição']);
     }
 
@@ -190,7 +190,7 @@ class AccessibilityFeatureTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->admin)
-            ->post(route('inclusive-radar.accessibility-features.store'), [
+            ->post(route('recursos-de-acessibilidade.salvar'), [
                 'name' => 'Libras'
             ]);
 
@@ -204,7 +204,7 @@ class AccessibilityFeatureTest extends TestCase
         $feature = AccessibilityFeature::factory()->create();
 
         // Act
-        $response = $this->get(route('inclusive-radar.accessibility-features.show', $feature));
+        $response = $this->get(route('recursos-de-acessibilidade.visualizar', $feature));
 
         // Assert
         $response->assertRedirect(route('login'));
@@ -217,7 +217,7 @@ class AccessibilityFeatureTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->regularUser)
-            ->get(route('inclusive-radar.accessibility-features.show', $feature));
+            ->get(route('recursos-de-acessibilidade.visualizar', $feature));
 
         // Assert
         $response->assertForbidden();
@@ -230,7 +230,7 @@ class AccessibilityFeatureTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->admin)
-            ->get(route('inclusive-radar.accessibility-features.show', $feature));
+            ->get(route('recursos-de-acessibilidade.visualizar', $feature));
 
         // Assert
         $response->assertOk();
@@ -244,7 +244,7 @@ class AccessibilityFeatureTest extends TestCase
 
         // Act
         $response = $this->put(
-            route('inclusive-radar.accessibility-features.update', $feature),
+            route('recursos-de-acessibilidade.atualizar', $feature),
             ['name' => 'Novo']
         );
 
@@ -259,7 +259,7 @@ class AccessibilityFeatureTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->regularUser)
-            ->put(route('inclusive-radar.accessibility-features.update', $feature), [
+            ->put(route('recursos-de-acessibilidade.atualizar', $feature), [
                 'name' => 'Novo'
             ]);
 
@@ -270,17 +270,17 @@ class AccessibilityFeatureTest extends TestCase
     public function test_admin_can_update_feature()
     {
         // Arrange
-        $feature = \App\Models\AccessibilityFeature::factory()->create();
+        $feature = AccessibilityFeature::factory()->create();
 
         // Act
         $response = $this->actingAs($this->admin)
-            ->put(route('inclusive-radar.accessibility-features.update', $feature), [
+            ->put(route('recursos-de-acessibilidade.atualizar', $feature), [
                 'name' => 'Atualizado',
                 'is_active' => true,
             ]);
 
         // Assert
-        $response->assertRedirect(route('inclusive-radar.accessibility-features.index'));
+        $response->assertRedirect(route('recursos-de-acessibilidade.index'));
         $this->assertDatabaseHas('accessibility_features', [
             'id' => $feature->id,
             'name' => 'Atualizado'
@@ -290,10 +290,10 @@ class AccessibilityFeatureTest extends TestCase
     public function test_guest_cannot_delete_feature()
     {
         // Arrange
-        $feature = \App\Models\AccessibilityFeature::factory()->create();
+        $feature = AccessibilityFeature::factory()->create();
 
         // Act
-        $response = $this->delete(route('inclusive-radar.accessibility-features.destroy', $feature));
+        $response = $this->delete(route('recursos-de-acessibilidade.excluir', $feature));
 
         // Assert
         $response->assertRedirect(route('login'));
@@ -306,7 +306,7 @@ class AccessibilityFeatureTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->regularUser)
-            ->delete(route('inclusive-radar.accessibility-features.destroy', $feature));
+            ->delete(route('recursos-de-acessibilidade.excluir', $feature));
 
         // Assert
         $response->assertForbidden();
@@ -319,10 +319,10 @@ class AccessibilityFeatureTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->admin)
-            ->delete(route('inclusive-radar.accessibility-features.destroy', $feature));
+            ->delete(route('recursos-de-acessibilidade.excluir', $feature));
 
         // Assert
-        $response->assertRedirect(route('inclusive-radar.accessibility-features.index'));
+        $response->assertRedirect(route('recursos-de-acessibilidade.index'));
         $this->assertDatabaseMissing('accessibility_features', ['id' => $feature->id]);
     }
 
@@ -335,7 +335,7 @@ class AccessibilityFeatureTest extends TestCase
         // Act
         $response = $this->actingAs($this->admin)
             ->get(
-                route('inclusive-radar.accessibility-features.index', ['name' => 'Braille']),
+                route('recursos-de-acessibilidade.index', ['name' => 'Braille']),
                 ['HTTP_X-Requested-With' => 'XMLHttpRequest']
             );
 
@@ -354,7 +354,7 @@ class AccessibilityFeatureTest extends TestCase
         // Act
         $response = $this->actingAs($this->admin)
             ->get(
-                route('inclusive-radar.accessibility-features.index', ['is_active' => '1']),
+                route('recursos-de-acessibilidade.index', ['is_active' => '1']),
                 ['HTTP_X-Requested-With' => 'XMLHttpRequest']
             );
 
@@ -367,7 +367,7 @@ class AccessibilityFeatureTest extends TestCase
     public function test_it_has_materials_relationship()
     {
         // Arrange
-        $feature = new \App\Models\AccessibilityFeature();
+        $feature = new AccessibilityFeature();
 
         // Act
         $relation = $feature->materials();

@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Unit\InclusiveRadar;
+namespace Tests\Unit;
 
-use App\Exceptions\InclusiveRadar\CannotDeleteLinkedBarrierException;
+use App\Exceptions\BusinessRuleException;
+use App\Models\Barrier;
 use App\Models\Institution;
 use App\Models\Location;
 use App\Services\LocationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
 class LocationServiceTest extends TestCase
@@ -75,13 +75,13 @@ class LocationServiceTest extends TestCase
         // Arrange
         $location = Location::factory()->create(['is_active' => true]);
 
-        \App\Models\Barrier::factory()->create([
+        Barrier::factory()->create([
             'location_id' => $location->id,
             'resolved_at' => null
         ]);
 
         // Assert
-        $this->expectException(ValidationException::class);
+        $this->expectException(BusinessRuleException::class);
 
         // Act
         $this->service->update($location, [
@@ -116,13 +116,13 @@ class LocationServiceTest extends TestCase
         // Arrange
         $location = Location::factory()->create();
 
-        \App\Models\Barrier::factory()->create([
+        Barrier::factory()->create([
             'location_id' => $location->id,
             'resolved_at' => null
         ]);
 
         // Assert
-        $this->expectException(CannotDeleteLinkedBarrierException::class);
+        $this->expectException(BusinessRuleException::class);
 
         // Act
         $this->service->delete($location);
@@ -154,7 +154,7 @@ class LocationServiceTest extends TestCase
     {
         // Arrange
         $location = Location::factory()->create(['name' => 'Original', 'is_active' => true]);
-        \App\Models\Barrier::factory()->create(['location_id' => $location->id, 'resolved_at' => null]);
+        Barrier::factory()->create(['location_id' => $location->id, 'resolved_at' => null]);
 
         // Act
         $result = $this->service->update($location, ['name' => 'Novo Nome']);
@@ -171,8 +171,8 @@ class LocationServiceTest extends TestCase
     public function test_it_allows_deletion_when_all_barriers_are_resolved()
     {
         // Arrange
-        $location = \App\Models\Location::factory()->create();
-        \App\Models\Barrier::factory()->create([
+        $location = Location::factory()->create();
+        Barrier::factory()->create([
             'location_id' => $location->id,
             'resolved_at' => now()
         ]);

@@ -25,13 +25,17 @@
             </x-table.td>
 
             <x-table.td class="align-middle col-hide-md">
-                {{ $event->end_date->format('d/m/Y') }}
+                {{ $event->end_date?->format('d/m/Y') ?? '-' }}
             </x-table.td>
 
             <x-table.td class="align-middle col-hide-md">
-                {{ \Carbon\Carbon::parse($event->start_time)->format('H:i') }}
-                -
-                {{ \Carbon\Carbon::parse($event->end_time)->format('H:i') }}
+                @if($event->start_time && $event->end_time)
+                    {{ \Carbon\Carbon::parse($event->start_time)->format('H:i') }}
+                    -
+                    {{ \Carbon\Carbon::parse($event->end_time)->format('H:i') }}
+                @else
+                    -
+                @endif
             </x-table.td>
 
             <x-table.td class="align-middle col-hide-md">

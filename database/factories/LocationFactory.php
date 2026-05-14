@@ -1,17 +1,19 @@
 <?php
 
-namespace Database\Factories\InclusiveRadar;
+namespace Database\Factories;
 
+use App\Models\Institution;
+use App\Models\Location;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LocationFactory extends Factory
 {
-    protected $model = \App\Models\Location::class;
+    protected $model = Location::class;
 
     public function definition(): array
     {
         return [
-            'institution_id'  => \App\Models\Institution::factory(),
+            'institution_id'  => Institution::factory(),
             'name'            => $this->faker->words(3, true),
             'type'            => $this->faker->randomElement(['Bloco', 'Laboratório', 'Auditório', 'Estacionamento']),
             'description'     => $this->faker->sentence(),
@@ -20,6 +22,13 @@ class LocationFactory extends Factory
             'google_place_id' => $this->faker->optional()->uuid(),
             'is_active'       => true,
         ];
+    }
+
+    public function active(): self
+    {
+        return $this->state(fn () => [
+            'is_active' => true,
+        ]);
     }
 
     /**

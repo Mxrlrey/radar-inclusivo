@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Unit\InclusiveRadar;
+namespace Tests\Unit;
 
 use App\Models\AccessibilityFeature;
+use App\Services\AccessibilityFeatureService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -10,13 +11,13 @@ class AccessibilityFeatureServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    private \App\Services\AccessibilityFeatureService $service;
+    private AccessibilityFeatureService $service;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->service = new \App\Services\AccessibilityFeatureService();
+        $this->service = new AccessibilityFeatureService();
     }
 
     /**
@@ -52,7 +53,7 @@ class AccessibilityFeatureServiceTest extends TestCase
     public function test_it_can_update_a_feature()
     {
         // Arrange
-        $feature = \App\Models\AccessibilityFeature::factory()->create([
+        $feature = AccessibilityFeature::factory()->create([
             'name' => 'Original',
             'is_active' => false,
         ]);

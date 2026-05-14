@@ -1,29 +1,31 @@
 <?php
 
-namespace Database\Factories\InclusiveRadar;
+namespace Database\Factories;
 
+use App\Models\AccessibilityFeature;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AccessibilityFeatureFactory extends Factory
 {
-    protected $model = \App\Models\AccessibilityFeature::class;
+    protected $model = AccessibilityFeature::class;
 
     public function definition(): array
     {
-        return [
-            'name' => $this->faker->unique()->randomElement([
-                'Audiodescrição',
-                'Legenda Oculta',
-                'Libras',
-                'Alto Contraste',
-                'Fonte Ampliada',
-                'Leitor de Tela Compatível',
-                'Navegação por Teclado',
-                'Material Tátil',
-            ]),
+        $baseName = $this->faker->randomElement([
+            'Audiodescrição',
+            'Legenda Oculta',
+            'Libras',
+            'Alto Contraste',
+            'Fonte Ampliada',
+            'Leitor de Tela Compatível',
+            'Navegação por Teclado',
+            'Material Tátil',
+        ]);
 
+        return [
+            'name' => sprintf('%s %s', $baseName, $this->faker->unique()->numerify('###')),
             'description' => $this->faker->optional()->sentence(),
-            'is_active' => $this->faker->boolean(85),
+            'is_active' => true,
         ];
     }
 

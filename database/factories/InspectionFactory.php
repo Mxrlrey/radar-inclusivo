@@ -1,26 +1,37 @@
 <?php
 
-namespace Database\Factories\InclusiveRadar;
+namespace Database\Factories;
 
+use App\Models\Inspection;
+use App\Models\Barrier;
+use App\Models\AccessibleEducationalMaterial;
+use App\Models\AssistiveTechnology;
+use App\Models\User;
 use App\Enums\BarrierStatus;
 use App\Enums\ConservationState;
 use App\Enums\InspectionType;
-use App\Models\AccessibleEducationalMaterial;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class InspectionFactory extends Factory
 {
-    protected $model = \App\Models\Inspection::class;
+    protected $model = Inspection::class;
+
+    public function configure(): static
+    {
+        return $this->forAssistiveTechnology();
+    }
 
     public function definition(): array
     {
         return [
-            'state'           => ConservationState::NOT_APPLICABLE->value,
-            'status'          => \App\Enums\BarrierStatus::IDENTIFIED->value,
+            'state'           => ConservationState::GOOD->value,
+            'status'          => null,
             'inspection_date' => now(),
             'description'     => $this->faker->optional()->sentence(),
-            'type'            => $this->faker->randomElement(InspectionType::cases())->value,
+            'type'            => $this->faker->randomElement([
+                InspectionType::INITIAL->value,
+                InspectionType::PERIODIC->value,
+            ]),
             'user_id'         => User::factory(),
         ];
     }
@@ -32,18 +43,18 @@ class InspectionFactory extends Factory
     | - NÃO usa state
     | - SEMPRE usa status
     */
-    public function forBarrier(?\App\Models\Barrier $barrier = null): static
+    public function forBarrier(?Barrier $barrier = null): static
     {
         return $this->state(function () {
             return [
                 'state'  => null,
                 'status' => $this->faker->randomElement(BarrierStatus::cases())->value,
                 'type'   => $this->faker->randomElement([
-                    \App\Enums\InspectionType::INITIAL->value,
+                    InspectionType::INITIAL->value,
                     InspectionType::PERIODIC->value,
                 ]),
             ];
-        })->for($barrier ?? \App\Models\Barrier::factory(), 'inspectable');
+        })->for($barrier ?? Barrier::factory(), 'inspectable');
     }
 
     /*
@@ -53,11 +64,11 @@ class InspectionFactory extends Factory
     | - USA state
     | - NÃO usa status
     */
-    public function forAccessibleEducationalMaterial(?\App\Models\AccessibleEducationalMaterial $material = null): static
+    public function forAccessibleEducationalMaterial(?AccessibleEducationalMaterial $material = null): static
     {
         return $this->state(function () {
             return [
-                'state'  => $this->faker->randomElement(\App\Enums\ConservationState::cases())->value,
+                'state'  => $this->faker->randomElement(ConservationState::cases())->value,
                 'status' => null,
             ];
         })->for($material ?? AccessibleEducationalMaterial::factory(), 'inspectable');
@@ -70,13 +81,13 @@ class InspectionFactory extends Factory
     | - USA state
     | - NÃO usa status
     */
-    public function forAssistiveTechnology(?\App\Models\AssistiveTechnology $at = null): static
+    public function forAssistiveTechnology(?AssistiveTechnology $at = null): static
     {
         return $this->state(function () {
             return [
                 'state'  => $this->faker->randomElement(ConservationState::cases())->value,
                 'status' => null,
             ];
-        })->for($at ?? \App\Models\AssistiveTechnology::factory(), 'inspectable');
+        })->for($at ?? AssistiveTechnology::factory(), 'inspectable');
     }
 }
