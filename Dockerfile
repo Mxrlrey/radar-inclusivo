@@ -12,6 +12,8 @@ RUN apk add --no-cache \
     libwebp-dev \
     libxml2-dev \
     libzip-dev \
+    linux-headers \
+    sqlite-dev \
     freetype-dev \
     oniguruma-dev \
     zlib-dev
@@ -26,10 +28,12 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
         opcache \
         pcntl \
         pdo_mysql \
+        pdo_sqlite \
         xml \
         zip \
-    && pecl install redis \
-    && docker-php-ext-enable redis
+    && pecl install redis xdebug \
+    && docker-php-ext-enable redis xdebug \
+    && echo "xdebug.mode=off" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug-mode.ini
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
@@ -74,6 +78,7 @@ RUN apk add --no-cache \
     libwebp \
     libxml2 \
     libzip \
+    sqlite-libs \
     freetype \
     mysql-client \
     oniguruma \

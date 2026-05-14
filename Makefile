@@ -103,8 +103,16 @@ build-assets:
 # -----------------------------
 # PHPUnit / Testes
 # -----------------------------
+test:
+	$(COMPOSE) run --rm app php artisan test
+
 coverage:
-	docker exec -it $(APP_CONTAINER) ./vendor/bin/phpunit --coverage-html /var/www/coverage
+	$(COMPOSE) run --rm -e XDEBUG_MODE=coverage \
+	app php artisan test --coverage
+
+coverage-html:
+	$(COMPOSE) run --rm -e XDEBUG_MODE=coverage \
+	app php artisan test --coverage-html coverage
 
 # -----------------------------
 # Banco de dados
