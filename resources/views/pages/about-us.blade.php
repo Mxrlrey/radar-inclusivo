@@ -156,58 +156,61 @@
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-    <div class="tb-inner">
-        <div class="top-bar-left">
-            <a href="mailto:mxrlrey@gmail.com">
-                <i class="fas fa-envelope"></i>
-                mxrlrey@gmail.com
-            </a>
-            <a href="https://github.com/Mxrlrey" target="_blank">
-                <i class="fab fa-github"></i>
-                github.com/Mxrlrey
+<header>
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="tb-inner">
+            <div class="top-bar-left" aria-label="Contatos do projeto">
+                <a href="mailto:mxrlrey@gmail.com">
+                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                    mxrlrey@gmail.com
+                </a>
+                <a href="https://github.com/Mxrlrey" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github" aria-hidden="true"></i>
+                    github.com/Mxrlrey
+                </a>
+            </div>
+            <a href="/painel" class="btn-access">
+                <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+                Acessar o Sistema
             </a>
         </div>
-        <a href="/painel" class="btn-access">
-            <i class="fas fa-sign-in-alt"></i>
-            Acessar o Sistema
-        </a>
     </div>
-</div>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="nb-inner">
-        <a href="#hero" class="navbar-brand">
-            <div class="brand-icon">
-                <i class="fas fa-satellite-dish"></i>
-            </div>
-            <span class="brand-name">Radar <span>Inclusivo</span></span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#sobre">Sobre</a></li>
-            <li><a href="#funcionalidades">Funcionalidades</a></li>
-            <li><a href="#creditos">Créditos</a></li>
-        </ul>
-    </div>
-</nav>
+    <!-- NAVBAR -->
+    <nav class="navbar" aria-label="Navegação principal">
+        <div class="nb-inner">
+            <a href="#hero" class="navbar-brand" aria-label="Radar Inclusivo - início">
+                <div class="brand-icon" aria-hidden="true">
+                    <i class="fas fa-satellite-dish"></i>
+                </div>
+                <span class="brand-name">Radar <span>Inclusivo</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#funcionalidades">Funcionalidades</a></li>
+                <li><a href="#creditos">Créditos</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
 
-<!-- HERO -->
-<section class="hero" id="hero">
-    <div class="hero-dots"></div>
-    <div class="hero-content">
-        <h1>Sobre o <span>Radar Inclusivo</span></h1>
-        <div class="hero-divider"></div>
-        <p>Tecnologia a serviço da inclusão e acessibilidade</p>
-    </div>
-</section>
+<main>
+    <!-- HERO -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+        <div class="hero-dots" aria-hidden="true"></div>
+        <div class="hero-content">
+            <h1 id="hero-title">Sobre o <span>Radar Inclusivo</span></h1>
+            <div class="hero-divider"></div>
+            <p>Tecnologia a serviço da inclusão e acessibilidade</p>
+        </div>
+    </section>
 
 <!-- SOBRE NÓS -->
-<section class="sobre" id="sobre">
+<section class="sobre" id="sobre" aria-labelledby="sobre-title">
     <div class="container">
-        <h2 class="section-title">Sobre Nós</h2>
+        <h2 class="section-title" id="sobre-title">Sobre Nós</h2>
         <p class="section-subtitle">Conheça nossa proposta e o que nos move</p>
 
         <div class="sobre-grid">
@@ -229,11 +232,11 @@
                     responsivo e acessível.
                 </p>
                 <ul class="sobre-list">
-                    <li><i class="fas fa-check-circle"></i> Gestão integrada de dados voltados à inclusão em uma única plataforma</li>
-                    <li><i class="fas fa-check-circle"></i> Controle de tecnologias assistivas e materiais pedagógicos acessíveis</li>
-                    <li><i class="fas fa-check-circle"></i> Registro e monitoramento de barreiras de acessibilidade</li>
-                    <li><i class="fas fa-check-circle"></i> Gerenciamento de agenda institucional e fila de espera</li>
-                    <li><i class="fas fa-check-circle"></i> Interface responsiva, adaptável a diferentes dispositivos</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i> Gestão integrada de dados voltados à inclusão em uma única plataforma</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i> Controle de tecnologias assistivas e materiais pedagógicos acessíveis</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i> Registro e monitoramento de barreiras de acessibilidade</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i> Gerenciamento de agenda institucional e fila de espera</li>
+                    <li><i class="fas fa-check-circle" aria-hidden="true"></i> Interface responsiva, adaptável a diferentes dispositivos</li>
                 </ul>
             </div>
 
@@ -260,117 +263,117 @@
 </section>
 
 <!-- FUNCIONALIDADES -->
-<section class="funcionalidades" id="funcionalidades">
+<section class="funcionalidades" id="funcionalidades" aria-labelledby="funcionalidades-title">
     <div class="container">
-        <h2 class="section-title white">Funcionalidades</h2>
+        <h2 class="section-title white" id="funcionalidades-title">Funcionalidades</h2>
         <p class="section-subtitle white">18 módulos integrados para a gestão completa do AEE</p>
 
         <div class="features-grid">
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-tachometer-alt"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-tachometer-alt" aria-hidden="true"></i></div>
                 <h5>Dashboard</h5>
                 <p>Visão geral do sistema com indicadores, atalhos e informações rápidas para o gestor.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-chart-bar"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-chart-bar" aria-hidden="true"></i></div>
                 <h5>Relatórios</h5>
                 <p>Geração e visualização de dados consolidados — estatísticas, acompanhamentos e histórico.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-bell"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-bell" aria-hidden="true"></i></div>
                 <h5>Notificações</h5>
                 <p>Lista de avisos importantes do sistema como eventos, atualizações e alertas relevantes.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-database"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-database" aria-hidden="true"></i></div>
                 <h5>Backups</h5>
                 <p>Gerenciamento de cópias de segurança do sistema para garantir a integridade dos dados.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-wheelchair"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-wheelchair" aria-hidden="true"></i></div>
                 <h5>Deficiências</h5>
                 <p>Cadastro dos tipos de deficiência dos alunos atendidos pelo serviço de AEE.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-id-badge"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-id-badge" aria-hidden="true"></i></div>
                 <h5>Cargos</h5>
                 <p>Define funções dos profissionais e suas permissões — professor AEE, secretário e outros.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-universal-access"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-universal-access" aria-hidden="true"></i></div>
                 <h5>Recursos de Acessibilidade</h5>
                 <p>Cadastro de categorias de recursos como braille, intérprete de Libras, entre outros.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                 <h5>Categorias de Barreiras</h5>
                 <p>Classificação das barreiras encontradas — física, comunicacional, atitudinal e mais.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-building"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-building" aria-hidden="true"></i></div>
                 <h5>Instituições</h5>
                 <p>Cadastro da instituição base que utiliza o sistema de gestão inclusiva.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-map-marker-alt" aria-hidden="true"></i></div>
                 <h5>Localizações</h5>
                 <p>Locais físicos dentro das instituições como salas, setores e ambientes específicos.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-user-graduate"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-user-graduate" aria-hidden="true"></i></div>
                 <h5>Alunos</h5>
                 <p>Cadastro e gestão completa dos alunos atendidos pelo serviço de educação especial.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-users"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-users" aria-hidden="true"></i></div>
                 <h5>Equipe</h5>
                 <p>Profissionais do AEE — psicólogos, pedagogos, fonoaudiólogos e demais especialistas.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-laptop-medical"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-laptop-medical" aria-hidden="true"></i></div>
                 <h5>Tecnologias Assistivas</h5>
                 <p>Controle de equipamentos e recursos tecnológicos destinados à acessibilidade dos alunos.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-book-open"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-book-open" aria-hidden="true"></i></div>
                 <h5>Materiais Pedagógicos</h5>
                 <p>Materiais adaptados para apoio ao ensino inclusivo e ao desenvolvimento dos alunos.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-ban"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-ban" aria-hidden="true"></i></div>
                 <h5>Barreiras</h5>
                 <p>Registro de problemas de acessibilidade encontrados na instituição para acompanhamento.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-exchange-alt"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-exchange-alt" aria-hidden="true"></i></div>
                 <h5>Empréstimos</h5>
                 <p>Controle de empréstimo e devolução de recursos e equipamentos assistivos.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-list-ol"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-list-ol" aria-hidden="true"></i></div>
                 <h5>Fila de Espera</h5>
                 <p>Gestão de pessoas aguardando recursos ou atendimento especializado disponível.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon-wrap"><i class="fas fa-calendar-alt"></i></div>
+                <div class="feature-icon-wrap"><i class="fas fa-calendar-alt" aria-hidden="true"></i></div>
                 <h5>Agenda Institucional</h5>
                 <p>Eventos e atividades planejadas da instituição com visualização centralizada.</p>
             </div>
@@ -380,21 +383,21 @@
 </section>
 
 <!-- CTA — CÓDIGO FONTE -->
-<div class="cta-banner">
+<section class="cta-banner" aria-labelledby="codigo-fonte-title">
     <div class="container">
-        <h2>Acesse o Código Fonte</h2>
+        <h2 id="codigo-fonte-title">Acesse o Código Fonte</h2>
         <p>O Radar Inclusivo é um projeto acadêmico aberto. Explore o repositório no GitHub.</p>
-        <a href="https://github.com/Mxrlrey/radar-inclusivo" target="_blank" class="btn-cta">
-            <i class="fab fa-github"></i>
+        <a href="https://github.com/Mxrlrey/radar-inclusivo" target="_blank" rel="noopener noreferrer" class="btn-cta">
+            <i class="fab fa-github" aria-hidden="true"></i>
             Ver Repositório
         </a>
     </div>
-</div>
+</section>
 
 <!-- CRÉDITOS -->
-<section class="creditos" id="creditos">
+<section class="creditos" id="creditos" aria-labelledby="creditos-title">
     <div class="container">
-        <h2 class="section-title">Créditos</h2>
+        <h2 class="section-title" id="creditos-title">Créditos</h2>
         <p class="section-subtitle">Pessoas por trás do Radar Inclusivo</p>
 
         <div class="creditos-grid">
@@ -405,7 +408,7 @@
                 <div class="credito-role">Desenvolvimento</div>
                 <div class="credito-name">Marley Teixeira Meira</div>
                 <div class="credito-email">
-                    <a href="mailto:mxrlrey@gmail.com"><i class="fas fa-envelope"></i> mxrlrey@gmail.com</a>
+                    <a href="mailto:mxrlrey@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i> mxrlrey@gmail.com</a>
                 </div>
             </div>
 
@@ -416,7 +419,7 @@
                 <div class="credito-role">Orientação / Coordenação</div>
                 <div class="credito-name">Prof. Woquiton Fernandes</div>
                 <div class="credito-email">
-                    <a href="mailto:woquiton@gmail.com"><i class="fas fa-envelope"></i> woquiton@gmail.com</a>
+                    <a href="mailto:woquiton@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i> woquiton@gmail.com</a>
                 </div>
             </div>
         </div>
@@ -438,6 +441,7 @@
         </div>
     </div>
 </section>
+</main>
 
 <script>
     const sections = document.querySelectorAll("section");
@@ -467,7 +471,7 @@
     <div class="container">
         <p>
             &copy; 2026 Radar Inclusivo — Trabalho de Conclusão de Curso · IFBaiano Campus Guanambi &nbsp;|&nbsp;
-            <a href="https://github.com/Mxrlrey/radar-inclusivo" target="_blank"><i class="fab fa-github"></i> Código Fonte</a>
+            <a href="https://github.com/Mxrlrey/radar-inclusivo" target="_blank" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i> Código Fonte</a>
         </p>
     </div>
 </footer>
