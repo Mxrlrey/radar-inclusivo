@@ -300,6 +300,11 @@
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
+.high-contrast .sidebar-brand-icon {
+    color: #000000;
+    box-shadow: inset 0 0 0 2px #ffff00;
+}
+
 .sidebar-brand-text {
     display: flex;
     align-items: baseline;
@@ -368,6 +373,15 @@
     line-height: 17px;
     color: inherit;
     flex-shrink: 0;
+}
+
+.high-contrast .sidebar-menu a:not(.active) .icon {
+    color: #d6d6d6;
+}
+
+.high-contrast .sidebar-menu a.active .icon,
+.high-contrast .sidebar-menu a:not(.active):hover .icon {
+    color: var(--color-primary);
 }
 
 .sidebar-menu .text {

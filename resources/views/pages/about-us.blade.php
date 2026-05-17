@@ -476,5 +476,6 @@
     </div>
 </footer>
 
+@include('partials.vlibras')
 </body>
 </html>

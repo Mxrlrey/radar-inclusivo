@@ -73,5 +73,6 @@
     </div>
 </div>
 
+@include('partials.vlibras')
 </body>
 </html>

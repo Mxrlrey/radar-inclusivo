@@ -65,17 +65,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
 
-<script src="https://vlibras.gov.br/app/vlibras-plugin.js" defer></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js" defer></script>
 
 <script>
-    // Inicialização do VLibras após o carregamento do script deferido
-    window.addEventListener('load', function() {
-        if (window.VLibras) {
-            new window.VLibras.Widget('https://vlibras.gov.br/app');
-        }
-    });
-
     // Inicialização do Select2 e CKEditor
     document.addEventListener('DOMContentLoaded', function() {
         const initSelect = () => {
@@ -132,11 +124,6 @@
 
 @stack('scripts')
 
-<div vw class="enabled">
-    <div vw-access-button class="active"></div>
-    <div vw-plugin-wrapper>
-        <div class="vw-plugin-top-wrapper"></div>
-    </div>
-</div>
+@include('partials.vlibras')
 </body>
 </html>
