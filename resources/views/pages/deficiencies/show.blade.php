@@ -20,15 +20,17 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('deficiencias.editar', $deficiency)"
-                variant="info"
-            >
-                <span class="btn-label">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                </span>
-                Editar
-            </x-buttons.link-button>
+            @can('deficiency.update')
+                <x-buttons.link-button
+                    :href="route('deficiencias.editar', $deficiency)"
+                    variant="info"
+                >
+                    <span class="btn-label">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </span>
+                    Editar
+                </x-buttons.link-button>
+            @endcan
 
             <x-buttons.link-button
                 :href="route('deficiencias.index')"
@@ -104,53 +106,57 @@
                 Voltar
             </x-buttons.link-button>
 
-            <x-buttons.submit-button
-                variant="danger"
-                type="button"
-                label="Excluir deficiência"
-                onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
-            >
-                <span class="btn-label">
-                    <i class="fa fa-eraser" aria-hidden="true"></i>
-                </span>
-                Excluir
-            </x-buttons.submit-button>
+            @can('deficiency.delete')
+                <x-buttons.submit-button
+                    variant="danger"
+                    type="button"
+                    label="Excluir deficiência"
+                    onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                >
+                    <span class="btn-label">
+                        <i class="fa fa-eraser" aria-hidden="true"></i>
+                    </span>
+                    Excluir
+                </x-buttons.submit-button>
+            @endcan
         </x-show.footer>
     </div>
 
-    <x-modal.modal
-        :id="$modalId"
-        title="Confirmar Exclusão"
-        size="sm"
-    >
-        <div class="p-3">
-            <p class="mb-2 text-danger fw-bold">
-                Esta ação não pode ser desfeita.
-            </p>
+    @can('deficiency.delete')
+        <x-modal.modal
+            :id="$modalId"
+            title="Confirmar Exclusão"
+            size="sm"
+        >
+            <div class="p-3">
+                <p class="mb-2 text-danger fw-bold">
+                    Esta ação não pode ser desfeita.
+                </p>
 
-            <p class="mb-0 text-muted">
-                Deseja realmente excluir a deficiência
-                <strong>{{ $deficiency->name }}</strong>?
-            </p>
-        </div>
+                <p class="mb-0 text-muted">
+                    Deseja realmente excluir a deficiência
+                    <strong>{{ $deficiency->name }}</strong>?
+                </p>
+            </div>
 
-        <x-slot:footer>
-            <x-buttons.link-button
-                variant="secondary"
-                type="button"
-                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
-            >
-                Cancelar
-            </x-buttons.link-button>
+            <x-slot:footer>
+                <x-buttons.link-button
+                    variant="secondary"
+                    type="button"
+                    onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+                >
+                    Cancelar
+                </x-buttons.link-button>
 
-            <form action="{{ route('deficiencias.excluir', $deficiency) }}" method="POST">
-                @csrf
-                @method('DELETE')
+                <form action="{{ route('deficiencias.excluir', $deficiency) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
 
-                <x-buttons.submit-button variant="danger" label="Confirmar exclusão da deficiência">
-                    Excluir
-                </x-buttons.submit-button>
-            </form>
-        </x-slot:footer>
-    </x-modal.modal>
+                    <x-buttons.submit-button variant="danger" label="Confirmar exclusão da deficiência">
+                        Excluir
+                    </x-buttons.submit-button>
+                </form>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 @endsection

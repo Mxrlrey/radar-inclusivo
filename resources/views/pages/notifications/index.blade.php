@@ -15,13 +15,15 @@
             <p>Histórico completo das suas notificações do sistema.</p>
         </div>
 
-        <form action="{{ route('notificacoes.ler.todas') }}" method="POST">
-            @csrf
-            <x-buttons.submit-button variant="primary">
-                <i class="fa fa-check"></i>
-                Marcar todas como lidas
-            </x-buttons.submit-button>
-        </form>
+        @can('notification.read-all')
+            <form action="{{ route('notificacoes.ler.todas') }}" method="POST">
+                @csrf
+                <x-buttons.submit-button variant="primary">
+                    <i class="fa fa-check"></i>
+                    Marcar todas como lidas
+                </x-buttons.submit-button>
+            </form>
+        @endcan
     </div>
 
     @forelse($notifications as $notification)
@@ -68,6 +70,7 @@
                         </x-buttons.link-button>
                     @endif
 
+                    @can('notification.read')
                     @if($isUnread)
                         <form action="{{ route('notificacoes.ler', $notification->id) }}" method="POST">
                             @csrf
@@ -81,6 +84,7 @@
                             </x-buttons.submit-button>
                         </form>
                     @endif
+                    @endcan
                 </div>
             </div>
         </div>

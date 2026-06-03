@@ -109,56 +109,62 @@
                 Voltar
             </x-buttons.link-button>
 
-            <x-buttons.link-button
-                :href="route('copias-seguranca.baixar', $backup->id)"
-                variant="success"
-            >
-                <span class="btn-label"><i class="fa fa-download" aria-hidden="true"></i></span>
-                Baixar Backup
-            </x-buttons.link-button>
+            @can('backup.download')
+                <x-buttons.link-button
+                    :href="route('copias-seguranca.baixar', $backup->id)"
+                    variant="success"
+                >
+                    <span class="btn-label"><i class="fa fa-download" aria-hidden="true"></i></span>
+                    Baixar Backup
+                </x-buttons.link-button>
+            @endcan
 
-            <x-buttons.submit-button
-                variant="danger"
-                type="button"
-                label="Excluir backup"
-                onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
-            >
-                <span class="btn-label"><i class="fa fa-eraser" aria-hidden="true"></i></span>
-                Excluir
-            </x-buttons.submit-button>
-        </x-show.footer>
-    </div>
-    <x-modal.modal
-        :id="$modalId"
-        title="Confirmar Exclusão"
-        size="sm"
-    >
-        <div class="p-3">
-            <p class="mb-2 text-danger fw-bold">
-                Esta ação não pode ser desfeita.
-            </p>
-            <p class="mb-0 text-muted">
-                Deseja realmente excluir o backup <strong>{{ $backup->file_name }}</strong>?
-            </p>
-        </div>
-
-        <x-slot:footer>
-            <x-buttons.link-button
-                variant="secondary"
-                type="button"
-                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
-            >
-                Cancelar
-            </x-buttons.link-button>
-
-            <form action="{{ route('copias-seguranca.excluir', $backup->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
-
-                <x-buttons.submit-button variant="danger" label="Confirmar exclusão do backup">
+            @can('backup.destroy')
+                <x-buttons.submit-button
+                    variant="danger"
+                    type="button"
+                    label="Excluir backup"
+                    onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                >
+                    <span class="btn-label"><i class="fa fa-eraser" aria-hidden="true"></i></span>
                     Excluir
                 </x-buttons.submit-button>
-            </form>
-        </x-slot:footer>
-    </x-modal.modal>
+            @endcan
+        </x-show.footer>
+    </div>
+    @can('backup.destroy')
+        <x-modal.modal
+            :id="$modalId"
+            title="Confirmar Exclusão"
+            size="sm"
+        >
+            <div class="p-3">
+                <p class="mb-2 text-danger fw-bold">
+                    Esta ação não pode ser desfeita.
+                </p>
+                <p class="mb-0 text-muted">
+                    Deseja realmente excluir o backup <strong>{{ $backup->file_name }}</strong>?
+                </p>
+            </div>
+
+            <x-slot:footer>
+                <x-buttons.link-button
+                    variant="secondary"
+                    type="button"
+                    onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+                >
+                    Cancelar
+                </x-buttons.link-button>
+
+                <form action="{{ route('copias-seguranca.excluir', $backup->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <x-buttons.submit-button variant="danger" label="Confirmar exclusão do backup">
+                        Excluir
+                    </x-buttons.submit-button>
+                </form>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 @endsection

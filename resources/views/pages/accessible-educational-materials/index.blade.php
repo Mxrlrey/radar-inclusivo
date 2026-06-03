@@ -13,13 +13,15 @@
             <p class="text-muted mb-0">Gestão de recursos didáticos, livros e jogos adaptados.</p>
         </div>
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('materiais-pedagogicos-acessiveis.criar')"
-                variant="info"
-                aria-label="Cadastrar novo material pedagógico"
-            >
-                <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span> Cadastrar
-            </x-buttons.link-button>
+            @can('material.create')
+                <x-buttons.link-button
+                    :href="route('materiais-pedagogicos-acessiveis.criar')"
+                    variant="info"
+                    aria-label="Cadastrar novo material pedagógico"
+                >
+                    <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span> Cadastrar
+                </x-buttons.link-button>
+            @endcan
         </div>
     </div>
 

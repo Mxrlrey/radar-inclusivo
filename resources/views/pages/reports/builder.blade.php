@@ -100,15 +100,17 @@
 
                         <div class="col-12 col-md-4 ">
                             <div class="w-100">
-                                <x-buttons.submit-button
-                                    type="button"
-                                    id="btn-add-relation"
-                                    variant="new"
-                                    class=" mb-4"
-                                >
-                                    <span class="btn-label"><i class="fa fa-plus"></i></span>
-                                    Adicionar
-                                </x-buttons.submit-button>
+                                @can('report.configure')
+                                    <x-buttons.submit-button
+                                        type="button"
+                                        id="btn-add-relation"
+                                        variant="new"
+                                        class=" mb-4"
+                                    >
+                                        <span class="btn-label"><i class="fa fa-plus"></i></span>
+                                        Adicionar
+                                    </x-buttons.submit-button>
+                                @endcan
                             </div>
                         </div>
                     </div>
@@ -132,10 +134,12 @@
                 <div id="filters-list" class="d-flex flex-column gap-3"></div>
 
                 <div class="mt-3">
-                    <x-buttons.submit-button type="button" variant="secondary" onclick="addFilterRow()">
-                        <span class="btn-label"><i class="fa fa-plus"></i></span>
-                        Adicionar filtro
-                    </x-buttons.submit-button>
+                    @can('report.configure')
+                        <x-buttons.submit-button type="button" variant="secondary" onclick="addFilterRow()">
+                            <span class="btn-label"><i class="fa fa-plus"></i></span>
+                            Adicionar filtro
+                        </x-buttons.submit-button>
+                    @endcan
                 </div>
             </div>
 
@@ -149,10 +153,12 @@
                     </div>
 
                     <div class="d-flex flex-wrap gap-2">
-                        <x-buttons.submit-button type="button" id="btn-run" variant="new" onclick="runReport()" disabled>
-                            <span class="btn-label"><i class="fa fa-table"></i></span>
-                            Gerar prévia
-                        </x-buttons.submit-button>
+                        @can('report.run')
+                            <x-buttons.submit-button type="button" id="btn-run" variant="new" onclick="runReport()" disabled>
+                                <span class="btn-label"><i class="fa fa-table"></i></span>
+                                Gerar prévia
+                            </x-buttons.submit-button>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -198,10 +204,12 @@
                     <div class="report-builder-preview-footer">
                         <small class="text-muted" id="preview-footer-info"></small>
                         <div class="d-flex flex-wrap gap-2">
-                            <x-buttons.submit-button type="button" variant="danger" onclick="exportPdf()">
-                                <span class="btn-label"><i class="fa fa-file-pdf-o"></i></span>
-                                Exportar PDF
-                            </x-buttons.submit-button>
+                            @can('report.export.pdf')
+                                <x-buttons.submit-button type="button" variant="danger" onclick="exportPdf()">
+                                    <span class="btn-label"><i class="fa fa-file-pdf-o"></i></span>
+                                    Exportar PDF
+                                </x-buttons.submit-button>
+                            @endcan
 
                             <x-buttons.submit-button type="button" variant="secondary" onclick="copyTable()">
                                 <span class="btn-label"><i class="fa fa-copy"></i></span>

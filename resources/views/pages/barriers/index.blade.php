@@ -18,16 +18,18 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('barreiras.criar')"
-                variant="info"
-                aria-label="Cadastrar nova barreira"
-            >
-                <span class="btn-label">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </span>
-                Cadastrar
-            </x-buttons.link-button>
+            @can('barrier.create')
+                <x-buttons.link-button
+                    :href="route('barreiras.criar')"
+                    variant="info"
+                    aria-label="Cadastrar nova barreira"
+                >
+                    <span class="btn-label">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </span>
+                    Cadastrar
+                </x-buttons.link-button>
+            @endcan
         </div>
     </div>
 

@@ -25,26 +25,30 @@
 
             <x-table.td>
                 <x-table.actions>
-                    <x-buttons.link-button
-                        :href="route('recursos-de-acessibilidade.visualizar', $feature)"
-                        variant="info"
-                        size="xs"
-                        title="Visualizar {{ $feature->name }}"
-                        aria-label="Visualizar detalhes de {{ $feature->name }}"
-                    >
-                        <i class="fa fa-eye" aria-hidden="true"></i>
-                    </x-buttons.link-button>
+                    @can('accessibility-feature.show')
+                        <x-buttons.link-button
+                            :href="route('recursos-de-acessibilidade.visualizar', $feature)"
+                            variant="info"
+                            size="xs"
+                            title="Visualizar {{ $feature->name }}"
+                            aria-label="Visualizar detalhes de {{ $feature->name }}"
+                        >
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </x-buttons.link-button>
+                    @endcan
 
-                    <x-buttons.submit-button
-                        variant="danger"
-                        size="xs"
-                        type="button"
-                        onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
-                        title="Excluir {{ $feature->name }}"
-                        aria-label="Abrir confirmação para excluir o recurso {{ $feature->name }}"
-                    >
-                        <i class="fa fa-eraser" aria-hidden="true"></i>
-                    </x-buttons.submit-button>
+                    @can('accessibility-feature.destroy')
+                        <x-buttons.submit-button
+                            variant="danger"
+                            size="xs"
+                            type="button"
+                            onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                            title="Excluir {{ $feature->name }}"
+                            aria-label="Abrir confirmação para excluir o recurso {{ $feature->name }}"
+                        >
+                            <i class="fa fa-eraser" aria-hidden="true"></i>
+                        </x-buttons.submit-button>
+                    @endcan
                 </x-table.actions>
             </x-table.td>
         </tr>
@@ -62,38 +66,40 @@
         $modalId = "modal-delete-feature-" . $feature->id;
     @endphp
 
-    <x-modal.modal
-        :id="$modalId"
-        title="Confirmar Exclusão"
-        size="sm"
-    >
-        <div class="p-3">
-            <p class="mb-2 text-danger fw-bold">
-                Esta ação não pode ser desfeita.
-            </p>
-            <p class="mb-0 text-muted">
-                Deseja realmente excluir o recurso
-                <strong>{{ $feature->name }}</strong>?
-            </p>
-        </div>
+    @can('accessibility-feature.destroy')
+        <x-modal.modal
+            :id="$modalId"
+            title="Confirmar Exclusão"
+            size="sm"
+        >
+            <div class="p-3">
+                <p class="mb-2 text-danger fw-bold">
+                    Esta ação não pode ser desfeita.
+                </p>
+                <p class="mb-0 text-muted">
+                    Deseja realmente excluir o recurso
+                    <strong>{{ $feature->name }}</strong>?
+                </p>
+            </div>
 
-        <x-slot:footer>
-            <x-buttons.link-button
-                variant="secondary"
-                type="button"
-                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
-            >
-                Cancelar
-            </x-buttons.link-button>
+            <x-slot:footer>
+                <x-buttons.link-button
+                    variant="secondary"
+                    type="button"
+                    onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+                >
+                    Cancelar
+                </x-buttons.link-button>
 
-            <form action="{{ route('recursos-de-acessibilidade.excluir', $feature) }}" method="POST">
-                @csrf
-                @method('DELETE')
+                <form action="{{ route('recursos-de-acessibilidade.excluir', $feature) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
 
-                <x-buttons.submit-button variant="danger">
-                    Excluir
-                </x-buttons.submit-button>
-            </form>
-        </x-slot:footer>
-    </x-modal.modal>
+                    <x-buttons.submit-button variant="danger">
+                        Excluir
+                    </x-buttons.submit-button>
+                </form>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 @endforeach

@@ -18,16 +18,18 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('localizacoes.criar')"
-                variant="info"
-                aria-label="Adicionar novo ponto de referência"
-            >
-                <span class="btn-label">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </span>
-                Cadastrar
-            </x-buttons.link-button>
+            @can('location.create')
+                <x-buttons.link-button
+                    :href="route('localizacoes.criar')"
+                    variant="info"
+                    aria-label="Adicionar novo ponto de referência"
+                >
+                    <span class="btn-label">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </span>
+                    Cadastrar
+                </x-buttons.link-button>
+            @endcan
         </div>
     </div>
 

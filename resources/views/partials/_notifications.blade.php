@@ -2,7 +2,7 @@
     @php
         $unreadCount = Auth::user()->unreadNotifications()->count();
         $displayCount = $unreadCount > 99 ? '99+' : $unreadCount;
-        $notifications = Auth::user()->unreadNotifications()->take(5)->get();
+        $notifications = Auth::user()->unreadNotifications()->get();
     @endphp
 
     <div class="dropdown">
@@ -56,9 +56,11 @@
                 @endforelse
             </div>
 
-            <div class="notification-footer">
-                <a href="{{ route('notificacoes.index') }}">Ver todas as notificações</a>
-            </div>
+            @can('notification.index')
+                <div class="notification-footer">
+                    <a href="{{ route('notificacoes.index') }}">Ver todas as notificações</a>
+                </div>
+            @endcan
         </div>
     </div>
 @endauth

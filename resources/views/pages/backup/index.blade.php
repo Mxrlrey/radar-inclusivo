@@ -16,36 +16,40 @@
         </div>
 
         <div class="page-header-actions d-flex gap-2">
-            <form action="{{ route('copias-seguranca.enviar') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="file"
-                       name="backup_file"
-                       id="input-backup-file"
-                       class="d-none"
-                       accept=".zip"
-                       onchange="if(this.value) this.form.submit()">
+            @can('backup.upload')
+                <form action="{{ route('copias-seguranca.enviar') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file"
+                           name="backup_file"
+                           id="input-backup-file"
+                           class="d-none"
+                           accept=".zip"
+                           onchange="if(this.value) this.form.submit()">
 
-                <x-buttons.link-button
-                    type="button"
-                    variant="info"
-                    onclick="document.getElementById('input-backup-file').click()"
-                >
-                    <span class="btn-label">
-                        <i class="fa fa-upload"></i>
-                    </span>
-                    Importar
-                </x-buttons.link-button>
-            </form>
+                    <x-buttons.link-button
+                        type="button"
+                        variant="info"
+                        onclick="document.getElementById('input-backup-file').click()"
+                    >
+                        <span class="btn-label">
+                            <i class="fa fa-upload"></i>
+                        </span>
+                        Importar
+                    </x-buttons.link-button>
+                </form>
+            @endcan
 
-            <form action="{{ route('copias-seguranca.salvar') }}" method="POST">
-                @csrf
-                <x-buttons.submit-button variant="new">
-                    <span class="btn-label">
-                        <i class="fa fa-database"></i>
-                    </span>
-                    Gerar Backup
-                </x-buttons.submit-button>
-            </form>
+            @can('backup.store')
+                <form action="{{ route('copias-seguranca.salvar') }}" method="POST">
+                    @csrf
+                    <x-buttons.submit-button variant="new">
+                        <span class="btn-label">
+                            <i class="fa fa-database"></i>
+                        </span>
+                        Gerar Backup
+                    </x-buttons.submit-button>
+                </form>
+            @endcan
         </div>
     </div>
 

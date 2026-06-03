@@ -18,13 +18,15 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('barreiras.editar', $barrier)"
-                variant="info"
-            >
-                <x-slot:icon><i class="fa fa-pencil" aria-hidden="true"></i></x-slot:icon>
-                Editar
-            </x-buttons.link-button>
+            @can('barrier.edit')
+                <x-buttons.link-button
+                    :href="route('barreiras.editar', $barrier)"
+                    variant="info"
+                >
+                    <x-slot:icon><i class="fa fa-pencil" aria-hidden="true"></i></x-slot:icon>
+                    Editar
+                </x-buttons.link-button>
+            @endcan
 
             <x-buttons.link-button
                 :href="route('barreiras.index')"
@@ -206,62 +208,68 @@
                         Voltar
                     </x-buttons.link-button>
 
-                    <x-buttons.link-button
-                        :href="route('barreiras.pdf', $barrier)"
-                        variant="danger"
-                    >
-                        <x-slot:icon><i class="fa fa-file-pdf-o" aria-hidden="true"></i></x-slot:icon>
-                        PDF
-                    </x-buttons.link-button>
+                    @can('barrier.pdf')
+                        <x-buttons.link-button
+                            :href="route('barreiras.pdf', $barrier)"
+                            variant="danger"
+                        >
+                            <x-slot:icon><i class="fa fa-file-pdf-o" aria-hidden="true"></i></x-slot:icon>
+                            PDF
+                        </x-buttons.link-button>
+                    @endcan
 
-                    <x-buttons.submit-button
-                        variant="danger"
-                        type="button"
-                        label="Excluir barreira"
-                        onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
-                    >
-                        <x-slot:icon><i class="fa fa-eraser" aria-hidden="true"></i></x-slot:icon>
-                        Excluir
-                    </x-buttons.submit-button>
+                    @can('barrier.destroy')
+                        <x-buttons.submit-button
+                            variant="danger"
+                            type="button"
+                            label="Excluir barreira"
+                            onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                        >
+                            <x-slot:icon><i class="fa fa-eraser" aria-hidden="true"></i></x-slot:icon>
+                            Excluir
+                        </x-buttons.submit-button>
+                    @endcan
                 </div>
             </x-show.footer>
         </div>
     </div>
 
-    <x-modal.modal
-        :id="$modalId"
-        title="Confirmar Exclusão"
-        size="sm"
-    >
-        <div class="p-3">
-            <p class="mb-2 text-danger fw-bold">
-                Esta ação não pode ser desfeita.
-            </p>
+    @can('barrier.destroy')
+        <x-modal.modal
+            :id="$modalId"
+            title="Confirmar Exclusão"
+            size="sm"
+        >
+            <div class="p-3">
+                <p class="mb-2 text-danger fw-bold">
+                    Esta ação não pode ser desfeita.
+                </p>
 
-            <p class="mb-0 text-muted">
-                Deseja realmente excluir a barreira
-                <strong>{{ $barrier->name }}</strong>?
-            </p>
-        </div>
+                <p class="mb-0 text-muted">
+                    Deseja realmente excluir a barreira
+                    <strong>{{ $barrier->name }}</strong>?
+                </p>
+            </div>
 
-        <x-slot:footer>
-            <x-buttons.link-button
-                variant="secondary"
-                type="button"
-                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
-            >
-                Cancelar
-            </x-buttons.link-button>
+            <x-slot:footer>
+                <x-buttons.link-button
+                    variant="secondary"
+                    type="button"
+                    onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+                >
+                    Cancelar
+                </x-buttons.link-button>
 
-            <form action="{{ route('barreiras.excluir', $barrier) }}" method="POST">
-                @csrf
-                @method('DELETE')
+                <form action="{{ route('barreiras.excluir', $barrier) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
 
-                <x-buttons.submit-button variant="danger" label="Confirmar exclusão da barreira">
-                    Excluir
-                </x-buttons.submit-button>
-            </form>
-        </x-slot:footer>
-    </x-modal.modal>
+                    <x-buttons.submit-button variant="danger" label="Confirmar exclusão da barreira">
+                        Excluir
+                    </x-buttons.submit-button>
+                </form>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 @endsection
 @vite('resources/js/pages/barriers.js')

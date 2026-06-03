@@ -17,9 +17,13 @@
 
         <tr>
             <x-table.td scope="row" class="font-weight-medium">
-                <a href="{{ route('copias-seguranca.visualizar', $backup->id) }}" class="text-decoration-none text-dark">
+                @can('backup.show')
+                    <a href="{{ route('copias-seguranca.visualizar', $backup->id) }}" class="text-decoration-none text-dark">
+                        {{ $backup->file_name }}
+                    </a>
+                @else
                     {{ $backup->file_name }}
-                </a>
+                @endcan
             </x-table.td>
 
             <x-table.td class="col-hide-md">
@@ -51,49 +55,57 @@
 
             <x-table.td>
                 <x-table.actions>
-                    <x-buttons.link-button
-                        :href="route('copias-seguranca.visualizar', $backup->id)"
-                        variant="info"
-                        size="xs"
-                        title="Visualizar backup"
-                        aria-label="Visualizar detalhes do backup"
-                    >
-                        <i class="fa fa-eye" aria-hidden="true"></i>
-                    </x-buttons.link-button>
+                    @can('backup.show')
+                        <x-buttons.link-button
+                            :href="route('copias-seguranca.visualizar', $backup->id)"
+                            variant="info"
+                            size="xs"
+                            title="Visualizar backup"
+                            aria-label="Visualizar detalhes do backup"
+                        >
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </x-buttons.link-button>
+                    @endcan
 
-                    <x-buttons.link-button
-                        :href="route('copias-seguranca.baixar', $backup->id)"
-                        variant="success"
-                        size="xs"
-                        title="Baixar backup"
-                        aria-label="Baixar arquivo do backup"
-                    >
-                        <i class="fa fa-download" aria-hidden="true"></i>
-                    </x-buttons.link-button>
+                    @can('backup.download')
+                        <x-buttons.link-button
+                            :href="route('copias-seguranca.baixar', $backup->id)"
+                            variant="success"
+                            size="xs"
+                            title="Baixar backup"
+                            aria-label="Baixar arquivo do backup"
+                        >
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </x-buttons.link-button>
+                    @endcan
 
-                    @if($backup->status === 'success')
+                    @can('backup.restore')
+                        @if($backup->status === 'success')
+                            <x-buttons.submit-button
+                                variant="warning"
+                                size="xs"
+                                type="button"
+                                onclick="new bootstrap.Modal(document.getElementById('{{ $modalRestoreId }}')).show();"
+                                title="Restaurar backup"
+                                aria-label="Restaurar backup"
+                            >
+                                <i class="fa fa-history" aria-hidden="true"></i>
+                            </x-buttons.submit-button>
+                        @endif
+                    @endcan
+
+                    @can('backup.destroy')
                         <x-buttons.submit-button
-                            variant="warning"
+                            variant="danger"
                             size="xs"
                             type="button"
-                            onclick="new bootstrap.Modal(document.getElementById('{{ $modalRestoreId }}')).show();"
-                            title="Restaurar backup"
-                            aria-label="Restaurar backup"
+                            onclick="new bootstrap.Modal(document.getElementById('{{ $modalDeleteId }}')).show();"
+                            title="Excluir backup"
+                            aria-label="Abrir confirmação para excluir o backup"
                         >
-                            <i class="fa fa-history" aria-hidden="true"></i>
+                            <i class="fa fa-eraser" aria-hidden="true"></i>
                         </x-buttons.submit-button>
-                    @endif
-
-                    <x-buttons.submit-button
-                        variant="danger"
-                        size="xs"
-                        type="button"
-                        onclick="new bootstrap.Modal(document.getElementById('{{ $modalDeleteId }}')).show();"
-                        title="Excluir backup"
-                        aria-label="Abrir confirmação para excluir o backup"
-                    >
-                        <i class="fa fa-eraser" aria-hidden="true"></i>
-                    </x-buttons.submit-button>
+                    @endcan
                 </x-table.actions>
             </x-table.td>
         </tr>
@@ -112,77 +124,81 @@
         $modalRestoreId = "modal-restore-backup-" . $backup->id;
     @endphp
 
-    <x-modal.modal
-        :id="$modalRestoreId"
-        title="Confirmar Restauração"
-        size="sm"
-    >
-        <div class="p-3">
-            <p class="mb-2 text-warning fw-bold">
-                Atenção: esta ação irá restaurar o sistema.
-            </p>
+    @can('backup.restore')
+        <x-modal.modal
+            :id="$modalRestoreId"
+            title="Confirmar Restauração"
+            size="sm"
+        >
+            <div class="p-3">
+                <p class="mb-2 text-warning fw-bold">
+                    Atenção: esta ação irá restaurar o sistema.
+                </p>
 
-            <p class="mb-0 text-muted">
-                Deseja realmente restaurar o backup
-                <strong>{{ $backup->file_name }}</strong>?
-            </p>
-        </div>
-
-        <x-slot:footer>
-            <div class="d-flex justify-content-end gap-2 w-100">
-                <x-buttons.link-button
-                    variant="secondary"
-                    type="button"
-                    data-bs-dismiss="modal"
-                >
-                    Cancelar
-                </x-buttons.link-button>
-
-                <form action="{{ route('copias-seguranca.restaurar', $backup->id) }}" method="POST" class="m-0">
-                    @csrf
-
-                    <x-buttons.submit-button variant="warning" type="submit">
-                        Restaurar
-                    </x-buttons.submit-button>
-                </form>
+                <p class="mb-0 text-muted">
+                    Deseja realmente restaurar o backup
+                    <strong>{{ $backup->file_name }}</strong>?
+                </p>
             </div>
-        </x-slot:footer>
-    </x-modal.modal>
 
-    <x-modal.modal
-        :id="$modalDeleteId"
-        title="Confirmar Exclusão"
-        size="sm"
-    >
-        <div class="p-3">
-            <p class="mb-2 text-danger fw-bold">
-                Esta ação não pode ser desfeita.
-            </p>
-            <p class="mb-0 text-muted">
-                Deseja realmente excluir o backup
-                <strong>{{ $backup->file_name }}</strong>?
-            </p>
-        </div>
+            <x-slot:footer>
+                <div class="d-flex justify-content-end gap-2 w-100">
+                    <x-buttons.link-button
+                        variant="secondary"
+                        type="button"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </x-buttons.link-button>
 
-        <x-slot:footer>
-            <div class="d-flex justify-content-end gap-2 w-100">
-                <x-buttons.link-button
-                    variant="secondary"
-                    type="button"
-                    data-bs-dismiss="modal"
-                >
-                    Cancelar
-                </x-buttons.link-button>
+                    <form action="{{ route('copias-seguranca.restaurar', $backup->id) }}" method="POST" class="m-0">
+                        @csrf
 
-                <form action="{{ route('copias-seguranca.excluir', $backup->id) }}" method="POST" class="m-0">
-                    @csrf
-                    @method('DELETE')
+                        <x-buttons.submit-button variant="warning" type="submit">
+                            Restaurar
+                        </x-buttons.submit-button>
+                    </form>
+                </div>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 
-                    <x-buttons.submit-button variant="danger" type="submit">
-                        Excluir
-                    </x-buttons.submit-button>
-                </form>
+    @can('backup.destroy')
+        <x-modal.modal
+            :id="$modalDeleteId"
+            title="Confirmar Exclusão"
+            size="sm"
+        >
+            <div class="p-3">
+                <p class="mb-2 text-danger fw-bold">
+                    Esta ação não pode ser desfeita.
+                </p>
+                <p class="mb-0 text-muted">
+                    Deseja realmente excluir o backup
+                    <strong>{{ $backup->file_name }}</strong>?
+                </p>
             </div>
-        </x-slot:footer>
-    </x-modal.modal>
+
+            <x-slot:footer>
+                <div class="d-flex justify-content-end gap-2 w-100">
+                    <x-buttons.link-button
+                        variant="secondary"
+                        type="button"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </x-buttons.link-button>
+
+                    <form action="{{ route('copias-seguranca.excluir', $backup->id) }}" method="POST" class="m-0">
+                        @csrf
+                        @method('DELETE')
+
+                        <x-buttons.submit-button variant="danger" type="submit">
+                            Excluir
+                        </x-buttons.submit-button>
+                    </form>
+                </div>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 @endforeach

@@ -13,13 +13,15 @@
             <p class="text-muted mb-0">Gerenciamento de funções para o suporte especializado.</p>
         </div>
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('cargos.criar')"
-                variant="info"
-                aria-label="Cadastrar novo cargo"
-            >
-                <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span> Cadastrar
-            </x-buttons.link-button>
+            @can('position.create')
+                <x-buttons.link-button
+                    :href="route('cargos.criar')"
+                    variant="info"
+                    aria-label="Cadastrar novo cargo"
+                >
+                    <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span> Cadastrar
+                </x-buttons.link-button>
+            @endcan
         </div>
     </div>
 

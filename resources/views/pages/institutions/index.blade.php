@@ -18,16 +18,18 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('instituicoes.criar')"
-                variant="info"
-                aria-label="Cadastrar nova instituição"
-            >
-                <span class="btn-label">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </span>
-                Cadastrar
-            </x-buttons.link-button>
+            @can('institution.create')
+                <x-buttons.link-button
+                    :href="route('instituicoes.criar')"
+                    variant="info"
+                    aria-label="Cadastrar nova instituição"
+                >
+                    <span class="btn-label">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </span>
+                    Cadastrar
+                </x-buttons.link-button>
+            @endcan
         </div>
     </div>
 

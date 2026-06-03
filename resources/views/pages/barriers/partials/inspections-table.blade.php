@@ -4,38 +4,53 @@
         <tr class="inspection-tr">
 
             <td class="col-info">
-                <a href="{{ route('barreiras.inspecao.visualizar', [$barrier, $inspection]) }}"
-                   class="inspection-link"
-                   aria-label="Abrir vistoria {{ $inspection->type->label() ?? 'Vistoria' }} de {{ $inspection->inspection_date?->format('d/m/Y') ?? 'data não informada' }}">
-                    <i class="ion-clipboard" aria-hidden="true"></i>
+                @can('barrier.inspection.show')
+                    <a href="{{ route('barreiras.inspecao.visualizar', [$barrier, $inspection]) }}"
+                       class="inspection-link"
+                       aria-label="Abrir vistoria {{ $inspection->type->label() ?? 'Vistoria' }} de {{ $inspection->inspection_date?->format('d/m/Y') ?? 'data não informada' }}">
+                        <i class="ion-clipboard" aria-hidden="true"></i>
 
-                    <div class="inspection-details">
-                        <span class="inspection-type">
-                            {{ $inspection->type->label() ?? 'Vistoria' }}
-                        </span>
-                    </div>
-                </a>
+                        <div class="inspection-details">
+                            <span class="inspection-type">
+                                {{ $inspection->type->label() ?? 'Vistoria' }}
+                            </span>
+                        </div>
+                    </a>
+                @else
+                    <span class="inspection-link">
+                        <i class="ion-clipboard" aria-hidden="true"></i>
+                        <span class="inspection-type">{{ $inspection->type->label() ?? 'Vistoria' }}</span>
+                    </span>
+                @endcan
             </td>
 
             <td class="col-meta">
-                <a href="{{ route('barreiras.inspecao.visualizar', [$barrier, $inspection]) }}"
-                   class="inspection-link inspection-link--meta"
-                   aria-hidden="true"
-                   tabindex="-1">
-                    <div class="meta-content">
+                @can('barrier.inspection.show')
+                    <a href="{{ route('barreiras.inspecao.visualizar', [$barrier, $inspection]) }}"
+                       class="inspection-link inspection-link--meta"
+                       aria-hidden="true"
+                       tabindex="-1">
+                        <div class="meta-content">
+                            <span class="inspection-date">
+                                {{ $inspection->inspection_date?->format('d/m/Y') ?? '---' }}
+                            </span>
+
+                            @if($inspection->images->isNotEmpty())
+                                <i class="ion-image text-success" aria-hidden="true"></i>
+                                <span class="visually-hidden">Contém imagens anexadas.</span>
+                            @else
+                                <i class="ion-close text-danger" aria-hidden="true"></i>
+                                <span class="visually-hidden">Sem imagens anexadas.</span>
+                            @endif
+                        </div>
+                    </a>
+                @else
+                    <span class="inspection-link inspection-link--meta">
                         <span class="inspection-date">
                             {{ $inspection->inspection_date?->format('d/m/Y') ?? '---' }}
                         </span>
-
-                        @if($inspection->images->isNotEmpty())
-                            <i class="ion-image text-success" aria-hidden="true"></i>
-                            <span class="visually-hidden">Contém imagens anexadas.</span>
-                        @else
-                            <i class="ion-close text-danger" aria-hidden="true"></i>
-                            <span class="visually-hidden">Sem imagens anexadas.</span>
-                        @endif
-                    </div>
-                </a>
+                    </span>
+                @endcan
             </td>
 
         </tr>

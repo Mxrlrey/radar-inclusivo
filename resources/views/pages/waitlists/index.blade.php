@@ -16,14 +16,16 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('filas-de-espera.criar')"
-                variant="info"
-                aria-label="Adicionar à fila de espera"
-            >
-                <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                Cadastrar
-            </x-buttons.link-button>
+            @can('waitlist.create')
+                <x-buttons.link-button
+                    :href="route('filas-de-espera.criar')"
+                    variant="info"
+                    aria-label="Adicionar à fila de espera"
+                >
+                    <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                    Cadastrar
+                </x-buttons.link-button>
+            @endcan
         </div>
     </div>
 

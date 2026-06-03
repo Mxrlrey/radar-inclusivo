@@ -45,7 +45,7 @@
                     </li>
                 @endcan
 
-                @can('professional.view')
+                @can('professional.index')
                     <li>
                 <a href="{{ route('profissionais.index') }}"
                    class="{{ request()->routeIs('profissionais.*') ? 'active' : '' }}">
@@ -95,7 +95,7 @@
                     </li>
                 @endcan
 
-                @can('barriers.index')
+                @can('barrier.index')
                     <li>
                 <a href="{{ route('barreiras.index') }}"
                    class="{{ request()->routeIs('barreiras.*') ? 'active' : '' }}">

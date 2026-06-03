@@ -56,26 +56,30 @@
 
             <x-table.td>
                 <x-table.actions>
-                    <x-buttons.link-button
-                        :href="route('materiais-pedagogicos-acessiveis.visualizar', $material)"
-                        variant="info"
-                        size="xs"
-                        title="Visualizar {{ $material->name }}"
-                        aria-label="Visualizar detalhes de {{ $material->name }}"
-                    >
-                        <i class="fa fa-eye" aria-hidden="true"></i>
-                    </x-buttons.link-button>
+                    @can('material.show')
+                        <x-buttons.link-button
+                            :href="route('materiais-pedagogicos-acessiveis.visualizar', $material)"
+                            variant="info"
+                            size="xs"
+                            title="Visualizar {{ $material->name }}"
+                            aria-label="Visualizar detalhes de {{ $material->name }}"
+                        >
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </x-buttons.link-button>
+                    @endcan
 
-                    <x-buttons.submit-button
-                        variant="danger"
-                        size="xs"
-                        type="button"
-                        onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
-                        title="Excluir {{ $material->name }}"
-                        aria-label="Abrir confirmação para excluir o material {{ $material->name }}"
-                    >
-                        <i class="fa fa-eraser" aria-hidden="true"></i>
-                    </x-buttons.submit-button>
+                    @can('material.destroy')
+                        <x-buttons.submit-button
+                            variant="danger"
+                            size="xs"
+                            type="button"
+                            onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                            title="Excluir {{ $material->name }}"
+                            aria-label="Abrir confirmação para excluir o material {{ $material->name }}"
+                        >
+                            <i class="fa fa-eraser" aria-hidden="true"></i>
+                        </x-buttons.submit-button>
+                    @endcan
                 </x-table.actions>
             </x-table.td>
         </tr>
@@ -96,39 +100,41 @@
         $modalId = "modal-delete-material-" . $material->id;
     @endphp
 
-    <x-modal.modal
-        :id="$modalId"
-        title="Confirmar Exclusão"
-        size="sm"
-    >
-        <div class="p-3">
-            <p class="mb-2 text-danger fw-bold">
-                Esta ação não pode ser desfeita.
-            </p>
+    @can('material.destroy')
+        <x-modal.modal
+            :id="$modalId"
+            title="Confirmar Exclusão"
+            size="sm"
+        >
+            <div class="p-3">
+                <p class="mb-2 text-danger fw-bold">
+                    Esta ação não pode ser desfeita.
+                </p>
 
-            <p class="mb-0 text-muted">
-                Deseja realmente excluir o material
-                <strong>{{ $material->name }}</strong>?
-            </p>
-        </div>
+                <p class="mb-0 text-muted">
+                    Deseja realmente excluir o material
+                    <strong>{{ $material->name }}</strong>?
+                </p>
+            </div>
 
-        <x-slot:footer>
-            <x-buttons.link-button
-                variant="secondary"
-                type="button"
-                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
-            >
-                Cancelar
-            </x-buttons.link-button>
+            <x-slot:footer>
+                <x-buttons.link-button
+                    variant="secondary"
+                    type="button"
+                    onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+                >
+                    Cancelar
+                </x-buttons.link-button>
 
-            <form action="{{ route('materiais-pedagogicos-acessiveis.excluir', $material) }}" method="POST">
-                @csrf
-                @method('DELETE')
+                <form action="{{ route('materiais-pedagogicos-acessiveis.excluir', $material) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
 
-                <x-buttons.submit-button variant="danger">
-                    Excluir
-                </x-buttons.submit-button>
-            </form>
-        </x-slot:footer>
-    </x-modal.modal>
+                    <x-buttons.submit-button variant="danger">
+                        Excluir
+                    </x-buttons.submit-button>
+                </form>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 @endforeach

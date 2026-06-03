@@ -16,16 +16,18 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('deficiencias.criar')"
-                variant="info"
-                aria-label="Cadastrar nova deficiência"
-            >
-                <span class="btn-label">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </span>
-                Cadastrar
-            </x-buttons.link-button>
+            @can('deficiency.create')
+                <x-buttons.link-button
+                    :href="route('deficiencias.criar')"
+                    variant="info"
+                    aria-label="Cadastrar nova deficiência"
+                >
+                    <span class="btn-label">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </span>
+                    Cadastrar
+                </x-buttons.link-button>
+            @endcan
         </div>
     </div>
 

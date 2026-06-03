@@ -28,20 +28,24 @@
     </button>
 
     <ul class="dropdown-menu" aria-labelledby="userMenuButton">
-        <li>
-            <a class="dropdown-item waves-effect" href="{{ route('profile.edit') }}">
-                <i class="ion-ios7-person" aria-hidden="true"></i> Perfil
-            </a>
-        </li>
-        <li>
-            <form action="{{ route('logout') }}" method="POST" class="m-0">
-                @csrf
-                <button type="submit"
-                        class="dropdown-item text-danger waves-effect w-100 text-start border-0 bg-transparent"
-                        aria-label="Sair da conta">
-                    <i class="ion-log-out" aria-hidden="true"></i> Sair
-                </button>
-            </form>
-        </li>
+        @can('profile.update')
+            <li>
+                <a class="dropdown-item waves-effect" href="{{ route('profile.edit') }}">
+                    <i class="ion-ios7-person" aria-hidden="true"></i> Perfil
+                </a>
+            </li>
+        @endcan
+        @can('auth.logout')
+            <li>
+                <form action="{{ route('logout') }}" method="POST" class="m-0">
+                    @csrf
+                    <button type="submit"
+                            class="dropdown-item text-danger waves-effect w-100 text-start border-0 bg-transparent"
+                            aria-label="Sair da conta">
+                        <i class="ion-log-out" aria-hidden="true"></i> Sair
+                    </button>
+                </form>
+            </li>
+        @endcan
     </ul>
 </div>

@@ -44,7 +44,7 @@
 .notification-dropdown {
     width: 320px;
     max-height: 400px;
-    overflow-y: auto;
+    overflow: hidden;
     background-color: var(--bg-surface);
     border: var(--border-width) solid var(--border-color);
     border-radius: var(--border-radius);
@@ -57,6 +57,17 @@
     transform: none !important;
     margin-top: 0 !important;
     max-height: calc(100vh - var(--topbar-height) - var(--spacing-6)) !important;
+}
+
+.notification-dropdown.show {
+    display: flex;
+    flex-direction: column;
+}
+
+.notification-scroll {
+    overflow-y: auto;
+    max-height: min(320px, calc(100vh - var(--topbar-height) - 9rem));
+    overscroll-behavior: contain;
 }
 
 /* Cabeçalho do dropdown */

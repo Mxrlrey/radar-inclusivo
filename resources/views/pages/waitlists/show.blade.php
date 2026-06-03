@@ -18,11 +18,13 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('filas-de-espera.editar', $waitlist)"
-                variant="info">
-                <span class="btn-label"><i class="fa fa-pencil" aria-hidden="true"></i></span> Editar
-            </x-buttons.link-button>
+            @can('waitlist.edit')
+                <x-buttons.link-button
+                    :href="route('filas-de-espera.editar', $waitlist)"
+                    variant="info">
+                    <span class="btn-label"><i class="fa fa-pencil" aria-hidden="true"></i></span> Editar
+                </x-buttons.link-button>
+            @endcan
 
             <x-buttons.link-button
                 :href="route('filas-de-espera.index')"
@@ -97,67 +99,77 @@
                 <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span> Voltar
             </x-buttons.link-button>
 
-            <x-buttons.link-button
-                :href="route('filas-de-espera.pdf', $waitlist)"
-                variant="danger"
-            >
-                <span class="btn-label"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
-                PDF
-            </x-buttons.link-button>
-
-            @if($canCancel)
-                <x-buttons.submit-button
-                    variant="warning"
-                    type="button"
-                    label="Cancelar solicitação da fila de espera"
-                    onclick="new bootstrap.Modal(document.getElementById('{{ $modalCancelId }}')).show();"
+            @can('waitlist.pdf')
+                <x-buttons.link-button
+                    :href="route('filas-de-espera.pdf', $waitlist)"
+                    variant="danger"
                 >
-                    <span class="btn-label"><i class="fa fa-chain-broken" aria-hidden="true"></i></span> Cancelar
-                </x-buttons.submit-button>
-            @endif
+                    <span class="btn-label"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
+                    PDF
+                </x-buttons.link-button>
+            @endcan
 
-            <x-buttons.submit-button
-                variant="danger"
-                type="button"
-                label="Excluir solicitação da fila de espera"
-                onclick="new bootstrap.Modal(document.getElementById('{{ $modalDeleteId }}')).show();"
-            >
-                <span class="btn-label"><i class="fa fa-eraser" aria-hidden="true"></i></span> Excluir
-            </x-buttons.submit-button>
+            @can('waitlist.cancel')
+                @if($canCancel)
+                    <x-buttons.submit-button
+                        variant="warning"
+                        type="button"
+                        label="Cancelar solicitação da fila de espera"
+                        onclick="new bootstrap.Modal(document.getElementById('{{ $modalCancelId }}')).show();"
+                    >
+                        <span class="btn-label"><i class="fa fa-chain-broken" aria-hidden="true"></i></span> Cancelar
+                    </x-buttons.submit-button>
+                @endif
+            @endcan
+
+            @can('waitlist.destroy')
+                <x-buttons.submit-button
+                    variant="danger"
+                    type="button"
+                    label="Excluir solicitação da fila de espera"
+                    onclick="new bootstrap.Modal(document.getElementById('{{ $modalDeleteId }}')).show();"
+                >
+                    <span class="btn-label"><i class="fa fa-eraser" aria-hidden="true"></i></span> Excluir
+                </x-buttons.submit-button>
+            @endcan
         </x-show.footer>
     </div>
 
-    <x-modal.modal :id="$modalCancelId" title="Cancelar Solicitação" size="sm">
-        <div class="p-3">
-            <p class="mb-2 text-warning fw-bold">Esta ação não pode ser desfeita.</p>
-            <p>Deseja realmente <strong>cancelar</strong> esta solicitação na fila de espera?</p>
-        </div>
-        <x-slot:footer>
-            <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
-                Voltar
-            </x-buttons.link-button>
-            <form action="{{ route('filas-de-espera.cancelar', $waitlist) }}" method="POST">
-                @csrf
-                @method('PATCH')
-                <x-buttons.submit-button variant="warning" label="Confirmar cancelamento da solicitação">Cancelar</x-buttons.submit-button>
-            </form>
-        </x-slot:footer>
-    </x-modal.modal>
+    @can('waitlist.cancel')
+        <x-modal.modal :id="$modalCancelId" title="Cancelar Solicitação" size="sm">
+            <div class="p-3">
+                <p class="mb-2 text-warning fw-bold">Esta ação não pode ser desfeita.</p>
+                <p>Deseja realmente <strong>cancelar</strong> esta solicitação na fila de espera?</p>
+            </div>
+            <x-slot:footer>
+                <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
+                    Voltar
+                </x-buttons.link-button>
+                <form action="{{ route('filas-de-espera.cancelar', $waitlist) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <x-buttons.submit-button variant="warning" label="Confirmar cancelamento da solicitação">Cancelar</x-buttons.submit-button>
+                </form>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 
-    <x-modal.modal :id="$modalDeleteId" title="Confirmar Exclusão" size="sm">
-        <div class="p-3">
-            <p class="mb-2 text-danger fw-bold">Esta ação não pode ser desfeita.</p>
-            <p class="mb-0 text-muted">Deseja excluir permanentemente o registro de fila <strong>#{{ $waitlist->id }}</strong>?</p>
-        </div>
-        <x-slot:footer>
-            <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
-                Cancelar
-            </x-buttons.link-button>
-            <form action="{{ route('filas-de-espera.excluir', $waitlist) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <x-buttons.submit-button variant="danger" label="Confirmar exclusão da solicitação">Excluir</x-buttons.submit-button>
-            </form>
-        </x-slot:footer>
-    </x-modal.modal>
+    @can('waitlist.destroy')
+        <x-modal.modal :id="$modalDeleteId" title="Confirmar Exclusão" size="sm">
+            <div class="p-3">
+                <p class="mb-2 text-danger fw-bold">Esta ação não pode ser desfeita.</p>
+                <p class="mb-0 text-muted">Deseja excluir permanentemente o registro de fila <strong>#{{ $waitlist->id }}</strong>?</p>
+            </div>
+            <x-slot:footer>
+                <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
+                    Cancelar
+                </x-buttons.link-button>
+                <form action="{{ route('filas-de-espera.excluir', $waitlist) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <x-buttons.submit-button variant="danger" label="Confirmar exclusão da solicitação">Excluir</x-buttons.submit-button>
+                </form>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 @endsection

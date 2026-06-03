@@ -16,10 +16,10 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/painel', [LoginController::class, 'index'])->name('dashboard');
-    Route::post('/sair', [LoginController::class, 'logout'])->name('logout');
-    Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/perfil', [ProfileController::class, 'update'])->name('profile.update');
-    Route::post('/impersonar/sair', [AdminController::class, 'leaveImpersonate'])->name('admin.impersonate.leave');
-    Route::post('/impersonar/{user}', [AdminController::class, 'impersonate'])->name('admin.impersonate')->middleware('admin');
+    Route::get('/painel', [LoginController::class, 'index'])->name('dashboard')->middleware('can:dashboard.view');
+    Route::post('/sair', [LoginController::class, 'logout'])->name('logout')->middleware('can:auth.logout');
+    Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('can:profile.view');
+    Route::put('/perfil', [ProfileController::class, 'update'])->name('profile.update')->middleware('can:profile.update');
+    Route::post('/impersonar/sair', [AdminController::class, 'leaveImpersonate'])->name('admin.impersonate.leave')->middleware('can:admin.impersonate.leave');
+    Route::post('/impersonar/{user}', [AdminController::class, 'impersonate'])->name('admin.impersonate')->middleware(['admin', 'can:admin.impersonate']);
 });

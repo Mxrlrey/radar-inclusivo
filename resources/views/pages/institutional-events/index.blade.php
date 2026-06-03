@@ -16,14 +16,16 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('agenda-institucional.criar')"
-                variant="info"
-                aria-label="Cadastrar novo evento institucional"
-            >
-                <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                Cadastrar
-            </x-buttons.link-button>
+            @can('institutional-event.create')
+                <x-buttons.link-button
+                    :href="route('agenda-institucional.criar')"
+                    variant="info"
+                    aria-label="Cadastrar novo evento institucional"
+                >
+                    <span class="btn-label"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                    Cadastrar
+                </x-buttons.link-button>
+            @endcan
         </div>
     </div>
 

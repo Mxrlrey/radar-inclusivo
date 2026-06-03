@@ -16,16 +16,18 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('estudantes.criar')"
-                variant="info"
-                aria-label="Cadastrar novo aluno"
-            >
-                <span class="btn-label">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </span>
-                Cadastrar
-            </x-buttons.link-button>
+            @can('student.create')
+                <x-buttons.link-button
+                    :href="route('estudantes.criar')"
+                    variant="info"
+                    aria-label="Cadastrar novo aluno"
+                >
+                    <span class="btn-label">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </span>
+                    Cadastrar
+                </x-buttons.link-button>
+            @endcan
         </div>
     </div>
 

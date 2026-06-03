@@ -5,7 +5,9 @@
 
     <p>Módulo de relatórios do sistema.</p>
 
-    <a href="{{ route('relatorios.criar') }}" class="btn btn-primary">
-        Testar Builder
-    </a>
+    @can('report.index')
+        <a href="{{ route('relatorios.criar') }}" class="btn btn-primary">
+            Testar Builder
+        </a>
+    @endcan
 @endsection

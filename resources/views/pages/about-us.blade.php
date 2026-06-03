@@ -102,7 +102,7 @@
         .feature-icon-wrap i { font-size: 1.6rem; color: var(--color-accent); transition: color 0.3s ease; }
         .feature-card:hover .feature-icon-wrap { background: var(--color-accent); transform: rotateY(360deg); }
         .feature-card:hover .feature-icon-wrap i { color: #fff; }
-        .feature-card h5 { font-family: var(--font-heading); font-size: 1rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.6rem; }
+        .feature-card h3 { font-family: var(--font-heading); font-size: 1rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.6rem; }
         .feature-card p { color: rgba(255,255,255,0.7); font-size: 0.88rem; line-height: 1.7; }
 
         /* CTA */
@@ -272,109 +272,109 @@
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-tachometer-alt" aria-hidden="true"></i></div>
-                <h5>Dashboard</h5>
+                <h3>Dashboard</h3>
                 <p>Visão geral do sistema com indicadores, atalhos e informações rápidas para o gestor.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-chart-bar" aria-hidden="true"></i></div>
-                <h5>Relatórios</h5>
+                <h3>Relatórios</h3>
                 <p>Geração e visualização de dados consolidados — estatísticas, acompanhamentos e histórico.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-bell" aria-hidden="true"></i></div>
-                <h5>Notificações</h5>
+                <h3>Notificações</h3>
                 <p>Lista de avisos importantes do sistema como eventos, atualizações e alertas relevantes.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-database" aria-hidden="true"></i></div>
-                <h5>Backups</h5>
+                <h3>Backups</h3>
                 <p>Gerenciamento de cópias de segurança do sistema para garantir a integridade dos dados.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-wheelchair" aria-hidden="true"></i></div>
-                <h5>Deficiências</h5>
+                <h3>Deficiências</h3>
                 <p>Cadastro dos tipos de deficiência dos alunos atendidos pelo serviço de AEE.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-id-badge" aria-hidden="true"></i></div>
-                <h5>Cargos</h5>
+                <h3>Cargos</h3>
                 <p>Define funções dos profissionais e suas permissões — professor AEE, secretário e outros.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-universal-access" aria-hidden="true"></i></div>
-                <h5>Recursos de Acessibilidade</h5>
+                <h3>Recursos de Acessibilidade</h3>
                 <p>Cadastro de categorias de recursos como braille, intérprete de Libras, entre outros.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
-                <h5>Categorias de Barreiras</h5>
+                <h3>Categorias de Barreiras</h3>
                 <p>Classificação das barreiras encontradas — física, comunicacional, atitudinal e mais.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-building" aria-hidden="true"></i></div>
-                <h5>Instituições</h5>
+                <h3>Instituições</h3>
                 <p>Cadastro da instituição base que utiliza o sistema de gestão inclusiva.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-map-marker-alt" aria-hidden="true"></i></div>
-                <h5>Localizações</h5>
+                <h3>Localizações</h3>
                 <p>Locais físicos dentro das instituições como salas, setores e ambientes específicos.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-user-graduate" aria-hidden="true"></i></div>
-                <h5>Alunos</h5>
+                <h3>Alunos</h3>
                 <p>Cadastro e gestão completa dos alunos atendidos pelo serviço de educação especial.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-users" aria-hidden="true"></i></div>
-                <h5>Equipe</h5>
+                <h3>Equipe</h3>
                 <p>Profissionais do AEE — psicólogos, pedagogos, fonoaudiólogos e demais especialistas.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-laptop-medical" aria-hidden="true"></i></div>
-                <h5>Tecnologias Assistivas</h5>
+                <h3>Tecnologias Assistivas</h3>
                 <p>Controle de equipamentos e recursos tecnológicos destinados à acessibilidade dos alunos.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-book-open" aria-hidden="true"></i></div>
-                <h5>Materiais Pedagógicos</h5>
+                <h3>Materiais Pedagógicos</h3>
                 <p>Materiais adaptados para apoio ao ensino inclusivo e ao desenvolvimento dos alunos.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-ban" aria-hidden="true"></i></div>
-                <h5>Barreiras</h5>
+                <h3>Barreiras</h3>
                 <p>Registro de problemas de acessibilidade encontrados na instituição para acompanhamento.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-exchange-alt" aria-hidden="true"></i></div>
-                <h5>Empréstimos</h5>
+                <h3>Empréstimos</h3>
                 <p>Controle de empréstimo e devolução de recursos e equipamentos assistivos.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-list-ol" aria-hidden="true"></i></div>
-                <h5>Fila de Espera</h5>
+                <h3>Fila de Espera</h3>
                 <p>Gestão de pessoas aguardando recursos ou atendimento especializado disponível.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon-wrap"><i class="fas fa-calendar-alt" aria-hidden="true"></i></div>
-                <h5>Agenda Institucional</h5>
+                <h3>Agenda Institucional</h3>
                 <p>Eventos e atividades planejadas da instituição com visualização centralizada.</p>
             </div>
 

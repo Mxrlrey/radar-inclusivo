@@ -3,32 +3,45 @@
     @forelse($inspections as $inspection)
         <tr class="inspection-tr">
             <td class="col-info">
-                <a href="{{ route('materiais-pedagogicos-acessiveis.inspecao.visualizar', [$material, $inspection]) }}"
-                   class="inspection-link"
-                   aria-label="Abrir vistoria {{ $inspection->type->label() ?? 'Vistoria' }} de {{ $inspection->inspection_date->format('d/m/Y') }}">
-                    <i class="ion-clipboard" aria-hidden="true"></i>
-                    <div class="inspection-details">
+                @can('material.inspection.show')
+                    <a href="{{ route('materiais-pedagogicos-acessiveis.inspecao.visualizar', [$material, $inspection]) }}"
+                       class="inspection-link"
+                       aria-label="Abrir vistoria {{ $inspection->type->label() ?? 'Vistoria' }} de {{ $inspection->inspection_date->format('d/m/Y') }}">
+                        <i class="ion-clipboard" aria-hidden="true"></i>
+                        <div class="inspection-details">
+                            <span class="inspection-type">{{ $inspection->type->label() ?? 'Vistoria' }}</span>
+                        </div>
+                    </a>
+                @else
+                    <span class="inspection-link">
+                        <i class="ion-clipboard" aria-hidden="true"></i>
                         <span class="inspection-type">{{ $inspection->type->label() ?? 'Vistoria' }}</span>
-                    </div>
-                </a>
+                    </span>
+                @endcan
             </td>
             <td class="col-meta">
-                <a href="{{ route('materiais-pedagogicos-acessiveis.inspecao.visualizar', [$material, $inspection]) }}"
-                   class="inspection-link inspection-link--meta"
-                   aria-hidden="true"
-                   tabindex="-1">
-                    <div class="meta-content">
-                        <span class="inspection-date">{{ $inspection->inspection_date->format('d/m/Y') }}</span>
+                @can('material.inspection.show')
+                    <a href="{{ route('materiais-pedagogicos-acessiveis.inspecao.visualizar', [$material, $inspection]) }}"
+                       class="inspection-link inspection-link--meta"
+                       aria-hidden="true"
+                       tabindex="-1">
+                        <div class="meta-content">
+                            <span class="inspection-date">{{ $inspection->inspection_date->format('d/m/Y') }}</span>
 
-                        @if($inspection->images->isNotEmpty())
-                            <i class="ion-image text-success" aria-hidden="true"></i>
-                            <span class="visually-hidden">Contém imagens anexadas.</span>
-                        @else
-                            <i class="ion-close text-danger" aria-hidden="true"></i>
-                            <span class="visually-hidden">Sem imagens anexadas.</span>
-                        @endif
-                    </div>
-                </a>
+                            @if($inspection->images->isNotEmpty())
+                                <i class="ion-image text-success" aria-hidden="true"></i>
+                                <span class="visually-hidden">Contém imagens anexadas.</span>
+                            @else
+                                <i class="ion-close text-danger" aria-hidden="true"></i>
+                                <span class="visually-hidden">Sem imagens anexadas.</span>
+                            @endif
+                        </div>
+                    </a>
+                @else
+                    <span class="inspection-link inspection-link--meta">
+                        <span class="inspection-date">{{ $inspection->inspection_date->format('d/m/Y') }}</span>
+                    </span>
+                @endcan
             </td>
         </tr>
     @empty

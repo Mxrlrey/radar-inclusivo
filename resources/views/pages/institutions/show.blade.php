@@ -18,13 +18,15 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('instituicoes.editar', $institution)"
-                variant="info"
-            >
-                <x-slot:icon><i class="fa fa-pencil" aria-hidden="true"></i></x-slot:icon>
-                Editar
-            </x-buttons.link-button>
+            @can('institution.edit')
+                <x-buttons.link-button
+                    :href="route('instituicoes.editar', $institution)"
+                    variant="info"
+                >
+                    <x-slot:icon><i class="fa fa-pencil" aria-hidden="true"></i></x-slot:icon>
+                    Editar
+                </x-buttons.link-button>
+            @endcan
 
             <x-buttons.link-button
                 :href="route('instituicoes.index')"
@@ -139,15 +141,17 @@
                     Voltar
                 </x-buttons.link-button>
 
-                <x-buttons.submit-button
-                    variant="danger"
-                    type="button"
-                    label="Excluir instituição"
-                    onclick="new bootstrap.Modal(document.getElementById('modal-delete-institution-{{ $institution->id }}')).show();"
-                >
-                    <x-slot:icon><i class="fa fa-eraser" aria-hidden="true"></i></x-slot:icon>
-                    Excluir
-                </x-buttons.submit-button>
+                @can('institution.destroy')
+                    <x-buttons.submit-button
+                        variant="danger"
+                        type="button"
+                        label="Excluir instituição"
+                        onclick="new bootstrap.Modal(document.getElementById('modal-delete-institution-{{ $institution->id }}')).show();"
+                    >
+                        <x-slot:icon><i class="fa fa-eraser" aria-hidden="true"></i></x-slot:icon>
+                        Excluir
+                    </x-buttons.submit-button>
+                @endcan
             </x-show.footer>
         </div>
     </div>
@@ -156,39 +160,41 @@
         $modalId = "modal-delete-institution-" . $institution->id;
     @endphp
 
-    <x-modal.modal
-        :id="$modalId"
-        title="Confirmar Exclusão"
-        size="sm"
-    >
-        <div class="p-3">
-            <p class="mb-2 text-danger fw-bold">
-                Esta ação não pode ser desfeita.
-            </p>
+    @can('institution.destroy')
+        <x-modal.modal
+            :id="$modalId"
+            title="Confirmar Exclusão"
+            size="sm"
+        >
+            <div class="p-3">
+                <p class="mb-2 text-danger fw-bold">
+                    Esta ação não pode ser desfeita.
+                </p>
 
-            <p class="mb-0 text-muted">
-                Deseja realmente excluir a instituição
-                <strong>{{ $institution->name }}</strong>?
-            </p>
-        </div>
+                <p class="mb-0 text-muted">
+                    Deseja realmente excluir a instituição
+                    <strong>{{ $institution->name }}</strong>?
+                </p>
+            </div>
 
-        <x-slot:footer>
-            <x-buttons.link-button
-                variant="secondary"
-                type="button"
-                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
-            >
-                Cancelar
-            </x-buttons.link-button>
+            <x-slot:footer>
+                <x-buttons.link-button
+                    variant="secondary"
+                    type="button"
+                    onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+                >
+                    Cancelar
+                </x-buttons.link-button>
 
-            <form action="{{ route('instituicoes.excluir', $institution) }}" method="POST">
-                @csrf
-                @method('DELETE')
+                <form action="{{ route('instituicoes.excluir', $institution) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
 
-                <x-buttons.submit-button variant="danger" label="Confirmar exclusão da instituição">
-                    Excluir
-                </x-buttons.submit-button>
-            </form>
-        </x-slot:footer>
-    </x-modal.modal>
+                    <x-buttons.submit-button variant="danger" label="Confirmar exclusão da instituição">
+                        Excluir
+                    </x-buttons.submit-button>
+                </form>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 @endsection

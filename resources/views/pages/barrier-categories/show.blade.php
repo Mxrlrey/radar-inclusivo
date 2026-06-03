@@ -18,13 +18,15 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('categorias-de-barreiras.editar', $barrierCategory)"
-                variant="info"
-            >
-                <x-slot:icon><i class="fa fa-pencil" aria-hidden="true"></i></x-slot:icon>
-                Editar
-            </x-buttons.link-button>
+            @can('barrier-category.edit')
+                <x-buttons.link-button
+                    :href="route('categorias-de-barreiras.editar', $barrierCategory)"
+                    variant="info"
+                >
+                    <x-slot:icon><i class="fa fa-pencil" aria-hidden="true"></i></x-slot:icon>
+                    Editar
+                </x-buttons.link-button>
+            @endcan
 
             <x-buttons.link-button
                 :href="route('categorias-de-barreiras.index')"
@@ -91,51 +93,55 @@
                 Voltar
             </x-buttons.link-button>
 
-            <x-buttons.submit-button
-                variant="danger"
-                type="button"
-                label="Excluir categoria de barreira"
-                onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
-            >
-                <x-slot:icon><i class="fa fa-eraser" aria-hidden="true"></i></x-slot:icon>
-                Excluir
-            </x-buttons.submit-button>
+            @can('barrier-category.destroy')
+                <x-buttons.submit-button
+                    variant="danger"
+                    type="button"
+                    label="Excluir categoria de barreira"
+                    onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                >
+                    <x-slot:icon><i class="fa fa-eraser" aria-hidden="true"></i></x-slot:icon>
+                    Excluir
+                </x-buttons.submit-button>
+            @endcan
         </x-show.footer>
     </div>
 
-    <x-modal.modal
-        :id="$modalId"
-        title="Confirmar Exclusão"
-        size="sm"
-    >
-        <div class="p-3">
-            <p class="mb-2 text-danger fw-bold">
-                Esta ação não pode ser desfeita.
-            </p>
+    @can('barrier-category.destroy')
+        <x-modal.modal
+            :id="$modalId"
+            title="Confirmar Exclusão"
+            size="sm"
+        >
+            <div class="p-3">
+                <p class="mb-2 text-danger fw-bold">
+                    Esta ação não pode ser desfeita.
+                </p>
 
-            <p class="mb-0 text-muted">
-                Deseja realmente excluir a categoria
-                <strong>{{ $barrierCategory->name }}</strong>?
-            </p>
-        </div>
+                <p class="mb-0 text-muted">
+                    Deseja realmente excluir a categoria
+                    <strong>{{ $barrierCategory->name }}</strong>?
+                </p>
+            </div>
 
-        <x-slot:footer>
-            <x-buttons.link-button
-                variant="secondary"
-                type="button"
-                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
-            >
-                Cancelar
-            </x-buttons.link-button>
+            <x-slot:footer>
+                <x-buttons.link-button
+                    variant="secondary"
+                    type="button"
+                    onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+                >
+                    Cancelar
+                </x-buttons.link-button>
 
-            <form action="{{ route('categorias-de-barreiras.excluir', $barrierCategory) }}" method="POST">
-                @csrf
-                @method('DELETE')
+                <form action="{{ route('categorias-de-barreiras.excluir', $barrierCategory) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
 
-                <x-buttons.submit-button variant="danger" label="Confirmar exclusão da categoria de barreira">
-                    Excluir
-                </x-buttons.submit-button>
-            </form>
-        </x-slot:footer>
-    </x-modal.modal>
+                    <x-buttons.submit-button variant="danger" label="Confirmar exclusão da categoria de barreira">
+                        Excluir
+                    </x-buttons.submit-button>
+                </form>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 @endsection

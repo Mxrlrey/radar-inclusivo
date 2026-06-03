@@ -1,0 +1,535 @@
+@startuml
+title Radar Inclusivo - Modelo do Banco de Dados
+
+hide circle
+skinparam linetype ortho
+skinparam shadowing false
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+  ArrowColor #333333
+}
+
+entity "Recursos de Acessibilidade" as accessibility_features {
+  * ID : bigint unsigned <<PK>>
+  --
+  Nome : varchar(255)
+  Descrição : text?
+  Ativo no sistema : tinyint(1) = 1
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Materiais Pedagógicos Acessíveis" as accessible_educational_materials {
+  * ID : bigint unsigned <<PK>>
+  --
+  Nome : varchar(255)
+  Digital : tinyint(1) = 0
+  Descrição detalhada : text?
+  Código patrimonial : varchar(50)? <<UK>>
+  Quantidade total : int?
+  Quantidade disponível : int?
+  Estado de conservação : varchar(255) = 'novo'
+  Status do recurso : varchar(255) = 'available'
+  Permite empréstimos : tinyint(1) = 1
+  Ativo no sistema : tinyint(1) = 1
+  Excluído em : timestamp?
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Materiais x Recursos de Acessibilidade" as aem_accessibility {
+  * ID : bigint unsigned <<PK>>
+  --
+  Material pedagógico acessível : bigint unsigned <<UK>>
+  Recurso de acessibilidade : bigint unsigned <<UK>>
+}
+
+entity "Materiais x Deficiências" as aem_deficiency {
+  * ID : bigint unsigned <<PK>>
+  --
+  Material pedagógico acessível : bigint unsigned <<UK>>
+  Deficiência : bigint unsigned <<UK>>
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Tecnologias Assistivas" as assistive_technologies {
+  * ID : bigint unsigned <<PK>>
+  --
+  Nome : varchar(255)
+  Digital : tinyint(1) = 0
+  Descrição detalhada : text?
+  Código patrimonial : varchar(50)? <<UK>>
+  Quantidade total : int?
+  Quantidade disponível : int?
+  Estado de conservação : varchar(255) = 'novo'
+  Status do recurso : varchar(255) = 'available'
+  Permite empréstimos : tinyint(1) = 1
+  Ativo no sistema : tinyint(1) = 1
+  Excluído em : timestamp?
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Tecnologias Assistivas x Deficiências" as assistive_technology_deficiency {
+  * ID : bigint unsigned <<PK>>
+  --
+  Tecnologia assistiva : bigint unsigned <<FK, UK>>
+  Deficiência : bigint unsigned <<FK, UK>>
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Logs de Auditoria" as audit_logs {
+  * ID : bigint unsigned <<PK>>
+  --
+  Usuário : bigint unsigned? <<FK>>
+  Ação : varchar(255)
+  Tipo do registro auditado : varchar(255) <<MORPH>>
+  ID do registro auditado : bigint unsigned <<MORPH>>
+  Valores antigos : json?
+  Valores novos : json?
+  Endereço IP : varchar(45)?
+  Navegador/dispositivo : varchar(255)?
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Backups" as backups {
+  * ID : bigint unsigned <<PK>>
+  --
+  Nome do arquivo : varchar(255)
+  Caminho do arquivo : varchar(255)
+  Tamanho : varchar(255)
+  Status : varchar(255)
+  Usuário : bigint unsigned? <<FK>>
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Categorias de Barreiras" as barrier_categories {
+  * ID : bigint unsigned <<PK>>
+  --
+  Nome : varchar(150) <<UK>>
+  Descrição : text?
+  Bloqueia mapa : tinyint(1) = 1
+  Ativa no sistema : tinyint(1) = 1
+  Excluída em : timestamp?
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Barreiras" as barriers {
+  * ID : bigint unsigned <<PK>>
+  --
+  Título do relato : varchar(255)
+  Descrição do problema : text?
+  Usuário relator : bigint unsigned? <<FK>>
+  Campus / unidade : bigint unsigned <<FK>>
+  Categoria : bigint unsigned <<FK>>
+  Local / ponto de referência : bigint unsigned? <<FK>>
+  Aluno afetado : bigint unsigned? <<FK>>
+  Profissional afetado : bigint unsigned? <<FK>>
+  Latitude : decimal(10,8)?
+  Longitude : decimal(11,8)?
+  Complemento do local : varchar(255)?
+  Não se aplica a local fixo : tinyint(1) = 0
+  Nome da pessoa afetada : varchar(255)?
+  Papel da pessoa afetada : varchar(255)?
+  Relato anônimo : tinyint(1) = 0
+  Prioridade : varchar(255) = 'medium'
+  Data de identificação : date
+  Data de resolução : date?
+  Ativa no sistema : tinyint(1) = 1
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Barreiras x Deficiências" as barrier_deficiency {
+  * ID : bigint unsigned <<PK>>
+  --
+  Barreira : bigint unsigned <<FK, UK>>
+  Deficiência : bigint unsigned <<FK, UK>>
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Cache" as cache {
+  * Chave : varchar(255) <<PK>>
+  --
+  Valor : mediumtext
+  Expiração : int
+}
+
+entity "Bloqueios de Cache" as cache_locks {
+  * Chave : varchar(255) <<PK>>
+  --
+  Dono do bloqueio : varchar(255)
+  Expiração : int
+}
+
+entity "Deficiências" as deficiencies {
+  * ID : bigint unsigned <<PK>>
+  --
+  Nome : varchar(255)
+  Código CID : varchar(20)?
+  Descrição : text?
+  Ativa no sistema : tinyint(1) = 1
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+  Excluída em : timestamp?
+}
+
+entity "Falhas de Jobs" as failed_jobs {
+  * ID : bigint unsigned <<PK>>
+  --
+  UUID : varchar(255) <<UK>>
+  Conexão : text
+  Fila : text
+  Conteúdo : longtext
+  Exceção : longtext
+  Falhou em : timestamp = CURRENT_TIMESTAMP
+}
+
+entity "Vistorias" as inspections {
+  * ID : bigint unsigned <<PK>>
+  --
+  Tipo do item vistoriado : varchar(255) <<MORPH>>
+  ID do item vistoriado : bigint unsigned <<MORPH>>
+  Estado de conservação : varchar(255)?
+  Status da barreira : varchar(255)?
+  Tipo de vistoria : varchar(255)
+  Data da vistoria : date
+  Parecer técnico / descrição : text?
+  Usuário responsável : bigint unsigned? <<FK>>
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Imagens de Vistorias" as inspection_images {
+  * ID : bigint unsigned <<PK>>
+  --
+  Vistoria : bigint unsigned <<FK>>
+  Caminho da imagem : varchar(255)
+  Nome original : varchar(255)?
+  Tipo MIME : varchar(50)?
+  Tamanho : int?
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Eventos Institucionais" as institutional_events {
+  * ID : bigint unsigned <<PK>>
+  --
+  Título do evento : varchar(255)
+  Descrição : text?
+  Data de início : date
+  Data de término : date?
+  Horário de início : time?
+  Horário de término : time?
+  Local : varchar(255)?
+  Organizador : varchar(255)?
+  Ouvintes : varchar(255)?
+  Exibir na agenda : tinyint(1) = 1
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Instituições" as institutions {
+  * ID : bigint unsigned <<PK>>
+  --
+  Nome da instituição : varchar(255)
+  Sigla / nome curto : varchar(255)?
+  Cidade : varchar(255)
+  Estado : varchar(255)
+  Bairro : varchar(255)?
+  Endereço : varchar(255)?
+  Latitude : decimal(10,8)
+  Longitude : decimal(11,8)
+  Zoom padrão do mapa : int = 16
+  Ativa no sistema : tinyint(1) = 1
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+  Excluída em : timestamp?
+}
+
+entity "Jobs" as jobs {
+  * ID : bigint unsigned <<PK>>
+  --
+  Fila : varchar(255)
+  Conteúdo : longtext
+  Tentativas : tinyint unsigned
+  Reservado em : int unsigned?
+  Disponível em : int unsigned
+  Criado em : int unsigned
+}
+
+entity "Lotes de Jobs" as job_batches {
+  * ID : varchar(255) <<PK>>
+  --
+  Nome : varchar(255)
+  Total de jobs : int
+  Jobs pendentes : int
+  Jobs com falha : int
+  IDs dos jobs com falha : longtext
+  Opções : mediumtext?
+  Cancelado em : int?
+  Criado em : int
+  Finalizado em : int?
+}
+
+entity "Empréstimos" as loans {
+  * ID : bigint unsigned <<PK>>
+  --
+  Tipo do recurso : varchar(255) <<MORPH>>
+  ID do recurso : bigint unsigned <<MORPH>>
+  Estudante : bigint unsigned? <<FK>>
+  Profissional : bigint unsigned? <<FK>>
+  Responsável técnico : bigint unsigned <<FK>>
+  Data de saída : datetime
+  Previsão de devolução : datetime
+  Data real da devolução : datetime?
+  Status atual : varchar(255) = 'active'
+  Observações : text?
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Locais / Pontos de Referência" as locations {
+  * ID : bigint unsigned <<PK>>
+  --
+  Instituição base : bigint unsigned <<FK>>
+  Nome do local : varchar(255)
+  Tipo de local : varchar(255)?
+  Descrição / observações : text?
+  Latitude : decimal(10,8)
+  Longitude : decimal(11,8)
+  ID do Google Places : varchar(255)?
+  Ponto ativo no sistema : tinyint(1) = 1
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+  Excluído em : timestamp?
+}
+
+entity "Migrações" as migrations {
+  * ID : int unsigned <<PK>>
+  --
+  Migração : varchar(255)
+  Lote : int
+}
+
+entity "Notificações" as notifications {
+  * ID : char(36) <<PK>>
+  --
+  Tipo : varchar(255)
+  Tipo do destinatário : varchar(255) <<MORPH>>
+  ID do destinatário : bigint unsigned <<MORPH>>
+  Dados : text
+  Lida em : timestamp?
+  Criada em : timestamp?
+  Atualizada em : timestamp?
+}
+
+entity "Tokens de Redefinição de Senha" as password_reset_tokens {
+  * E-mail : varchar(255) <<PK>>
+  --
+  Token : varchar(255)
+  Criado em : timestamp?
+}
+
+entity "Pessoas" as people {
+  * ID : bigint unsigned <<PK>>
+  --
+  Nome completo : varchar(255)
+  Documento / CPF : varchar(255) <<UK>>
+  Data de nascimento : date
+  Gênero : varchar(255) = 'not_specified'
+  E-mail : varchar(255) <<UK>>
+  Telefone : varchar(255)?
+  Endereço : text?
+  Foto : varchar(255)?
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+  Excluído em : timestamp?
+}
+
+entity "Permissões" as permissions {
+  * ID : bigint unsigned <<PK>>
+  --
+  Nome : varchar(255)
+  Identificador : varchar(255) <<UK>>
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Permissões x Cargos" as permission_position {
+  * ID : bigint unsigned <<PK>>
+  --
+  Cargo / função : bigint unsigned <<FK>>
+  Permissão : bigint unsigned <<FK>>
+}
+
+entity "Cargos / Funções" as positions {
+  * ID : bigint unsigned <<PK>>
+  --
+  Nome do cargo / função : varchar(255)
+  Descrição da função : text?
+  Ativo no sistema : tinyint(1) = 1
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+  Excluído em : timestamp?
+}
+
+entity "Profissionais" as professionals {
+  * ID : bigint unsigned <<PK>>
+  --
+  Pessoa : bigint unsigned <<FK>>
+  Cargo / função : bigint unsigned <<FK>>
+  Matrícula : varchar(255) <<UK>>
+  Data de ingresso : date
+  Profissional ativo : tinyint(1) = 1
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+  Excluído em : timestamp?
+}
+
+entity "Sessões" as sessions {
+  * ID : varchar(255) <<PK>>
+  --
+  Usuário : bigint unsigned?
+  Endereço IP : varchar(45)?
+  Navegador/dispositivo : text?
+  Conteúdo : longtext
+  Última atividade : int
+}
+
+entity "Alunos" as students {
+  * ID : bigint unsigned <<PK>>
+  --
+  Pessoa : bigint unsigned <<FK>>
+  Matrícula : varchar(255) <<UK>>
+  Data de ingresso : date
+  Aluno ativo : tinyint(1) = 1
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+  Excluído em : timestamp?
+}
+
+entity "Usuários" as users {
+  * ID : bigint unsigned <<PK>>
+  --
+  Profissional vinculado : bigint unsigned? <<FK>>
+  Nome : varchar(255)
+  E-mail : varchar(255) <<UK>>
+  E-mail verificado em : timestamp?
+  Senha : varchar(255)
+  Administrador do sistema : tinyint(1) = 0
+  Usuário ativo : tinyint(1) = 1
+  Token de lembrar acesso : varchar(100)?
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+entity "Lista de Espera" as waitlists {
+  * ID : bigint unsigned <<PK>>
+  --
+  Tipo do recurso solicitado : varchar(255) <<MORPH>>
+  ID do recurso solicitado : bigint unsigned <<MORPH, UK>>
+  Estudante : bigint unsigned? <<FK, UK>>
+  Profissional : bigint unsigned? <<FK, UK>>
+  Responsável técnico : bigint unsigned <<FK>>
+  Solicitado em : timestamp = CURRENT_TIMESTAMP
+  Status da solicitação : varchar(255) = 'waiting'
+  Observações : text?
+  Criado em : timestamp?
+  Atualizado em : timestamp?
+}
+
+' Chaves estrangeiras reais no MySQL
+users }o--|| professionals : Profissional vinculado\nSET NULL
+backups }o--|| users : Usuário\nSET NULL
+audit_logs }o--|| users : Usuário\nSET NULL
+students }o--|| people : Pessoa\nCASCADE
+professionals }o--|| people : Pessoa\nRESTRICT
+professionals }o--|| positions : Cargo / função\nRESTRICT
+permission_position }o--|| positions : Cargo / função\nCASCADE
+permission_position }o--|| permissions : Permissão\nCASCADE
+locations }o--|| institutions : Instituição base\nCASCADE
+
+' Módulo de barreiras
+barriers }o--o| users : Usuário relator\nSET NULL
+barriers }o--|| institutions : Campus / unidade\nCASCADE
+barriers }o--|| barrier_categories : Categoria\nRESTRICT
+barriers }o--o| locations : Local / ponto de referência\nCASCADE
+barriers }o--o| students : Aluno afetado\nSET NULL
+barriers }o--o| professionals : Profissional afetado\nSET NULL
+barrier_deficiency }o--|| barriers : Barreira\nCASCADE
+barrier_deficiency }o--|| deficiencies : Deficiência\nCASCADE
+assistive_technology_deficiency }o--|| assistive_technologies : Tecnologia assistiva\nCASCADE
+assistive_technology_deficiency }o--|| deficiencies : Deficiência\nCASCADE
+loans }o--|| students : Estudante\nCASCADE
+loans }o--|| professionals : Profissional\nCASCADE
+loans }o--|| users : Responsável técnico\nCASCADE
+waitlists }o--|| students : Estudante\nCASCADE
+waitlists }o--|| professionals : Profissional\nCASCADE
+waitlists }o--|| users : Responsável técnico\nCASCADE
+inspections }o--|| users : Usuário responsável\nSET NULL
+inspection_images }o--|| inspections : Vistoria\nCASCADE
+
+' Relações lógicas existentes no código, sem FK física no schema atual
+aem_accessibility }..|| accessible_educational_materials : Material pedagógico acessível
+aem_accessibility }..|| accessibility_features : Recurso de acessibilidade
+aem_deficiency }..|| accessible_educational_materials : Material pedagógico acessível
+aem_deficiency }..|| deficiencies : Deficiência
+
+' Relações polimórficas Laravel
+loans }..|| assistive_technologies : Recurso emprestado
+loans }..|| accessible_educational_materials : Recurso emprestado
+waitlists }..|| assistive_technologies : Recurso solicitado
+waitlists }..|| accessible_educational_materials : Recurso solicitado
+inspections }..|| barriers : Item vistoriado
+inspections }..|| assistive_technologies : Item vistoriado
+inspections }..|| accessible_educational_materials : Item vistoriado
+inspections }..|| institutions : Item vistoriado
+audit_logs }..|| assistive_technologies : Registro auditado
+audit_logs }..|| accessible_educational_materials : Registro auditado
+notifications }..|| users : Destinatário
+
+note right of aem_accessibility
+  A tabela existe no banco e possui índice único,
+  mas o MySQL atual não registra FK física.
+
+  Nome técnico: accessible_educational_material_accessibility.
+end note
+
+note right of aem_deficiency
+  A tabela existe no banco e possui índice único,
+  mas o MySQL atual não registra FK física.
+
+  Nome técnico: accessible_educational_material_deficiency.
+end note
+
+note bottom of inspections
+  Tipo do item vistoriado / ID do item vistoriado
+  é relação polimórfica.
+
+  Campos técnicos: inspectable_type / inspectable_id.
+end note
+
+note bottom of loans
+  Tipo do recurso / ID do recurso aponta para
+  materiais pedagógicos acessíveis ou tecnologias assistivas.
+
+  Campos técnicos: loanable_type / loanable_id.
+end note
+
+note bottom of waitlists
+  Tipo do recurso solicitado / ID do recurso solicitado
+  aponta para materiais pedagógicos acessíveis
+  ou tecnologias assistivas.
+
+  Campos técnicos: waitlistable_type / waitlistable_id.
+end note
+
+@enduml

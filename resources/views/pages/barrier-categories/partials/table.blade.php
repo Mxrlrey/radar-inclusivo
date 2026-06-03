@@ -32,26 +32,30 @@
 
             <x-table.td>
                 <x-table.actions>
-                    <x-buttons.link-button
-                        :href="route('categorias-de-barreiras.visualizar', $category)"
-                        variant="info"
-                        size="xs"
-                        title="Visualizar categoria"
-                        aria-label="Visualizar detalhes da categoria {{ $category->name }}"
-                    >
-                        <i class="fa fa-eye" aria-hidden="true"></i>
-                    </x-buttons.link-button>
+                    @can('barrier-category.show')
+                        <x-buttons.link-button
+                            :href="route('categorias-de-barreiras.visualizar', $category)"
+                            variant="info"
+                            size="xs"
+                            title="Visualizar categoria"
+                            aria-label="Visualizar detalhes da categoria {{ $category->name }}"
+                        >
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </x-buttons.link-button>
+                    @endcan
 
-                    <x-buttons.submit-button
-                        variant="danger"
-                        size="xs"
-                        type="button"
-                        onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
-                        title="Excluir categoria"
-                        aria-label="Abrir confirmação para excluir a categoria {{ $category->name }}"
-                    >
-                        <i class="fa fa-eraser" aria-hidden="true"></i>
-                    </x-buttons.submit-button>
+                    @can('barrier-category.destroy')
+                        <x-buttons.submit-button
+                            variant="danger"
+                            size="xs"
+                            type="button"
+                            onclick="new bootstrap.Modal(document.getElementById('{{ $modalId }}')).show();"
+                            title="Excluir categoria"
+                            aria-label="Abrir confirmação para excluir a categoria {{ $category->name }}"
+                        >
+                            <i class="fa fa-eraser" aria-hidden="true"></i>
+                        </x-buttons.submit-button>
+                    @endcan
                 </x-table.actions>
             </x-table.td>
         </tr>
@@ -69,39 +73,41 @@
         $modalId = 'modal-delete-barrier-category-' . $category->id;
     @endphp
 
-    <x-modal.modal
-        :id="$modalId"
-        title="Confirmar Exclusão"
-        size="sm"
-    >
-        <div class="p-3">
-            <p class="mb-2 text-danger fw-bold">
-                Esta ação não pode ser desfeita.
-            </p>
+    @can('barrier-category.destroy')
+        <x-modal.modal
+            :id="$modalId"
+            title="Confirmar Exclusão"
+            size="sm"
+        >
+            <div class="p-3">
+                <p class="mb-2 text-danger fw-bold">
+                    Esta ação não pode ser desfeita.
+                </p>
 
-            <p class="mb-0 text-muted">
-                Deseja realmente excluir a categoria
-                <strong>{{ $category->name }}</strong>?
-            </p>
-        </div>
+                <p class="mb-0 text-muted">
+                    Deseja realmente excluir a categoria
+                    <strong>{{ $category->name }}</strong>?
+                </p>
+            </div>
 
-        <x-slot:footer>
-            <x-buttons.link-button
-                variant="secondary"
-                type="button"
-                onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
-            >
-                Cancelar
-            </x-buttons.link-button>
+            <x-slot:footer>
+                <x-buttons.link-button
+                    variant="secondary"
+                    type="button"
+                    onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()"
+                >
+                    Cancelar
+                </x-buttons.link-button>
 
-            <form action="{{ route('categorias-de-barreiras.excluir', $category) }}" method="POST">
-                @csrf
-                @method('DELETE')
+                <form action="{{ route('categorias-de-barreiras.excluir', $category) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
 
-                <x-buttons.submit-button variant="danger">
-                    Excluir
-                </x-buttons.submit-button>
-            </form>
-        </x-slot:footer>
-    </x-modal.modal>
+                    <x-buttons.submit-button variant="danger">
+                        Excluir
+                    </x-buttons.submit-button>
+                </form>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 @endforeach

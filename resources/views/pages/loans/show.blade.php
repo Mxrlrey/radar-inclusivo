@@ -18,11 +18,13 @@
         </div>
 
         <div class="page-header-actions">
-            <x-buttons.link-button
-                :href="route('emprestimos.editar', $loan)"
-                variant="info">
-                <span class="btn-label"><i class="fa fa-pencil" aria-hidden="true"></i></span> Editar
-            </x-buttons.link-button>
+            @can('loan.edit')
+                <x-buttons.link-button
+                    :href="route('emprestimos.editar', $loan)"
+                    variant="info">
+                    <span class="btn-label"><i class="fa fa-pencil" aria-hidden="true"></i></span> Editar
+                </x-buttons.link-button>
+            @endcan
 
             <x-buttons.link-button
                 :href="route('emprestimos.index')"
@@ -110,71 +112,81 @@
                 Voltar
             </x-buttons.link-button>
 
-            <x-buttons.link-button
-                :href="route('emprestimos.pdf', $loan)"
-                variant="danger"
-            >
-                <span class="btn-label"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
-                PDF
-            </x-buttons.link-button>
-
-            @if($loan->status->value === 'active')
-                <x-buttons.submit-button
-                    variant="success"
-                    type="button"
-                    label="Registrar devolução do empréstimo"
-                    onclick="new bootstrap.Modal(document.getElementById('{{ $modalReturnId }}')).show();"
+            @can('loan.pdf')
+                <x-buttons.link-button
+                    :href="route('emprestimos.pdf', $loan)"
+                    variant="danger"
                 >
-                    <span class="btn-label"><i class="fa fa-undo" aria-hidden="true"></i></span>
-                    Devolver
-                </x-buttons.submit-button>
-            @endif
+                    <span class="btn-label"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
+                    PDF
+                </x-buttons.link-button>
+            @endcan
 
-            <x-buttons.submit-button
-                variant="danger"
-                type="button"
-                label="Excluir empréstimo"
-                onclick="new bootstrap.Modal(document.getElementById('{{ $modalDeleteId }}')).show();"
-            >
-                <span class="btn-label"><i class="fa fa-eraser" aria-hidden="true"></i></span>
-                Excluir
-            </x-buttons.submit-button>
+            @can('loan.return')
+                @if($loan->status->value === 'active')
+                    <x-buttons.submit-button
+                        variant="success"
+                        type="button"
+                        label="Registrar devolução do empréstimo"
+                        onclick="new bootstrap.Modal(document.getElementById('{{ $modalReturnId }}')).show();"
+                    >
+                        <span class="btn-label"><i class="fa fa-undo" aria-hidden="true"></i></span>
+                        Devolver
+                    </x-buttons.submit-button>
+                @endif
+            @endcan
+
+            @can('loan.destroy')
+                <x-buttons.submit-button
+                    variant="danger"
+                    type="button"
+                    label="Excluir empréstimo"
+                    onclick="new bootstrap.Modal(document.getElementById('{{ $modalDeleteId }}')).show();"
+                >
+                    <span class="btn-label"><i class="fa fa-eraser" aria-hidden="true"></i></span>
+                    Excluir
+                </x-buttons.submit-button>
+            @endcan
         </x-show.footer>
     </div>
 
-    <x-modal.modal :id="$modalReturnId" title="Confirmar Devolução" size="sm">
-        <form action="{{ route('emprestimos.devolver', $loan) }}" method="POST" id="form-return-{{ $loan->id }}">
-            @csrf
-            @method('PATCH')
-            <div class="p-3">
-                <p>Deseja confirmar a devolução deste recurso ao acervo?</p>
-                <x-forms.checkbox name="is_damaged" label="Item devolvido com avarias ou danos" />
-            </div>
-        </form>
-        <x-slot:footer>
-            <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
-                Cancelar
-            </x-buttons.link-button>
-            <x-buttons.submit-button variant="success" label="Confirmar devolução do empréstimo" onclick="document.getElementById('form-return-{{ $loan->id }}').submit()">
-                Devolver
-            </x-buttons.submit-button>
-        </x-slot:footer>
-    </x-modal.modal>
-
-    <x-modal.modal :id="$modalDeleteId" title="Confirmar Exclusão" size="sm">
-        <div class="p-3">
-            <p class="mb-2 text-danger fw-bold">Esta ação não pode ser desfeita.</p>
-            <p class="mb-0 text-muted">Deseja realmente excluir o registro de empréstimo <strong>#{{ $loan->id }}</strong>?</p>
-        </div>
-        <x-slot:footer>
-            <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
-                Cancelar
-            </x-buttons.link-button>
-            <form action="{{ route('emprestimos.excluir', $loan) }}" method="POST">
+    @can('loan.return')
+        <x-modal.modal :id="$modalReturnId" title="Confirmar Devolução" size="sm">
+            <form action="{{ route('emprestimos.devolver', $loan) }}" method="POST" id="form-return-{{ $loan->id }}">
                 @csrf
-                @method('DELETE')
-                <x-buttons.submit-button variant="danger" label="Confirmar exclusão do empréstimo">Excluir</x-buttons.submit-button>
+                @method('PATCH')
+                <div class="p-3">
+                    <p>Deseja confirmar a devolução deste recurso ao acervo?</p>
+                    <x-forms.checkbox name="is_damaged" label="Item devolvido com avarias ou danos" />
+                </div>
             </form>
-        </x-slot:footer>
-    </x-modal.modal>
+            <x-slot:footer>
+                <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
+                    Cancelar
+                </x-buttons.link-button>
+                <x-buttons.submit-button variant="success" label="Confirmar devolução do empréstimo" onclick="document.getElementById('form-return-{{ $loan->id }}').submit()">
+                    Devolver
+                </x-buttons.submit-button>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
+
+    @can('loan.destroy')
+        <x-modal.modal :id="$modalDeleteId" title="Confirmar Exclusão" size="sm">
+            <div class="p-3">
+                <p class="mb-2 text-danger fw-bold">Esta ação não pode ser desfeita.</p>
+                <p class="mb-0 text-muted">Deseja realmente excluir o registro de empréstimo <strong>#{{ $loan->id }}</strong>?</p>
+            </div>
+            <x-slot:footer>
+                <x-buttons.link-button variant="secondary" type="button" onclick="bootstrap.Modal.getInstance(this.closest('.modal')).hide()">
+                    Cancelar
+                </x-buttons.link-button>
+                <form action="{{ route('emprestimos.excluir', $loan) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <x-buttons.submit-button variant="danger" label="Confirmar exclusão do empréstimo">Excluir</x-buttons.submit-button>
+                </form>
+            </x-slot:footer>
+        </x-modal.modal>
+    @endcan
 @endsection
